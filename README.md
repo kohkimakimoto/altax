@@ -1,8 +1,10 @@
 # Altax
 
-This software is unstable release. It maybe have some bugs.
-
 Altax is a simple deployment tool running SSH in parallel written in PHP.
+
+Altax runs in single PHP file.
+
+This software is unstable release. It maybe have some bugs.
 
 # Requrement
 
@@ -10,11 +12,11 @@ Altax is a simple deployment tool running SSH in parallel written in PHP.
 
 # Installation
 
-Just puts `altax` command file on your directory that is recommended to the path setting directory. (ex /usr/local/bin or /usr/bin .
-
-Instead of manually, you can use quick install that is to run the following command on root user.
+You can use quick install that is to run the following command on root user.
 
     $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sh
+
+You will get `altax` command in your `/usr/local/bin/`
 
 # Usage
 
