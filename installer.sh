@@ -9,12 +9,21 @@ install_altax() {
     echo '        http://git-scm.com/'
   fi
 
-  git clone https://github.com/kohkimakimoto/altax.git
-  cd ./altax
+  TMPTIMESTAMP=`date +%y%m%d%H%M%S%N`
+  TMPDIR="altax.${TMPTIMESTAMP}.tmp"
+
+  git clone https://github.com/kohkimakimoto/altax.git ./${TMPDIR}
+  cd ./${TMPDIR}
 
   php ./compile.php
-  cp ./altax ${PREFIX}
+  cp ./altax ${PREFIX}altax
   chmod +x ${PREFIX}altax
+
+  echo 'Installed altax to ${PREFIX}altax'
+
+  cd ..
+  rm -rf ./${TMPDIR}
+
 
 }
 
