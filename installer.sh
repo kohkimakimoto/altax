@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PREFIX="/usr/bin/"
+PREFIX="/usr/local/bin/"
 
 install_altax() {
 
