@@ -1,0 +1,17 @@
+{
+  "name": "technosophos/PHPCompressor",
+  "description": "A simple PHP compressor that removes unnecessary data from PHP source code.",
+  "type": "library",
+  "keywords": ["utility", "compressor"],
+  "license": "MIT",
+  "homepage": "https://github.com/technosophos/PHPCompactor",
+
+  "authors": [
+    {"name": "M Butcher (technosophos)", "homepage": "http://technosophos.com"},
+    {"name": "J Pruis", "email": "email@jurriaanpruis.nl"}
+  ],
+
+  "require": {
+    "php": ">=5.2.6"
+  }
+}
