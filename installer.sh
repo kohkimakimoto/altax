@@ -9,7 +9,7 @@ install_altax() {
     echo '        http://git-scm.com/'
   fi
 
-  git clone https://kohkimakimoto@bitbucket.org/kohkimakimoto/altax.git ./
+  git clone https://github.com/kohkimakimoto/altax.git
   cd ./altax
 
   php ./compile.php
