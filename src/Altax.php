@@ -273,4 +273,10 @@ class Altax
   }
 
 
+  public function getOptions()
+  {
+    return $this->options;
+  }
+
+
 }
