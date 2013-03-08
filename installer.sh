@@ -19,7 +19,7 @@ install_altax() {
   cp ./altax ${PREFIX}altax
   chmod +x ${PREFIX}altax
 
-  echo 'Installed altax to ${PREFIX}altax'
+  echo "Installed altax to ${PREFIX}altax"
 
   cd ..
   rm -rf ./${TMPDIR}
