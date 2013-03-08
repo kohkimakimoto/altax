@@ -1,6 +1,6 @@
 # Altax
 
-This software is unstable release. You must not use it.
+This software is unstable release. It maybe have some bugs.
 
 Altax is a simple deployment tool running SSH in parallel written in PHP.
 
