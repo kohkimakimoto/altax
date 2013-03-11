@@ -17,7 +17,7 @@ require_once 'Altax/Functions.php';
  */
 class Altax
 {
-  const VERSION = '1.0.1';
+  const VERSION = '1.0.2';
 
   protected $options;
   protected $arguments;
