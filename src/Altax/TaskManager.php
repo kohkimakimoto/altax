@@ -93,6 +93,8 @@ class Altax_TaskManager
       Altax_Logger::log("[$host] Child process ".$pid." is completed.", "debug");
     }
 
+    Altax_Logger::log("[$host] Altax process is completed.", "info");
+
   }
 
   /**
