@@ -66,4 +66,9 @@ class Altax_Task
     return $this->localRun;
   }
 
+  public function getTask()
+  {
+    return $this->task;
+  }
+
 }

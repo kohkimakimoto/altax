@@ -22,21 +22,18 @@ class Altax_TaskManager
    * @param unknown $task
    * @throws Altax_Exception
    */
-  public function executeTask($task, $arguments)
+  public function executeTask($task, $arguments, $parentTask = null)
   {
 
     if (!$this->hasTask($task)) {
       throw new Altax_Exception("Task $task is not found.");
     }
 
-    // Checks to exists a ssh command.
-    exec("which ssh 2>&1", $output, $ret);
-    if ($ret != 0) {
-      throw new Altax_Exception("SSH command is not found.");
+    if ($parentTask !== null) {
+      Altax_Logger::log("Executing task: [".$parentTask." -> ".$task."]");
+    } else {
+      Altax_Logger::log("Executing task: [".$task."]");
     }
-
-    Altax_Logger::log("*** Altax version ".Altax::VERSION." ***");
-    Altax_Logger::log("Executing task: [".$task."]");
 
     if (!function_exists('pcntl_fork')) {
       throw new Altax_Exception("Your PHP is not supported pcntl_fork function.");

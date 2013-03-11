@@ -103,12 +103,22 @@ class Altax
       return;
     }
 
-    if (array_key_exists('l', $options)) {
+    if (array_key_exists('l', $options)
+        || array_key_exists('t', $options)
+        || array_key_exists('T', $options)) {
       $this->listTask();
       return;
     }
 
     try {
+
+      // Checks to exists a ssh command.
+      exec("which ssh 2>&1", $output, $ret);
+      if ($ret != 0) {
+        throw new Altax_Exception("SSH command is not found.");
+      }
+
+      Altax_Logger::log("*** Altax version ".Altax::VERSION." ***");
 
       $this->taskManager = new Altax_TaskManager();
       $this->taskManager->executeTask($this->task, $this->arguments);

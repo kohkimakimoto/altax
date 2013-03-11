@@ -156,21 +156,8 @@ function run($command, $options = array())
 
 function run_task($name, $arguments = array())
 {
-  $options = Altax::getInstance()->getOptions();
-
-  $opts = '';
-  foreach ($options as $key => $val) {
-    $opts .= ' -'.$key;
-    if ($key == 'f') {
-      $opts .= '='.$val;
-    }
-  }
-
-  $cmd = $_SERVER['SCRIPT_NAME'];
-
-  $args = implode(" ", $arguments);
-  $cmd .= " $opts $name $args";
-
-  system($cmd);
+  $taskManager = Altax::getInstance()->getTaskManager();
+  $currentTask = $taskManager->getCurrentTask()->getTask();
+  $taskManager->executeTask($name, $arguments, $currentTask);
 }
 
