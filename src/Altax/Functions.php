@@ -155,10 +155,6 @@ function run($command, $options = array())
 
   Altax_Logger::log("[$host] Executing SSH Command [$sshcmd]", "debug");
   $output = shell_exec($sshcmd);
-  if ($output === null) {
-    throw new Altax_Exception("SSH command failded.");
-  }
-
   echo $output;
 }
 
@@ -189,10 +185,6 @@ function run_local($command, $options = array())
 
   Altax_Logger::log("[$host] Local Executing Command [$sshcmd]", "debug");
   $output = shell_exec($sshcmd);
-  if ($output === null) {
-    throw new Altax_Exception("Command failded.");
-  }
-
   echo $output;
 }
 
