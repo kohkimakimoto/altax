@@ -71,4 +71,9 @@ class Altax_Task
     return $this->task;
   }
 
+  public function getHost()
+  {
+    return $this->host;
+  }
+
 }

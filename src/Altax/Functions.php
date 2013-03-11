@@ -126,8 +126,13 @@ function run($command, $options = array())
 {
   $task = Altax::getInstance()->getTaskManager()->getCurrentTask();
 
-  $sshcmd = $task->getSSHCommandBase();
-  $sshcmd .= ' "';
+  $sshcmd = null;
+  if ($task->isLocalRun()) {
+    $sshcmd = '';
+  } else {
+    $sshcmd = $task->getSSHCommandBase();
+    $sshcmd .= ' "';
+  }
 
   if (isset($options['user'])) {
     $sshcmd .= " sudo -u".$options['user']." ";
@@ -141,11 +146,18 @@ function run($command, $options = array())
 
   $sshcmd .= $command;
 
-  $sshcmd .= '\'"';
+  if ($task->isLocalRun()) {
+    $sshcmd .= '\'';
+  } else {
+    $sshcmd .= '\'"';
+  }
 
   $output = null;
   $ret = null;
 
+  $host = $task->getHost();
+
+  Altax_Logger::log("[$host] Executing SSH Command [$sshcmd]", "debug");
   $output = shell_exec($sshcmd);
   if ($output === null) {
     throw new Altax_Exception("SSH command failded.");
