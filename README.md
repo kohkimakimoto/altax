@@ -12,7 +12,7 @@ This software is unstable release. It maybe have some bugs.
 
 # Installation
 
-You can use quick install that is to run the following command on root user.
+You can use quick install that is to run the following command under the root user.
 
     $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sh
 
@@ -20,15 +20,15 @@ You will get `altax` command in your `/usr/local/bin/`
 
 # Usage
 
-Runs altax init command like following.
+Runs Altax init command.
 
     $ altax init
 
-You will have default configuration file `altax.php`.
+You will have a default configuration file named `altax.php`.
 
-Modify `altax.php`.
+Modify `altax.php` for your environment.
 
-Run following command to execute your task.
+Run the following command to execute your task.
 
     $ altax TASK
 
@@ -49,6 +49,8 @@ If you modify some source files in the altax/src directory, You need to run foll
 This command generates altax command file from all PHP source files.
 
 # Notice
+
+I like CentOS.
 
 I am only testing it on CentOS6, so perhaps it dosen't run on the other platforms.
 
