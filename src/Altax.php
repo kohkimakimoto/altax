@@ -208,8 +208,10 @@ class Altax
 
       echo "  $key";
       echo $sepalator;
-      if ($task['desc']) {
+      if (@$task['desc']) {
         echo "  : ".$task['desc'];
+      } else {
+        echo "  : ";
       }
       echo "\n";
     }
