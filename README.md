@@ -4,8 +4,6 @@ Altax is a simple deployment tool running SSH in parallel written in PHP.
 
 Altax runs in single PHP file.
 
-This software is unstable release. It maybe have some bugs.
-
 # Requrement
 
 * PHP5.3 or later.
