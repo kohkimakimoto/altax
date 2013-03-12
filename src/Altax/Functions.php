@@ -154,8 +154,27 @@ function run($command, $options = array())
   $host = $task->getHost();
 
   Altax_Logger::log("[$host] Executing SSH Command [$sshcmd]", "debug");
-  $output = shell_exec($sshcmd);
-  echo $output;
+
+  //
+  // Get Pseudo-terminal used for temporary.
+  //
+  // In order to execute command that needs termial, SSH command uses -t option to get a pseudo-terminal.
+  // But default pseudo-terminal is connectting other process as Altax Task.
+  // the STDOUT of Altax Tasks put data into STDIN of other Altax task in parallel process.
+  // It' bad to causes of errors.
+  //
+  // So, following code is to get Pseudo-terminal used for temporary.
+  // this Pseudo-terminal is disconnected other terminal of parallel process
+  //
+  $descriptorspec = array(
+    0 =>  array("file", '/dev/ptmx', 'r'),
+  );
+
+  $process = proc_open($sshcmd, $descriptorspec, $pipes);
+  foreach ($pipes as $pipe) {
+    fclose($pipe);
+  }
+  proc_close($process);
 }
 
 function run_local($command, $options = array())
@@ -184,8 +203,15 @@ function run_local($command, $options = array())
   $host = $task->getHost();
 
   Altax_Logger::log("[$host] Local Executing Command [$sshcmd]", "debug");
-  $output = shell_exec($sshcmd);
-  echo $output;
+
+  $descriptorspec = array();
+
+  // Not Use SSH
+  $process = proc_open($sshcmd, $descriptorspec, $pipes);
+  foreach ($pipes as $pipe) {
+    fclose($pipe);
+  }
+  proc_close($process);
 }
 
 function run_task($name, $arguments = array())
