@@ -12,6 +12,9 @@ class Altax_Config
    */
   const DEFAULT_CONFIG = 'altax.php';
 
+  const DEFAULT_GLOBAL_CONFIG_1 = '/usr/local/etc/altax/altax.php';
+  const DEFAULT_GLOBAL_CONFIG_2 = '/etc/altax/altax.php';
+
   /**
    * Array of configuration values.
    * @var unknown
@@ -22,6 +25,14 @@ class Altax_Config
   {
     if (empty($path)) {
       $path = self::DEFAULT_CONFIG;
+    }
+
+    if (!file_exists($path)) {
+      $path = self::DEFAULT_GLOBAL_CONFIG_1;
+    }
+
+    if (!file_exists($path)) {
+      $path = self::DEFAULT_GLOBAL_CONFIG_2;
     }
 
     // default
