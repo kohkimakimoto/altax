@@ -17,7 +17,7 @@ require_once 'Altax/Functions.php';
  */
 class Altax
 {
-  const VERSION = '1.0.4';
+  const VERSION = '1.0.5';
 
   protected $options;
   protected $arguments;
@@ -26,7 +26,7 @@ class Altax
 
   protected static $instance;
 
-  public function getInstance()
+  public static function getInstance()
   {
     return self::$instance;
   }
