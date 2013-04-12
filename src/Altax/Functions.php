@@ -221,3 +221,22 @@ function run_task($name, $arguments = array())
   $taskManager->executeTask($name, $arguments, $currentTask);
 }
 
+/**
+ * Set a value in global configuration.
+ * @param unknown $key
+ * @param unknown $value
+ */
+function set($key, $value)
+{
+  Altax_config::set($key, $value);
+}
+
+/**
+ * Get a value from global configuration.
+ * @param unknown $key
+ * @param string $default
+ */
+function get($key, $default = null)
+{
+  return Altax_config::get($key, $default);
+}
