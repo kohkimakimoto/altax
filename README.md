@@ -29,11 +29,23 @@ Runs Altax init command.
 
 You will have a default configuration file named `altax.php`.
 
-Modify `altax.php` for your environment.
+Modify `altax.php` for your environment. You need to define hosts and tasks like the following.
 
-Run the following command to execute your task.
+    <?php
+    host('192.168.0.1', 'web');
+    host('192.168.0.2', 'web');
+    
+    desc('This is a sample task.');
+    task('sample',array('roles' => 'web'), function($host, $args){
+    
+      run('echo Hellow World!');
+    
+    });
 
-    $ altax TASK
+
+Run the following command to execute your sample task.
+
+    $ altax sample
 
 See https://github.com/kohkimakimoto/altax/wiki You want to get more informations.
 
