@@ -5,15 +5,15 @@ Altax is a simple deployment tool running SSH in parallel written in PHP.
 * Run in single PHP file.
 * Implemented as SSH command wrapper.
 
-# Documentations
+## Documentations
 
 https://github.com/kohkimakimoto/altax/wiki
 
-# Requrement
+## Requrement
 
 * PHP5.3 or later.
 
-# Installation
+## Installation
 
 You can use quick install that is to run the following command under the root user.
 
@@ -21,7 +21,7 @@ You can use quick install that is to run the following command under the root us
 
 You will get `altax` command in your `/usr/local/bin/`
 
-# Usage
+## Usage
 
 Runs Altax init command.
 
@@ -53,11 +53,11 @@ And My Blog post (written in Japanese)...
 
 * http://kohkimakimoto.hatenablog.com/entry/2013/03/12/201330
 
-# License
+## License
 
   Apache License 2.0
 
-# For developers
+## For developers
 
 I use PHPCompactor(https://github.com/technosophos/PHPCompactor) to compact all PHP source files into one.
 
@@ -67,7 +67,7 @@ If you modify some source files in the altax/src directory, You need to run foll
 
 This command generates altax command file from all PHP source files.
 
-# Notice
+## Notice
 
 I like CentOS.
 
