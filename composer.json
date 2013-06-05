@@ -1,6 +1,6 @@
 {
   "name": "kohkimakimoto/altax",
-  "description": "Altax is a simple deployment tool running SSH in parallel. At now, It's under the development hardly.",
+  "description": "Altax is a simple deployment tool running SSH in parallel",
   "keywords": ["deploy", "deployment", "ssh"],
   "homepage": "https://github.com/kohkimakimoto/altax",
   "license": "Apache License 2.0",
