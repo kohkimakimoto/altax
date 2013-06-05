@@ -17,11 +17,7 @@
   "autoload": {
     "psr-0": { "Altax_": "src/" }
   },
-  "include-path": ["src"],
-  "extra": {
-    "branch-alias": {
-      "dev-master": "devel-composer"
-    }
+  "include-path": ["src"]
   },
   "bin": ["bin/altax"]
 }
