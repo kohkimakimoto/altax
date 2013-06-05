@@ -16,6 +16,6 @@
   },
   "autoload": {
     "psr-0": { "Altax_": "src/" }
-  }
+  },
   "bin": ["bin/altax"]
 }
