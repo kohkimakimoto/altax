@@ -12,7 +12,7 @@ $file = preg_replace("/require_once'[^']+';/", '', $file);
 $file = preg_replace("/require_once\"[^\"]+\";/", '', $file);
 
 $file2 = file_get_contents($basedir."/bin/altax");
-$file2 = preg_replace("/require_once\s'[^']+';/", '', $file2);
+$file2 = preg_replace("/require_once\s__DIR__\.'[^']+';/", '', $file2);
 
 $file = preg_replace("/<\?php/", $file2, $file);
 
