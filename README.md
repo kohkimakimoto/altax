@@ -1,9 +1,10 @@
 # Altax
 
-Altax is a simple deployment tool running SSH in parallel written in PHP.
+Altax is a simple deployment tool running SSH in parallel. The features is the following.
 
-* Run in single PHP file.
+* Written in PHP.
 * Implemented as SSH command wrapper.
+* If you use online installer, it runs in single PHP file.
 
 ## Documentations
 
@@ -15,11 +16,29 @@ https://github.com/kohkimakimoto/altax/wiki
 
 ## Installation
 
-You can use quick install that is to run the following command under the root user.
+There are two way to install it.
+
+### Using Online installer
+
+You can use quick installation. Run the following command under the root user.
 
     $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sh
 
 You will get `altax` command in your `/usr/local/bin/`
+
+### Using Composer
+
+If you want to use composer to management packages, you can use composer installation.
+
+Make `composer.json` like the following.
+
+    {
+        "require": {
+            "kohkimakimoto/altax": "dev-master"
+        }
+    }
+
+And run `composer install` command. More information of composer is in [http://getcomposer.org/](http://getcomposer.org/).
 
 ## Usage
 
@@ -34,12 +53,12 @@ Modify `altax.php` for your environment. You need to define hosts and tasks like
     <?php
     host('192.168.0.1', 'web');
     host('192.168.0.2', 'web');
-    
+
     desc('This is a sample task.');
     task('sample',array('roles' => 'web'), function($host, $args){
-    
+
       run('echo Hellow World!');
-    
+
     });
 
 
