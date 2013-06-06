@@ -38,7 +38,12 @@ Make `composer.json` like the following.
         }
     }
 
-And run `composer install` command. More information of composer is in [http://getcomposer.org/](http://getcomposer.org/).
+And run Composer install command. 
+
+    $ curl -s http://getcomposer.org/installer | php
+    $ php composer.phar install
+
+More information of composer is in [http://getcomposer.org/](http://getcomposer.org/).
 
 ## Usage
 
