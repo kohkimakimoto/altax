@@ -76,16 +76,6 @@ And My Blog post (written in Japanese)...
 
   Apache License 2.0
 
-## For developers
-
-I use PHPCompactor(https://github.com/technosophos/PHPCompactor) to compact all PHP source files into one.
-
-If you modify some source files in the altax/src directory, You need to run following command.
-
-    $ php compile.php
-
-This command generates altax command file from all PHP source files.
-
 ## Notice
 
 I like CentOS.
