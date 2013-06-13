@@ -18,7 +18,7 @@
     "phpunit/phpunit": "3.*"
   },
   "autoload": {
-    "psr-0": { "Altax": "src/" }
+    "classmap": ["src"]
   },
   "bin": ["bin/altax"]
 }
