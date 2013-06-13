@@ -1,5 +1,7 @@
 # Altax
 
+[![Build Status](https://travis-ci.org/kohkimakimoto/altax.png?branch=master)](https://travis-ci.org/kohkimakimoto/altax)
+
 Altax is a simple deployment tool running SSH in parallel. The features is the following.
 
 * Written in PHP.
@@ -38,7 +40,7 @@ Make `composer.json` like the following.
         }
     }
 
-And run Composer install command. 
+And run Composer install command.
 
     $ curl -s http://getcomposer.org/installer | php
     $ php composer.phar install
