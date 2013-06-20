@@ -24,7 +24,7 @@ There are two way to install it.
 
 You can use quick installation. Run the following command under the root user.
 
-    $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sh
+    # curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sh
 
 You will get `altax` command in your `/usr/local/bin/`
 
@@ -34,11 +34,13 @@ If you want to use composer to management packages, you can use composer install
 
 Make `composer.json` like the following.
 
-    {
-        "require": {
-            "kohkimakimoto/altax": "dev-master"
-        }
+``` json
+{
+    "require": {
+        "kohkimakimoto/altax": "dev-master"
     }
+}
+```
 
 And run Composer install command.
 
@@ -57,17 +59,18 @@ You will have a default configuration file named `altax.php`.
 
 Modify `altax.php` for your environment. You need to define hosts and tasks like the following.
 
-    <?php
-    host('192.168.0.1', 'web');
-    host('192.168.0.2', 'web');
+``` php
+<?php
+host('192.168.0.1', 'web');
+host('192.168.0.2', 'web');
 
-    desc('This is a sample task.');
-    task('sample',array('roles' => 'web'), function($host, $args){
+desc('This is a sample task.');
+task('sample',array('roles' => 'web'), function($host, $args){
 
-      run('echo Hellow World!');
+  run('echo Hellow World!');
 
-    });
-
+});
+```
 
 Run the following command to execute your sample task.
 
