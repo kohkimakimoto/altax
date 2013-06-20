@@ -83,12 +83,4 @@ And My Blog post (written in Japanese)...
 
   Apache License 2.0
 
-## Notice
-
-I like CentOS.
-
-I am only testing it on CentOS6, so perhaps it dosen't run on the other platforms.
-
-
-
 
