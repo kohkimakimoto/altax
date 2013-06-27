@@ -17,7 +17,7 @@ install_altax() {
 
   php ./compile.php
   cp ./altax ${PREFIX}altax
-  chmod +x ${PREFIX}altax
+  chmod 755 ${PREFIX}altax
 
   echo "Installed altax to ${PREFIX}altax"
 
