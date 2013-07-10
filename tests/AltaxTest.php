@@ -31,6 +31,7 @@ EOF;
     Altax::main();
   }
 
+  /*
   public function testExecute1()
   {
     $expect = <<<EOF
@@ -48,6 +49,7 @@ EOF;
       array('l' => null, 'f' => __DIR__."/AltaxTest/altax.php"),
       array());
   }
+  */
 
   public function testExecute2()
   {
