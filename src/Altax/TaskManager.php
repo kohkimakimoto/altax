@@ -30,9 +30,9 @@ class Altax_TaskManager
     }
 
     if ($parentTask !== null) {
-      Altax_Logger::log("Executing task: [".$parentTask." -> ".$task."]");
+      Altax_Logger::log("Executing task: [".$parentTask." -> ".$task."]", null);
     } else {
-      Altax_Logger::log("Executing task: [".$task."]");
+      Altax_Logger::log("Executing task: [".$task."]", null);
     }
 
     if (!function_exists('pcntl_fork')) {
@@ -45,11 +45,11 @@ class Altax_TaskManager
     if (count($hosts) === 0) {
       $localRun = true;
       $hosts = array('127.0 0.1');
-      Altax_Logger::log("Running at the localhost only. This task dose not connect to remote servers.", "debug");
+      Altax_Logger::log("Running at the localhost only. This task dose not connect to remote servers.", null, "debug");
     }
 
-    Altax_Logger::log("Processing to fork process.", "debug");
-    Altax_Logger::log("Setup signal handler.", "debug");
+    Altax_Logger::log("Processing to fork process.", null, "debug");
+    Altax_Logger::log("Setup signal handler.", null, "debug");
     declare(ticks = 1);
 
     pcntl_signal(SIGTERM, array($this, "signalHander"));
@@ -90,10 +90,10 @@ class Altax_TaskManager
       $host = $this->childPids[$pid];
       unset($this->childPids[$pid]);
 
-      Altax_Logger::log("[$host] Child process ".$pid." is completed.", "debug");
+      Altax_Logger::log("Child process ".$pid." is completed.", "[$host]", "debug");
     }
 
-    Altax_Logger::log("[$host] Altax process is completed.", "info");
+    Altax_Logger::log("Altax process is completed.", "[$host]", "info");
 
   }
 

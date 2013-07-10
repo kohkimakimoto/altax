@@ -17,7 +17,7 @@ require_once 'Altax/Functions.php';
  */
 class Altax
 {
-  const VERSION = '1.2.0';
+  const VERSION = '1.3.0';
 
   protected $options;
   protected $arguments;
@@ -248,6 +248,8 @@ class Altax
       $content .= " * @see https://github.com/kohkimakimoto/altax/wiki/Reference-Configurations\n";
       $content .= " * @author yourname <youremail@yourcompany.com>\n";
       $content .= " */\n";
+      $content .= "\n";
+      $content .= "set('colors', true);\n";
       $content .= "\n";
       $content .= "//\n";
       $content .= "// The Following is hosts and roles settings to deploy.\n";
