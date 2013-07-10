@@ -21,13 +21,13 @@ class Altax_Task
 
   public function execute()
   {
-    Altax_Logger::log("Forked child to process to host [".$this->host."] pid = ".posix_getpid(), "debug");
+    Altax_Logger::log("Forked child to process to host [".$this->host."] pid = ".posix_getpid(), null, "debug");
 
     // Got Callback task function;
     $callback = Altax_Config::get('tasks/'.$this->task.'/callback');
 
     // Do Execute method. Gets Code string
-    Altax_Logger::log("[$this->host] Processing execute", "debug");
+    Altax_Logger::log("Processing execute", "[$this->host]", "debug");
 
     $callback($this->host, $this->arguments);
   }
