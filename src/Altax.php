@@ -249,6 +249,8 @@ class Altax
       $content .= " * @author yourname <youremail@yourcompany.com>\n";
       $content .= " */\n";
       $content .= "\n";
+      $content .= "set('colors', true);\n";
+      $content .= "\n";
       $content .= "//\n";
       $content .= "// The Following is hosts and roles settings to deploy.\n";
       $content .= "//\n";
