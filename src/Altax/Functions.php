@@ -153,7 +153,7 @@ function run($command, $options = array())
 
   $host = $task->getHost();
 
-  Altax_Logger::log("[$host] Executing SSH Command [$sshcmd]", "debug");
+  Altax_Logger::log("Executing SSH Command [$sshcmd]", "[$host]", "debug");
 
   //
   // Get Pseudo-terminal used for temporary.
@@ -202,7 +202,7 @@ function run_local($command, $options = array())
 
   $host = $task->getHost();
 
-  Altax_Logger::log("[$host] Local Executing Command [$sshcmd]", "debug");
+  Altax_Logger::log("Local Executing Command [$sshcmd]", "[$host]", "debug");
 
   $descriptorspec = array();
 
