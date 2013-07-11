@@ -153,6 +153,8 @@ function run($command, $options = array())
 
   $host = $task->getHost();
 
+  Altax_Logger::log("Running command: $command", "[$host]", "info");
+
   Altax_Logger::log("Executing SSH Command [$sshcmd]", "[$host]", "debug");
 
   //

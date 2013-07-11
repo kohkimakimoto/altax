@@ -30,9 +30,9 @@ class Altax_TaskManager
     }
 
     if ($parentTask !== null) {
-      Altax_Logger::log("Executing task: [".$parentTask." -> ".$task."]", null);
+      Altax_Logger::log("Starting task: [".$parentTask." -> ".$task."]", null);
     } else {
-      Altax_Logger::log("Executing task: [".$task."]", null);
+      Altax_Logger::log("Starting task: [".$task."]", null);
     }
 
     if (!function_exists('pcntl_fork')) {
