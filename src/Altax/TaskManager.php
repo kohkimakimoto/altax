@@ -90,10 +90,14 @@ class Altax_TaskManager
       $host = $this->childPids[$pid];
       unset($this->childPids[$pid]);
 
-      Altax_Logger::log("Child process ".$pid." is completed.", "[$host]", "debug");
+      if ($localRun) {
+        Altax_Logger::log("Child process ".$pid." is completed.", null, "debug");
+      } else {
+        Altax_Logger::log("Child process ".$pid." is completed.", "[$host]", "debug");
+      }
     }
 
-    Altax_Logger::log("Altax process is completed.", "[$host]", "info");
+    Altax_Logger::log("Altax process is completed.", null, "info");
 
   }
 
