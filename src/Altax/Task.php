@@ -27,7 +27,7 @@ class Altax_Task
     $callback = Altax_Config::get('tasks/'.$this->task.'/callback');
 
     // Do Execute method. Gets Code string
-    Altax_Logger::log("Processing execute", "[$this->host]", "debug");
+    Altax_Logger::log("Processing task: [".$this->task."]", "[$this->host]", "info");
 
     $callback($this->host, $this->arguments);
   }
