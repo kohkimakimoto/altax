@@ -153,9 +153,8 @@ function run($command, $options = array())
 
   $host = $task->getHost();
 
-  Altax_Logger::log("Running command: $command", "[$host]", "info");
-
-  Altax_Logger::log("Executing SSH Command [$sshcmd]", "[$host]", "debug");
+  Altax_Logger::log("Running command: [$command]", "[$host]", "info");
+  Altax_Logger::log("Running SSH command: [$sshcmd]", "[$host]", "debug");
 
   //
   // Get Pseudo-terminal used for temporary.
