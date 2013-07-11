@@ -97,8 +97,11 @@ class Altax_TaskManager
       }
     }
 
-    Altax_Logger::log("Altax process is completed.", null, "info");
-
+    if ($parentTask !== null) {
+      Altax_Logger::log("Completed task: [".$parentTask." -> ".$task."]", null, "info");
+    } else {
+      Altax_Logger::log("Completed task: [".$task."]", null, "info");
+    }
   }
 
   /**
