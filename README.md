@@ -24,7 +24,7 @@ There are two way to install it.
 
 You can use quick installation. Run the following command under the root user.
 
-    # curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sh
+    # curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | bash -s system
 
 You will get `altax` command in your `/usr/local/bin/`
 
