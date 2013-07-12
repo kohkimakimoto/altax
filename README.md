@@ -16,6 +16,7 @@ There are more infomations in the [project page](http://kohkimakimoto.github.io/
 
 ## Installation
 
+There are several ways to install Altax to your system.
 
 ### Installing compiled package
 
