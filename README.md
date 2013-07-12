@@ -18,26 +18,26 @@ https://github.com/kohkimakimoto/altax/wiki
 
 ## Installation
 
-There are two way to install it.
 
-### Using Online installer
+### Installing compiled package
 
-You can use quick installation. Run the following command under the root user.
+The compiled package is a single executable PHP file generated from all Altax src files.
 
     # curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | bash -s system
 
 You will get `altax` command in your `/usr/local/bin/`
 
-### Using Composer
+### Installing composer package
 
-If you want to use composer to management packages, you can use composer installation.
+[Composer](http://getcomposer.org/) is a famous dependency management tool for PHP.
+If you want to use composer to manage packages, you can use composer installation.
+Make `composer.json` file like the following.
 
-Make `composer.json` like the following.
 
 ``` json
 {
     "require": {
-        "kohkimakimoto/altax": "dev-master"
+        "kohkimakimoto/altax": "~1.3.0"
     }
 }
 ```
