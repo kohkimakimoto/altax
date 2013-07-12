@@ -7,7 +7,7 @@ class AltaxTest extends \PHPUnit_Framework_TestCase
 
 Altax is a simple deployment tool running SSH in parallel.
 
-Altax version 1.3.0
+Altax version 1.3.1
 Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
 
