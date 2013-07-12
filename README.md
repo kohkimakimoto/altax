@@ -2,15 +2,13 @@
 
 [![Build Status](https://travis-ci.org/kohkimakimoto/altax.png?branch=master)](https://travis-ci.org/kohkimakimoto/altax)
 
-Altax is a simple deployment tool running SSH in parallel. The features is the following.
+Altax is a simple deployment tool running SSH in parallel. The features are the following.
 
 * Written in PHP.
 * Implemented as SSH command wrapper.
-* If you use online installer, it runs in single PHP file.
+* If you use compiled package. It runs in single PHP file.
 
-## Documentations
-
-https://github.com/kohkimakimoto/altax/wiki
+More infomations are in a [project page](http://kohkimakimoto.github.io/altax/).
 
 ## Requrement
 
