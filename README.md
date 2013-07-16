@@ -75,11 +75,6 @@ Run the following command to execute your sample task.
 
     $ altax sample
 
-See https://github.com/kohkimakimoto/altax/wiki You want to get more informations.
-
-And My Blog post (written in Japanese)...
-
-* http://kohkimakimoto.hatenablog.com/entry/2013/03/12/201330
 
 ## License
 
