@@ -3,6 +3,7 @@ namespace Kohkimakimoto\Altax;
 
 use Symfony\Component\Console\Application;
 use Kohkimakimoto\Altax\Command\InitCommand; 
+use Kohkimakimoto\Altax\Command\ConfigCommand; 
 
 /**
  * Altax
@@ -30,7 +31,8 @@ EOL;
         $this->setVersion(self::VERSION);
 
         $this->addCommands(array(
-          new InitCommand()
+          new InitCommand(),
+          new ConfigCommand()
         ));
 
         $this->baseDir = getcwd();
