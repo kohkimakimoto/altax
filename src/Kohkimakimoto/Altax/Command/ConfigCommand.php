@@ -32,7 +32,19 @@ class ConfigCommand extends Command
 
         $context = Context::initialize($path);
 
+        $output->writeln("<comment>Configurations</comment>");
+
         $parameters = $context->getParametersFlatArray();
-        print_r($parameters);
+        foreach ($parameters as $key => $value) {
+            if (is_callable($value)) {
+                $v = "function()";
+            } else if (is_array($value)) {
+                $v = "array()";
+            } else {
+                $v = $value;
+            }
+
+            $output->writeln("<info>  $key</info> => $v");
+        }
     }
 }

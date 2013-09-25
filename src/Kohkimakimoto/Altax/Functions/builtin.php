@@ -4,11 +4,11 @@ use Kohkimakimoto\Altax\Context;
 
 function host()
 {
+    $context = Context::getInstance();
+
     $host = null;
     $options = array();
     $roles = null;
-
-    $context = Context::getInstance();
 
     $args = func_get_args();
     if (count($args) < 2) {
@@ -76,7 +76,78 @@ function desc($desc)
     $context->set('desc', $desc);
 }
 
+/**
+ * Register task.
+ * @param unknown $name
+ * @param unknown $options
+ * @param unknown $callback
+ */
 function task()
 {
     $context = Context::getInstance();
+    $name = null;
+    $options = null;
+    $callback = null;
+
+    $args = func_get_args();
+    if (count($args) < 2) {
+        throw new \Exception("Missing argument. function task() must 2 arguments at minimum.");
+    }
+
+    if (count($args) === 2) {
+        $name = $args[0];
+        $callback = $args[1];
+    } else {
+        $name = $args[0];
+        $options = $args[1];
+        $callback = $args[2];
+    }
+
+    $tasks = $context->get('tasks');
+    if (!isset($tasks[$name])) {
+        $tasks[$name] = array();
+    }
+
+    if ($context->get('desc')) {
+        // If it has description, set it up to this task.
+        $tasks[$name]['desc'] = $context->get('desc');
+        $context->delete('desc');
+    }
+
+    $tasks[$name]['callback'] = $callback;
+    $tasks[$name]['options']  = $options;
+    $context->set('tasks', $tasks);
+}
+
+
+function run_local($command, $options = array())
+{
+    $context = Context::getInstance();
+}
+
+function run_task($name, $arguments = array())
+{
+    $context = Context::getInstance();
+}
+
+/**
+ * Set a value in global configuration.
+ * @param unknown $key
+ * @param unknown $value
+ */
+function set($key, $value)
+{
+    $context = Context::getInstance();
+    $context->set($key, $value);
+}
+
+/**
+ * Get a value from global configuration.
+ * @param unknown $key
+ * @param string $default
+ */
+function get($key, $default = null)
+{
+    $context = Context::getInstance();
+    $context->get($key, $default);
 }
