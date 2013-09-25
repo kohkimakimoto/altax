@@ -20,6 +20,8 @@ Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
 EOL;
 
+    protected $baseDir = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -30,11 +32,28 @@ EOL;
         $this->addCommands(array(
           new InitCommand()
         ));
+
+        $this->baseDir = getcwd();
     }
 
     public function getLongVersion()
     {
         return sprintf(self::HELP_MESSAGES, $this->getName(), $this->getVersion());
+    }
+
+    public function getBaseDir()
+    {
+        return $this->baseDir;
+    }
+
+    public function getConfigDir()
+    {
+        return $this->baseDir."/.altax";
+    }
+
+    public function getConfigPath()
+    {
+        return $this->baseDir."/.altax/altax.php";
     }
 
 }
