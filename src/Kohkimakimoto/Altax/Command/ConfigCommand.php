@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-use Kohkimakimoto\Altax\Container;
+use Kohkimakimoto\Altax\Context;
 
 class ConfigCommand extends Command
 {
@@ -30,9 +30,9 @@ class ConfigCommand extends Command
             throw new \RuntimeException("Not found $path");
         }
 
-        $container = new Container($path);
+        $context = Context::initialize($path);
 
-
-
+        $parameters = $context->getParametersFlatArray();
+        print_r($parameters);
     }
 }
