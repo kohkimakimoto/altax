@@ -19,20 +19,29 @@ class InitCommand extends BaseCommand
         $this
             ->setName('init')
             ->setDescription('Create default configuration directory in the current directory')
+            ->addOption(
+                'path',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Creating configuration file path'
+                )
         ;
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationPath = getcwd()."/.altax/altax.php";
+        $configurationPath = $input->getOption("path");
+        if (!$configurationPath) {
+            $configurationPath = getcwd()."/.altax/altax.php";
+        }
+        
         if (is_file($configurationPath)) {
             throw new \RuntimeException("$configurationPath already exists.");
         }
 
         $fs = new Filesystem();
         $fs->mkdir(dirname($configurationPath), 0755);
-        $content = <<< EOL
+        $content = <<<EOL
 <?php
 /**
  * Altax Configurations.
@@ -71,7 +80,6 @@ task('sample',array('roles' => 'web'), function(\$host, \$args){
   run('echo Hellow World!');
 
 });
-
 
 EOL;
         file_put_contents($configurationPath, $content);

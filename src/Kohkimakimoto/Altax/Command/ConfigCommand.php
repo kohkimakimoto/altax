@@ -1,7 +1,6 @@
 <?php
 namespace Kohkimakimoto\Altax\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,8 +10,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 use Kohkimakimoto\Altax\Util\Context;
+use Kohkimakimoto\Altax\Command\BaseCommand;
 
-class ConfigCommand extends Command
+class ConfigCommand extends BaseCommand
 {
     protected function configure()
     {
@@ -25,17 +25,11 @@ class ConfigCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $path = $this->getApplication()->getConfigPath();
-        if (!is_file($path)) {
-            throw new \RuntimeException("Not found $path");
-        }
-
-        $context = Context::initialize($path);
-
-        $output->writeln("<comment>Configurations</comment>");
-
-        $parameters = $context->getParametersFlatArray();
-        foreach ($parameters as $key => $value) {
+        $context = $this->getApplication()->getContext();
+        $output->writeln("<comment>Defined configurations</comment>");
+        
+        $attributes = $context->getAttributesAsFlatArray();
+        foreach ($attributes as $key => $value) {
             if (is_callable($value)) {
                 $v = "function()";
             } else if (is_array($value)) {

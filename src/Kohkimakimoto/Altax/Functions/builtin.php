@@ -1,6 +1,6 @@
 <?php
 
-use Kohkimakimoto\Altax\Context;
+use Kohkimakimoto\Altax\Util\Context;
 
 function host()
 {
