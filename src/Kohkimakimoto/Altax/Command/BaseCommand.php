@@ -14,12 +14,4 @@ use Kohkimakimoto\Altax\Util\Context;
 
 class BaseCommand extends Command
 {
-    
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        // Reload confiugraion.
-        $application = $this->getApplication();
-        $application->loadConfiguration($input, $output);
-    }
-
 }

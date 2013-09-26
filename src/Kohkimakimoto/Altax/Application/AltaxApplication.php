@@ -8,7 +8,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Kohkimakimoto\Altax\Command\InitCommand; 
-use Kohkimakimoto\Altax\Command\ConfigCommand; 
+use Kohkimakimoto\Altax\Command\ConfigCommand;
+use Kohkimakimoto\Altax\Command\TaskCommand;  
 use Kohkimakimoto\Altax\Util\Context;
 
 /**
@@ -55,6 +56,8 @@ EOL;
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->loadConfiguration($input, $output);
+        $this->registerTasks();
+
         return parent::doRun($input, $output);
     }
 
@@ -74,13 +77,27 @@ EOL;
         }
 
         // At third, load specified file by a option.
-        $configurationPath = $input->getOption("file");
-        if ($configurationPath && is_file($configurationPath)) {
-            include_once $configurationPath;
-        } else if ($configurationPath) {
-            throw new \RuntimeException("$configurationPath not found");
+        if ($input->hasOption("file")) {
+            $configurationPath = $input->getOption("file");
+            if ($configurationPath && is_file($configurationPath)) {
+                include_once $configurationPath;
+            } else if ($configurationPath) {
+                throw new \RuntimeException("$configurationPath not found");
+            }
         }
     }
+
+    protected function registerTasks()
+    {
+        $context = $this->getContext();
+        $tasks = $context->get("tasks");
+        foreach ($tasks as $taskName => $task) {
+            $taskCommand = new TaskCommand($taskName);
+            $taskCommand->configureByTask($task);
+            $this->add($taskCommand);
+        }
+    }
+
 
     public function getHomeConfigurationPath()
     {
