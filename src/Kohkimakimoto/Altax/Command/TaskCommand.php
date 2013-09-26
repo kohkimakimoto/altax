@@ -32,10 +32,32 @@ class TaskCommand extends BaseCommand
           $this->taskOptions = $task['options'];
         }
 
-        $this->setDescription($this->desc);
+        $this
+            ->setDescription($this->desc)
+            ->addArgument(
+                'args',
+                InputArgument::IS_ARRAY,
+                'Arguments passed to the task.'
+            )
+            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $application = $this->getApplication();
+        
+        $applicatonName = $application->getName();
+        $applicatonVersion = $application->getVersion();
+        $name = $this->getName();
+
+        // Checks to exists a ssh command.
+        $outputArray = null;
+        exec("which ssh 2>&1", $outputArray, $ret);
+        if ($ret != 0) {
+            throw new \RuntimeException("SSH command is not found.");
+        }
+
+        $output->writeln("<info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
+        $output->writeln("Executing task <info>$name</info>");
     }
 }
