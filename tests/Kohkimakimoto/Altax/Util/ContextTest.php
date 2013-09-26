@@ -19,11 +19,13 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         Context::getInstance();
     }
 
-    public function testSetAndGet()
+    public function testSetAndGetAndDelete()
     {
         //$context = Context::initialize(__DIR__."/ContextTest/.altax/altax.php");
         $context = Context::createInstance();
         $context->set("param1", "hogehoge");
         $this->assertEquals("hogehoge", $context->get("param1"));
+        $context->delete("param1");
+        $this->assertEquals(null, $context->get("param1"));
     }
 }
