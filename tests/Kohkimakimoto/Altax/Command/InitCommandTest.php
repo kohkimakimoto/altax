@@ -12,8 +12,6 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
 {
     public function testExecute()
     {
-
-
         $application = new AltaxApplication();
         $command = $application->find('init');
 
@@ -71,6 +69,4 @@ EOL;
 
         unlink($path);
     }
-
-
 }

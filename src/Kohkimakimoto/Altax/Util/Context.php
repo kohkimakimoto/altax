@@ -35,11 +35,6 @@ class Context
         $this->set("roles", array());
     }
     
-    public function loadConfiguration($path)
-    {
-
-    }
-
     /**
      * Get a attribute
      */

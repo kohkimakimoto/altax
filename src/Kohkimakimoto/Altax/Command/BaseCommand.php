@@ -36,11 +36,5 @@ class BaseCommand extends Command
         } else if ($configurationPath) {
             throw new \RuntimeException("$configurationPath not found");
         }
-
-        /*
-        $context = $this->getApplication()->getContext();
-        print_r($context->getAttributesAsFlatArray());
-        exit;
-        */
     }
 }
