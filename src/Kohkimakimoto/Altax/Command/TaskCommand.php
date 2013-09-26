@@ -12,12 +12,13 @@ use Symfony\Component\Filesystem\Exception\IOException;
 
 use Kohkimakimoto\Altax\Command\BaseCommand;
 use Kohkimakimoto\Altax\Util\Context;
+use Kohkimakimoto\Altax\Task\Executor;
 
 class TaskCommand extends BaseCommand
 {
-    protected $desc;
-    protected $callback;
-    protected $taskOptions;
+    protected $desc = null;
+    protected $callback = null;
+    protected $taskOptions = array();
 
     public function configureByTask($task)
     {
@@ -59,6 +60,9 @@ class TaskCommand extends BaseCommand
         }
 
         $output->writeln("<info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
-        $output->writeln("Executing task <info>$name</info>");
+        $output->writeln("<info>Starting altax process</info>");
+
+        $executor = new Executor();
+        $executor->execute($name, $input, $output, $this->callback, $this->taskOptions);
     }
 }
