@@ -13,7 +13,7 @@ class Executor
 
     protected $childPids = array();
 
-    public function execute($taskName, InputInterface $input, OutputInterface $output, $callback, $taskOptions, $parent = null)
+    public function execute($taskName, InputInterface $input, OutputInterface $output, $parent = null)
     {
         $this->input = $input;
         $this->output = $output;
@@ -58,11 +58,13 @@ class Executor
                 $this->childPids[$pid] = $host;
             } else {
                 // child process
-                //$task = new Task($host, $task, $arguments, $localRun);
-                
                 $output->writeln("    Forked child process: <info>$host</info> (<comment>".posix_getpid()."</comment>)");
-                $task = new Task();
-                $task->run();
+                $task = new Task($taskName, $host);
+                // Register current task.
+                Context::getInstance()->set('currentTask', $task);
+
+                // Execute task
+                $task->execute($input, $output);
                 exit(0);
             }
         }

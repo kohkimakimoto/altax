@@ -63,6 +63,6 @@ class TaskCommand extends BaseCommand
         $output->writeln("<info>Starting altax process</info>");
 
         $executor = new Executor();
-        $executor->execute($name, $input, $output, $this->callback, $this->taskOptions);
+        $executor->execute($name, $input, $output);
     }
 }

@@ -119,6 +119,15 @@ function task()
     $context->set('tasks', $tasks);
 }
 
+/**
+ * Run command
+ * @param unknown $command
+ */
+function run($command, $options = array())
+{
+    $context = Context::getInstance();
+    $context->get('currentTask')->runSSH($command, $options);
+}
 
 function run_local($command, $options = array())
 {
