@@ -4,7 +4,7 @@ namespace Kohkimakimoto\Altax;
 use Kohkimakimoto\Altax\Functions\Builtin;
 
 /**
- * Altax Container
+ * Altax Context Container
  * @author Kohki Makimoto <kohki.makimoto@gmail.com>
  */
 class Context
