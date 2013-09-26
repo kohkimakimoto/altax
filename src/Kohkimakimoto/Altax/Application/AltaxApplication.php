@@ -24,6 +24,8 @@ Apache License 2.0
 EOL;
 
     protected $baseDir = null;
+    protected $homeConfigurationPath = null;
+    protected $defaultConfigurationPath = null;
 
     public function __construct($name = "Altax", $version = self::VERSION)
     {
@@ -38,8 +40,29 @@ EOL;
           new ConfigCommand()
         ));
 
+        // Initialize aplication parameters.
+        $this->homeConfigurationPath = getenv("HOME")."/.altax/altax.php";
+        $this->defaultConfigurationPath = getcwd()."/.altax/altax.php";
+    }
 
-//        $this->baseDir = getcwd();
+    public function getHomeConfigurationPath()
+    {
+        return $this->homeConfigurationPath;
+    }
+
+    public function setHomeConfigurationPath($homeConfigurationPath)
+    {
+        $this->homeConfigurationPath = $homeConfigurationPath;
+    }
+
+    public function getDefaultConfigurationPath()
+    {
+        return $this->defaultConfigurationPath;
+    }
+
+    public function setDefaultConfigurationPath($defaultConfigurationPath)
+    {
+        $this->defaultConfigurationPath = $defaultConfigurationPath;
     }
 
     protected function getDefaultInputDefinition()

@@ -16,15 +16,16 @@ class BaseCommand extends Command
 {
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        $application = $this->getApplication();
         // Load configuration.
         // At first, load user home setting.
-        $configurationPath = getenv("HOME")."/.altax/altax.php";
+        $configurationPath = $application->getHomeConfigurationPath();
         if (is_file($configurationPath)) {
             include_once $configurationPath;
         }
 
         // At second, load current working directory setting.
-        $configurationPath = getcwd()."/.altax/altax.php";
+        $configurationPath = $application->getDefaultConfigurationPath();
         if (is_file($configurationPath)) {
             include_once $configurationPath;
         }
