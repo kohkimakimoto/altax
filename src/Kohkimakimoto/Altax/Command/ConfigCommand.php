@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-use Kohkimakimoto\Altax\Context;
+use Kohkimakimoto\Altax\Util\Context;
 
 class ConfigCommand extends Command
 {

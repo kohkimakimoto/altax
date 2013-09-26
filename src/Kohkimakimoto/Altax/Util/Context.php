@@ -1,5 +1,5 @@
 <?php
-namespace Kohkimakimoto\Altax;
+namespace Kohkimakimoto\Altax\Util;
 
 use Kohkimakimoto\Altax\Functions\Builtin;
 
@@ -17,7 +17,7 @@ class Context
     {
         self::$instance = new Context();
 
-        require_once __DIR__."/Functions/builtin.php";
+        require_once __DIR__."/../Functions/builtin.php";
         include_once $configPath;
 
         return self::$instance;

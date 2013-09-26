@@ -2,7 +2,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Kohkimakimoto\Altax\Altax;
+use Kohkimakimoto\Altax\Application\AltaxApplication;
 
-$altax = new Altax();
+$altax = new AltaxApplication();
 $altax->run();

@@ -1,5 +1,5 @@
 <?php
-namespace Kohkimakimoto\Altax;
+namespace Kohkimakimoto\Altax\Application;
 
 use Symfony\Component\Console\Application;
 use Kohkimakimoto\Altax\Command\InitCommand; 
@@ -9,7 +9,7 @@ use Kohkimakimoto\Altax\Command\ConfigCommand;
  * Altax
  * @author Kohki Makimoto <kohki.makimoto@gmail.com>
  */
-class Altax extends Application
+class AltaxApplication extends Application
 {
     const VERSION = '2.0';
     const HELP_MESSAGES  =<<<EOL
