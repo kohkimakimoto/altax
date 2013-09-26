@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
+use Kohkimakimoto\Altax\Command\BaseCommand;
 use Kohkimakimoto\Altax\Util\Context;
 
 class TaskCommand extends BaseCommand

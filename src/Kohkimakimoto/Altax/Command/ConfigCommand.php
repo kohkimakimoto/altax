@@ -1,6 +1,7 @@
 <?php
 namespace Kohkimakimoto\Altax\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -9,8 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-use Kohkimakimoto\Altax\Util\Context;
 use Kohkimakimoto\Altax\Command\BaseCommand;
+use Kohkimakimoto\Altax\Util\Context;
 
 class ConfigCommand extends BaseCommand
 {

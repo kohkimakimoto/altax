@@ -28,9 +28,10 @@ Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
 EOL;
 
-    protected $baseDir = null;
     protected $homeConfigurationPath = null;
     protected $defaultConfigurationPath = null;
+
+    protected $loadedConfiguration = false;
 
     public function __construct($name = "Altax", $version = self::VERSION)
     {
@@ -63,6 +64,10 @@ EOL;
 
     public function loadConfiguration(InputInterface $input, OutputInterface $output)
     {
+        if ($this->loadedConfiguration === true) {
+            return;
+        }
+
         // Load configuration.
         // At first, load user home setting.
         $configurationPath = $this->getHomeConfigurationPath();
@@ -85,6 +90,8 @@ EOL;
                 throw new \RuntimeException("$configurationPath not found");
             }
         }
+        
+        $this->loadedConfiguration = true;
     }
 
     protected function registerTasks()

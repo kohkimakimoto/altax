@@ -13,17 +13,15 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
     {
         $application = new AltaxApplication();
         $application->setHomeConfigurationPath(null);
-        $application->setDefaultConfigurationPath(null);
+        $application->setDefaultConfigurationPath(__DIR__."/ConfigCommandTest/.altax/altax.php");
 
         $command = $application->find('config');
 
-        $path = __DIR__."/ConfigCommandTest/.altax/altax.php";
-
         $commandTester = new CommandTester($command);
         $commandTester->execute(
-          array('command' => $command->getName(), '--file' => $path));
+          array('command' => $command->getName()));
 
-/*
+
         $expectedContents = <<<EOL
 Defined configurations
   tasks/sample/desc => This is a sample task.
@@ -35,6 +33,6 @@ Defined configurations
 EOL;
 
         $this->assertEquals($expectedContents, $commandTester->getDisplay());
-*/
+
     }
 }
