@@ -1,4 +1,4 @@
-vendor
-composer.lock
-.project
-.altax
+/vendor
+/composer.lock
+/.project
+/.altax
