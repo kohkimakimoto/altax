@@ -14,28 +14,12 @@ use Kohkimakimoto\Altax\Util\Context;
 
 class BaseCommand extends Command
 {
+    
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        // Reload confiugraion.
         $application = $this->getApplication();
-        // Load configuration.
-        // At first, load user home setting.
-        $configurationPath = $application->getHomeConfigurationPath();
-        if (is_file($configurationPath)) {
-            include_once $configurationPath;
-        }
-
-        // At second, load current working directory setting.
-        $configurationPath = $application->getDefaultConfigurationPath();
-        if (is_file($configurationPath)) {
-            include_once $configurationPath;
-        }
-
-        // At third, load specified file by a option.
-        $configurationPath = $input->getOption("file");
-        if ($configurationPath && is_file($configurationPath)) {
-            include_once $configurationPath;
-        } else if ($configurationPath) {
-            throw new \RuntimeException("$configurationPath not found");
-        }
+        $application->loadConfiguration($input, $output);
     }
+
 }

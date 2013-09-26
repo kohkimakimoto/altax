@@ -13,6 +13,9 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $application = new AltaxApplication();
+        $application->setHomeConfigurationPath(null);
+        $application->setDefaultConfigurationPath(null);
+
         $command = $application->find('init');
 
         $path = tempnam(sys_get_temp_dir(), "InitCommandTest");

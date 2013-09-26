@@ -12,6 +12,9 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $application = new AltaxApplication();
+        $application->setHomeConfigurationPath(null);
+        $application->setDefaultConfigurationPath(null);
+
         $command = $application->find('config');
 
         $path = __DIR__."/ConfigCommandTest/.altax/altax.php";
@@ -29,6 +32,7 @@ Defined configurations
   roles/web/0 => 127.0.0.1
 
 EOL;
+
         $this->assertEquals($expectedContents, $commandTester->getDisplay());
     }
 }

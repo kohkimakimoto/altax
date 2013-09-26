@@ -2,7 +2,11 @@
 namespace Kohkimakimoto\Altax\Application;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
 use Kohkimakimoto\Altax\Command\InitCommand; 
 use Kohkimakimoto\Altax\Command\ConfigCommand; 
 use Kohkimakimoto\Altax\Util\Context;
@@ -32,7 +36,7 @@ EOL;
         parent::__construct($name, $version);
 
         // Initilize Context of this application.
-        Context::createInstance();
+        Context::initialize();
 
         // Register builtin commands.
         $this->addCommands(array(
@@ -43,6 +47,39 @@ EOL;
         // Initialize aplication parameters.
         $this->homeConfigurationPath = getenv("HOME")."/.altax/altax.php";
         $this->defaultConfigurationPath = getcwd()."/.altax/altax.php";
+    }
+    
+    /**
+     * Override doRun method for Altax.
+     */
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $this->loadConfiguration($input, $output);
+        return parent::doRun($input, $output);
+    }
+
+    public function loadConfiguration(InputInterface $input, OutputInterface $output)
+    {
+        // Load configuration.
+        // At first, load user home setting.
+        $configurationPath = $this->getHomeConfigurationPath();
+        if (is_file($configurationPath)) {
+            include_once $configurationPath;
+        }
+
+        // At second, load current working directory setting.
+        $configurationPath = $this->getDefaultConfigurationPath();
+        if (is_file($configurationPath)) {
+            include_once $configurationPath;
+        }
+
+        // At third, load specified file by a option.
+        $configurationPath = $input->getOption("file");
+        if ($configurationPath && is_file($configurationPath)) {
+            include_once $configurationPath;
+        } else if ($configurationPath) {
+            throw new \RuntimeException("$configurationPath not found");
+        }
     }
 
     public function getHomeConfigurationPath()

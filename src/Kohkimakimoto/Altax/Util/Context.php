@@ -13,7 +13,7 @@ class Context
     
     protected $attributes = array();
 
-    public static function createInstance()
+    public static function initialize()
     {
         self::$instance = new Context();
 
