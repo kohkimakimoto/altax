@@ -2,8 +2,10 @@
 namespace Kohkimakimoto\Altax\Application;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputOption;
 use Kohkimakimoto\Altax\Command\InitCommand; 
 use Kohkimakimoto\Altax\Command\ConfigCommand; 
+use Kohkimakimoto\Altax\Util\Context;
 
 /**
  * Altax
@@ -23,39 +25,44 @@ EOL;
 
     protected $baseDir = null;
 
-    public function __construct()
+    public function __construct($name = "Altax", $version = self::VERSION)
     {
-        parent::__construct();
+        parent::__construct($name, $version);
 
-        $this->setName("Altax");
-        $this->setVersion(self::VERSION);
+        // Initilize Context of this application.
+        Context::createInstance();
 
+        // Register builtin commands.
         $this->addCommands(array(
           new InitCommand(),
           new ConfigCommand()
         ));
 
-        $this->baseDir = getcwd();
+
+//        $this->baseDir = getcwd();
+    }
+
+    protected function getDefaultInputDefinition()
+    {
+        $definition = parent::getDefaultInputDefinition();
+
+        // Additional options used by Altax.
+        $definition->addOptions(array(
+            new InputOption('--file',  '-f', InputOption::VALUE_REQUIRED, 'Specify to load configuration file.'),
+            new InputOption('--debug', '-d', InputOption::VALUE_NONE, 'Switch the debug mode to output log on the debug level.'),
+        ));
+
+        return $definition;
+    }
+
+    public function getContext()
+    {
+        return Context::getInstance();
     }
 
     public function getLongVersion()
     {
         return sprintf(self::HELP_MESSAGES, $this->getName(), $this->getVersion());
-    }
-
-    public function getBaseDir()
-    {
-        return $this->baseDir;
-    }
-
-    public function getConfigDir()
-    {
-        return $this->baseDir."/.altax";
-    }
-
-    public function getConfigPath()
-    {
-        return $this->baseDir."/.altax/altax.php";
     }
 
 }

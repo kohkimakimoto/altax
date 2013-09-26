@@ -5,9 +5,10 @@ use Kohkimakimoto\Altax\Util\Context;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInitialize()
+    public function testCreateInstance()
     {
-        $context = Context::initialize(__DIR__."/ContextTest/.altax/altax.php");
+        //$context = Context::initialize(__DIR__."/ContextTest/.altax/altax.php");
+        $context = Context::createInstance();
         $this->assertEquals(true, true);
     }
 

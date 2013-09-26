@@ -11,14 +11,14 @@ class Context
 {
     protected static $instance;
     
-    protected $parameters = array();
+    protected $attributes = array();
 
-    public static function initialize($configPath)
+    public static function createInstance()
     {
         self::$instance = new Context();
 
+        // Load buntin functions.
         require_once __DIR__."/../Functions/builtin.php";
-        include_once $configPath;
 
         return self::$instance;
     }
@@ -34,58 +34,69 @@ class Context
         $this->set("hosts", array());
         $this->set("roles", array());
     }
-
-    /**
-     * Get a parameter
-     */
-    public function get($name, $default = null, $delimiter = '/')
+    
+    public function loadConfiguration($path)
     {
-        $parameters = $this->parameters;
 
-        foreach (explode($delimiter, $name) as $key) {
-          $parameters = isset($parameters[$key]) ? $parameters[$key] : $default;
-        }
-        return $parameters;
     }
 
     /**
-    * Set a parameter.
+     * Get a attribute
+     */
+    public function get($name, $default = null, $delimiter = '/')
+    {
+        $attributes = $this->attributes;
+
+        foreach (explode($delimiter, $name) as $key) {
+          $attributes = isset($attributes[$key]) ? $attributes[$key] : $default;
+        }
+        return $attributes;
+    }
+
+    /**
+    * Set a attribute.
     * @param unknown $name
     * @param unknown $value
     */
     public function set($name, $value)
     {
-        $this->parameters[$name] = $value;
-    }
-
-    public function delete($name)
-    {
-        unset($this->parameters[$name]);
+        $this->attributes[$name] = $value;
     }
 
     /**
-    * Get parameters.
-    * @return multitype:
-    */
-    public function getParamters()
+     * Delete a attribute.
+     */
+    public function delete($name)
     {
-        return $this->parameters;
+        unset($this->attributes[$name]);
     }
 
-    public function getParametersFlatArray($namespace = null, $key = null, $array = null, $delimiter = '/')
+    /**
+    * Get attributes.
+    * @return multitype:
+    */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Get attributes as flat array to show infomations.
+     */
+    public function getAttributesAsFlatArray($namespace = null, $key = null, $array = null, $delimiter = '/')
     {
         $ret = array();
 
         if ($array === null) {
-            $array = $this->parameters;
+            $array = $this->attributes;
         }
 
         foreach ($array as $key => $val) {
             if (is_array($val) && $val) {
                 if ($namespace === null) {
-                    $ret = array_merge($ret, $this->getParametersFlatArray($key, $key, $val, $delimiter));
+                    $ret = array_merge($ret, $this->getAttributesAsFlatArray($key, $key, $val, $delimiter));
                 } else {
-                    $ret = array_merge($ret, $this->getParametersFlatArray($namespace.$delimiter.$key, $key, $val, $delimiter));
+                    $ret = array_merge($ret, $this->getAttributesAsFlatArray($namespace.$delimiter.$key, $key, $val, $delimiter));
                 }
             } else {
                 if ($namespace !== null) {
