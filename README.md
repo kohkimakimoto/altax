@@ -16,3 +16,11 @@ Altax is a simple deployment tool running SSH in parallel. The features are the 
 
 * PHP5.3 or later.
 
+## Installation
+
+Sorry, I has not written some documentation yet.
+
+
+
+
+
