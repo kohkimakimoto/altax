@@ -38,7 +38,7 @@ EOL;
         parent::__construct($name, $version);
 
         // Initilize Context of this application.
-        Context::initialize();
+        $context = Context::initialize();
 
         // Register builtin commands.
         $this->addCommands(array(
@@ -58,6 +58,11 @@ EOL;
     {
         $this->loadConfiguration($input, $output);
         $this->registerTasks();
+
+        // Switch debug mode
+        if (true === $input->hasParameterOption(array('--debug', '-d'))) {
+            $this->getContext()->set("debug", true);
+        }
 
         return parent::doRun($input, $output);
     }
@@ -93,8 +98,8 @@ EOL;
         }
 
         // At third, load specified file by a option.
-        if ($input->hasOption("file")) {
-            $configurationPath = $input->getOption("file");
+        if (true === $input->hasParameterOption(array('--file', '-f'))) {
+            $configurationPath = $input->getParameterOption(array('--file', '-f'));
             if ($configurationPath && is_file($configurationPath)) {
                 include_once $configurationPath;
                 $configs = $context->get('configs');

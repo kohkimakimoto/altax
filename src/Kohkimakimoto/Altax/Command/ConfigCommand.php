@@ -27,7 +27,7 @@ class ConfigCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $context = $this->getApplication()->getContext();
-        $output->writeln("<comment>Defined configurations</comment>");
+        $output->writeln("<comment>Defined configurations:</comment>");
         
         $attributes = $context->getAttributesAsFlatArray();
         foreach ($attributes as $key => $value) {

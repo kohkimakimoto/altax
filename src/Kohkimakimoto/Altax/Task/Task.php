@@ -6,36 +6,39 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Kohkimakimoto\Altax\Util\Context;
 
+/**
+ * Task at a host.
+ */
 class Task
 {
     protected $taskName;
     protected $host;
 
-    public function __construct($taskName, $host)
+    public function __construct($taskName, $host, InputInterface $input, OutputInterface $output)
     {
         $this->taskName = $taskName;
         $this->host = $host;
-    }
-
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        // Get callback function;
-        $context = Context::getInstance();
         $this->input = $input;
         $this->output = $output;
+    }
+
+    public function execute()
+    {
+        $input = $this->input;
+        $output = $this->output;
+
+        $context = Context::getInstance();
 
         $callback = $context->get('tasks/'.$this->taskName.'/callback');
 
-        $output->writeln("");
-        $output->writeln("    - Run <info>".$this->taskName."</info> at <info>".$this->host."</info>");
+        $output->writeln("    - Running <info>".$this->taskName."</info> at <info>".$this->host."</info>");
 
         $callback($this->host, $input->getArgument('args'));
-
-        $output->writeln("");
     }
 
     public function runSSH($command, $options = array())
     {
+        $context = Context::getInstance();
 
         $sshcmd = $this->getSSHCommandBase();
         $sshcmd .= ' "';
@@ -57,8 +60,9 @@ class Task
         $output = null;
         $ret = null;
 
-        $this->output->writeln("      Running command: $sshcmd");
-
+        if ($context->get("debug") === true) {
+           $this->output->writeln("      Running command: $sshcmd");
+        }
         //
         // Get Pseudo-terminal used for temporary.
         //
@@ -81,6 +85,7 @@ class Task
 
         proc_close($process);
     }
+
     public function getSSHCommandBase()
     {
         $context = Context::getInstance();
@@ -110,5 +115,52 @@ class Task
 
         $sshcmd .= " $host";
         return $sshcmd;
+    }
+
+    public function runLocalCommand($command, $options = array())
+    {
+        $context = Context::getInstance();
+
+        $cmd = null;
+
+        if (isset($options['user'])) {
+            $cmd .= " sudo -u".$options['user']." ";
+        }
+
+        $cmd .= "sh -c '";
+
+        if (isset($options['cwd'])) {
+            $cmd .= "cd ".$options['cwd']."; ";
+        }
+
+        $cmd .= $command;
+
+        $cmd .= '\'';
+
+        $output = null;
+        $ret = null;
+
+        if ($context->get("debug") === true) {
+           $this->output->writeln("      Running local command: $cmd");
+        }
+
+        $descriptorspec = array();
+
+        // Not Use SSH
+        $process = proc_open($cmd, $descriptorspec, $pipes);
+        foreach ($pipes as $pipe) {
+            fclose($pipe);
+        }
+        proc_close($process);
+    }
+
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
     }
 }

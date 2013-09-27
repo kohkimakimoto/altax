@@ -15,6 +15,8 @@ class Executor
 
     public function execute($taskName, InputInterface $input, OutputInterface $output, $parent = null)
     {
+        $context = Context::getInstance();
+
         $this->input = $input;
         $this->output = $output;
 
@@ -22,7 +24,7 @@ class Executor
             throw new \RuntimeException("Your PHP is not supported pcntl_fork function.");
         }
 
-        $output->writeln("  - Executing task <info>$taskName</info>");
+        $output->writeln("  - Starting task <info>$taskName</info>");
         
         $hosts = $this->getHosts($taskName);
         $output->write("    Found <info>".count($hosts)."</info> target hosts: ");
@@ -35,18 +37,17 @@ class Executor
         }
         $output->writeln("");
 
-        $localRun = false;
-        if (count($hosts) === 0) {
-           $localRun = true;
-            $hosts = array('127.0 0.1');
-            Altax_Logger::log("Running at the localhost only. This task dose not connect to remote servers.", null, "debug");
+        if ($context->get("debug") === true) {
+            $output->writeln("    Setting up signal handler.");
         }
 
-        $output->writeln("    Setting up signal handler.");
         pcntl_signal(SIGTERM, array($this, "signalHander"));
         pcntl_signal(SIGINT, array($this, "signalHander"));
 
-        $output->writeln("    Processing to fork process.");
+        if ($context->get("debug") === true) {
+            $output->writeln("    Processing to fork process.");
+        }
+
         // Fork process.
         foreach ($hosts as $host) {
             $pid = pcntl_fork();
@@ -58,17 +59,19 @@ class Executor
                 $this->childPids[$pid] = $host;
             } else {
                 // child process
-                $output->writeln("    Forked child process: <info>$host</info> (<comment>".posix_getpid()."</comment>)");
-                $task = new Task($taskName, $host);
-                // Register current task.
-                Context::getInstance()->set('currentTask', $task);
+                if ($context->get("debug") === true) {
+                    $output->writeln("    Forked child process: <info>$host</info> (<comment>pid:".posix_getpid()."</comment>)");
+                }
 
+                $task = new Task($taskName, $host, $input, $output);
+                // Register current task.
+                $context->set('currentTask', $task);
                 // Execute task
-                $task->execute($input, $output);
+                $task->execute();
                 exit(0);
             }
         }
-
+        
         // At the following code, only parent precess runs.
         while (count($this->childPids) > 0) {
             // Keep to wait until to finish all child processes.
@@ -87,7 +90,9 @@ class Executor
             $host = $this->childPids[$pid];
             unset($this->childPids[$pid]);
 
-            $output->writeln("    Finished child process: <info>$host</info> (<comment>$pid</comment>)");
+            if ($context->get("debug") === true) {
+               $output->writeln("    Finished child process: <info>$host</info> (<comment>pid:$pid</comment>)");
+            }
         }
 
         $output->writeln("    Completed task <info>$taskName</info>");

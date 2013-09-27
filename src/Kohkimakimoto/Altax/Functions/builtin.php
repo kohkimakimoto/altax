@@ -1,6 +1,7 @@
 <?php
 
 use Kohkimakimoto\Altax\Util\Context;
+use Kohkimakimoto\Altax\Task\Executor;
 
 function host()
 {
@@ -132,11 +133,28 @@ function run($command, $options = array())
 function run_local($command, $options = array())
 {
     $context = Context::getInstance();
+    $context->get('currentTask')->runLocalCommand($command, $options);
 }
 
-function run_task($name, $arguments = array())
+function run_task($name, $args = array())
 {
     $context = Context::getInstance();
+    $currentTask = $context->get('currentTask');
+    $input = $currentTask->getInput();
+    $output = $currentTask->getOutput();
+
+    $newInput = clone $input;
+    $newInput->setArgument("command", $name);
+    $newInput->setArgument("args", $args);
+
+    $executor = new Executor();
+    $executor->execute($name, $newInput, $output);
+
+    /*
+    $taskManager = Altax::getInstance()->getTaskManager();
+    $currentTask = $taskManager->getCurrentTask()->getTask();
+    $taskManager->executeTask($name, $arguments, $currentTask);
+    */
 }
 
 /**

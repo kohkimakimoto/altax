@@ -35,6 +35,7 @@ class Context
         $this->set("hosts", array());
         $this->set("roles", array());
         $this->set("configs", array());
+        $this->set("debug", false);
     }
     
     /**
