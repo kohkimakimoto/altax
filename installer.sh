@@ -8,6 +8,7 @@ TMPDIR="altax.${TMPTIMESTAMP}.tmp"
 install_altax() {
 
   type=$1
+  version=$2
 
   if [ ! `which php` ]; then
     echo "For this installer to work you'll need to install PHP."
@@ -21,26 +22,34 @@ install_altax() {
     exit
   fi
 
-  git clone https://github.com/kohkimakimoto/altax.git ./${TMPDIR}
-  cd ./${TMPDIR}
+  if [ $version = "1" ]; then
+    echo "You will install Altax version 1.x."
+    git clone https://github.com/kohkimakimoto/altax.git ./${TMPDIR}
+    cd ./${TMPDIR}
+    git checkout branch v1.3.1
 
-  php ./compile.php
+    php ./compile.php
 
-  install_to="${COMMAND_DIR}/altax"
-  if [ $type = "system" ]; then
-    install_to="${PREFIX}altax"
-  else
     install_to="${COMMAND_DIR}/altax"
-  fi
-  echo "Installing altax to ${install_to}"
+    if [ $type = "system" ]; then
+      install_to="${PREFIX}altax"
+    else
+      install_to="${COMMAND_DIR}/altax"
+    fi
+    echo "Installing altax to ${install_to}"
 
-  cp ./altax ${install_to}
-  chmod 755 ${install_to}
+    cp ./altax ${install_to}
+    chmod 755 ${install_to}
 
-  echo "Installed altax to ${install_to}"
+    echo "Installed altax to ${install_to}"
 
-  cd ..
-  rm -rf ./${TMPDIR}
+    cd ..
+    rm -rf ./${TMPDIR}
+  }
+
+  if [ $version = "2" ]; then
+    echo "You will install Altax version 2.x."
+  }
 }
 
 install_type="local"
@@ -61,4 +70,4 @@ if [ $# -eq 2  ]; then
   fi
 fi
 
-install_altax $install_type
+install_altax $install_type $install_version
