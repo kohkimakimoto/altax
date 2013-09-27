@@ -47,12 +47,12 @@ EOL;
         ));
 
         // Initialize aplication parameters.
-        $this->homeConfigurationPath = getenv("HOME")."/.altax/altax.php";
-        $this->defaultConfigurationPath = getcwd()."/.altax/altax.php";
+        $this->homeConfigurationPath = getenv("HOME")."/.altax/config.php";
+        $this->defaultConfigurationPath = getcwd()."/.altax/config.php";
     }
     
     /**
-     * Override doRun method for Altax.
+     * Override doRun method for altax preprocess.
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
@@ -62,23 +62,34 @@ EOL;
         return parent::doRun($input, $output);
     }
 
+    /**
+     * Load configuration files.
+     */
     public function loadConfiguration(InputInterface $input, OutputInterface $output)
     {
         if ($this->loadedConfiguration === true) {
             return;
         }
+        
+        $context = $this->getContext();
 
         // Load configuration.
         // At first, load user home setting.
         $configurationPath = $this->getHomeConfigurationPath();
         if (is_file($configurationPath)) {
             include_once $configurationPath;
+            $configs = $context->get('configs');
+            $configs[] = $configurationPath;
+            $context->set('configs', $configs);
         }
 
         // At second, load current working directory setting.
         $configurationPath = $this->getDefaultConfigurationPath();
         if (is_file($configurationPath)) {
             include_once $configurationPath;
+            $configs = $context->get('configs');
+            $configs[] = $configurationPath;
+            $context->set('configs', $configs);
         }
 
         // At third, load specified file by a option.
@@ -86,6 +97,9 @@ EOL;
             $configurationPath = $input->getOption("file");
             if ($configurationPath && is_file($configurationPath)) {
                 include_once $configurationPath;
+                $configs = $context->get('configs');
+                $configs[] = $configurationPath;
+                $context->set('configs', $configs);
             } else if ($configurationPath) {
                 throw new \RuntimeException("$configurationPath not found");
             }

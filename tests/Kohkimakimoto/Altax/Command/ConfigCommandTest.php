@@ -13,7 +13,9 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
     {
         $application = new AltaxApplication();
         $application->setHomeConfigurationPath(null);
-        $application->setDefaultConfigurationPath(__DIR__."/ConfigCommandTest/.altax/altax.php");
+
+        $configPath = __DIR__."/ConfigCommandTest/.altax/config.php";
+        $application->setDefaultConfigurationPath($configPath);
 
         $command = $application->find('config');
 
@@ -29,6 +31,7 @@ Defined configurations
   tasks/sample/options/roles => web
   hosts => array()
   roles/web/0 => 127.0.0.1
+  configs/0 => $configPath
 
 EOL;
 

@@ -147,7 +147,7 @@ function run_task($name, $arguments = array())
 function set($key, $value)
 {
     $context = Context::getInstance();
-    $context->set($key, $value);
+    $context->setParameter($key, $value);
 }
 
 /**
@@ -158,5 +158,5 @@ function set($key, $value)
 function get($key, $default = null)
 {
     $context = Context::getInstance();
-    $context->get($key, $default);
+    $context->getParameter($key, $default);
 }

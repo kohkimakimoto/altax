@@ -1,8 +1,6 @@
 <?php
 namespace Kohkimakimoto\Altax\Util;
 
-use Kohkimakimoto\Altax\Functions\Builtin;
-
 /**
  * Altax Context Container
  * @author Kohki Makimoto <kohki.makimoto@gmail.com>
@@ -12,6 +10,8 @@ class Context
     protected static $instance;
     
     protected $attributes = array();
+
+    protected $parameters = array();
 
     public static function initialize()
     {
@@ -30,9 +30,11 @@ class Context
 
     public function __construct()
     {
+        // Default attributes
         $this->set("tasks", array());
         $this->set("hosts", array());
         $this->set("roles", array());
+        $this->set("configs", array());
     }
     
     /**
@@ -76,8 +78,28 @@ class Context
     }
 
     /**
-     * Get attributes as flat array to show infomations.
+     * Get a parameter
      */
+    public function getParameter($name, $default = null, $delimiter = '/')
+    {
+        $parameters = $this->parameters;
+
+        foreach (explode($delimiter, $name) as $key) {
+          $parameters = isset($parameters[$key]) ? $parameters[$key] : $default;
+        }
+        return $parameters;
+    }
+
+    /**
+    * Set a parameter.
+    * @param unknown $name
+    * @param unknown $value
+    */
+    public function setParameter($name, $value)
+    {
+        $this->parameters[$name] = $value;
+    }
+
     public function getAttributesAsFlatArray($namespace = null, $key = null, $array = null, $delimiter = '/')
     {
         $ret = array();

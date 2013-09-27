@@ -32,7 +32,7 @@ class InitCommand extends BaseCommand
     {
         $configurationPath = $input->getOption("path");
         if (!$configurationPath) {
-            $configurationPath = getcwd()."/.altax/altax.php";
+            $configurationPath = getcwd()."/.altax/config.php";
         }
         
         if (is_file($configurationPath)) {
