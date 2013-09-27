@@ -26,7 +26,7 @@ install_altax() {
     echo "You will install Altax version 1.x."
     git clone https://github.com/kohkimakimoto/altax.git ./${TMPDIR}
     cd ./${TMPDIR}
-    git checkout branch v1.3.1
+    git checkout refs/tags/v1.3.1
 
     php ./compile.php
 
