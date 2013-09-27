@@ -1,36 +1,52 @@
 #!/usr/bin/env php
 <?php
-chdir(dirname(__FILE__)."/lib/PHPCompactor/");
-$basedir = realpath(dirname(__FILE__));
 
-system('php ./src/phpcompactor.php ./../../altax.tmp ./../../src/Altax.php');
 
-$file = file_get_contents($basedir."/altax.tmp");
+// Chenge vendors for production environment.
+system("rm -rf ".__DIR__."/vendor/");
+system("composer install --no-dev --no-interaction");
 
-// $file = "#!/usr/bin/env php\n".$file;
-$file = preg_replace("/require_once'[^']+';/", '', $file);
-$file = preg_replace("/require_once\"[^\"]+\";/", '', $file);
+require_once __DIR__ . '/vendor/autoload.php';
 
-$file2 = file_get_contents($basedir."/bin/altax");
-$file2 = preg_replace("/require_once\s__DIR__\.'[^']+';/", '', $file2);
+use Symfony\Component\Finder\Finder;
 
-$file = preg_replace("/<\?php/", $file2, $file);
+$pharFile = __DIR__."/altax.phar";
 
-for ($i = 0; $i < 5; $i++) {
-  $file = preg_replace("/\n\n/", "\n", $file);
+if (file_exists($pharFile)) {
+    unlink($pharFile);
 }
 
+echo "Starting compiling $pharFile\n";
+
+$phar = new \Phar($pharFile, 0);
+$phar->setSignatureAlgorithm(\Phar::SHA1);
+$phar->startBuffering();
+
+$finder = new Finder();
+$files = iterator_to_array($finder->files()->exclude('tests')->name('*.php')->in(array('vendor', 'src')));
+foreach ($files as $file) {
+  echo "Processing: ".$file->getPathName()."\n";
+  $phar->addFromString($file->getPathName(), file_get_contents($file));
+}
+
+$content = file_get_contents(__DIR__."/bin/altax");
+$content = preg_replace('{^#!/usr/bin/env php\s*}', '', $content);
+$phar->addFromString('altax', $content);
+
+$stub = <<<EOL
+#!/usr/bin/env php
+<?php
+Phar::mapPhar('altax.phar');
+require 'phar://altax.phar/altax';
+__HALT_COMPILER();
+EOL;
+
+$phar->setStub($stub);
+$phar->stopBuffering();
+
 echo "\n";
-echo "Creating ".$basedir."/altax\n";
-file_put_contents($basedir."/altax", $file);
+unset($phar);
+chmod($pharFile, 0755);
 
-chmod($basedir."/altax", 755);
-
-echo "Deleting ".$basedir."/altax.tmp\n";
-unlink($basedir."/altax.tmp");
-echo "\n";
-echo "Compiling is finished !\n";
-echo "\n";
-
-
+echo "Complete!\n";
 
