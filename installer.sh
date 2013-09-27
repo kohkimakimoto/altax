@@ -45,11 +45,11 @@ install_altax() {
 
     cd ..
     rm -rf ./${TMPDIR}
-  }
+  fi
 
   if [ $version = "2" ]; then
     echo "You will install Altax version 2.x."
-  }
+  fi
 }
 
 install_type="local"
