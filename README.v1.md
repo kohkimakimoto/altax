@@ -1,6 +1,4 @@
-# Altax
-
-[![Build Status](https://travis-ci.org/kohkimakimoto/altax.png?branch=master)](https://travis-ci.org/kohkimakimoto/altax)
+# Altax v1
 
 Altax is a simple deployment tool running SSH in parallel. The features are the following.
 
