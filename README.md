@@ -18,7 +18,41 @@ Altax is a simple deployment tool running SSH in parallel. The features are the 
 
 ## Installation
 
-Sorry, I has not written some documentation yet.
+Just download `altax.phar`. And move `altax.phar`　under the /usr/local/bin/altax`.
+
+    $ wget https://github.com/kohkimakimoto/altax/raw/master/altax.phar
+    $ chmod 755 altax.phar
+    $ mv altax.phar /usr/local/bin/altax
+
+## Usage
+
+Runs `altax init` command.
+
+    $ altax init
+
+You will have a default configuration file named `./altax/config.php`.
+
+Modify `./altax/config.php` for your environment. You need to define hosts and tasks like the following.
+
+    <?php
+    host('192.168.0.1', 'web');
+    host('192.168.0.2', 'web');
+
+    desc('This is a sample task.');
+    task('sample',array('roles' => 'web'), function($host, $args){
+
+      run('echo Hellow World!');
+
+    });
+
+Run the following command to execute your sample task.
+
+    $ altax sample
+
+## License
+
+Apache License 2.0
+
 
 
 
