@@ -1,7 +1,7 @@
 # Altax
 
-[![Build Status](https://travis-ci.org/kohkimakimoto/altax.png?branch=2.0)](https://travis-ci.org/kohkimakimoto/altax)
-[![Coverage Status](https://coveralls.io/repos/kohkimakimoto/altax/badge.png?branch=2.0)](https://coveralls.io/r/kohkimakimoto/altax?branch=2.0)
+[![Build Status](https://travis-ci.org/kohkimakimoto/altax.png?branch=master)](https://travis-ci.org/kohkimakimoto/altax)
+[![Coverage Status](https://coveralls.io/repos/kohkimakimoto/altax/badge.png?branch=master)](https://coveralls.io/r/kohkimakimoto/altax?branch=master)
 
 Altax is a simple deployment tool running SSH in parallel. The features are the following.
 
