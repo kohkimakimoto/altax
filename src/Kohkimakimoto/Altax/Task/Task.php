@@ -60,8 +60,10 @@ class Task
         $output = null;
         $ret = null;
 
+        $this->output->writeln("      Command: <comment>$command</comment>");
+
         if ($context->get("debug") === true) {
-           $this->output->writeln("      Running command: $sshcmd");
+           $this->output->writeln("      Running ssh command: $sshcmd");
         }
         //
         // Get Pseudo-terminal used for temporary.
@@ -139,6 +141,8 @@ class Task
 
         $output = null;
         $ret = null;
+
+        $this->output->writeln("      Command: <comment>$command</comment>");
 
         if ($context->get("debug") === true) {
            $this->output->writeln("      Running local command: $cmd");
