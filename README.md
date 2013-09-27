@@ -18,7 +18,8 @@ Altax is a simple deployment tool running SSH in parallel. The features are the 
 
 ## Installation
 
-Just download [`altax.phar`](https://github.com/kohkimakimoto/altax/raw/master/altax.phar). And move `altax.phar`　under the /usr/local/bin/altax`.
+Just download [`altax.phar`](https://github.com/kohkimakimoto/altax/raw/master/altax.phar).
+And move `altax.phar`　to `/usr/local/bin/altax`.
 
     $ wget https://github.com/kohkimakimoto/altax/raw/master/altax.phar
     $ chmod 755 altax.phar
