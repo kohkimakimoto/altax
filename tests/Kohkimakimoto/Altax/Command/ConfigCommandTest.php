@@ -25,13 +25,14 @@ class ConfigCommandTest extends \PHPUnit_Framework_TestCase
 
 
         $expectedContents = <<<EOL
-Defined configurations
+Defined configurations:
   tasks/sample/desc => This is a sample task.
   tasks/sample/callback => function()
   tasks/sample/options/roles => web
   hosts => array()
   roles/web/0 => 127.0.0.1
   configs/0 => $configPath
+  debug => 
 
 EOL;
 
