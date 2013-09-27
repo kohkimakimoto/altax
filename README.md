@@ -9,7 +9,9 @@ Altax is a simple deployment tool running SSH in parallel. The features are the 
 * Implemented as SSH command wrapper.
 * If you use compiled package (phar　file). It runs in single PHP file.
 
-**Altax Version 2 is rebuilded using Symfony Console Component. It is different form version 1.**
+**Altax Version 2 is rebuilded using Symfony Components. It is different form version 1.**
+
+**If you use Altax version 1. You read [READNE.v1.md](README.v1.md)**
 
 ## Requrement
 
