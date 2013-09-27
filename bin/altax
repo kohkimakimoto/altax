@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
-require_once __DIR__.'/../src/Altax.php';
-Altax::main();
+require_once __DIR__ . '/../vendor/autoload.php';
 
+use Kohkimakimoto\Altax\Application\AltaxApplication;
+
+$altax = new AltaxApplication();
+$altax->run();

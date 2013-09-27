@@ -1,5 +1,4 @@
-vendor
-composer.lock
-.project
-altax
-altax.php
+/vendor
+/composer.lock
+/.project
+/.altax
