@@ -53,7 +53,7 @@ class InitCommand extends BaseCommand
  */
 
 // =========================================================
-// Configuration by separated configuration files.
+// Configures by separated configuration files.
 //   You can use \Kohkimakimoto\Altax\Util\Configuration 
 //   utility class to load separated configuration files.
 // =========================================================
@@ -63,7 +63,7 @@ class InitCommand extends BaseCommand
 
 
 // =========================================================
-// Configuration by defining directly
+// Configures by defining directly
 //   You can define hosts and tasks in this file using some
 //   helper functions. For instance host(), task() etc...
 // =========================================================
