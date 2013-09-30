@@ -36,6 +36,9 @@ class BaseTask
         }
 
         $options = $configure;
-        task($name, $options, array($this, "execute"));
+        $self = $this;
+        task($name, $options, function($host, $args) use ($self){
+            $self->execute($host, $args);
+        });
     }
 }
