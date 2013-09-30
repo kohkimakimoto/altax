@@ -169,3 +169,12 @@ function get($key, $default = null)
 {
     Context::getInstance()->getParameter($key, $default);
 }
+
+/**
+ * Register configuration instances.
+ * @param Array or Confiugration $configurations
+ */
+function register_configs($configurations)
+{
+
+}

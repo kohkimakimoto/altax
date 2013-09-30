@@ -52,24 +52,35 @@ class InitCommand extends BaseCommand
  * @author yourname <youremail@yourcompany.com>
  */
 
+// =========================================================
+// Configuration by separated configuration files.
+//   You can use \Kohkimakimoto\Altax\Util\Configuration 
+//   utility class to load separated configuration files.
+// =========================================================
+// \$configuration = new \Kohkimakimoto\Altax\Util\Configuration();
+// \$configuration->loadHosts(array(__DIR__."/hosts.php"));
+// \$configuration->loadTasks(array(__DIR__."/tasks"));
+
+
+// =========================================================
+// Configuration by defining directly
+//   You can define hosts and tasks in this file using some
+//   helper functions. For instance host(), task() etc...
+// =========================================================
+
 //
 // Host and role configurations.
 //
-role('web', '127.0.0.1');
 
-// or
-
-// role('web', array('192.168.0.1', '192.168.0.2'));
-
-// or
-
+host('127.0.0.1', array('web', 'localhost');
 // host('192.168.0.1', 'web');
 // host('192.168.0.2', 'web');
 
 // or (Specify SSH Configurations) 
 
+// host('127.0.0.1',   array('port' => '22', 'login_name' => 'yourname', 'identity_file' => '/home/yourname/.ssh/id_rsa'), array('web', 'localhost'));
+// host('192.168.0.1', array('port' => '22', 'login_name' => 'yourname', 'identity_file' => '/home/yourname/.ssh/id_rsa'), 'web');
 // host('192.168.0.2', array('port' => '22', 'login_name' => 'yourname', 'identity_file' => '/home/yourname/.ssh/id_rsa'), 'web');
-
 
 //
 // The Following is sample task definition.
