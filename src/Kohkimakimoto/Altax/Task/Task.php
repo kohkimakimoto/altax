@@ -72,7 +72,7 @@ class Task
         $realCommand .= "'";
 
         if ($context->get("debug") === true) {
-           $this->output->writeln("      Running command using ssh: $realCommand");
+           $this->output->writeln("      <comment>Debug: </comment>Running command using ssh: $realCommand");
         }
 
         $ssh->exec($realCommand, function ($str) use ($host) {
@@ -106,7 +106,7 @@ class Task
         $this->output->writeln("      Command: <comment>$command</comment>");
 
         if ($context->get("debug") === true) {
-           $this->output->writeln("      Running local command: $realCommand");
+           $this->output->writeln("      <comment>Debug: </comment>Running local command: $realCommand");
         }
 
         $descriptorspec = array();
