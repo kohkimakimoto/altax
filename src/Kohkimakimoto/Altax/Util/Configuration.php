@@ -69,6 +69,12 @@ class Configuration
 
         foreach ($files as $file) {
             require_once $file;
+            $class = end(get_declared_classes());
+            $instance = new $class();
+            if (get_parent_class($instance) != "Kohkimakimoto\Altax\Task\BaseTask") {
+                throw new \RuntimeException("Task class must exntends \Kohkimakimoto\Altax\Task\BaseTask.");
+            }
+            $instance->register();
         }
     }
 
