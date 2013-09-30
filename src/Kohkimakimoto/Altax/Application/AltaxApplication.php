@@ -110,10 +110,6 @@ EOL;
             }
         }
         
-        $classes = get_declared_classes();
-        print_r($classes);
-        
-
         $this->loadedConfiguration = true;
     }
 
