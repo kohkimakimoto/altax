@@ -129,7 +129,6 @@ class Executor
         switch ($signo) {
             case SIGTERM:
                 $this->output->writeln("Got SIGTERM.");
-                break;
             case SIGINT:
                 $this->output->writeln("Got SIGINT.");
                 break;

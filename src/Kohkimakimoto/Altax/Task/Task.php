@@ -38,85 +38,46 @@ class Task
 
     public function runSSH($command, $options = array())
     {
-        $context = Context::getInstance();
-
-        $sshcmd = $this->getSSHCommandBase();
-        $sshcmd .= ' "';
-        
-        if (isset($options['user'])) {
-            $sshcmd .= " sudo -u".$options['user']." ";
-        }
-
-        $sshcmd .= "sh -c '";
-
-        if (isset($options['cwd'])) {
-            $sshcmd .= "cd ".$options['cwd']."; ";
-        }
-
-        $sshcmd .= $command;
-
-        $sshcmd .= '\'"';
-
-        $output = null;
-        $ret = null;
-
-        $this->output->writeln("      Command: <comment>$command</comment>");
-
-        if ($context->get("debug") === true) {
-           $this->output->writeln("      Running ssh command: $sshcmd");
-        }
-        //
-        // Get Pseudo-terminal used for temporary.
-        //
-        // In order to execute command that needs termial, SSH command uses -t option to get a pseudo-terminal.
-        // But default pseudo-terminal is connectting other process as Altax Task.
-        // the STDOUT of Altax Tasks put data into STDIN of other Altax task in parallel process.
-        // It' bad to causes of errors.
-        //
-        // So, following code is to get Pseudo-terminal used for temporary.
-        // this Pseudo-terminal is disconnected other terminal of parallel process
-        //
-        $descriptorspec = array(
-            0 =>  array("file", '/dev/ptmx', 'r'),
-        );
-
-        $process = proc_open($sshcmd, $descriptorspec, $pipes);
-        foreach ($pipes as $pipe) {
-            fclose($pipe);
-        }
-
-        proc_close($process);
-    }
-
-    public function getSSHCommandBase()
-    {
-        $context = Context::getInstance();
-
         if (!$this->host) {
             throw new \RuntimeException('Host is not specified.');
         }
 
-        $sshcmd = "ssh -t";
+        $context = Context::getInstance();
 
-        $sshLoginName = $context->get('hosts/'.$this->host.'/login_name');
-        if ($sshLoginName) {
-            $sshcmd .= " -l $sshLoginName";
-        }
-
-        $sshIdentityFile = $context->get('hosts/'.$this->host.'/identity_file');
-        if ($sshIdentityFile) {
-            $sshcmd .= " -i $sshIdentityFile";
-        }
-
-        $port = $context->get('hosts/'.$this->host."/port");
-        if ($port) {
-            $sshcmd .= " -p $port";
-        }
-
+        $sshLoginName = $context->get('hosts/'.$this->host.'/login_name', getenv("USER"));
+        $sshIdentityFile = $context->get('hosts/'.$this->host.'/identity_file', getenv("HOME").'/.ssh/id_rsa');
+        $port = $context->get('hosts/'.$this->host."/port", 22);
         $host = $context->get('hosts/'.$this->host."/host", $this->host);
 
-        $sshcmd .= " $host";
-        return $sshcmd;
+        $ssh = new \Net_SSH2($host, $port);
+        $key = new \Crypt_RSA();
+        $key->loadKey(file_get_contents($sshIdentityFile));
+        if (!$ssh->login($sshLoginName, $key)) {
+            throw new \RuntimeException('Got a error to login to '.$host);
+        }
+
+        $realCommand = "";
+       if (isset($options['user'])) {
+            $realCommand .= "sudo -u".$options['user']." ";
+        }
+
+        $realCommand .= "sh -c '";
+
+        if (isset($options['cwd'])) {
+            $realCommand .= "cd ".$options['cwd']." && ";
+        }
+
+        $realCommand .= $command;
+
+        $realCommand .= "'";
+
+        if ($context->get("debug") === true) {
+           $this->output->writeln("      Running command using ssh: $realCommand");
+        }
+
+        $ssh->exec($realCommand, function ($str) use ($host) {
+            $this->output->write("      <info>$this->host: </info>$str");
+        });
     }
 
     public function runLocalCommand($command, $options = array())

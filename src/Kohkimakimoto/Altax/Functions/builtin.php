@@ -126,19 +126,18 @@ function task()
  */
 function run($command, $options = array())
 {
-    $context = Context::getInstance();
-    $context->get('currentTask')->runSSH($command, $options);
+    Context::getInstance()->get('currentTask')->runSSH($command, $options);
 }
 
 function run_local($command, $options = array())
 {
-    $context = Context::getInstance();
-    $context->get('currentTask')->runLocalCommand($command, $options);
+    Context::getInstance()->get('currentTask')->runLocalCommand($command, $options);
 }
 
 function run_task($name, $args = array())
 {
     $context = Context::getInstance();
+
     $currentTask = $context->get('currentTask');
     $input = $currentTask->getInput();
     $output = $currentTask->getOutput();
@@ -149,12 +148,6 @@ function run_task($name, $args = array())
 
     $executor = new Executor();
     $executor->execute($name, $newInput, $output);
-
-    /*
-    $taskManager = Altax::getInstance()->getTaskManager();
-    $currentTask = $taskManager->getCurrentTask()->getTask();
-    $taskManager->executeTask($name, $arguments, $currentTask);
-    */
 }
 
 /**
@@ -164,8 +157,7 @@ function run_task($name, $args = array())
  */
 function set($key, $value)
 {
-    $context = Context::getInstance();
-    $context->setParameter($key, $value);
+    Context::getInstance()->setParameter($key, $value);
 }
 
 /**
@@ -175,6 +167,5 @@ function set($key, $value)
  */
 function get($key, $default = null)
 {
-    $context = Context::getInstance();
-    $context->getParameter($key, $default);
+    Context::getInstance()->getParameter($key, $default);
 }
