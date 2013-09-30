@@ -94,6 +94,24 @@ task('sample',array('roles' => 'web'), function(\$host, \$args){
 
 EOL;
         file_put_contents($configurationPath, $content);
-        $output->writeln("<info>Initialized $configurationPath</info>");
+        $output->writeln("<info>Created file: </info>$configurationPath");
+
+        // hosts configuration file
+        $hostsPath = dirname($configurationPath)."/hosts.php";
+        $content = <<<EOL
+<?php
+/**
+ * Altax hosts Configurations.
+ */
+
+EOL;
+        file_put_contents($hostsPath, $content);
+        $output->writeln("<info>Created file: </info>$hostsPath");
+
+        // tasks configuration directory
+        $tasksDirPath = dirname($configurationPath)."/tasks";
+        $fs->mkdir($tasksDirPath, 0755);
+        $output->writeln("<info>Created dir:  </info>$tasksDirPath");
+        
     }
 }
