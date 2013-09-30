@@ -84,21 +84,21 @@ class Task
     {
         $context = Context::getInstance();
 
-        $cmd = null;
+        $realCommand = null;
 
         if (isset($options['user'])) {
-            $cmd .= " sudo -u".$options['user']." ";
+            $realCommand .= " sudo -u".$options['user']." ";
         }
 
-        $cmd .= "sh -c '";
+        $realCommand .= "sh -c '";
 
         if (isset($options['cwd'])) {
-            $cmd .= "cd ".$options['cwd']."; ";
+            $realCommand .= "cd ".$options['cwd']." && ";
         }
 
-        $cmd .= $command;
+        $realCommand .= $command;
 
-        $cmd .= '\'';
+        $realCommand .= "'";
 
         $output = null;
         $ret = null;
@@ -106,13 +106,13 @@ class Task
         $this->output->writeln("      Command: <comment>$command</comment>");
 
         if ($context->get("debug") === true) {
-           $this->output->writeln("      Running local command: $cmd");
+           $this->output->writeln("      Running local command: $realCommand");
         }
 
         $descriptorspec = array();
 
         // Not Use SSH
-        $process = proc_open($cmd, $descriptorspec, $pipes);
+        $process = proc_open($realCommand, $descriptorspec, $pipes);
         foreach ($pipes as $pipe) {
             fclose($pipe);
         }
