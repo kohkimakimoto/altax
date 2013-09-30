@@ -36,18 +36,21 @@ You will have a default configuration file named `./altax/config.php`.
 
 Modify `./altax/config.php` for your environment. You need to define hosts and tasks like the following.
 
-    <?php
-    host('192.168.0.1', 'web');
-    host('192.168.0.2', 'web');
+```php
+<?php
+host('192.168.0.1', 'web');
+host('192.168.0.2', 'web');
 
-    desc('This is a sample task.');
-    task('sample',array('roles' => 'web'), function($host, $args){
+desc('This is a sample task.');
+task('sample',array('roles' => 'web'), function($host, $args){
 
-      run('echo Hellow World!');
+    run('echo Hellow World!');
 
-    });
+});
+```
 
 Run the following command to execute your sample task.
+
 
     $ altax sample
 
