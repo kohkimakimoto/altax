@@ -40,8 +40,9 @@ class Configuration
 
         foreach ($files as $file) {
             $hostsArray = require_once $file;
-
-
+            foreach ($hostsArray as $host => $options) {
+                host($host, $options);
+            }
         }
     }
 

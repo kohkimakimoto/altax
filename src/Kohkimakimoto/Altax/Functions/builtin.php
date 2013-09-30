@@ -18,7 +18,16 @@ function host()
 
     if (count($args) === 2) {
         $host = $args[0];
-        $roles = $args[1];
+        
+        if (is_string($args[1]) || is_vector($args[1])) {
+            $roles = $args[1];
+        } else {
+            if (isset($args[1]['roles'])) {
+                $roles = $args[1]['roles'];
+                unset($args[1]['roles']);
+            }
+            $options = $args[1];
+        }
     } else {
         $host = $args[0];
         $options = $args[1];
@@ -177,4 +186,12 @@ function get($key, $default = null)
 function register_configs($configurations)
 {
 
+}
+
+function is_vector($array) {
+    if (array_values($array) === $array) {
+      return true;
+    } else {
+      return false;
+    }
 }

@@ -103,7 +103,11 @@ EOL;
 /**
  * Altax hosts Configurations.
  */
-
+return array(
+//    "srv1.foobar.com" => array("port" => 22, "roles" => array("web","dev")),
+//    "srv2.foobar.com" => array("port" => 22, "roles" => array("web","prod")),
+//    "srv3.foobar.com" => array("port" => 22, "roles" => array("web","prod")),
+);
 EOL;
         file_put_contents($hostsPath, $content);
         $output->writeln("<info>Created file: </info>$hostsPath");
