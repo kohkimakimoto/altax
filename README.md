@@ -38,8 +38,7 @@ Modify `./altax/config.php` for your environment. You need to define hosts and t
 
 ```php
 <?php
-host('192.168.0.1', 'web');
-host('192.168.0.2', 'web');
+host('127.0.0.1', array('web', 'localhost'));
 
 desc('This is a sample task.');
 task('sample',array('roles' => 'web'), function($host, $args){
@@ -51,8 +50,14 @@ task('sample',array('roles' => 'web'), function($host, $args){
 
 Run the following command to execute your sample task.
 
-
     $ altax sample
+    Altax version 2.0
+    Starting altax process
+      - Starting task sample
+        Found 1 target hosts: 127.0.0.1
+        - Running sample at 127.0.0.1
+          127.0.0.1: Hellow World!
+        Completed task sample
 
 ## License
 
