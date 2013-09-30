@@ -41,6 +41,7 @@ class Executor
             $output->writeln("    <comment>Debug: </comment>Setting up signal handler.");
         }
 
+        declare(ticks = 1);
         pcntl_signal(SIGTERM, array($this, "signalHander"));
         pcntl_signal(SIGINT, array($this, "signalHander"));
 
@@ -129,10 +130,21 @@ class Executor
         switch ($signo) {
             case SIGTERM:
                 $this->output->writeln("Got SIGTERM.");
+                $this->killAllChildren();
+                exit;
+
             case SIGINT:
                 $this->output->writeln("Got SIGINT.");
-                break;
-            default:
+                $this->killAllChildren();
+                exit;
+        }
+    }
+
+    protected function killAllChildren()
+    {
+        foreach ($this->childPids as $pid => $host) {
+            $this->output->writeln("Sending sigint to child (pid:<comment>$pid</comment>)");
+            posix_kill($pid, SIGINT);
         }
     }
 }
