@@ -180,12 +180,15 @@ function get($key, $default = null)
 }
 
 /**
- * Register configuration instances.
- * @param Array or Confiugration $configurations
+ * Output log message
+ * @param String $message
  */
-function register_configs($configurations)
+function message($message)
 {
-
+    Context::getInstance()
+        ->get('currentTask')
+        ->getOutput()
+        ->writeln($message);
 }
 
 function is_vector($array) {

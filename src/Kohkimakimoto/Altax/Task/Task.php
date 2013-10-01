@@ -76,7 +76,7 @@ class Task
         }
 
         $ssh->exec($realCommand, function ($str) use ($host) {
-            $this->output->write("      <info>$this->host: </info>$str");
+            $this->output->write($str);
         });
     }
 

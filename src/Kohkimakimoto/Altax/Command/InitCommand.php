@@ -56,6 +56,9 @@ class InitCommand extends BaseCommand
 // Configures by separated configuration files.
 //   You can use \Kohkimakimoto\Altax\Util\Configuration 
 //   utility class to load separated configuration files.
+// 
+//   If you use separated configuration files, You activate 
+//   below code.
 // =========================================================
 // \$configuration = new \Kohkimakimoto\Altax\Util\Configuration();
 // \$configuration->loadHosts(array(__DIR__."/hosts.php"));
@@ -116,6 +119,32 @@ EOL;
         $tasksDirPath = dirname($configurationPath)."/tasks";
         $fs->mkdir($tasksDirPath, 0755);
         $output->writeln("<info>Created dir:  </info>$tasksDirPath");
-        
+
+        $sampleTaskPath = $tasksDirPath."/hellow.php.sample";
+        $content = <<<EOL
+<?php
+/**
+ * Sample "Hellow" Task Class
+ */
+class HellowTask extends \Kohkimakimoto\Altax\Task\BaseTask
+{
+    public function configure()
+    {
+        return array(
+            "name"        => "hellow",
+            "description" => "echo hellow",
+            "roles" => "web"
+            );
+    }
+
+    public function execute(\$host, \$args)
+    {
+        \$this->run("echo Hellow on the \$host");
+    }
+}
+EOL;
+        file_put_contents($sampleTaskPath, $content);
+        $output->writeln("<info>Created file: </info>$sampleTaskPath");
+
     }
 }

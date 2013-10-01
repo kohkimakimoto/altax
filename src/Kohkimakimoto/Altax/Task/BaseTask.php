@@ -3,7 +3,7 @@ namespace Kohkimakimoto\Altax\Task;
 
 class BaseTask
 {
-    public function configure()
+    protected function configure()
     {
         return array();
         /*
@@ -16,15 +16,20 @@ class BaseTask
         */
     }
 
-    public function execute($host, $args)
+    protected function execute($host, $args)
     {
+    }
+
+    public function dispatch($host, $args)
+    {
+        $this->execute($host, $args);
     }
 
     public function register()
     {
         $configure = $this->configure();
 
-        $name = strtolower(get_class($this));
+        $name = str_replace("\\", ":",strtolower(get_class($this)));
         if (isset($configure['name'])) {
             $name = $configure['name'];
             unset($configure['name']);
@@ -38,7 +43,22 @@ class BaseTask
         $options = $configure;
         $self = $this;
         task($name, $options, function($host, $args) use ($self){
-            $self->execute($host, $args);
+            $self->dispatch($host, $args);
         });
+    }
+
+    protected function log($message)
+    {
+        message($message);
+    }
+
+    protected function run($command, $options = array())
+    {
+        run($command, $options);
+    }
+
+    protected function runTask($name, $args = array())
+    {
+        run_task($name);
     }
 }
