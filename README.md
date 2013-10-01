@@ -75,6 +75,7 @@ task('sample',array('roles' => 'web'), function($host, $args){
 Run the following command to execute your sample task.
 
 ```
+$ altax sample
 Altax version 2.1.0
 Starting altax process
   - Starting task sample
