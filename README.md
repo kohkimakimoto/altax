@@ -74,14 +74,15 @@ task('sample',array('roles' => 'web'), function($host, $args){
 
 Run the following command to execute your sample task.
 
-    $ altax sample
-    Altax version 2.0
-    Starting altax process
-      - Starting task sample
-        Found 1 target hosts: 127.0.0.1
-        - Running sample at 127.0.0.1
-          127.0.0.1: Hellow World!
-        Completed task sample
+```
+Altax version 2.1.0
+Starting altax process
+  - Starting task sample
+    Found 1 target hosts: 127.0.0.1
+    - Running sample at 127.0.0.1
+Hellow World!
+    Completed task sample
+```
 
 ## Documentation
 
