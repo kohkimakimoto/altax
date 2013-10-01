@@ -50,10 +50,6 @@ And move `altax.phar` to `/usr/local/bin/altax`.
     $ chmod 755 altax.phar
     $ mv altax.phar /usr/local/bin/altax
 
-Run the command to display infomation about Altax.
-
-    $ altax
-
 ## Usage
 
 Runs `altax init` command.
