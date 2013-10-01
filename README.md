@@ -39,7 +39,7 @@ PHP5.3 or later.
 
 Most easy way to install Altax to your system is to run the below commnad.
 
-    $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sudo bash -s system 2
+    $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sudo bash -s system v2
 
 You will get `altax` to `/usr/local/bin/altax` directory.
 
