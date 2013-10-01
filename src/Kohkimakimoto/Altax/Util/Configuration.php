@@ -68,13 +68,19 @@ class Configuration
         }
 
         foreach ($files as $file) {
+            $beforeCount = count(get_declared_classes());
             require_once $file;
-            $class = end(get_declared_classes());
-            $instance = new $class();
-            if (get_parent_class($instance) != "Kohkimakimoto\Altax\Task\BaseTask") {
-                throw new \RuntimeException("Task class must exntends \Kohkimakimoto\Altax\Task\BaseTask.");
+            $afterClasses = get_declared_classes();
+            $afterCount = count($afterClasses);
+            if ($beforeCount < $afterCount) {
+                $class = end(get_declared_classes());
+                $instance = new $class();
+                if (get_parent_class($instance) != "Kohkimakimoto\Altax\Task\BaseTask") {
+                    throw new \RuntimeException("Task class must exntends \Kohkimakimoto\Altax\Task\BaseTask.");
+                }
+                $instance->register();
             }
-            $instance->register();
+
         }
     }
 
