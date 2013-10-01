@@ -18,7 +18,16 @@ function host()
 
     if (count($args) === 2) {
         $host = $args[0];
-        $roles = $args[1];
+        
+        if (is_string($args[1]) || is_vector($args[1])) {
+            $roles = $args[1];
+        } else {
+            if (isset($args[1]['roles'])) {
+                $roles = $args[1]['roles'];
+                unset($args[1]['roles']);
+            }
+            $options = $args[1];
+        }
     } else {
         $host = $args[0];
         $options = $args[1];
@@ -126,19 +135,18 @@ function task()
  */
 function run($command, $options = array())
 {
-    $context = Context::getInstance();
-    $context->get('currentTask')->runSSH($command, $options);
+    Context::getInstance()->get('currentTask')->runSSH($command, $options);
 }
 
 function run_local($command, $options = array())
 {
-    $context = Context::getInstance();
-    $context->get('currentTask')->runLocalCommand($command, $options);
+    Context::getInstance()->get('currentTask')->runLocalCommand($command, $options);
 }
 
 function run_task($name, $args = array())
 {
     $context = Context::getInstance();
+
     $currentTask = $context->get('currentTask');
     $input = $currentTask->getInput();
     $output = $currentTask->getOutput();
@@ -149,12 +157,6 @@ function run_task($name, $args = array())
 
     $executor = new Executor();
     $executor->execute($name, $newInput, $output);
-
-    /*
-    $taskManager = Altax::getInstance()->getTaskManager();
-    $currentTask = $taskManager->getCurrentTask()->getTask();
-    $taskManager->executeTask($name, $arguments, $currentTask);
-    */
 }
 
 /**
@@ -164,8 +166,7 @@ function run_task($name, $args = array())
  */
 function set($key, $value)
 {
-    $context = Context::getInstance();
-    $context->setParameter($key, $value);
+    Context::getInstance()->setParameter($key, $value);
 }
 
 /**
@@ -175,6 +176,25 @@ function set($key, $value)
  */
 function get($key, $default = null)
 {
-    $context = Context::getInstance();
-    $context->getParameter($key, $default);
+    Context::getInstance()->getParameter($key, $default);
+}
+
+/**
+ * Output log message
+ * @param String $message
+ */
+function message($message)
+{
+    Context::getInstance()
+        ->get('currentTask')
+        ->getOutput()
+        ->writeln($message);
+}
+
+function is_vector($array) {
+    if (array_values($array) === $array) {
+      return true;
+    } else {
+      return false;
+    }
 }

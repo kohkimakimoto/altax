@@ -49,6 +49,21 @@ install_altax() {
 
   if [ $version = "2" ]; then
     echo "You will install Altax version 2.x."
+    curl -o altax.${TMPTIMESTAMP}.phar https://raw.github.com/kohkimakimoto/altax/master/altax.phar
+    chmod 755 altax.${TMPTIMESTAMP}.phar
+
+    install_to="${COMMAND_DIR}/altax.phar"
+    if [ $type = "system" ]; then
+      install_to="${PREFIX}altax"
+    else
+      install_to="${COMMAND_DIR}/altax.phar"
+    fi
+
+    echo "Installing altax to ${install_to}"
+
+    mv altax.${TMPTIMESTAMP}.phar ${install_to}
+
+    echo "Installed altax to ${install_to}"
   fi
 }
 

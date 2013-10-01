@@ -38,14 +38,15 @@ class Executor
         $output->writeln("");
 
         if ($context->get("debug") === true) {
-            $output->writeln("    Setting up signal handler.");
+            $output->writeln("    <comment>Debug: </comment>Setting up signal handler.");
         }
 
+        declare(ticks = 1);
         pcntl_signal(SIGTERM, array($this, "signalHander"));
         pcntl_signal(SIGINT, array($this, "signalHander"));
 
         if ($context->get("debug") === true) {
-            $output->writeln("    Processing to fork process.");
+            $output->writeln("    <comment>Debug: </comment>Processing to fork process.");
         }
 
         // Fork process.
@@ -60,7 +61,7 @@ class Executor
             } else {
                 // child process
                 if ($context->get("debug") === true) {
-                    $output->writeln("    Forked child process: <info>$host</info> (<comment>pid:".posix_getpid()."</comment>)");
+                    $output->writeln("    <comment>Debug: </comment>Forked child process: <info>$host</info> (<comment>pid:".posix_getpid()."</comment>)");
                 }
 
                 $task = new Task($taskName, $host, $input, $output);
@@ -91,7 +92,7 @@ class Executor
             unset($this->childPids[$pid]);
 
             if ($context->get("debug") === true) {
-               $output->writeln("    Finished child process: <info>$host</info> (<comment>pid:$pid</comment>)");
+               $output->writeln("    <comment>Debug: </comment>Finished child process: <info>$host</info> (<comment>pid:$pid</comment>)");
             }
         }
 
@@ -129,11 +130,21 @@ class Executor
         switch ($signo) {
             case SIGTERM:
                 $this->output->writeln("Got SIGTERM.");
-                break;
+                $this->killAllChildren();
+                exit;
+
             case SIGINT:
                 $this->output->writeln("Got SIGINT.");
-                break;
-            default:
+                $this->killAllChildren();
+                exit;
+        }
+    }
+
+    protected function killAllChildren()
+    {
+        foreach ($this->childPids as $pid => $host) {
+            $this->output->writeln("Sending sigint to child (pid:<comment>$pid</comment>)");
+            posix_kill($pid, SIGINT);
         }
     }
 }
