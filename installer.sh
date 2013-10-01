@@ -83,6 +83,9 @@ if [ $# -eq 2  ]; then
   if [ $2 = "2" ]; then
     install_version="2"
   fi
+  if [ $2 = "v2" ]; then
+    install_version="2"
+  fi
 fi
 
 install_altax $install_type $install_version
