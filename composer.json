@@ -15,7 +15,8 @@
     "symfony/console": "2.3.*",
     "symfony/filesystem": "2.3.*",
     "symfony/yaml": "2.3.*",
-    "symfony/finder": "2.3.*"
+    "symfony/finder": "2.3.*",
+    "phpseclib/phpseclib": "0.3.*"
   },
   "require-dev": {
     "phpunit/phpunit": "3.*",
