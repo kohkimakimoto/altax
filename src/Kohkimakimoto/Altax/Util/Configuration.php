@@ -40,6 +40,9 @@ class Configuration
 
         foreach ($files as $file) {
             $hostsArray = require_once $file;
+            if (!is_array($hostsArray)) {
+                continue;
+            }
             foreach ($hostsArray as $host => $options) {
                 host($host, $options);
             }
