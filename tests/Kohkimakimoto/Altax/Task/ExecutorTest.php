@@ -23,6 +23,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         task('test_task',array('roles' => 'default'), function($host, $args){
 
           message("test ok");
+          run_local("echo hello");
 
         });
 
