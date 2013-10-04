@@ -15,7 +15,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $InputDefinition = new InputDefinition();
         $InputDefinition->addArgument(new InputArgument("args"));
 
-        $input = new ArgvInput(null, $InputDefinition);
+        $input = new ArgvInput(array(), $InputDefinition);
         $input->setArgument("args", array());
         $output = new ConsoleOutput();
 
