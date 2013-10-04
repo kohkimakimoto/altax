@@ -49,24 +49,34 @@ class Configuration
         }
     }
 
-    public function loadTasks($hosts)
+    public function registerTasks($tasks)
     {
-        if (is_string($hosts)) {
-            $hosts = array($hosts);
+        if (!is_array($tasks)) {
+            $tasks = array($tasks);
+        }
+        foreach ($tasks as $task) {
+            $task->register();
+        }
+    }
+
+    public function loadTasks($tasks)
+    {
+        if (is_string($tasks)) {
+            $tasks = array($tasks);
         }
 
         $files = array();
-        foreach ($hosts as $host) {
-            if (is_dir($host)) {
+        foreach ($tasks as $task) {
+            if (is_dir($task)) {
                 $finder = new Finder();
-                $finder->files()->in($host)->name('*.php');
+                $finder->files()->in($task)->name('*.php');
                 foreach ($finder as $file) {
                     $files[] = $file->getRealpath();
                 }
             }
 
-            if (is_file($host)) {
-                $files[] = realpath($host);
+            if (is_file($task)) {
+                $files[] = realpath($task);
             }
         }
 
@@ -78,9 +88,6 @@ class Configuration
             if ($beforeCount < $afterCount) {
                 $class = end(get_declared_classes());
                 $instance = new $class();
-                if (get_parent_class($instance) != "Kohkimakimoto\Altax\Task\BaseTask") {
-                    throw new \RuntimeException("Task class must exntends \Kohkimakimoto\Altax\Task\BaseTask.");
-                }
                 $instance->register();
             }
 

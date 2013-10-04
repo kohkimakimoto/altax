@@ -3,17 +3,16 @@ namespace Kohkimakimoto\Altax\Task;
 
 class BaseTask
 {
+    protected $options = null;
+
     protected function configure()
     {
         return array();
-        /*
-        return array(
-            "name" => "sample2"
-            "description" => "sample2 taks description"
-            "roles" => "web"
-
-        );
-        */
+    }
+    
+    public function __construct($options = array())
+    {
+        $this->options = $options;
     }
 
     protected function execute($host, $args)
@@ -60,5 +59,15 @@ class BaseTask
     protected function runTask($name, $args = array())
     {
         run_task($name);
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function setOptions($options)
+    {
+        $this->options = $options;
     }
 }
