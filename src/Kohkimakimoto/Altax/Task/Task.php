@@ -58,7 +58,7 @@ class Task
 
         $realCommand = "";
        if (isset($options['user'])) {
-            $realCommand .= "sudo -u".$options['user']." ";
+            $realCommand .= "sudo -u".$options['user']." TERM=dumb ";
         }
 
         $realCommand .= "sh -c '";
