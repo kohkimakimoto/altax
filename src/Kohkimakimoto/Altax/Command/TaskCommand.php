@@ -52,13 +52,6 @@ class TaskCommand extends BaseCommand
         $applicatonVersion = $application->getVersion();
         $name = $this->getName();
 
-        // Checks to exists a ssh command.
-        $outputArray = null;
-        exec("which ssh 2>&1", $outputArray, $ret);
-        if ($ret != 0) {
-            throw new \RuntimeException("SSH command is not found.");
-        }
-
         $output->writeln("<info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
         $output->writeln("<info>Starting altax process</info>");
 
