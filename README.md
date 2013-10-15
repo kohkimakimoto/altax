@@ -41,10 +41,10 @@ Most easy way to install Altax to your system is to run the below command.
 
     $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sudo bash -s system v2
 
-You will get `altax` to `/usr/local/bin/altax` directory.
+You will get `altax` to `/usr/local/bin` directory.
 
 Or, You can install it manually. Download [`altax.phar`](https://github.com/kohkimakimoto/altax/raw/master/altax.phar).
-And move `altax.phar` to `/usr/local/bin/altax`.
+And move `altax.phar` to `/usr/local/bin`.
 
     $ wget https://github.com/kohkimakimoto/altax/raw/master/altax.phar
     $ chmod 755 altax.phar
@@ -56,9 +56,9 @@ Runs `altax init` command.
 
     $ altax init
 
-You will have a default configuration file named `./altax/config.php`.
+You will have a default configuration file `.altax/config.php`.
 
-Modify `./altax/config.php` for your environment. You need to define hosts and tasks like the following.
+Modify `.altax/config.php` for your environment. You need to define hosts and tasks like the following.
 
 ```php
 <?php
