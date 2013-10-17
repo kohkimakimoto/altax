@@ -28,8 +28,10 @@ class Executor
         
         $hosts = $this->getHosts($taskName);
 
+        // determine localRun.
         $localRun = false;
-        if (count($hosts) === 0) {
+        if (!$context->get('tasks/'.$taskName.'/options')) {
+            // Not define task option
             $localRun = true;
             $hosts = array('127.0 0.1');
             if ($context->get("debug") === true) {
