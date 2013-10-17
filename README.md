@@ -134,7 +134,7 @@ host(string $host, [array $options,] mixed $roles)
 And configure specified host settings.
 For instance SSH connection settings.
 
-#### parameters
+#### Parameters:
 
 * host
 
@@ -147,6 +147,8 @@ For instance SSH connection settings.
 * roles
 
   Associated roles.
+
+#### Examples
 
 ```php
 // Define server "web1.exsample.com" and associates with "web" role.
