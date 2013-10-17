@@ -203,6 +203,17 @@ task('task2', array('hosts' => 'web1.exsample.com'), function($host, $args){
 task('task3', function($host, $args){
     // your task code here.
 });
+
+// You can use command line arguments passed to your task. 
+// 
+// $ altax sometask foo bar
+// 
+// And you can use arguments as below PHP code.
+task('task4', array('roles' => 'web'), function($host, $args){
+    // args[0] => "foo"
+    // args[1] => "bar"
+});
+
 ```
 
 ## License
