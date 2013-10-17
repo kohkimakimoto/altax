@@ -206,7 +206,7 @@ task('task3', function($host, $args){
 
 // You can use command line arguments passed to your task. 
 // 
-// $ altax sometask foo bar
+// $ altax task4 foo bar
 // 
 // And you can use arguments as below PHP code.
 task('task4', array('roles' => 'web'), function($host, $args){
