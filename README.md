@@ -228,10 +228,8 @@ run(string $command, array $options)
 
 * `command`: Executing command
 * `options`: Options to change command behavior.
-
-  `user` is used to change user executing command.
-  `cwd` is used to change current working directory when the command execute.
-  See examples.
+    * `user` is used to change user executing command.
+    * `cwd` is used to change current working directory when the command execute.
 
 #### Examples:
 
