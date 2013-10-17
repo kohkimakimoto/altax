@@ -136,19 +136,11 @@ For instance SSH connection settings.
 
 #### Parameters:
 
-* host
+|host|Host name.|
+|options|Associated settings to the host.|
+|roles|Associated roles.|
 
-  Host name.
-
-* options
-
-  Associated settings to the host.
-
-* roles
-
-  Associated roles.
-
-#### Examples
+#### Examples:
 
 ```php
 // Define server "web1.exsample.com" and associates with "web" role.
