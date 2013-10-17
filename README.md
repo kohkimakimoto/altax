@@ -94,6 +94,7 @@ Altax loads configuration files from  three different places.
  * At third, loads file specified by a command line `-f` option.
 
 Here is a sample configuration file.
+
 ```
 host('127.0.0.1', array('web', 'localhost'));
 
@@ -104,19 +105,20 @@ task('sample', function($host, $args){
 
 });
 ```
+
 You can write any configuration in PHP. 
 And you can use several configuration functions similar to Capistrano DSL.
 Here is a list of Altax bultin configuration functions.
 
- * host - Associates a host with multiple roles.
- * role - Associates a role with multiple hosts.
- * task - Defines a new task.
- * desc - Associates a description with the next task that gets defined.
- * set - Sets a variable.
- * get - Gets a variable.
- * run - Executes commands on remote managed server.
- * run_local - Executes commands on local server.
- * run_task - Runs other task in the task method.
+ * **host** - Associates a host with multiple roles.
+ * **role** - Associates a role with multiple hosts.
+ * **task** - Defines a new task.
+ * **desc** - Associates a description with the next task that gets defined.
+ * **set** - Sets a variable.
+ * **get** - Gets a variable.
+ * **run** - Executes commands on remote managed server.
+ * **run_local** - Executes commands on local server.
+ * **run_task** - Runs other task in the task method.
 
 ## Documentation
 
