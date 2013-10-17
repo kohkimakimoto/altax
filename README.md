@@ -137,7 +137,9 @@ For instance SSH connection settings.
 #### Parameters:
 
 |host|Host name.|
+|---|---|
 |options|Associated settings to the host.|
+|---|---|
 |roles|Associated roles.|
 
 #### Examples:
