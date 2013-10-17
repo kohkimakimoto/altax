@@ -9,7 +9,7 @@ Altax is a simple deployment tool for PHP. The features are the following.
 * Runs SSH in parallel.
 * Easy to use. It runs in single PHP Archive(phar) file.
 
-Altax is strongly inspired by [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
+Altax is strongly inspired  (https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 But these don’t allow you to write a deployment task in PHP. 
 Altax is different. The following code is a example to declare deployment task for Altax.
 
@@ -50,7 +50,7 @@ And move `altax.phar` to `/usr/local/bin`.
     $ chmod 755 altax.phar
     $ mv altax.phar /usr/local/bin/altax
 
-## Usage
+## Basic Usage
 
 Runs `altax init` command.
 
@@ -84,6 +84,39 @@ Starting altax process
 Hellow World!
     Completed task sample
 ```
+
+## Configuration
+
+Altax loads configuration files from  three different places.
+
+ * At first, loads `~/.altax/config.php` 
+ * At second, loads `.altax/config.php` under the currnt working directory.
+ * At third, loads file specified by a command line `-f` option.
+
+Here is a sample configuration file.
+```
+host('127.0.0.1', array('web', 'localhost'));
+
+desc('This is a sample task.');
+task('sample', function($host, $args){
+
+  run('echo Hellow World!');
+
+});
+```
+You can write any configuration in PHP. 
+And you can use several configuration functions similar to Capistrano DSL.
+Here is a list of Altax bultin configuration functions.
+
+ * host - Associates a host with multiple roles.
+ * role - Associates a role with multiple hosts.
+ * task - Defines a new task.
+ * desc - Associates a description with the next task that gets defined.
+ * set - Sets a variable.
+ * get - Gets a variable.
+ * run - Executes commands on remote managed server.
+ * run_local - Executes commands on local server.
+ * run_task - Runs other task in the task method.
 
 ## Documentation
 
