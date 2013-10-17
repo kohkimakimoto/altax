@@ -111,7 +111,7 @@ And you can use several configuration functions similar to Capistrano DSL.
 Here is a list of Altax bultin configuration functions.
 
 * **[host](#configuration-host)** - Associates a host with multiple roles.
-* **role** - Associates a role with multiple hosts.
+* **[role](#configuration-role)** - Associates a role with multiple hosts.
 * **task** - Defines a new task.
 * **desc** - Associates a description with the next task that gets defined.
 * **set** - Sets a variable.
@@ -147,6 +147,25 @@ host('192.168.0.11', array('web', 'dev'));
 host('web2.exsample.com', array('host' => '192.168.0.12', 'port' => '22', 'login_name' => 'userhoge', 'identity_file' => '/home/userhoge/.ssh/id_rsa'), 'web');
 ```
 
+### <a name ="configuration-role"> role
+
+```php
+role(string $role, mixed $hosts)
+```
+
+**role** associates a role with multiple hosts.
+
+#### Parameters:
+
+* `role`: Role name for classifing multiple hosts.
+* `hosts`: Associated hosts.
+
+#### Examples:
+
+```php
+role('web', array('web1.exsample.com','web2.exsample.com','web3.exsample.com'));
+role('db', 'db1.exsample.com');
+```
 
 ## License
 
