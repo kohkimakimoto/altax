@@ -14,12 +14,14 @@ class Task
     protected $taskName;
     protected $host;
 
-    public function __construct($taskName, $host, InputInterface $input, OutputInterface $output)
+    public function __construct($taskName, $host, InputInterface $input, OutputInterface $output, $localRun)
     {
         $this->taskName = $taskName;
         $this->host = $host;
         $this->input = $input;
         $this->output = $output;
+        $this->localRun = $localRun;
+
     }
 
     public function execute()
@@ -31,7 +33,11 @@ class Task
 
         $callback = $context->get('tasks/'.$this->taskName.'/callback');
 
-        $output->writeln("    - Running <info>".$this->taskName."</info> at <info>".$this->host."</info>");
+        if ($this->localRun) {
+            $output->writeln("    - Running <info>".$this->taskName."</info>");
+        } else {
+            $output->writeln("    - Running <info>".$this->taskName."</info> at <info>".$this->host."</info>");
+        }
 
         $callback($this->host, $input->getArgument('args'));
     }
@@ -40,6 +46,10 @@ class Task
     {
         if (!$this->host) {
             throw new \RuntimeException('Host is not specified.');
+        }
+
+        if ($this->isLocalRun()) {
+            return $this->runLocalCommand($command, $options);
         }
 
         $context = Context::getInstance();
@@ -127,5 +137,10 @@ class Task
     public function getOutput()
     {
         return $this->output;
+    }
+
+    public function isLocalRun()
+    {
+        return $this->localRun;
     }
 }

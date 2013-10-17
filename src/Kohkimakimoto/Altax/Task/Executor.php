@@ -27,15 +27,27 @@ class Executor
         $output->writeln("  - Starting task <info>$taskName</info>");
         
         $hosts = $this->getHosts($taskName);
-        $output->write("    Found <info>".count($hosts)."</info> target hosts: ");
-        foreach ($hosts as $i => $host) {
-            if ($i == 0) {
-                $output->write("<info>$host</info>");
-            } else {
-                $output->write("/<info>$host</info>");
+
+        $localRun = false;
+        if (count($hosts) === 0) {
+            $localRun = true;
+            $hosts = array('127.0 0.1');
+            if ($context->get("debug") === true) {
+                $output->writeln("    <comment>Debug: </comment>Running at the localhost only. This task dose not connect to remote servers.");
             }
         }
-        $output->writeln("");
+
+        if (!$localRun) {
+            $output->write("    Found <info>".count($hosts)."</info> target hosts: ");
+            foreach ($hosts as $i => $host) {
+                if ($i == 0) {
+                    $output->write("<info>$host</info>");
+                } else {
+                    $output->write("/<info>$host</info>");
+                }
+            }
+            $output->writeln("");
+        }
 
         if ($context->get("debug") === true) {
             $output->writeln("    <comment>Debug: </comment>Setting up signal handler.");
@@ -64,7 +76,7 @@ class Executor
                     $output->writeln("    <comment>Debug: </comment>Forked child process: <info>$host</info> (<comment>pid:".posix_getpid()."</comment>)");
                 }
 
-                $task = new Task($taskName, $host, $input, $output);
+                $task = new Task($taskName, $host, $input, $output, $localRun);
                 // Register current task.
                 $context->set('currentTask', $task);
                 // Execute task
