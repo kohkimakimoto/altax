@@ -122,10 +122,6 @@ Here is a list of Altax bultin configuration functions.
 
 ### <a name ="configuration-host"> host
 
-Associates a host with multiple roles.
-
-#### Description:
-
 ```php
 host(string $host, [array $options,] mixed $roles)
 ```
