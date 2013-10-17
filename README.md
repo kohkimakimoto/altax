@@ -112,7 +112,7 @@ Here is a list of Altax bultin configuration functions.
 
 * **[host](#configuration-host)** - Associates a host with multiple roles.
 * **[role](#configuration-role)** - Associates a role with multiple hosts.
-* **task** - Defines a new task.
+* **[task](#configuration-task)** - Defines a new task.
 * **desc** - Associates a description with the next task that gets defined.
 * **set** - Sets a variable.
 * **get** - Gets a variable.
@@ -165,6 +165,44 @@ role(string $role, mixed $hosts)
 ```php
 role('web', array('web1.exsample.com','web2.exsample.com','web3.exsample.com'));
 role('db', 'db1.exsample.com');
+```
+
+### <a name ="configuration-task"> task
+
+```php
+task(string $name, [array $options,] callback $function)
+```
+
+**task** defines a new task.
+
+#### Parameters:
+
+* `name`: Task name.
+* `options`: Associated settings to the task.
+* `function`: Callback function implemented task.
+
+#### Examples:
+
+```php
+// Task for web role servers.
+task('task1', array('roles' => 'web'), function($host, $args){
+    // your task code here.
+});
+
+// Task for web and db role servers.
+task('task2', array('roles' => array('web', 'db')), function($host, $args){
+    // your task code here.
+});
+
+// Task for web1.exsample.com servers.
+task('task2', array('hosts' => 'web1.exsample.com'), function($host, $args){
+    // your task code here.
+});
+
+// Task runs localhost (do not connect remote servers).
+task('task3', function($host, $args){
+    // your task code here.
+});
 ```
 
 ## License
