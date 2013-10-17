@@ -90,7 +90,7 @@ Hellow World!
 Altax loads configuration files from  three different places.
 
 * At first, loads `~/.altax/config.php` 
-* At second, loads `.altax/config.php` under the currnt working directory.
+* At second, loads `.altax/config.php` under the current working directory.
 * At third, loads file specified by a command line `-f` option.
 
 Here is a sample configuration file.
