@@ -9,7 +9,7 @@ Altax is a simple deployment tool for PHP. The features are the following.
 * Runs SSH in parallel.
 * Easy to use. It runs in single PHP Archive(phar) file.
 
-Altax is strongly inspired  (https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
+Altax is strongly inspired [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 But these don’t allow you to write a deployment task in PHP. 
 Altax is different. The following code is a example to declare deployment task for Altax.
 
