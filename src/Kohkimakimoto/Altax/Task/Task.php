@@ -32,6 +32,9 @@ class Task
         $context = Context::getInstance();
 
         $callback = $context->get('tasks/'.$this->taskName.'/callback');
+        if (!$callback) {
+            throw new \RuntimeException("Callback function for ".$this->taskName." not found.");
+        }
 
         if ($this->localRun) {
             $output->writeln("    - Running <info>".$this->taskName."</info>");
