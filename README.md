@@ -89,13 +89,13 @@ Hellow World!
 
 Altax loads configuration files from  three different places.
 
- * At first, loads `~/.altax/config.php` 
- * At second, loads `.altax/config.php` under the currnt working directory.
- * At third, loads file specified by a command line `-f` option.
+* At first, loads `~/.altax/config.php` 
+* At second, loads `.altax/config.php` under the currnt working directory.
+* At third, loads file specified by a command line `-f` option.
 
 Here is a sample configuration file.
 
-```
+```php
 host('127.0.0.1', array('web', 'localhost'));
 
 desc('This is a sample task.');
@@ -110,20 +110,53 @@ You can write any configuration in PHP.
 And you can use several configuration functions similar to Capistrano DSL.
 Here is a list of Altax bultin configuration functions.
 
- * **host** - Associates a host with multiple roles.
- * **role** - Associates a role with multiple hosts.
- * **task** - Defines a new task.
- * **desc** - Associates a description with the next task that gets defined.
- * **set** - Sets a variable.
- * **get** - Gets a variable.
- * **run** - Executes commands on remote managed server.
- * **run_local** - Executes commands on local server.
- * **run_task** - Runs other task in the task method.
+* **[host](#configuration-host)** - Associates a host with multiple roles.
+* **role** - Associates a role with multiple hosts.
+* **task** - Defines a new task.
+* **desc** - Associates a description with the next task that gets defined.
+* **set** - Sets a variable.
+* **get** - Gets a variable.
+* **run** - Executes commands on remote managed server.
+* **run_local** - Executes commands on local server.
+* **run_task** - Runs other task in the task method.
 
-## Documentation
+### <a name ="configuration-host"> host
 
-Sorry, I haven't written documents for Altax version 2 yet. 
-Please wait. 
+Associates a host with multiple roles.
+
+#### Description:
+
+```php
+host(string $host, [array $options,] mixed $roles)
+```
+
+**host** associates a host with multiple roles.
+And configure specified host settings.
+For instance SSH connection settings.
+
+#### parameters
+
+* host
+
+  Host name.
+
+* options
+
+  Associated settings to the host.
+
+* roles
+
+  Associated roles.
+
+```php
+// Define server "web1.exsample.com" and associates with "web" role.
+host('web1.exsample.com', 'web');
+// Define server "192.168.0.11" and associates with "web" and "dev" role.
+host('192.168.0.11', array('web', 'dev'));
+// Define server "web2.exsample.com" and associates with "web" role. options are ssh connection settings.
+host('web2.exsample.com', array('host' => '192.168.0.12', 'port' => '22', 'login_name' => 'userhoge', 'identity_file' => '/home/userhoge/.ssh/id_rsa'), 'web');
+```
+
 
 ## License
 
