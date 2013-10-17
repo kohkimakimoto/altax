@@ -116,7 +116,7 @@ Here is a list of Altax bultin configuration functions.
 * **desc** - Associates a description with the next task that gets defined.
 * **set** - Sets a variable.
 * **get** - Gets a variable.
-* **run** - Executes commands on remote managed server.
+* **[run](#configuration-run)** - Executes commands on remote managed server.
 * **run_local** - Executes commands on local server.
 * **run_task** - Runs other task in the task method.
 
@@ -215,6 +215,26 @@ task('task4', array('roles' => 'web'), function($host, $args){
 });
 
 ```
+
+### <a name ="configuration-run"> run
+
+```php
+run(string $command, array $options)
+```
+
+**run** executes commands on a remote managed server.
+
+#### Parameters:
+
+* `command`: Executing command
+* `options`: Options to change command behavior.
+  `user` is used to change user executing command.
+  `cwd` is used to change current working directory when the command execute.
+  See examples.
+
+
+
+#### Examples:
 
 ## License
 
