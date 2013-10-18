@@ -244,9 +244,29 @@ task('deploy', function($host, $args){
 
 ### <a name ="configuration-set"> set
 
+```php
+set(string $key, mixed $value)
+```
+
+**set** sets a variable.
+
+#### Parameters:
+
+* `key`: key of variable.
+* `value`: value of variable.
 
 ### <a name ="configuration-get"> get
 
+```php
+get(string $key, mixed $default)
+```
+
+**get** gets a variable.
+
+#### Parameters:
+
+* `key`: key of variable.
+* `default`: Default value when the variable dosen't exist..
 
 ### <a name ="configuration-run"> run
 
