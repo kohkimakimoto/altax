@@ -214,6 +214,13 @@ task('task4', array('roles' => 'web'), function($host, $args){
     // args[1] => "bar"
 });
 
+// Using namespace.
+task('foo:task1', array('roles' => 'web'), function($host, $args){
+    // your task code here.
+});
+task('foo:task2', array('roles' => 'web'), function($host, $args){
+    // your task code here.
+});
 ```
 
 ### <a name ="configuration-desc"> desc
