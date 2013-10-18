@@ -113,12 +113,12 @@ Here is a list of Altax bultin configuration functions.
 * **[host](#configuration-host)** - Associates a host with multiple roles.
 * **[role](#configuration-role)** - Associates a role with multiple hosts.
 * **[task](#configuration-task)** - Defines a new task.
-* **desc** - Associates a description with the next task that gets defined.
-* **set** - Sets a variable.
-* **get** - Gets a variable.
+* **[desc](#configuration-desc)** - Associates a description with the next task that gets defined.
+* **[set](#configuration-set)** - Sets a variable.
+* **[get](#configuration-get)** - Gets a variable.
 * **[run](#configuration-run)** - Executes commands on remote managed server.
-* **run_local** - Executes commands on local server.
-* **run_task** - Runs other task in the task method.
+* **[run_local](#configuration-run_local)** - Executes commands on local server.
+* **[run_task](#configuration-run_task)** - Runs other task in the task method.
 
 ### <a name ="configuration-host"> host
 
@@ -216,6 +216,38 @@ task('task4', array('roles' => 'web'), function($host, $args){
 
 ```
 
+### <a name ="configuration-desc"> desc
+
+```php
+desc(string $description)
+```
+
+**desc** associates a description with the next task that gets defined.
+
+#### Parameters:
+
+* `description`: Associates a description
+
+#### Examples:
+
+```php
+desc('Deploy application.');
+task('deploy', function($host, $args){
+
+  // your code here.
+
+});
+
+// You can see above description altax list command
+// $ altax list
+```
+
+### <a name ="configuration-set"> set
+
+
+### <a name ="configuration-get"> get
+
+
 ### <a name ="configuration-run"> run
 
 ```php
@@ -241,6 +273,13 @@ run('git pull', array('cwd' => '/path/to/application'));
 run('/etc/init.d/httpd restart', array('user' => 'root'));
 
 ```
+
+### <a name ="configuration-run_local"> run_local
+
+
+### <a name ="configuration-run_local"> run_task
+
+
 
 ## License
 
