@@ -355,16 +355,12 @@ task('task2', array('roles' => 'web'), function($host, $args){
 });
 ```
 
-## License
-
-Apache License 2.0
-
 ## Author 
 
 * Kohki Makimoto <kohki.makimoto@gmail.com>
 
+## License
 
+Apache License 2.0
 
-
-
-
+See [LICENSE](./LICENSE)
