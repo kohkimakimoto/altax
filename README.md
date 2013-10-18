@@ -357,7 +357,7 @@ task('task2', array('roles' => 'web'), function($host, $args){
 
 ## Author 
 
-* Kohki Makimoto <kohki.makimoto@gmail.com>
+Kohki Makimoto <kohki.makimoto@gmail.com>
 
 ## License
 
