@@ -359,6 +359,10 @@ task('task2', array('roles' => 'web'), function($host, $args){
 
 Apache License 2.0
 
+## Author 
+
+* Kohki Makimoto <kohki.makimoto@gmail.com>
+
 
 
 
