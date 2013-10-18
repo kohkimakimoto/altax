@@ -176,7 +176,7 @@ function set($key, $value)
  */
 function get($key, $default = null)
 {
-    Context::getInstance()->getParameter($key, $default);
+    return Context::getInstance()->getParameter($key, $default);
 }
 
 /**
