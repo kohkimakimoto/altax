@@ -261,7 +261,7 @@ set(string $key, mixed $value)
 get(string $key, mixed $default)
 ```
 
-**get** gets a variable.
+gets a variable.
 
 #### Parameters:
 
@@ -274,7 +274,7 @@ get(string $key, mixed $default)
 run(string $command, array $options)
 ```
 
-**run** executes commands on a remote managed server.
+**run** executes commands on a remote managed server using SSH.
 
 #### Parameters:
 
@@ -296,10 +296,57 @@ run('/etc/init.d/httpd restart', array('user' => 'root'));
 
 ### <a name ="configuration-run_local"> run_local
 
+```php
+run_local(string $command, array $options)
+```
+
+**run_local** executes commands on a local server.
+
+#### Parameters:
+
+* `command`: Executing command
+* `options`: Options to change command behavior.
+    * `user` is used to change user executing command.
+    * `cwd` is used to change current working directory when the command execute.
+
+#### Examples:
+
+```php
+// Run git pull in the '/path/to/application'
+run_local('git pull', array('cwd' => '/path/to/application'));
+
+// Restart httpd. 'user' option changes user to run command. You need to setup sudo configuration on altax ssh connection user.
+run_local('/etc/init.d/httpd restart', array('user' => 'root'));
+```
 
 ### <a name ="configuration-run_local"> run_task
 
+```php
+run_task(string name, [array $arguments])
+```
 
+**run_task** runs other task in the task method.
+
+#### Parameters:
+
+* `name`: Executing task name
+* `arguments`: Arguments passed to the task.
+
+#### Examples:
+
+```php
+task('task1', array('roles' => 'web'), function($host, $args){
+  // task code ...
+
+});
+
+
+task('task2', array('roles' => 'web'), function($host, $args){
+  // task code ...
+
+  run_task("task1");
+});
+```
 
 ## License
 
