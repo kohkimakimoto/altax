@@ -54,7 +54,7 @@ And move `altax.phar` to `/usr/local/bin`.
     $ chmod 755 altax.phar
     $ mv altax.phar /usr/local/bin/altax
 
-### Installing composer package
+### Installing as composer package
 
 [Composer](http://getcomposer.org/) is a famous dependency management tool for PHP. 
 If you want to use Altax through a composer package management, 
