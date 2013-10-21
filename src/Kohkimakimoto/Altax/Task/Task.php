@@ -3,6 +3,7 @@ namespace Kohkimakimoto\Altax\Task;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 use Kohkimakimoto\Altax\Util\Context;
 
@@ -89,7 +90,7 @@ class Task
         }
 
         $ssh->exec($realCommand, function ($str) use ($host) {
-            $this->output->write($str);
+            $this->writeCommandOutput($str);
         });
     }
 
@@ -122,14 +123,11 @@ class Task
            $this->output->writeln("  <comment>Debug: </comment>Running local command: $realCommand");
         }
 
-        $descriptorspec = array();
+        $process = new Process($realCommand);
+        $process->run(function ($type, $buffer) {
+            $this->writeCommandOutput($buffer);
+        });
 
-        // Not Use SSH
-        $process = proc_open($realCommand, $descriptorspec, $pipes);
-        foreach ($pipes as $pipe) {
-            fclose($pipe);
-        }
-        proc_close($process);
     }
 
     public function getInput()
@@ -145,5 +143,10 @@ class Task
     public function isLocalRun()
     {
         return $this->localRun;
+    }
+
+    protected function writeCommandOutput($str)
+    {
+        $this->output->write($str);
     }
 }

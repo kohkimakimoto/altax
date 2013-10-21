@@ -30,7 +30,8 @@ class Executor
 
         // determine localRun.
         $localRun = false;
-        if (!$context->get('tasks/'.$taskName.'/options')) {
+        if (!$context->get('tasks/'.$taskName.'/options/roles') 
+            && !$context->get('tasks/'.$taskName.'/options/hosts')) {
             // Not define task option
             $localRun = true;
             $hosts = array('127.0 0.1');
