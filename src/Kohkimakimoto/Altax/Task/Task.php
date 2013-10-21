@@ -89,8 +89,9 @@ class Task
            $this->output->writeln("  <comment>Debug: </comment>Running command using ssh: $realCommand");
         }
 
-        $ssh->exec($realCommand, function ($str) use ($host) {
-            $this->writeCommandOutput($str);
+        $self = $this;
+        $ssh->exec($realCommand, function ($str) use ($self) {
+            $self->writeCommandOutput($str);
         });
     }
 
@@ -123,9 +124,10 @@ class Task
            $this->output->writeln("  <comment>Debug: </comment>Running local command: $realCommand");
         }
 
+        $self = $this;
         $process = new Process($realCommand);
-        $process->run(function ($type, $buffer) {
-            $this->writeCommandOutput($buffer);
+        $process->run(function ($type, $buffer) use ($self) {
+            $self->writeCommandOutput($buffer);
         });
 
     }

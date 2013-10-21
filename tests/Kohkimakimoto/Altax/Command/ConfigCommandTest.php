@@ -32,7 +32,6 @@ Defined configurations:
   hosts => array()
   roles/web/0 => 127.0.0.1
   configs/0 => $configPath
-  debug => 
 
 EOL;
 
