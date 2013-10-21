@@ -52,8 +52,7 @@ class TaskCommand extends BaseCommand
         $applicatonVersion = $application->getVersion();
         $name = $this->getName();
 
-        $output->writeln("<info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
-        $output->writeln("<info>Starting altax process</info>");
+        $output->writeln("- Starting process of <info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
 
         $executor = new Executor();
         $executor->execute($name, $input, $output);

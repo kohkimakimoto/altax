@@ -37,9 +37,9 @@ class Task
         }
 
         if ($this->localRun) {
-            $output->writeln("    - Running <info>".$this->taskName."</info>");
+            $output->writeln("- Executing task <info>".$this->taskName."</info>");
         } else {
-            $output->writeln("    - Running <info>".$this->taskName."</info> at <info>".$this->host."</info>");
+            $output->writeln("- Executing task <info>".$this->taskName."</info> at <info>".$this->host."</info>");
         }
 
         $callback($this->host, $input->getArgument('args'));
@@ -84,8 +84,8 @@ class Task
 
         $realCommand .= "'";
 
-        if ($context->get("debug") === true) {
-           $this->output->writeln("      <comment>Debug: </comment>Running command using ssh: $realCommand");
+        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+           $this->output->writeln("  <comment>Debug: </comment>Running command using ssh: $realCommand");
         }
 
         $ssh->exec($realCommand, function ($str) use ($host) {
@@ -116,10 +116,10 @@ class Task
         $output = null;
         $ret = null;
 
-        $this->output->writeln("      Command: <comment>$command</comment>");
+        $this->output->writeln("  Command: <comment>$command</comment>");
 
-        if ($context->get("debug") === true) {
-           $this->output->writeln("      <comment>Debug: </comment>Running local command: $realCommand");
+        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+           $this->output->writeln("  <comment>Debug: </comment>Running local command: $realCommand");
         }
 
         $descriptorspec = array();

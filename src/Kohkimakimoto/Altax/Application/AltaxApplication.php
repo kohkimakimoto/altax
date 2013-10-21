@@ -61,7 +61,8 @@ EOL;
 
         // Switch debug mode
         if (true === $input->hasParameterOption(array('--debug', '-d'))) {
-            $this->getContext()->set("debug", true);
+            // $this->getContext()->set("debug", true);
+            $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         }
 
         return parent::doRun($input, $output);
