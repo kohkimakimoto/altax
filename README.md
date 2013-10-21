@@ -355,6 +355,29 @@ task('task2', array('roles' => 'web'), function($host, $args){
 });
 ```
 
+## Commands
+
+You can use some builtin sub commands. 
+
+* **[init](#commands-init)** - Creates default configuration files
+* **[config](#commands-config)** - Shows configurations
+
+### <a name ="commands-init"> init
+
+```
+$ altax init
+```
+
+### <a name ="commands-config"> config
+
+```
+$ altax config
+```
+
+## Command line options
+
+* **[-d]** - Switch the debug mode to output log on the debug level.
+
 ## Author 
 
 Kohki Makimoto <kohki.makimoto@gmail.com>
