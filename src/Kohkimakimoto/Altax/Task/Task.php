@@ -125,6 +125,7 @@ class Task
 
         $self = $this;
         $process = new Process($realCommand);
+        $process->setTimeout(null);
         $process->run(function ($type, $buffer) use ($self) {
             $self->writeCommandOutput($buffer);
         });
