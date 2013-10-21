@@ -37,6 +37,10 @@ PHP5.3 or later.
 
 ## Installation
 
+There are several ways to install Altax to your system.
+
+### Installing as phar (Most easy way)
+
 Most easy way to install Altax to your system is to run the below command.
 
     $ curl https://raw.github.com/kohkimakimoto/altax/master/installer.sh | sudo bash -s system v2
@@ -49,6 +53,27 @@ And move `altax.phar` to `/usr/local/bin`.
     $ wget https://github.com/kohkimakimoto/altax/raw/master/altax.phar
     $ chmod 755 altax.phar
     $ mv altax.phar /usr/local/bin/altax
+
+### Installing composer package
+
+[Composer](http://getcomposer.org/) is a famous dependency management tool for PHP. 
+If you want to use Altax through a composer package management, 
+you can use composer installation. 
+Make `composer.json` file like the following.
+
+```json
+{
+  "require": {
+    "kohkimakimoto/altax": "2.1.*"
+  }
+}
+```
+And run composer install command.
+
+```
+$ curl -s http://getcomposer.org/installer | php
+$ php composer.phar install
+```
 
 ## Basic Usage
 
