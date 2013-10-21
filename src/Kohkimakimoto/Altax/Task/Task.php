@@ -3,6 +3,7 @@ namespace Kohkimakimoto\Altax\Task;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 use Kohkimakimoto\Altax\Util\Context;
 
@@ -37,9 +38,9 @@ class Task
         }
 
         if ($this->localRun) {
-            $output->writeln("    - Running <info>".$this->taskName."</info>");
+            $output->writeln("- Executing task <info>".$this->taskName."</info>");
         } else {
-            $output->writeln("    - Running <info>".$this->taskName."</info> at <info>".$this->host."</info>");
+            $output->writeln("- Executing task <info>".$this->taskName."</info> at <info>".$this->host."</info>");
         }
 
         $callback($this->host, $input->getArgument('args'));
@@ -84,12 +85,12 @@ class Task
 
         $realCommand .= "'";
 
-        if ($context->get("debug") === true) {
-           $this->output->writeln("      <comment>Debug: </comment>Running command using ssh: $realCommand");
+        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+           $this->output->writeln("  <comment>Debug: </comment>Running command using ssh: $realCommand");
         }
 
         $ssh->exec($realCommand, function ($str) use ($host) {
-            $this->output->write($str);
+            $this->writeCommandOutput($str);
         });
     }
 
@@ -116,20 +117,17 @@ class Task
         $output = null;
         $ret = null;
 
-        $this->output->writeln("      Command: <comment>$command</comment>");
+        $this->output->writeln("  Command: <comment>$command</comment>");
 
-        if ($context->get("debug") === true) {
-           $this->output->writeln("      <comment>Debug: </comment>Running local command: $realCommand");
+        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+           $this->output->writeln("  <comment>Debug: </comment>Running local command: $realCommand");
         }
 
-        $descriptorspec = array();
+        $process = new Process($realCommand);
+        $process->run(function ($type, $buffer) {
+            $this->writeCommandOutput($buffer);
+        });
 
-        // Not Use SSH
-        $process = proc_open($realCommand, $descriptorspec, $pipes);
-        foreach ($pipes as $pipe) {
-            fclose($pipe);
-        }
-        proc_close($process);
     }
 
     public function getInput()
@@ -145,5 +143,21 @@ class Task
     public function isLocalRun()
     {
         return $this->localRun;
+    }
+
+    protected function writeCommandOutput($str)
+    {
+        $context = Context::getInstance();
+
+        $taskQuiet = $context->get('tasks/'.$this->taskName.'/options/quiet');
+        $inputQuiet = $this->getInput()->getOption('quiet');
+
+        if ($taskQuiet && !$inputQuiet) {
+            $this->output->setVerbosity(OutputInterface::VERBOSITY_NORMAL);
+            $this->output->write($str);
+            $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+        } else {
+            $this->output->write($str);
+        }
     }
 }

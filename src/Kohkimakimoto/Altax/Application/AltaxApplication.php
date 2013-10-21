@@ -18,7 +18,7 @@ use Kohkimakimoto\Altax\Util\Context;
  */
 class AltaxApplication extends Application
 {
-    const VERSION = '2.1.5';
+    const VERSION = '2.1.6';
     const HELP_MESSAGES  =<<<EOL
 
 <info>%s</info> version <comment>%s</comment>
@@ -61,7 +61,8 @@ EOL;
 
         // Switch debug mode
         if (true === $input->hasParameterOption(array('--debug', '-d'))) {
-            $this->getContext()->set("debug", true);
+            // $this->getContext()->set("debug", true);
+            $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         }
 
         return parent::doRun($input, $output);

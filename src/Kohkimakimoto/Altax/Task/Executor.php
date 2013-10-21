@@ -24,43 +24,42 @@ class Executor
             throw new \RuntimeException("Your PHP is not supported pcntl_fork function.");
         }
 
-        $output->writeln("  - Starting task <info>$taskName</info>");
+        $output->writeln("- Starting task <info>$taskName</info>");
         
         $hosts = $this->getHosts($taskName);
 
         // determine localRun.
         $localRun = false;
-        if (!$context->get('tasks/'.$taskName.'/options')) {
+        if (!$context->get('tasks/'.$taskName.'/options/roles') 
+            && !$context->get('tasks/'.$taskName.'/options/hosts')) {
             // Not define task option
             $localRun = true;
             $hosts = array('127.0 0.1');
-            if ($context->get("debug") === true) {
-                $output->writeln("    <comment>Debug: </comment>Running at the localhost only. This task dose not connect to remote servers.");
+            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+                $output->writeln("  <comment>Debug: </comment>Running at the localhost only. This task dose not connect to remote servers.");
             }
         }
 
-        if (!$localRun) {
-            $output->write("    Found <info>".count($hosts)."</info> target hosts: ");
-            foreach ($hosts as $i => $host) {
-                if ($i == 0) {
-                    $output->write("<info>$host</info>");
-                } else {
-                    $output->write("/<info>$host</info>");
-                }
+        $output->write("  Found <info>".count($hosts)."</info> target hosts: ");
+        foreach ($hosts as $i => $host) {
+            if ($i == 0) {
+                $output->write("<info>$host</info>");
+            } else {
+                $output->write("/<info>$host</info>");
             }
-            $output->writeln("");
         }
+        $output->writeln("");
 
-        if ($context->get("debug") === true) {
-            $output->writeln("    <comment>Debug: </comment>Setting up signal handler.");
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+            $output->writeln("  <comment>Debug: </comment>Setting up signal handler.");
         }
 
         declare(ticks = 1);
         pcntl_signal(SIGTERM, array($this, "signalHander"));
         pcntl_signal(SIGINT, array($this, "signalHander"));
 
-        if ($context->get("debug") === true) {
-            $output->writeln("    <comment>Debug: </comment>Processing to fork process.");
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+            $output->writeln("  <comment>Debug: </comment>Processing to fork process.");
         }
 
         // Fork process.
@@ -74,8 +73,8 @@ class Executor
                 $this->childPids[$pid] = $host;
             } else {
                 // child process
-                if ($context->get("debug") === true) {
-                    $output->writeln("    <comment>Debug: </comment>Forked child process: <info>$host</info> (<comment>pid:".posix_getpid()."</comment>)");
+                if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+                    $output->writeln("  <comment>Debug: </comment>Forked child process: <info>$host</info> (<comment>pid:".posix_getpid()."</comment>)");
                 }
 
                 $task = new Task($taskName, $host, $input, $output, $localRun);
@@ -105,12 +104,12 @@ class Executor
             $host = $this->childPids[$pid];
             unset($this->childPids[$pid]);
 
-            if ($context->get("debug") === true) {
-               $output->writeln("    <comment>Debug: </comment>Finished child process: <info>$host</info> (<comment>pid:$pid</comment>)");
+            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+               $output->writeln("  <comment>Debug: </comment>Finished child process: <info>$host</info> (<comment>pid:$pid</comment>)");
             }
         }
 
-        $output->writeln("    Completed task <info>$taskName</info>");
+        $output->writeln("- Completed task <info>$taskName</info>");
     }
 
     protected function getHosts($taskName)

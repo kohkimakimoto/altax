@@ -51,9 +51,14 @@ class TaskCommand extends BaseCommand
         $applicatonName = $application->getName();
         $applicatonVersion = $application->getVersion();
         $name = $this->getName();
+    
+        if (isset($this->taskOptions['quiet']) 
+            && $this->taskOptions['quiet'] 
+            && !$input->getOption('debug')) {
+            $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+        }
 
-        $output->writeln("<info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
-        $output->writeln("<info>Starting altax process</info>");
+        $output->writeln("- Starting process of <info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
 
         $executor = new Executor();
         $executor->execute($name, $input, $output);
