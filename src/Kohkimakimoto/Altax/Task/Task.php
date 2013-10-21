@@ -147,6 +147,17 @@ class Task
 
     protected function writeCommandOutput($str)
     {
-        $this->output->write($str);
+        $context = Context::getInstance();
+
+        $taskQuiet = $context->get('tasks/'.$this->taskName.'/options/quiet');
+        $inputQuiet = $this->getInput()->getOption('quiet');
+
+        if ($taskQuiet && !$inputQuiet) {
+            $this->output->setVerbosity(OutputInterface::VERBOSITY_NORMAL);
+            $this->output->write($str);
+            $this->output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+        } else {
+            $this->output->write($str);
+        }
     }
 }

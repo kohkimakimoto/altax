@@ -51,6 +51,12 @@ class TaskCommand extends BaseCommand
         $applicatonName = $application->getName();
         $applicatonVersion = $application->getVersion();
         $name = $this->getName();
+    
+        if (isset($this->taskOptions['quiet']) 
+            && $this->taskOptions['quiet'] 
+            && !$input->getOption('debug')) {
+            $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+        }
 
         $output->writeln("- Starting process of <info>$applicatonName</info> version <comment>$applicatonVersion </comment>");
 
