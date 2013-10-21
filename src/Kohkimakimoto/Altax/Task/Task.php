@@ -85,8 +85,10 @@ class Task
 
         $realCommand .= "'";
 
+        $this->output->writeln("  Command: <comment>$command</comment>");
+
         if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-           $this->output->writeln("  <comment>Debug: </comment>Running command using ssh: $realCommand");
+           $this->output->writeln("  <comment>Debug: </comment>Actual Command: $realCommand");
         }
 
         $self = $this;
@@ -115,13 +117,10 @@ class Task
 
         $realCommand .= "'";
 
-        $output = null;
-        $ret = null;
-
-        $this->output->writeln("  Command: <comment>$command</comment>");
+        $this->output->writeln("  Command at local: <comment>$command</comment>");
 
         if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-           $this->output->writeln("  <comment>Debug: </comment>Running local command: $realCommand");
+           $this->output->writeln("  <comment>Debug: </comment>Actual Command: $realCommand");
         }
 
         $self = $this;
