@@ -401,7 +401,8 @@ $ altax config
 
 ## Command line options
 
-* **-d** - Switch the debug mode to output log on the debug level.
+* **--debug -d** - Switch the debug mode to output log on the debug level.
+* **--quiet -q** - Do not output any message.
 
 ## Author 
 
