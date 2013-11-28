@@ -6,9 +6,8 @@ php:
   - 5.5
 
 before_script:
-#  - curl -s http://getcomposer.org/installer | php
-#  - php composer.phar install --dev --no-interaction
   - composer install --dev --no-interaction
+  - sh tests/setup_ssh_server.sh
 
 script:
   - mkdir -p build/logs
