@@ -1,15 +1,5 @@
 <?php
-/**
- * Altax Configurations.
- *
- * You need to modify this file for your environment.
- *
- * @see https://github.com/kohkimakimoto/altax
- * @author yourname <youremail@yourcompany.com>
- */
+desc('This is a sample task.');
+task('sample',array('roles' => 'localhost'), function($host, $args){
 
-//
-// Host and role configurations.
-//
-role('web', '127.0.0.1');
-
+});
