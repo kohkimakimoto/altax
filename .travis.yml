@@ -7,7 +7,7 @@ php:
 
 before_script:
   - composer install --dev --no-interaction
-  - sh tests/setup_ssh_server.sh
+#  - sh tests/setup_ssh_server.sh
 
 script:
   - mkdir -p build/logs
