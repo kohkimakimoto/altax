@@ -152,7 +152,10 @@ class Task
         $context = Context::getInstance();
 
         $taskQuiet = $context->get('tasks/'.$this->taskName.'/options/quiet');
-        $inputQuiet = $this->getInput()->getOption('quiet');
+        $inputQuiet = false;
+        if ($this->getInput()->hasOption('quiet')) {
+            $inputQuiet = $this->getInput()->getOption('quiet');
+        }
 
         if ($taskQuiet && !$inputQuiet) {
             $this->output->setVerbosity(OutputInterface::VERBOSITY_NORMAL);

@@ -58,4 +58,20 @@ class TaskTest extends \PHPUnit_Framework_TestCase
         $display = stream_get_contents($output->getStream());
     }
 
+    public function testRunSSH()
+    {
+        $context = Context::initialize();
+
+        $InputDefinition = new InputDefinition();
+        $InputDefinition->addArgument(new InputArgument("args"));
+        $input = new ArgvInput(array(), $InputDefinition);
+        $input->setArgument("args", array());
+
+        $output = new StreamOutput(fopen('php://memory', 'w', false));
+
+        task("test_task", function(){});
+        $task = new Task("test_task", "localhost", $input, $output, false);
+        $task->runSSH("ls");
+    }
+
 }
