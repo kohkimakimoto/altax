@@ -30,6 +30,19 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
         $output = $applicationTester->getDisplay();
     }
 
+    public function testBuiltinCommandConfig2()
+    {
+        $application = new AltaxApplication();
+        $application->setHomeConfigurationPath(__DIR__."/AltaxApplicationTest/.altax/home.php");
+        $application->setDefaultConfigurationPath(__DIR__."/AltaxApplicationTest/.altax/default.php");
+        $application->setAutoExit(false);
+
+        $applicationTester = new ApplicationTester($application);
+        $applicationTester->run(array('command' => "config", "--file" => __DIR__."/AltaxApplicationTest/.altax/file.php"));
+
+        $output = $applicationTester->getDisplay();
+    }
+
     public function testBuiltinCommandInit()
     {
         $application = new AltaxApplication();
