@@ -52,9 +52,9 @@ class Task
             throw new \RuntimeException('Host is not specified.');
         }
 
-        if ($this->isLocalRun()) {
-            return $this->runLocalCommand($command, $options);
-        }
+//        if ($this->isLocalRun()) {
+//            return $this->runLocalCommand($command, $options);
+//        }
 
         $context = Context::getInstance();
 

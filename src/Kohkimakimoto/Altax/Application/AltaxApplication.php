@@ -83,7 +83,7 @@ EOL;
         // At first, load user home setting.
         $configurationPath = $this->getHomeConfigurationPath();
         if (is_file($configurationPath)) {
-            include_once $configurationPath;
+            include $configurationPath;
             $configs = $context->get('configs');
             $configs[] = $configurationPath;
             $context->set('configs', $configs);
@@ -92,7 +92,7 @@ EOL;
         // At second, load current working directory setting.
         $configurationPath = $this->getDefaultConfigurationPath();
         if (is_file($configurationPath)) {
-            include_once $configurationPath;
+            include $configurationPath;
             $configs = $context->get('configs');
             $configs[] = $configurationPath;
             $context->set('configs', $configs);
@@ -102,7 +102,7 @@ EOL;
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
             $configurationPath = $input->getParameterOption(array('--file', '-f'));
             if ($configurationPath && is_file($configurationPath)) {
-                include_once $configurationPath;
+                include $configurationPath;
                 $configs = $context->get('configs');
                 $configs[] = $configurationPath;
                 $context->set('configs', $configs);
