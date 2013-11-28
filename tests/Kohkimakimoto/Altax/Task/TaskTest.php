@@ -27,16 +27,14 @@ class TaskTest extends \PHPUnit_Framework_TestCase
 
         task("test_task", function(){});
 
-        $task = new Task("test_task", "localhost", $input, $output, false);
+        $task = new Task("test_task", "127.0.0.1", $input, $output, false);
         
         try {
             $task->execute();
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
-        
-        
-    }   
+    }
 
     public function testExecute()
     {
@@ -51,7 +49,7 @@ class TaskTest extends \PHPUnit_Framework_TestCase
 
         task("test_task", function(){});
 
-        $task = new Task("test_task", "localhost", $input, $output, false);
+        $task = new Task("test_task", "127.0.0.1", $input, $output, false);
         $task->execute();
 
         rewind($output->getStream());
@@ -70,7 +68,7 @@ class TaskTest extends \PHPUnit_Framework_TestCase
         $output = new StreamOutput(fopen('php://memory', 'w', false));
 
         task("test_task", function(){});
-        $task = new Task("test_task", "localhost", $input, $output, false);
+        $task = new Task("test_task", "127.0.0.1", $input, $output, false);
         $task->runSSH("ls");
     }
 
