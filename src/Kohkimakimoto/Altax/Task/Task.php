@@ -147,7 +147,7 @@ class Task
         return $this->localRun;
     }
 
-    protected function writeCommandOutput($str)
+    public function writeCommandOutput($str)
     {
         $context = Context::getInstance();
 
