@@ -17,7 +17,7 @@ use Kohkimakimoto\Altax\Application\AltaxApplication;
 class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testBuiltinTaskConfig()
+    public function testBuiltinCommandConfig()
     {
         $application = new AltaxApplication();
         $application->setHomeConfigurationPath(__DIR__."/AltaxApplicationTest/.altax/home.php");
@@ -30,7 +30,7 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
         $output = $applicationTester->getDisplay();
     }
 
-    public function testBuiltinTaskInit()
+    public function testBuiltinCommandInit()
     {
         $application = new AltaxApplication();
         
@@ -46,11 +46,11 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
         $applicationTester->run(array('command' => "init", "--path" => __DIR__."/../../../../tmp/.altax/config.php"));
 
         $output = $applicationTester->getDisplay();
-        
+
         $this->assertEquals(true, file_exists(__DIR__."/../../../../tmp/.altax/config.php"));
     }
 
-    public function testSampleTask()
+    public function testTaskCommandSample()
     {
         $application = new AltaxApplication();
         $application->setHomeConfigurationPath(__DIR__."/AltaxApplicationTest/.altax/home.php");
