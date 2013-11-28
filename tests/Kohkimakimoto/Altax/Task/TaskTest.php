@@ -42,14 +42,29 @@ class TaskTest extends \PHPUnit_Framework_TestCase
 
         $InputDefinition = new InputDefinition();
         $InputDefinition->addArgument(new InputArgument("args"));
+        $InputDefinition->addArgument(new InputArgument("command"));
         $input = new ArgvInput(array(), $InputDefinition);
         $input->setArgument("args", array());
+        $input->setArgument("command", "test_task2");
 
         $output = new StreamOutput(fopen('php://memory', 'w', false));
 
-        task("test_task", function(){});
+        role('localhost', '127.0.0.1');
 
-        $task = new Task("test_task", "localhost", $input, $output, false);
+        task('test_task1', array('roles' => 'localhost'), function($host, $args){
+
+            run("echo Hello");
+
+        });
+
+        task('test_task2', array('roles' => 'localhost'), function($host, $args){
+
+            run_task("test_task1");
+        });
+
+
+        $task = new Task("test_task2", "localhost", $input, $output, false);
+        $context->set('currentTask', $task);
         $task->execute();
 
         rewind($output->getStream());
@@ -72,4 +87,36 @@ class TaskTest extends \PHPUnit_Framework_TestCase
         $task->runSSH("ls");
     }
 
+    public function testRunLocalCommand()
+    {
+        $context = Context::initialize();
+
+        $InputDefinition = new InputDefinition();
+        $InputDefinition->addArgument(new InputArgument("args"));
+        $input = new ArgvInput(array(), $InputDefinition);
+        $input->setArgument("args", array());
+
+        $output = new StreamOutput(fopen('php://memory', 'w', false));
+
+        task("test_task", function(){});
+        $task = new Task("test_task", "localhost", $input, $output, false);
+        $task->runLocalCommand("ls");
+    }
+
+    public function testGetOutput()
+    {
+        $context = Context::initialize();
+
+        $InputDefinition = new InputDefinition();
+        $InputDefinition->addArgument(new InputArgument("args"));
+        $input = new ArgvInput(array(), $InputDefinition);
+        $input->setArgument("args", array());
+
+        $output = new StreamOutput(fopen('php://memory', 'w', false));
+
+        task("test_task", function(){});
+        $task = new Task("test_task", "localhost", $input, $output, false);
+        $v = $task->getOutput();
+
+    }
 }
