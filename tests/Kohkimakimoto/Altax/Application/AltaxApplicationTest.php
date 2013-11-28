@@ -25,7 +25,9 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
         $application->setAutoExit(false);
 
         $applicationTester = new ApplicationTester($application);
-        $applicationTester->run(array('command' => "config", "--path" => __DIR__."/../../../../tmp/.altax/config.php"));
+        $applicationTester->run(array('command' => "config"));
+
+        $output = $applicationTester->getDisplay();
     }
 
     public function testBuiltinTaskInit()
@@ -43,6 +45,8 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
         $applicationTester = new ApplicationTester($application);
         $applicationTester->run(array('command' => "init", "--path" => __DIR__."/../../../../tmp/.altax/config.php"));
 
+        $output = $applicationTester->getDisplay();
+        
         $this->assertEquals(true, file_exists(__DIR__."/../../../../tmp/.altax/config.php"));
     }
 
@@ -56,7 +60,7 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
         $applicationTester = new ApplicationTester($application);
         $applicationTester->run(array('command' => "sample", "--debug" => true));
 
-        $applicationTester->getDisplay();
+        $output = $applicationTester->getDisplay();
     }
 
 
