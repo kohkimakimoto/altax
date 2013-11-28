@@ -11,7 +11,7 @@ Altax is a simple deployment tool for PHP. The features are the following.
 * Easy to use. It runs in single PHP Archive(phar) file.
 
 Altax is strongly inspired [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
-But these don’t allow you to write a deployment task in PHP. 
+But They don’t allow you to write a deployment task in PHP. 
 Altax is different. The following code is a example to declare deployment task for Altax.
 
 ```php
@@ -40,7 +40,7 @@ PHP5.3 or later.
 
 There are several ways to install Altax to your system.
 
-### Installing as phar (Most easy way)
+### Installing as a phar (Most easy way)
 
 Most easy way to install Altax to your system is to run the below command.
 
@@ -55,7 +55,7 @@ And move `altax.phar` to `/usr/local/bin`.
     $ chmod 755 altax.phar
     $ mv altax.phar /usr/local/bin/altax
 
-### Installing as composer package
+### Installing as a composer package
 
 [Composer](http://getcomposer.org/) is a famous dependency management tool for PHP. 
 If you want to use Altax through a composer package management, 
