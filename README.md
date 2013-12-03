@@ -32,7 +32,7 @@ task('deploy', array('roles' => 'web'), function($host, $args){
 **Altax version 2 is being rebuilt using Symfony Components. It has a lot of difference from version 1.**
 **If you use Altax version 1. You read [READNE.v1.md](./README.v1.md)**
 
-## Requrement
+## Requirement
 
 PHP5.3 or later.
 
