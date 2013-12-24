@@ -51,22 +51,7 @@ class InitCommand extends BaseCommand
  * @see https://github.com/kohkimakimoto/altax
  * @author yourname <youremail@yourcompany.com>
  */
-
 // =========================================================
-// Configures by separated configuration files.
-//   You can use \Kohkimakimoto\Altax\Util\Configuration 
-//   utility class to load separated configuration files.
-// 
-//   If you use separated configuration files, You activate 
-//   below code.
-// =========================================================
-// \$configuration = new \Kohkimakimoto\Altax\Util\Configuration();
-// \$configuration->loadHosts(array(__DIR__."/hosts.php"));
-// \$configuration->loadTasks(array(__DIR__."/tasks"));
-
-
-// =========================================================
-// Configures by defining directly
 //   You can define hosts and tasks in this file using some
 //   helper functions. For instance host(), task() etc...
 // =========================================================
@@ -99,52 +84,53 @@ EOL;
         file_put_contents($configurationPath, $content);
         $output->writeln("<info>Created file: </info>$configurationPath");
 
-        // hosts configuration file
-        $hostsPath = dirname($configurationPath)."/hosts.php";
-        $content = <<<EOL
-<?php
-/**
- * Altax hosts Configurations.
- */
-return array(
-//    "srv1.foobar.com" => array("port" => 22, "roles" => array("web","dev")),
-//    "srv2.foobar.com" => array("port" => 22, "roles" => array("web","prod")),
-//    "srv3.foobar.com" => array("port" => 22, "roles" => array("web","prod")),
-);
-EOL;
-        file_put_contents($hostsPath, $content);
-        $output->writeln("<info>Created file: </info>$hostsPath");
 
-        // tasks configuration directory
-        $tasksDirPath = dirname($configurationPath)."/tasks";
-        $fs->mkdir($tasksDirPath, 0755);
-        $output->writeln("<info>Created dir:  </info>$tasksDirPath");
-
-        $sampleTaskPath = $tasksDirPath."/hellow.php.sample";
-        $content = <<<EOL
-<?php
-/**
- * Sample "Hellow" Task Class
- */
-class HellowTask extends \Kohkimakimoto\Altax\Task\BaseTask
-{
-    public function configure()
-    {
-        return array(
-            "name"        => "hellow",
-            "description" => "echo hellow",
-            "roles" => "web"
-            );
-    }
-
-    public function execute(\$host, \$args)
-    {
-        \$this->run("echo Hellow on the \$host");
-    }
-}
-EOL;
-        file_put_contents($sampleTaskPath, $content);
-        $output->writeln("<info>Created file: </info>$sampleTaskPath");
+//        // hosts configuration file
+//        $hostsPath = dirname($configurationPath)."/hosts.php";
+//        $content = <<<EOL
+//<?php
+///**
+// * Altax hosts Configurations.
+// */
+//return array(
+////    "srv1.foobar.com" => array("port" => 22, "roles" => array("web","dev")),
+////    "srv2.foobar.com" => array("port" => 22, "roles" => array("web","prod")),
+////    "srv3.foobar.com" => array("port" => 22, "roles" => array("web","prod")),
+//);
+//EOL;
+//        file_put_contents($hostsPath, $content);
+//       $output->writeln("<info>Created file: </info>$hostsPath");
+//
+//        // tasks configuration directory
+//        $tasksDirPath = dirname($configurationPath)."/tasks";
+//        $fs->mkdir($tasksDirPath, 0755);
+//        $output->writeln("<info>Created dir:  </info>$tasksDirPath");
+//
+//        $sampleTaskPath = $tasksDirPath."/hellow.php.sample";
+//        $content = <<<EOL
+//<?php
+///**
+// * Sample "Hellow" Task Class
+// */
+//class HellowTask extends \Kohkimakimoto\Altax\Task\BaseTask
+//{
+//    public function configure()
+//    {
+//        return array(
+//            "name"        => "hellow",
+//            "description" => "echo hellow",
+//            "roles" => "web"
+//            );
+//    }
+//
+//    public function execute(\$host, \$args)
+//    {
+//        \$this->run("echo Hellow on the \$host");
+//    }
+//}
+//EOL;
+//        file_put_contents($sampleTaskPath, $content);
+//        $output->writeln("<info>Created file: </info>$sampleTaskPath");
 
     }
 }
