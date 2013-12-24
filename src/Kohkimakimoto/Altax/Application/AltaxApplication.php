@@ -18,7 +18,7 @@ use Kohkimakimoto\Altax\Util\Context;
  */
 class AltaxApplication extends Application
 {
-    const VERSION = '2.1.9';
+    const VERSION = '2.1.10';
     const HELP_MESSAGES  =<<<EOL
 
 <info>%s</info> version <comment>%s</comment>
