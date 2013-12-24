@@ -29,9 +29,6 @@ task('deploy', array('roles' => 'web'), function($host, $args){
 });
 ```
 
-**Altax version 2 is being rebuilt using Symfony Components. It has a lot of difference from version 1.**
-**If you use Altax version 1. You read [READNE.v1.md](./README.v1.md)**
-
 ## Requirement
 
 PHP5.3 or later.
@@ -145,6 +142,8 @@ Here is a list of Altax bultin configuration functions.
 * **[run](#configuration-run)** - Executes commands on remote managed server.
 * **[run_local](#configuration-run_local)** - Executes commands on local server.
 * **[run_task](#configuration-run_task)** - Runs other task in the task method.
+* **[before](#configuration-before)** - Specifies a task runing before another task.
+* **[after](#configuration-after)** - Specifies a task runing after another task.
 
 ### <a name ="configuration-host"> host
 
@@ -381,6 +380,48 @@ task('task2', array('roles' => 'web'), function($host, $args){
 });
 ```
 
+### <a name ="configuration-before"> before
+
+```php
+before(string parent_task, string before_task)
+```
+
+**before** specifies a task runing before another task.
+
+#### Parameters:
+
+* `parent_task`: task name.
+* `before_task`: task name running before `parent_task`.
+
+#### Examples:
+
+```php
+before('task1', 'task2');
+
+// Run task2 before task1
+```
+
+### <a name ="configuration-after"> after
+
+```php
+after(string parent_task, string after_task)
+```
+
+**after** Specifies a task runing after another task.
+
+#### Parameters:
+
+* `parent_task`: task name.
+* `after_task`: task name running after `parent_task`.
+
+#### Examples:
+
+```php
+before('task1', 'task2');
+
+// Run task2 after task1
+```
+
 ## Commands
 
 You can use some builtin sub commands. 
@@ -414,3 +455,7 @@ Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
 
 See [LICENSE](./LICENSE)
+
+## Previous version 
+
+**If you use Altax version 1. You read [READNE.v1.md](./README.v1.md)**
