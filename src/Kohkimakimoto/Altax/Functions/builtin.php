@@ -130,6 +130,64 @@ function task()
 }
 
 /**
+ * Before running $task, run $run
+ *
+ * @throws Exception if either task doesn't exist
+ *
+ * @param string $task
+ * @param string $run
+ */
+function before($task, $run)
+{
+    $context = Context::getInstance();
+    $parent_task = $context->get('tasks/' . $task);
+    $before_task = $context->get('tasks/' . $run);
+    if (!$parent_task) {
+        throw new Exception($task . ' is not a valid task!');
+    }
+    if (!$before_task) {
+        throw new Exception($run . ' is not a valid task!');
+    }
+
+    $before = $context->get('before');
+    if (!isset($before[$task])) {
+        $before[$task] = array();
+    }
+
+    $before[$task][] = $run;
+    $context->set('before', $before);
+}
+
+/**
+ * After running $task, run $run
+ *
+ * @throws Exception if either task doesn't exist
+ *
+ * @param string $task
+ * @param string $run
+ */
+function after($task, $run)
+{
+    $context = Context::getInstance();
+    $parent_task = $context->get('tasks/' . $task);
+    $after_task = $context->get('tasks/' . $run);
+    if (!$parent_task) {
+        throw new Exception($task . ' is not a valid task!');
+    }
+    if (!$after_task) {
+        throw new Exception($run . ' is not a valid task!');
+    }
+
+    $after = $context->get('after');
+    if (!isset($after[$task])) {
+        $after[$task] = array();
+    }
+
+    $after[$task][] = $run;
+    $context->set('after', $after);
+}
+
+/**
  * Run command
  * @param unknown $command
  */

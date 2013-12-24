@@ -11,6 +11,8 @@ class Executor
     protected $input;
     protected $output;
 
+    protected $ancestry = array();
+
     protected $childPids = array();
 
     public function execute($taskName, InputInterface $input, OutputInterface $output, $parent = null)
@@ -24,8 +26,12 @@ class Executor
             throw new \RuntimeException("Your PHP is not supported pcntl_fork function.");
         }
 
+        $this->ancestry[] = $taskName;
+
         $output->writeln("- Starting task <info>$taskName</info>");
-        
+
+        $this->doBefore($taskName);
+
         $hosts = $this->getHosts($taskName);
 
         // determine localRun.
@@ -109,6 +115,8 @@ class Executor
             }
         }
 
+        $this->doAfter($taskName);
+
         $output->writeln("- Completed task <info>$taskName</info>");
     }
 
@@ -158,6 +166,40 @@ class Executor
         foreach ($this->childPids as $pid => $host) {
             $this->output->writeln("Sending sigint to child (pid:<comment>$pid</comment>)");
             posix_kill($pid, SIGINT);
+        }
+    }
+
+    protected function doBefore($taskName)
+    {
+        $context = Context::getInstance();
+        $before = $context->get('before/' . $taskName);
+        if ($before) {
+            $this->output->writeln(" - Running tasks before <info>$taskName</info>");
+            foreach ($before as $preTask) {
+                if (in_array($preTask, $this->ancestry)) {
+                    continue;
+                }
+                $executor = new Executor();
+                $executor->ancestry = $this->ancestry;
+                $executor->execute($preTask, $this->input, $this->output);
+            }
+        }
+    }
+
+    protected function doAfter($taskName)
+    {
+        $context = Context::getInstance();
+        $after = $context->get('after/' . $taskName);
+        if ($after) {
+            $this->output->writeln(" - Running tasks after <info>$taskName</info>");
+            foreach ($after as $postTask) {
+                if (in_array($postTask, $this->ancestry)) {
+                    continue;
+                }
+                $executor = new Executor();
+                $executor->ancestry = $this->ancestry;
+                $executor->execute($postTask, $this->input, $this->output);
+            }
         }
     }
 }
