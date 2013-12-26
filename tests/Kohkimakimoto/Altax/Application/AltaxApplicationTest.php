@@ -75,7 +75,4 @@ class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
 
         $output = $applicationTester->getDisplay();
     }
-
-
-
 }
