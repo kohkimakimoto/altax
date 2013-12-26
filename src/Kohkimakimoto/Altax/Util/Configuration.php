@@ -6,6 +6,10 @@ use Symfony\Component\Filesystem\Exception\IOException;
 
 use Symfony\Component\Finder\Finder;
 
+/**
+ * @deprecated
+ * @codeCoverageIgnore
+ */
 class Configuration
 {
     public function __construct()

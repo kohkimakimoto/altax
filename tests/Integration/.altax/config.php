@@ -21,3 +21,9 @@ task('test003', array('roles' => 'local'), function($host, $args){
 
 before("test002", "test001");
 after("test002", "test003");
+
+task('localrun_test001', function($host, $args){
+
+    echo "localrun!";
+
+});

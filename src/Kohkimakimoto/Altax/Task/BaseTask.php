@@ -1,6 +1,10 @@
 <?php
 namespace Kohkimakimoto\Altax\Task;
 
+/**
+ * @deprecated
+ * @codeCoverageIgnore
+ */
 class BaseTask
 {
     protected $options = null;
