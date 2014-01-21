@@ -14,7 +14,7 @@ if (is_file(__DIR__ . '/../vendor/autoload.php')) {
 
 }
 
-use Altax\Application\Application;
+use Altax\Console\Application;
 
 $app = new Application();
 $app->run();
