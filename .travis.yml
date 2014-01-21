@@ -1,0 +1,16 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+
+before_script:
+  - composer install --dev --no-interaction
+  - sh tests/setup_ssh_server.sh
+
+script:
+  - mkdir -p build/logs
+  - php vendor/bin/phpunit -c phpunit-ci.xml.dist
+
+after_script:
+  - php vendor/bin/coveralls -v
