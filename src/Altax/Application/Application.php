@@ -3,6 +3,9 @@ namespace Altax\Application;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Altax application container
+ */
 class Application extends ContainerBuilder
 {
     const NAME = "Altax";
@@ -10,7 +13,7 @@ class Application extends ContainerBuilder
 
     public function boot()
     {
-        
+
     }
 }
 
