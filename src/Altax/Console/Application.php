@@ -26,6 +26,15 @@ class Application extends SymfonyApplication
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        // Processes altax application initialize
+        $this->initialize($input, $output);
+
+        // Runs specified command under the symfony console.
         return parent::doRun($input, $output);
+    }
+
+    public function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->app->boot();
     }
 }

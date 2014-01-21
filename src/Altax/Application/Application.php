@@ -7,5 +7,10 @@ class Application extends ContainerBuilder
 {
     const NAME = "Altax";
     const VERSION = "3.0.0";
+
+    public function boot()
+    {
+        
+    }
 }
 
