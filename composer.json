@@ -24,7 +24,7 @@
     "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {
-    "psr-0": { "Kohkimakimoto\\Altax": "src/"}
+    "psr-0": { "Altax": "src/"}
   },
   "bin": ["bin/altax"]
 }
