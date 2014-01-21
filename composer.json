@@ -17,6 +17,7 @@
     "symfony/yaml": "2.4.*",
     "symfony/finder": "2.4.*",
     "symfony/process": "2.4.*",
+    "symfony/dependency-injection": "2.4.*",
     "phpseclib/phpseclib": "0.3.*"
   },
   "require-dev": {
