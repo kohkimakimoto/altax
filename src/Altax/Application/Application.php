@@ -4,14 +4,16 @@ namespace Altax\Application;
 /**
  * Altax application container
  */
-class Application 
+class Application extends \Altax\EArray\EArray
 {
     const NAME = "Altax";
     const VERSION = "3.0.0";
 
-    public function boot()
-    {
+    protected $configFiles = array();
 
+    public function setConfigFile($key, $path)
+    {
+        $this->configFiles[$key] = $path;
     }
 }
 

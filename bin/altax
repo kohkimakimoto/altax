@@ -14,7 +14,7 @@ if (is_file(__DIR__ . '/../vendor/autoload.php')) {
 
 }
 
-use Altax\Console\Application;
+$app = require_once __DIR__.'/../src/Altax/Application/boot.php';
 
-$app = new Application();
-$app->run();
+$cli = new \Altax\Console\Application($app);
+$cli->run();
