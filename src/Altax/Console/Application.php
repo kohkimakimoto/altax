@@ -25,18 +25,18 @@ EOL;
     /**
      * Application instance.
      */
-    protected $app;
+    protected $container;
 
-    public function __construct(\Altax\Application\Application $app)
+    public function __construct(\Altax\Foundation\Container $container)
     {
-        parent::__construct($app->getName(), $app->getVersion());
-        $this->app = $app;
+        parent::__construct($container->getName(), $container->getVersion());
+        $this->container = $container;
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         // Init altax application
-        $this->initApplication($input, $output);
+        $this->initContainer($input, $output);
 
         $this->registerBaseCommands();
 
@@ -49,36 +49,47 @@ EOL;
     /**
      * Initialize altax application container
      */
-    protected function initApplication(InputInterface $input, OutputInterface $output)
+    protected function initContainer(InputInterface $input, OutputInterface $output)
     {
         // Addtional specified configuration file.
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
-            $this->app->setConfigFile("option", $input->getParameterOption(array('--file', '-f')));
+            $this->container->setConfigFile("option", $input->getParameterOption(array('--file', '-f')));
         }
     }
 
     protected function loadConfiguration(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->app->getConfigFiles() as $key => $file) {
+        foreach ($this->container->getConfigFiles() as $key => $file) {
             if ($file && is_file($file)) {
                 include $$file;
             }
         }
     }
 
-    public function registerBaseCommands()
+    /**
+     * Register base commands
+     */
+    protected function registerBaseCommands()
     {
         $finder = new Finder();
         $finder->files()->name('*Command.php')->in(__DIR__."/../Command");
         foreach ($finder as $file) {
+
+            if ($file->getFilename() === "BaseCommand.php") {
+                continue;
+            }
+
             $class = "Altax\Command\\".$file->getBasename('.php');
             $r = new \ReflectionClass($class);
-            $this->add($r->newInstance());
+            $command = $r->newInstance();
+            $command->setApplication($this);
+            $this->add($command);
+
         }
     }
 
     public function getLongVersion()
     {
-        return sprintf(self::HELP_MESSAGES, $this->app->getName(), $this->app->getVersion());
+        return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
     }
 }

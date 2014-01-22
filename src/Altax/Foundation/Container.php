@@ -1,10 +1,10 @@
 <?php
-namespace Altax\Application;
+namespace Altax\Foundation;
 
 /**
  * Altax application container
  */
-class Application extends \Kohkimakimoto\EArray\EArray
+class Container extends \Kohkimakimoto\EArray\EArray
 {
     const NAME = "Altax";
     const VERSION = "3.0.0";
