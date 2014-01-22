@@ -92,4 +92,9 @@ EOL;
     {
         return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
     }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
 }

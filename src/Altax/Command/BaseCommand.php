@@ -9,4 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class BaseCommand extends Command
 {
+    protected function getContainer()
+    {
+        return $this->getApplication()->getContainer();
+    }
 }
