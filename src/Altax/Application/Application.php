@@ -4,7 +4,7 @@ namespace Altax\Application;
 /**
  * Altax application container
  */
-class Application extends \Altax\EArray\EArray
+class Application extends \Kohkimakimoto\EArray\EArray
 {
     const NAME = "Altax";
     const VERSION = "3.0.0";
