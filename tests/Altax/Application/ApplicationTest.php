@@ -1,9 +1,17 @@
 <?php
 namespace Test\Altax\Application;
 
-class AltaxApplicationTest extends \PHPUnit_Framework_TestCase
+use Altax\Application\Application;
+
+class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDefault()
+    /**
+     * @test
+     */
+    public function testSetConfigFIle()
     {
+        $app = new Application();
+        $app->setConfigFile("home", "path/to/config.php");
+        $this->assertEquals("path/to/config.php", $app->getConfigFile("home"));
     }
 }

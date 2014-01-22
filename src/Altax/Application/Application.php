@@ -15,5 +15,15 @@ class Application extends \Altax\EArray\EArray
     {
         $this->configFiles[$key] = $path;
     }
+
+    public function getConfigFiles()
+    {
+        return $this->configFiles;
+    }
+
+    public function getConfigFile($key)
+    {
+        return isset($this->configFiles[$key]) ? $this->configFiles[$key] : null;
+    }
 }
 
