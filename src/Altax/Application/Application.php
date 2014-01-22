@@ -25,5 +25,16 @@ class Application extends \Kohkimakimoto\EArray\EArray
     {
         return isset($this->configFiles[$key]) ? $this->configFiles[$key] : null;
     }
+
+    public function getName()
+    {
+        return self::NAME;
+    }
+
+    public function getVersion()
+    {
+        return self::VERSION;
+    }
+
 }
 
