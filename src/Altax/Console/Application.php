@@ -40,6 +40,8 @@ EOL;
 
         $this->registerBaseCommands();
 
+        $this->registerAliases();
+
         $this->loadConfiguration($input, $output);
 
         // Runs specified command under the symfony console.
@@ -61,11 +63,16 @@ EOL;
     {
         foreach ($this->container->getConfigFiles() as $key => $file) {
             if ($file && is_file($file)) {
-                include $$file;
+                require_once $file;
             }
         }
     }
-
+    protected function registerAliases()
+    {
+        \Altax\Foundation\AliasLoader::getInstance(Array(
+            'Task' => 'Altax\Facades\Task',
+            ))->register();
+    }
     /**
      * Register base commands
      */

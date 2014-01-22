@@ -11,14 +11,14 @@ class InitCommand extends \Altax\Command\BaseCommand
 {   
     const TEMPLATE = <<<EOL
 <?php
-/**
- * Altax Configurations.
- *
- * You need to modify this file for your environment.
- *
- * @see https://github.com/kohkimakimoto/altax
- * @author yourname <youremail@yourcompany.com>
- */
+/*
+|--------------------------------------------------------------------------
+| Altax configurations
+|--------------------------------------------------------------------------
+|
+| You can modify this file for your environment.
+|
+*/
 
 EOL;
     
@@ -28,6 +28,7 @@ EOL;
     "php": ">=5.3.0"
   }
 }
+
 EOL;
 
     protected function configure()

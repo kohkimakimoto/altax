@@ -6,5 +6,6 @@ $container = new \Altax\Foundation\Container();
 $container->setConfigFile("home", getenv("HOME")."/.altax/config.php");
 $container->setConfigFile("current", getcwd()."/.altax/config.php");
 
+
 return $container;
 
