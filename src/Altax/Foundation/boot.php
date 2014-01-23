@@ -11,9 +11,14 @@ $container = new \Altax\Foundation\Container();
 $container->setConfigFile("home", getenv("HOME")."/.altax/config.php");
 $container->setConfigFile("current", getcwd()."/.altax/config.php");
 
-$container->setAliases(array(
-    'Task' => 'Altax\Facades\Task',
+$container->setModules(array(
+    'Altax\Module\Task',
     ));
+
+$container->setAliases(array(
+    'Task' => 'Altax\Module\Task',
+    ));
+
 
 return $container;
 
