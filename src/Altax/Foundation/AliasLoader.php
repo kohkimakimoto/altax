@@ -3,12 +3,15 @@
 namespace Altax\Foundation;
 
 /*
-This class is referenced Illuminate\Foundation\AliasLoader 
-that is a part of laravel framework.
-
-https://github.com/laravel/framework
-
-The Laravel framework is open-sourced software licensed under the MIT license
+ | -------------------------------------------------------------
+ | This class is referenced `Illuminate\Foundation\AliasLoader`
+ | that is a part of laravel framework.
+ | 
+ | see https://github.com/laravel/framework
+ | 
+ | The Laravel framework is open-sourced software licensed 
+ | under the MIT license.
+ | -------------------------------------------------------------
 */
 
 /**
