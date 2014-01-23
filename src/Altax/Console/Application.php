@@ -8,12 +8,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use Altax\Foundation\AliasLoader;
 
 /**
  * Altax console application
  */
 class Application extends SymfonyApplication
 {
+
     const HELP_MESSAGES =<<<EOL
 <info>%s</info> version <comment>%s</comment>
 
@@ -23,7 +25,7 @@ Apache License 2.0
 EOL;
 
     /**
-     * Application instance.
+     * Application container instance.
      */
     protected $container;
 
@@ -33,15 +35,14 @@ EOL;
         $this->container = $container;
     }
 
+    /**
+     * This cli application main process.
+     */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        // Init altax application
-        $this->initContainer($input, $output);
-
+        $this->configureContainer($input, $output);
         $this->registerBaseCommands();
-
         $this->registerAliases();
-
         $this->loadConfiguration($input, $output);
 
         // Runs specified command under the symfony console.
@@ -49,9 +50,9 @@ EOL;
     }
 
     /**
-     * Initialize altax application container
+     * Configure container to use cli application. 
      */
-    protected function initContainer(InputInterface $input, OutputInterface $output)
+    protected function configureContainer(InputInterface $input, OutputInterface $output)
     {
         // Addtional specified configuration file.
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
@@ -59,20 +60,6 @@ EOL;
         }
     }
 
-    protected function loadConfiguration(InputInterface $input, OutputInterface $output)
-    {
-        foreach ($this->container->getConfigFiles() as $key => $file) {
-            if ($file && is_file($file)) {
-                require_once $file;
-            }
-        }
-    }
-    protected function registerAliases()
-    {
-        \Altax\Foundation\AliasLoader::getInstance(Array(
-            'Task' => 'Altax\Facades\Task',
-            ))->register();
-    }
     /**
      * Register base commands
      */
@@ -93,6 +80,26 @@ EOL;
             $this->add($command);
 
         }
+    }
+
+    /**
+     * Load configuration.
+     */
+    protected function loadConfiguration(InputInterface $input, OutputInterface $output)
+    {
+        foreach ($this->container->getConfigFiles() as $key => $file) {
+            if ($file && is_file($file)) {
+                require_once $file;
+            }
+        }
+    }
+
+    /**
+     * Register Aliases.
+     */
+    protected function registerAliases()
+    {
+        AliasLoader::getInstance($this->container->getAliases())->register();
     }
 
     public function getLongVersion()
