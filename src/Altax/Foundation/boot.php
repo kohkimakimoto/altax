@@ -8,16 +8,20 @@
 $container = new \Altax\Foundation\Container();
 
 // Determine Loaded configuration files.
-$container->setConfigFile("home", getenv("HOME")."/.altax/config.php");
-$container->setConfigFile("current", getcwd()."/.altax/config.php");
+$container->setConfigFiles(array(
+    "home" => getenv("HOME")."/.altax/config.php",
+    "current", getcwd()."/.altax/config.php",
+    ));
 
 $container->setModules(array(
-    'Altax\Module\Task',
+    'Task' => 'Altax\Module\Task\Task',
+    'Role' => 'Altax\Module\Role\Role',
+    'Node' => 'Altax\Module\Node\Node',
     ));
 
-$container->setAliases(array(
-    'Task' => 'Altax\Module\Task',
-    ));
+//$container->setAliases(array(
+//    'Task' => 'Altax\Module\Task',
+//    ));
 
 
 return $container;

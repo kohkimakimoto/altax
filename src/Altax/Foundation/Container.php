@@ -26,6 +26,11 @@ class Container extends \Kohkimakimoto\EArray\EArray
      */
     protected $aliases = array();
 
+    /**
+     * Modules
+     */
+    protected $modules = array();
+
     public function getName()
     {
         return self::NAME;
@@ -41,6 +46,11 @@ class Container extends \Kohkimakimoto\EArray\EArray
         return $this->configFiles;
     }
 
+    public function setConfigFiles(array $files)
+    {
+        $this->configFiles = $files;
+    }
+
     public function setConfigFile($key, $path)
     {
         $this->configFiles[$key] = $path;
@@ -51,7 +61,7 @@ class Container extends \Kohkimakimoto\EArray\EArray
         return isset($this->configFiles[$key]) ? $this->configFiles[$key] : null;
     }
 
-    public function setAliases(Array $aliases)
+    public function setAliases(array $aliases)
     {
         $this->aliases = $aliases;
     }
@@ -59,6 +69,16 @@ class Container extends \Kohkimakimoto\EArray\EArray
     public function getAliases()
     {
         return $this->aliases;
+    }
+
+    public function setModules(array $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    public function getModules()
+    {
+        return $this->modules;
     }
 }
 

@@ -42,7 +42,7 @@ EOL;
     {
         $this->configureContainer($input, $output);
         $this->registerBaseCommands();
-        $this->registerAliases();
+        $this->registerModules();
         $this->loadConfiguration($input, $output);
 
         // Runs specified command under the symfony console.
@@ -95,11 +95,11 @@ EOL;
     }
 
     /**
-     * Register Aliases.
+     * Register Modules.
      */
-    protected function registerAliases()
+    protected function registerModules()
     {
-        AliasLoader::getInstance($this->container->getAliases())->register();
+        AliasLoader::getInstance($this->container->getModules())->register();
     }
 
     public function getLongVersion()
