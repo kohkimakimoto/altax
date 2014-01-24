@@ -16,7 +16,7 @@ namespace Altax\Foundation;
 /**
  * Altax module
  */
-class Module
+abstract class Module
 {
     protected static $container;
 
@@ -92,7 +92,7 @@ class Module
             return static::$resolvedInstance[$name];
         }
 
-        return static::$resolvedInstance[$name] = static::$container[$name];
+        return static::$resolvedInstance[$name] = static::$container->get($name);
     }
 
 

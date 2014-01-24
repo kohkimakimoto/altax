@@ -10,4 +10,9 @@ class Task extends Module
     {
         return "task";
     }
+
+    public function register()
+    {
+        
+    }
 }

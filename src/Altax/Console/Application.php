@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Altax\Foundation\AliasLoader;
 use Altax\Foundation\Module;
+use Altax\Util\Str;
 
 /**
  * Altax console application
@@ -102,7 +103,16 @@ EOL;
     {
         Module::clearResolvedInstances();
         Module::setContainer($this->container);
-        AliasLoader::getInstance($this->container->getModules())->register();
+        $modules = $this->container->getModules();
+
+        // register instance into the container
+        foreach ($modules as $alias => $class) {
+            $r = new \ReflectionClass($class);
+            $instance = $r->newInstance();
+            $this->container->set(Str::snake($alias), $instance);
+        }
+        // register aliases
+        AliasLoader::getInstance($modules)->register();
     }
 
     public function getLongVersion()
