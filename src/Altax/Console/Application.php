@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Altax\Foundation\AliasLoader;
+use Altax\Foundation\Module;
 
 /**
  * Altax console application
@@ -99,6 +100,8 @@ EOL;
      */
     protected function registerModules()
     {
+        Module::clearResolvedInstances();
+        Module::setContainer($this->container);
         AliasLoader::getInstance($this->container->getModules())->register();
     }
 

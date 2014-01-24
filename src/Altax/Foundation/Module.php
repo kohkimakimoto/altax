@@ -56,6 +56,16 @@ class Module
         static::$container = $container;
     }
 
+    /**
+     * Clear a resolved facade instance.
+     *
+     * @param  string  $name
+     * @return void
+     */
+    public static function clearResolvedInstance($name)
+    {
+        unset(static::$resolvedInstance[$name]);
+    }
 
     /**
      * Resolve the facade root instance from the container.

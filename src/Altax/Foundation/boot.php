@@ -19,10 +19,5 @@ $container->setModules(array(
     'Node' => 'Altax\Module\Node\Node',
     ));
 
-//$container->setAliases(array(
-//    'Task' => 'Altax\Module\Task',
-//    ));
-
-
 return $container;
 
