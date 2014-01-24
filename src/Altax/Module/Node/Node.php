@@ -2,7 +2,9 @@
 
 namespace Altax\Module\Node;
 
-class Node
+use Altax\Foundation\Module;
+
+class Node extends Module
 {
-    
+
 }

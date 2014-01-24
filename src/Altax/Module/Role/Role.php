@@ -2,7 +2,9 @@
 
 namespace Altax\Module\Role;
 
-class Role
+use Altax\Foundation\Module;
+
+class Role extends Module
 {
     
 }
