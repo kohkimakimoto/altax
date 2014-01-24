@@ -32,7 +32,7 @@ abstract class Module
      */
     protected static function getModuleAccessor()
     {
-        throw new \RuntimeException("Module does not implement getModuleAccessor method.");
+        return get_called_class();
     }
 
     /**
@@ -127,5 +127,10 @@ abstract class Module
             default:
                 return call_user_func_array(array($instance, $method), $args);
         }
+    }
+
+    public function getDefaultBindingKey()
+    {
+        return self::getModuleAccessor();
     }
 }

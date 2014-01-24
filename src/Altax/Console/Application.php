@@ -109,7 +109,7 @@ EOL;
         foreach ($modules as $alias => $class) {
             $r = new \ReflectionClass($class);
             $instance = $r->newInstance();
-            $this->container->set(Str::snake($alias), $instance);
+            $this->container->set($instance->getDefaultBindingKey(), $instance);
         }
         // register aliases
         AliasLoader::getInstance($modules)->register();

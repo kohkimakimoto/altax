@@ -6,5 +6,7 @@ use Altax\Foundation\Module;
 
 class Node extends Module
 {
-
+    public function set()
+    {
+    }
 }
