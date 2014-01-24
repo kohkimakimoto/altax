@@ -66,6 +66,16 @@ class Module
     {
         unset(static::$resolvedInstance[$name]);
     }
+    
+    /**
+     * Clear all of the resolved instances.
+     *
+     * @return void
+     */
+    public static function clearResolvedInstances()
+    {
+        static::$resolvedInstance = array();
+    }
 
     /**
      * Resolve the facade root instance from the container.
