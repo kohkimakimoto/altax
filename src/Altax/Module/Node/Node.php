@@ -6,11 +6,6 @@ use Altax\Foundation\Module;
 
 class Node extends Module
 {
-    public function foo()
-    {
-
-    }
-    
     /**
      * Register node
      */
@@ -43,7 +38,22 @@ class Node extends Module
             $roles = $args[2];
         }
 
-        $this->getContainer()->set("nodes/$node", $options);
+        $nodes = $this->container->get("nodes", array());
+        $nodes[$node] = $options;
 
+        if ($roles) {
+            // Register related role
+            if (is_string($roles)) {
+                $this->container->getModule("Role")->set($roles, $node);
+            } else if (is_array($roles)) {
+                foreach ($roles as $role) {
+                    $this->container->getModule("Role")->set($role, $node);
+                }
+            }
+        }
+
+        $this->container->set("nodes", $nodes);
+
+        print_r($this->container->get("nodes"));
     }
 }
