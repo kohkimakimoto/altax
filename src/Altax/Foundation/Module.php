@@ -18,4 +18,15 @@ namespace Altax\Foundation;
  */
 abstract class Module
 {
+    protected $container;
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
 }

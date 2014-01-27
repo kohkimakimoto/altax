@@ -117,7 +117,8 @@ EOL;
 
             $r = new \ReflectionClass($implClass);
             $instance = $r->newInstance();
-
+            $instance->setContainer($this->container);
+            
             // register module into container
             $this->container->addModule($moduleName, $instance);
 
