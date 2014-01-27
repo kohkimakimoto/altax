@@ -13,11 +13,5 @@ $container->setConfigFiles(array(
     "current", getcwd()."/.altax/config.php",
     ));
 
-$container->setModules(array(
-    'Task' => 'Altax\Module\Task\Task',
-    'Role' => 'Altax\Module\Role\Role',
-    'Node' => 'Altax\Module\Node\Node',
-    ));
-
 return $container;
 

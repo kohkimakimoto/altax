@@ -8,8 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
-use Altax\Foundation\AliasLoader;
-use Altax\Foundation\Module;
+use Altax\Foundation\ModuleFacade;
 use Altax\Util\Str;
 
 /**
@@ -44,7 +43,7 @@ EOL;
     {
         $this->configureContainer($input, $output);
         $this->registerBaseCommands();
-        $this->registerModules();
+        $this->registerBaseModules();
         $this->loadConfiguration($input, $output);
 
         // Runs specified command under the symfony console.
@@ -60,6 +59,8 @@ EOL;
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
             $this->container->setConfigFile("option", $input->getParameterOption(array('--file', '-f')));
         }
+
+        $this->container->setApp($this);
     }
 
     /**
@@ -99,20 +100,30 @@ EOL;
     /**
      * Register Modules.
      */
-    protected function registerModules()
+    protected function registerBaseModules()
     {
-        Module::clearResolvedInstances();
-        Module::setContainer($this->container);
-        $modules = $this->container->getModules();
+        ModuleFacade::clearResolvedInstances();
+        ModuleFacade::setContainer($this->container);
 
-        // register instance into the container
-        foreach ($modules as $alias => $class) {
-            $r = new \ReflectionClass($class);
+        $finder = new Finder();
+        $finder->directories()->in(__DIR__."/../Module");
+        foreach ($finder as $dir) {
+
+            $module =  $dir->getBasename();
+
+            $facadeClass = "Altax\Module\\".$module."\\Facade";
+            $implClass = "Altax\Module\\".$module."\\".$module;
+            $moduleName = $facadeClass::getModuleName();
+
+            $r = new \ReflectionClass($implClass);
             $instance = $r->newInstance();
-            $this->container->set($instance->getDefaultBindingKey(), $instance);
+
+            // register module into container
+            $this->container->addModule($moduleName, $instance);
+
+            // register alias
+            class_alias($facadeClass, $moduleName);
         }
-        // register aliases
-        AliasLoader::getInstance($modules)->register();
     }
 
     public function getLongVersion()

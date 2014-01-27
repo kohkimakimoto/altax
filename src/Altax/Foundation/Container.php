@@ -31,6 +31,11 @@ class Container extends \Kohkimakimoto\EArray\EArray
      */
     protected $modules = array();
 
+    /**
+     * Application
+     */
+    protected $app = null;
+
     public function getName()
     {
         return self::NAME;
@@ -76,9 +81,29 @@ class Container extends \Kohkimakimoto\EArray\EArray
         $this->modules = $modules;
     }
 
+    public function addModule($name, $module)
+    {
+        $this->modules[$name] = $module;
+    }
+
     public function getModules()
     {
         return $this->modules;
+    }
+
+    public function getModule($name)
+    {
+        return $this->modules[$name];
+    }
+
+    public function setApp($app)
+    {
+        $this->app = $app;
+    }
+
+    public function getApp()
+    {
+        return $this->app;
     }
 }
 
