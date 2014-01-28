@@ -112,7 +112,7 @@ EOL;
             $module =  $dir->getBasename();
 
             $facadeClass = "Altax\Module\\".$module."\\Facade";
-            $implClass = "Altax\Module\\".$module."\\".$module;
+            $implClass = "Altax\Module\\".$module."\\".$module."Module";
             $moduleName = $facadeClass::getModuleName();
 
             $r = new \ReflectionClass($implClass);

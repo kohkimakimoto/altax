@@ -14,7 +14,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
 
-        $module = new \Altax\Module\Node\Node();
+        $module = new \Altax\Module\Node\NodeModule();
         $module->setContainer($this->container);
         $this->container->addModule(Facade::getModuleName(), $module);
         
@@ -23,14 +23,14 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testSet()
     {
         try {
-            Facade::node();
+            Facade::host();
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
 
-        Facade::node("web1.exsample.com");
-        Facade::node("web2.exsample.com");
+        Facade::host("web1.exsample.com");
+        Facade::host("web2.exsample.com");
 
         //Facade::node("web2.exsample.com");
 

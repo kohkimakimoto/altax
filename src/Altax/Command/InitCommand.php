@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class InitCommand extends \Altax\Command\BaseCommand
-{   
+{
     const TEMPLATE = <<<EOL
 <?php
 /*
@@ -35,7 +35,7 @@ EOL;
     {
         $this
             ->setName('init')
-            ->setDescription('Create default configuration directory and files under the current directory.')
+            ->setDescription('Creates default configuration directory and files under the current directory')
         ;
     }
 
