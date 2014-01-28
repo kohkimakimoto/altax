@@ -53,7 +53,5 @@ class Node extends Module
         }
 
         $this->container->set("nodes", $nodes);
-
-        print_r($this->container->get("nodes"));
     }
 }
