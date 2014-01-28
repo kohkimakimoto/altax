@@ -24,4 +24,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 ), 
             $container->getConfigFiles());
     }
+
+    public function testSet()
+    {
+        $container = new Container();
+        $container->set("nodes/web1", array("node" => "192.168.56.1"));
+        $container->set("nodes/web2", array("node" => "192.168.56.1"));
+
+        $container->set("roles/web/nodes", "web1");
+
+//        print_r($container);
+    }
 }

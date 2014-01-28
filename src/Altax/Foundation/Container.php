@@ -60,7 +60,7 @@ class Container extends \Kohkimakimoto\EArray\EArray
     {
         return isset($this->configFiles[$key]) ? $this->configFiles[$key] : null;
     }
-    
+
     public function setModules(array $modules)
     {
         $this->modules = $modules;

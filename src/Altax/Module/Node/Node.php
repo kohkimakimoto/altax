@@ -7,6 +7,22 @@ use Altax\Foundation\Module;
 class Node extends Module
 {
     /**
+     * Set node
+     */
+    public function node()
+    {
+        $args = func_get_args();
+        if (count($args) < 1) {
+            throw new \RuntimeException("Missing argument. Must 1 arguments at minimum.");
+        }
+
+        if (count($args) === 1) {
+            $node = $args[0];
+            $this->container->set("nodes/$node", array());
+        }
+    }
+
+    /**
      * Register node
      */
     public function set()
