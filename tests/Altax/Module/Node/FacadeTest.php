@@ -30,7 +30,8 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         }
 
         Facade::node("web1.exsample.com");
-        
+        Facade::node("web2.exsample.com");
+
         //Facade::node("web2.exsample.com");
 
         print_r($this->container->get("nodes"));

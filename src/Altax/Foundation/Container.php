@@ -4,7 +4,7 @@ namespace Altax\Foundation;
 /**
  * Altax application container
  */
-class Container extends \Kohkimakimoto\EArray\EArray
+class Container implements \ArrayAccess, \Iterator, \Countable
 {
     /**
      * Name of the applicaiton.
@@ -25,6 +25,11 @@ class Container extends \Kohkimakimoto\EArray\EArray
      * Modules
      */
     protected $modules = array();
+
+    /**
+     * Container managed instaces
+     */
+    protected $instances = array();
 
     /**
      * Application
@@ -90,5 +95,134 @@ class Container extends \Kohkimakimoto\EArray\EArray
     {
         return $this->app;
     }
+
+    /**
+     * Get a value
+     * @param unknown $key
+     */
+    public function get($key, $default = null, $delimiter = '/')
+    {
+        $instances = $this->instances;
+
+        foreach (explode($delimiter, $key) as $k) {
+            $instances = isset($instances[$k]) ? $instances[$k] : $default;
+        }
+
+        return $instances;
+    }
+
+    /**
+    * Set a value.
+    * @param unknown $key
+    * @param unknown $value
+    */
+    public function set($key, $value, $delimiter = '/')
+    {   
+        if (strpos($key, $delimiter) === false) {
+            $this->instances[$key] = $value;
+            return $this;
+        }
+
+        $instances = $this->instances;
+
+        $keys = explode($delimiter, $key);
+        $lastKeyIndex = count($keys) - 1;
+        $ref = &$instances;
+        foreach (explode($delimiter, $key) as $i => $k) {
+            array_shift($keys);
+            if (isset($ref[$k])) {
+                
+                if ($i === $lastKeyIndex) {
+                    // last key
+                    $ref[$k] = $value;
+                } else {
+                    $ref = &$ref[$k];
+                }
+
+            } else {
+                if (is_array($ref)) {
+                    $ref[$k] = $this->convertMultidimentional($keys, $value);
+                } else {
+                    throw new \RuntimeException("Couldn't set a value");
+                }
+                break;
+            }
+        }
+
+
+        $this->instances = $instances;
+        return $this;
+    }
+
+    /**
+     * Convert one dimensional array into multidimensional array
+     */
+    protected function convertMultidimentional($oneDimArray, $leafValue)
+    {
+        $multiDimArray = array();
+        $ref = &$multiDimArray;
+        foreach ($oneDimArray as $key) {
+            $ref[$key] = array();
+            $ref = &$ref[$key];
+        }
+        $ref = $leafValue;
+
+        return $multiDimArray;
+    }
+
+    /**
+     * Delete a value.
+     * @param unknown $key
+     */
+    public function delete($key)
+    {
+        unset($this->instances[$key]);
+    }
+
+    public function getInstances()
+    {
+        return $this->instances;
+    }
+
+    public function offsetSet($offset, $value) {
+        $this->instances[$offset] = $value;
+    }
+    
+    public function offsetExists($offset) {
+        return isset($this->instances[$offset]);
+    }
+
+    public function offsetUnset($offset) {
+        unset($this->instances[$offset]);
+    }
+
+    public function offsetGet($offset) {
+        return isset($this->instances[$offset]) ? $this->instances[$offset] : null;
+    }
+
+    public function current() {
+        return current($this->instances);
+    }
+    
+    public function key() {
+        return key($this->instances);
+    }
+    
+    public function next() {
+        return next($this->instances);
+    }
+
+    public function rewind() {
+        reset($this->instances);
+    }
+    
+    public function valid() {
+        return ($this->current() !== false);
+    }
+
+     public function count() {
+        return count($this->instances);
+    }
+
 }
 
