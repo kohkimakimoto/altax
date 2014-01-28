@@ -21,7 +21,16 @@ class NodesCommand extends \Altax\Command\BaseCommand
     {
         $container = $this->getContainer();
         $nodes = $container->get("nodes");
-        print_r($nodes);
+
+        $table = $this->getHelperSet()->get('table');
+        $table->setHeaders(array('id'));
+        foreach ($nodes as $node) {
+            $table->addRow(array(
+                $node->id
+                ));
+        }
+
+        $table->render($output);
     }
 
 }
