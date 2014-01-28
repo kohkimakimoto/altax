@@ -22,11 +22,6 @@ class Container extends \Kohkimakimoto\EArray\EArray
     protected $configFiles = array();
 
     /**
-     * Aliases of classes.
-     */
-    protected $aliases = array();
-
-    /**
      * Modules
      */
     protected $modules = array();
@@ -65,17 +60,7 @@ class Container extends \Kohkimakimoto\EArray\EArray
     {
         return isset($this->configFiles[$key]) ? $this->configFiles[$key] : null;
     }
-
-    public function setAliases(array $aliases)
-    {
-        $this->aliases = $aliases;
-    }
-
-    public function getAliases()
-    {
-        return $this->aliases;
-    }
-
+    
     public function setModules(array $modules)
     {
         $this->modules = $modules;
