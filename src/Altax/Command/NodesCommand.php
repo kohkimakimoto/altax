@@ -14,6 +14,12 @@ class NodesCommand extends \Altax\Command\BaseCommand
         $this
             ->setName('nodes')
             ->setDescription('Displays nodes')
+            ->addOption(
+               'detail',
+               'd',
+               InputOption::VALUE_NONE,
+               'Shows detail infomation'
+            )
         ;
     }
 
@@ -22,12 +28,30 @@ class NodesCommand extends \Altax\Command\BaseCommand
         $container = $this->getContainer();
         $nodes = $container->get("nodes");
 
+        $isDetail = $input->getOption("detail");
+
         $table = $this->getHelperSet()->get('table');
-        $table->setHeaders(array('name'));
+        
+        if ($isDetail) {
+            $table->setHeaders(array('name', 'host', 'port', 'username', 'key', ));
+        } else {
+            $table->setHeaders(array('name'));
+        }
+
         foreach ($nodes as $node) {
-            $table->addRow(array(
-                $node->name
+            if ($isDetail) {
+                $table->addRow(array(
+                    $node->name,
+                    $node->host,
+                    $node->port,
+                    $node->username,
+                    $node->key,
                 ));
+            } else {
+                $table->addRow(array(
+                    $node->name
+                ));
+            }
         }
 
         $table->render($output);
