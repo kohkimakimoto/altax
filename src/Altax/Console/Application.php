@@ -55,6 +55,7 @@ EOL;
         $this->registerBaseCommands();
         $this->registerBaseModules();
         $this->loadConfiguration($input, $output);
+        $this->registerTasksAsConsoleCommands();
 
         // Runs specified command under the symfony console.
         return parent::doRun($input, $output);
@@ -137,6 +138,11 @@ EOL;
         }
     }
 
+    protected function registerTasksAsConsoleCommands()
+    {
+
+    }
+    
     public function getLongVersion()
     {
         return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
