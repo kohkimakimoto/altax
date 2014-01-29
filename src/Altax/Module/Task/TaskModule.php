@@ -23,5 +23,6 @@ class TaskModule extends Module
 
         $this->container->set("tasks/".$task->name, $task);
 
+        return $task;
     }
 }

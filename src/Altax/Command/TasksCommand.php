@@ -23,10 +23,11 @@ class TasksCommand extends \Altax\Command\BaseCommand
         $tasks = $container->get("tasks");
 
         $table = $this->getHelperSet()->get('table');
-        $table->setHeaders(array('name'));
+        $table->setHeaders(array('name', 'description'));
         foreach ($tasks as $task) {
             $table->addRow(array(
-                $task->name
+                $task->name,
+                $task->description,
                 ));
         }
 
