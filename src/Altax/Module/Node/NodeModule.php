@@ -12,17 +12,22 @@ class NodeModule extends Module
     public function host()
     {
         $args = func_get_args();
+
         if (count($args) < 1) {
             throw new \RuntimeException("Missing argument. Must 1 arguments at minimum.");
         }
 
         if (count($args) === 1) {
             $node = new Node();
-            $node->id = $args[0];
+            $node->name = $args[0];
 
-            $this->container->set("nodes/".$node->id, $node);
+            $this->container->set("nodes/".$node->name, $node);
         }
+
+        return $node;
     }
+
+
 
     /**
      * Register node

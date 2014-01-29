@@ -7,26 +7,26 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class NodesCommand extends \Altax\Command\BaseCommand
+class TasksCommand extends \Altax\Command\BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('nodes')
-            ->setDescription('Displays nodes')
+            ->setName('tasks')
+            ->setDescription('Displays registerd tasks')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $nodes = $container->get("nodes");
+        $tasks = $container->get("tasks");
 
         $table = $this->getHelperSet()->get('table');
         $table->setHeaders(array('name'));
-        foreach ($nodes as $node) {
+        foreach ($tasks as $task) {
             $table->addRow(array(
-                $node->name
+                $task->name
                 ));
         }
 
