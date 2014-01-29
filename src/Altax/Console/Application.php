@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Altax\Foundation\ModuleFacade;
+use Altax\Command\BaseCommand;
 use Altax\Util\Str;
 
 /**
@@ -140,9 +141,14 @@ EOL;
 
     protected function registerTasksAsConsoleCommands()
     {
+        $tasks = $this->container->get("tasks");
 
+        foreach ($tasks as $task) {
+            $command = new BaseCommand($task->name);
+            $this->add($command);
+        } 
     }
-    
+
     public function getLongVersion()
     {
         return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
