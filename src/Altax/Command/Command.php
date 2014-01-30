@@ -49,9 +49,20 @@ class Command extends \Symfony\Component\Console\Command\Command
     {
     }
 
+    protected function executeTaskClosure(InputInterface $input, OutputInterface $output)
+    {
+        return call_user_func($this->task->closure, $this->task);
+    }
+
     protected function preProcessForTask(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("<info>Running</info> ".$this->task->name);
+        $this->task->setInput($input);
+        $this->task->setOutput($output);
+
+        if ($this->task->hasClosure()) {
+            $this->setCode(array($this, "executeTaskClosure"));
+        }
     }
 
     public function setTask($task)
