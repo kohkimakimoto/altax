@@ -43,4 +43,9 @@ class Task
     {
         return $this->output;
     }
+
+    public function run()
+    {
+        return $this;
+    }
 }
