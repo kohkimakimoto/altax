@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class InitCommand extends \Altax\Command\BaseCommand
+class InitCommand extends \Altax\Command\Command
 {
     const TEMPLATE = <<<EOL
 <?php

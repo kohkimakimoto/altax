@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class TasksCommand extends \Altax\Command\BaseCommand
+class TasksCommand extends \Altax\Command\Command
 {
     protected function configure()
     {

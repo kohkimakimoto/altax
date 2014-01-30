@@ -14,4 +14,9 @@ class Task
     {
         $this->description = $description;
     }
+
+    public function hasClosure()
+    {
+        return isset($this->closure);
+    }
 }

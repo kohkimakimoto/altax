@@ -7,9 +7,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Finder\Finder;
 use Altax\Foundation\ModuleFacade;
-use Altax\Command\BaseCommand;
 use Altax\Util\Str;
 
 /**
@@ -84,7 +84,7 @@ EOL;
         $finder->files()->name('*Command.php')->in(__DIR__."/../Command");
         foreach ($finder as $file) {
 
-            if ($file->getFilename() === "BaseCommand.php") {
+            if ($file->getFilename() === 'Command.php') {
                 continue;
             }
 
@@ -144,7 +144,8 @@ EOL;
         $tasks = $this->container->get("tasks");
 
         foreach ($tasks as $task) {
-            $command = new BaseCommand($task->name);
+            $command = new \Altax\Command\Command($task->name);
+            $command->setTask($task);
             $this->add($command);
         } 
     }

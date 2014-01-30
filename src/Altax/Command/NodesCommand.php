@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class NodesCommand extends \Altax\Command\BaseCommand
+class NodesCommand extends \Altax\Command\Command
 {
     protected function configure()
     {
