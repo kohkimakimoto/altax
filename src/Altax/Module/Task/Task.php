@@ -79,7 +79,11 @@ class Task
             $process->setTask($this);
             return $process;
         }
+    }
 
+    public function run($commandline)
+    {
+        $this->process($commandline)->run();
     }
 
 }
