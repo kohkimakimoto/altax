@@ -15,25 +15,6 @@ class Command extends \Symfony\Component\Console\Command\Command
         return $this->getApplication()->getContainer();
     }
 
-    /**
-     * Runs the command.
-     *
-     * The code to execute is either defined directly with the
-     * setCode() method or by overriding the execute() method
-     * in a sub-class.
-     *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     *
-     * @return integer The command exit code
-     *
-     * @throws \Exception
-     *
-     * @see setCode()
-     * @see execute()
-     *
-     * @api
-     */
     public function run(InputInterface $input, OutputInterface $output)
     {
         if ($this->hasTask()) {

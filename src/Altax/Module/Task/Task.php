@@ -18,6 +18,18 @@ class Task
 
     protected $output;
 
+    protected $container;
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
     public function description($description)
     {
         $this->description = $description;
@@ -62,15 +74,12 @@ class Task
     {
         $args = func_get_args();
 
-        if (count($args) == 1 && is_string($args[0])) {            
-            $process = new Process($args);
+        if (count($args) == 1 && is_string($args[0])) {
+            $process = new Process($args[0]);
+            $process->setTask($this);
             return $process;
         }
 
     }
 
-    public function run()
-    {
-        return $this;
-    }
 }

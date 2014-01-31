@@ -16,6 +16,8 @@ class TaskModule extends Module
         }
 
         $task = new Task();
+        $task->setContainer($this->getContainer());
+
         $task->name = $args[0];
         if ($args[1] instanceof \Closure) {
             $task->closure = $args[1];
