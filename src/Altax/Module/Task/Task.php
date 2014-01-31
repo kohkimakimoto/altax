@@ -2,6 +2,8 @@
 
 namespace Altax\Module\Task;
 
+use Altax\Module\Task\Process;
+
 class Task
 {
     public $name;
@@ -54,6 +56,17 @@ class Task
     public function getOutput()
     {
         return $this->output;
+    }
+
+    public function process()
+    {
+        $args = func_get_args();
+
+        if (count($args) == 1 && is_string($args[0])) {            
+            $process = new Process($args);
+            return $process;
+        }
+
     }
 
     public function run()
