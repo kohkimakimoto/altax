@@ -54,6 +54,15 @@ class Command extends \Symfony\Component\Console\Command\Command
         return call_user_func($this->task->closure, $this->task);
     }
 
+    public function initializeWithTask($task)
+    {
+        $this->setTask($task);
+
+        if ($task->hasDescription()) {
+            $this->setDescription($task->description);
+        }
+    }
+
     protected function preProcessForTask(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("<info>Running</info> ".$this->task->name);

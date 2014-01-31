@@ -19,6 +19,8 @@ class TaskModule extends Module
         $task->name = $args[0];
         if ($args[1] instanceof \Closure) {
             $task->closure = $args[1];
+        } elseif (is_string($args[1])) {
+            $task->command = $args[1];
         }
 
         $this->container->set("tasks/".$task->name, $task);

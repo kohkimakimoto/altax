@@ -8,6 +8,8 @@ class Task
 
     public $closure;
 
+    public $command;
+
     public $description;
 
     protected $input;
@@ -19,9 +21,19 @@ class Task
         $this->description = $description;
     }
 
+    public function hasDescription()
+    {
+        return isset($this->description);
+    }
+
     public function hasClosure()
     {
         return isset($this->closure);
+    }
+
+    public function hasCommand()
+    {
+        return isset($this->command);
     }
 
     public function setInput($input)

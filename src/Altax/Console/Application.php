@@ -145,7 +145,7 @@ EOL;
 
         foreach ($tasks as $task) {
             $command = new \Altax\Command\Command($task->name);
-            $command->setTask($task);
+            $command->initializeWithTask($task);
             $this->add($command);
         } 
     }
