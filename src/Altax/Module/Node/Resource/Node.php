@@ -67,7 +67,27 @@ class Node
     }
 
     public function setOptions($options)
-    {
+    {   
+        if (!is_array($options)) {
+            throw new RuntimeException("You must pass option as Array");
+        }
+
+        if (isset($options["host"])) {
+            echo "eeeeee";
+            $this->host = $options["host"];
+        }
+
+        if (isset($options["port"])) {
+            $this->port = $options["port"];
+        }
+
+        if (isset($options["key"])) {
+            $this->key = $options["key"];
+        }
+
+        if (isset($options["username"])) {
+            $this->username = $options["username"];
+        }
 
     }
 
