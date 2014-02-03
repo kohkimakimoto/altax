@@ -14,6 +14,8 @@ class Node
 
     public $username;
 
+    public $roles = array();
+
     public function setName($name)
     {
         $this->name = $name;
@@ -63,4 +65,16 @@ class Node
     {
         return $this->username;
     }
+
+    public function setOptions($options)
+    {
+
+    }
+
+    public function setRoles($roles)
+    {
+        
+    }
+
+    
 }
