@@ -46,7 +46,7 @@ class NodesCommand extends \Altax\Command\Command
                     $node->getPort(),
                     $node->getUsername(),
                     $node->getKey(),
-                    implode(",", $node->getReferenceRoles()),
+                    implode(", ", $node->getReferenceRoles()),
                 ));
             } else {
                 $table->addRow(array(
