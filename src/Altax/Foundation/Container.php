@@ -27,6 +27,16 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     protected $modules = array();
 
     /**
+     * 
+     */
+    protected $input;
+
+    /**
+     * 
+     */
+    protected $output;
+
+    /**
      * Container managed instaces
      */
     protected $instances = array();
@@ -46,6 +56,10 @@ class Container implements \ArrayAccess, \Iterator, \Countable
         return self::VERSION;
     }
 
+    /**
+     * [getConfigFiles description]
+     * @return [type] [description]
+     */
     public function getConfigFiles()
     {
         return $this->configFiles;
@@ -84,6 +98,26 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     public function getModule($name)
     {
         return $this->modules[$name];
+    }
+
+    public function setInput($input)
+    {
+        $this->input = $input;
+    }
+
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    public function setOutput($output)
+    {
+        $this->output = $output;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
     }
 
     public function setApp($app)

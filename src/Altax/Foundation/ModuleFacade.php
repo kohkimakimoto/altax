@@ -32,7 +32,8 @@ abstract class ModuleFacade
      */
     public static function getModuleName()
     {
-        throw new \RuntimeException("ModuleFacade does not implement getModuleName method.");
+        return end(explode("\\", get_called_class()));
+//        throw new \RuntimeException("ModuleFacade does not implement getModuleName method.");
     }
 
     /**

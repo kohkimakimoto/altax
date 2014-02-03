@@ -73,6 +73,8 @@ EOL;
         }
 
         $this->container->setApp($this);
+        $this->container->setInput($input);
+        $this->container->setOutput($output);
     }
 
     /**
@@ -98,18 +100,6 @@ EOL;
     }
 
     /**
-     * Load configuration.
-     */
-    protected function loadConfiguration(InputInterface $input, OutputInterface $output)
-    {
-        foreach ($this->container->getConfigFiles() as $key => $file) {
-            if ($file && is_file($file)) {
-                require_once $file;
-            }
-        }
-    }
-
-    /**
      * Register Modules.
      */
     protected function registerBaseModules()
@@ -118,13 +108,14 @@ EOL;
         ModuleFacade::setContainer($this->container);
 
         $finder = new Finder();
-        $finder->directories()->in(__DIR__."/../Module");
+        $finder->directories()->depth('== 0')->in(__DIR__."/../Module");
         foreach ($finder as $dir) {
 
             $module =  $dir->getBasename();
 
-            $facadeClass = "Altax\Module\\".$module."\\Facade";
+            $facadeClass = "Altax\Module\\".$module."\Facade\\".$module;
             $implClass = "Altax\Module\\".$module."\\".$module."Module";
+
             $moduleName = $facadeClass::getModuleName();
 
             $r = new \ReflectionClass($implClass);
@@ -136,6 +127,18 @@ EOL;
 
             // register module name alias 
             class_alias($facadeClass, $moduleName);
+        }
+    }
+
+    /**
+     * Load configuration.
+     */
+    protected function loadConfiguration(InputInterface $input, OutputInterface $output)
+    {
+        foreach ($this->container->getConfigFiles() as $key => $file) {
+            if ($file && is_file($file)) {
+                require_once $file;
+            }
         }
     }
 
