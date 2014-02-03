@@ -41,15 +41,15 @@ class NodesCommand extends \Altax\Command\Command
         foreach ($nodes as $node) {
             if ($isDetail) {
                 $table->addRow(array(
-                    $node->name,
-                    $node->host,
-                    $node->port,
-                    $node->username,
-                    $node->key,
+                    $node->getName(),
+                    $node->getHost(),
+                    $node->getPort(),
+                    $node->getUsername(),
+                    $node->getKey(),
                 ));
             } else {
                 $table->addRow(array(
-                    $node->name
+                    $node->getName()
                 ));
             }
         }

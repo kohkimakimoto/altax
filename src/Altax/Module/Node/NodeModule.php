@@ -3,6 +3,7 @@
 namespace Altax\Module\Node;
 
 use Altax\Foundation\Module;
+use Altax\Module\Node\Resource\Node;
 
 class NodeModule extends Module
 {
@@ -19,9 +20,9 @@ class NodeModule extends Module
 
         if (count($args) === 1) {
             $node = new Node();
-            $node->name = $args[0];
+            $node->setName($args[0]);
 
-            $this->container->set("nodes/".$node->name, $node);
+            $this->container->set("nodes/".$node->getName(), $node);
         }
 
         return $node;
