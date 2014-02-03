@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Module\Task;
+namespace Altax\Module\Task\Process;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 

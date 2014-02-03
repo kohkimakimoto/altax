@@ -3,7 +3,7 @@
 namespace Altax\Module\Task;
 
 use Altax\Foundation\Module;
-use Altax\Module\Task\Task;
+use Altax\Module\Task\Resource\Task;
 
 class TaskModule extends Module
 {

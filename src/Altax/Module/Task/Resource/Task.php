@@ -1,8 +1,8 @@
 <?php
 
-namespace Altax\Module\Task;
+namespace Altax\Module\Task\Resource;
 
-use Altax\Module\Task\Process;
+use Altax\Module\Task\Process\Process;
 
 class Task
 {
