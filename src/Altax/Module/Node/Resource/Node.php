@@ -73,7 +73,6 @@ class Node
         }
 
         if (isset($options["host"])) {
-            echo "eeeeee";
             $this->host = $options["host"];
         }
 
