@@ -33,7 +33,7 @@ class NodesCommand extends \Altax\Command\Command
         $table = $this->getHelperSet()->get('table');
         
         if ($isDetail) {
-            $table->setHeaders(array('name', 'host', 'port', 'username', 'key', ));
+            $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
         } else {
             $table->setHeaders(array('name'));
         }
@@ -46,6 +46,7 @@ class NodesCommand extends \Altax\Command\Command
                     $node->getPort(),
                     $node->getUsername(),
                     $node->getKey(),
+                    implode(",", $node->getReferenceRoles()),
                 ));
             } else {
                 $table->addRow(array(

@@ -14,7 +14,7 @@ class Node
 
     public $username;
 
-    public $roles = array();
+    public $referenceRoles = array();
 
     public function setName($name)
     {
@@ -71,10 +71,20 @@ class Node
 
     }
 
-    public function setRoles($roles)
+    public function setReferenceRoles($roles)
     {
-        
+        if (is_string($roles)) {
+            $roles = array($roles);
+        }
+
+        $this->referenceRoles = $roles;
     }
 
-    
+    public function getReferenceRoles()
+    {
+        return $this->referenceRoles;
+    }
+
+
+
 }
