@@ -3,9 +3,9 @@ namespace Test\Altax\Module\Node;
 
 use Altax\Foundation\Container;
 use Altax\Foundation\ModuleFacade;
-use Altax\Module\Node\Facade;
+use Altax\Module\Node\Facade\Node;
 
-class FacadeTest extends \PHPUnit_Framework_TestCase
+class NodeTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -16,25 +16,26 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
 
         $module = new \Altax\Module\Node\NodeModule();
         $module->setContainer($this->container);
-        $this->container->addModule(Facade::getModuleName(), $module);
+
+        $this->container->addModule(Node::getModuleName(), $module);
         
     }
 
     public function testSet()
     {
         try {
-            Facade::host();
+            Node::host();
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
 
-        Facade::host("web1.exsample.com");
-        Facade::host("web2.exsample.com");
+        Node::host("web1.exsample.com");
+        Node::host("web2.exsample.com");
 
         //Facade::node("web2.exsample.com");
 
-        print_r($this->container->get("nodes"));
+        // print_r($this->container->get("nodes"));
 
     }
 
