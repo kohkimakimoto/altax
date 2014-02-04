@@ -40,9 +40,9 @@ class Task
         $this->description = $description;
     }
 
-    public function getDescription($description)
+    public function getDescription()
     {
-        $this->description = $description;
+        return $this->description;
     }
 
     public function hasDescription()

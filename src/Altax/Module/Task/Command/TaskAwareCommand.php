@@ -33,7 +33,6 @@ class TaskAwareCommand extends \Altax\Command\Command
         return call_user_func($this->task->getClosure(), $this->task);
     }
 
-
     protected function preProcessForTask(InputInterface $input, OutputInterface $output)
     {
         $output->writeln("<info>Running task </info>".$this->task->getName());
