@@ -125,7 +125,10 @@ EOL;
             // register module into container
             $this->container->addModule($moduleName, $instance);
 
-            // register module name alias 
+            if (class_exists($moduleName)) {
+                throw new \RuntimeException("Class name '".$moduleName."' is already defined.");
+            }
+
             class_alias($facadeClass, $moduleName);
         }
     }

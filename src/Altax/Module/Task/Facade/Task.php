@@ -6,6 +6,6 @@ class Task extends \Altax\Foundation\ModuleFacade
 {
     public static function getModuleName()
     {
-        return "Node";
+        return "Task";
     }
 }
