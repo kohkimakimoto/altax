@@ -33,7 +33,7 @@ class TaskAwareCommand extends \Altax\Command\Command
 
     protected function preProcessForTask(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("<info>Running</info> ".$this->task->name);
+        $output->writeln("<info>Running task </info>".$this->task->name);
         $this->task->setInput($input);
         $this->task->setOutput($output);
 
