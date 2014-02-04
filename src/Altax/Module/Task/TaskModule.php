@@ -17,15 +17,15 @@ class TaskModule extends Module
 
         $task = new Task();
         $task->setContainer($this->getContainer());
+        $task->setName($args[0]);
 
-        $task->name = $args[0];
         if ($args[1] instanceof \Closure) {
             $task->closure = $args[1];
         } elseif (is_string($args[1])) {
             $task->command = $args[1];
         }
 
-        $this->container->set("tasks/".$task->name, $task);
+        $this->container->set("tasks/".$task->getName(), $task);
 
         return $task;
     }

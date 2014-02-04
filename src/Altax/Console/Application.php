@@ -154,8 +154,7 @@ EOL;
         $tasks = $this->container->get("tasks");
 
         foreach ($tasks as $task) {
-            $command = new \Altax\Module\Task\Command\TaskAwareCommand($task->name);
-            $command->initializeWithTask($task);
+            $command = new \Altax\Module\Task\Command\TaskAwareCommand($task);
             $this->add($command);
         } 
     }

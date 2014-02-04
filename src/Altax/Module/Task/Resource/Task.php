@@ -6,7 +6,9 @@ use Altax\Module\Task\Process\Process;
 
 class Task
 {
-    public $name;
+    protected $container;
+
+    protected $name;
 
     public $closure;
 
@@ -18,7 +20,15 @@ class Task
 
     protected $output;
 
-    protected $container;
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 
     public function setContainer($container)
     {
