@@ -6,7 +6,7 @@ use Symfony\Component\Console\Tester\ApplicationTester;
 use Altax\Console\Application;
 use Altax\Foundation\Container;
 
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefault()
     {
