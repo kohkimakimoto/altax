@@ -6,18 +6,13 @@ use Altax\Module\Task\Process\Process;
 
 class Task
 {
+
     protected $container;
-
     protected $name;
-
-    public $closure;
-
-    public $command;
-
-    public $description;
-
+    protected $closure;
+    protected $command;
+    protected $description;
     protected $input;
-
     protected $output;
 
     public function setName($name)
@@ -40,7 +35,12 @@ class Task
         return $this->container;
     }
 
-    public function description($description)
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription($description)
     {
         $this->description = $description;
     }
@@ -50,9 +50,29 @@ class Task
         return isset($this->description);
     }
 
+    public function setClosure($closure)
+    {
+        $this->closure = $closure;
+    }
+
+    public function getClosure()
+    {
+        return $this->closure;
+    }
+
     public function hasClosure()
     {
         return isset($this->closure);
+    }
+
+    public function setCommand($command)
+    {
+        $this->command = $command;
+    }
+
+    public function getCommand()
+    {
+        return $this->command;
     }
 
     public function hasCommand()

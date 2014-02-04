@@ -14,9 +14,8 @@ class TaskAwareCommand extends \Altax\Command\Command
     public function __construct($task)
     {
         $this->task = $task;
-
         if ($this->task->hasDescription()) {
-            $this->setDescription($this->task->description);
+            $this->setDescription($this->task->getDescription());
         }
 
         parent::__construct($task->getName());
@@ -31,13 +30,13 @@ class TaskAwareCommand extends \Altax\Command\Command
 
     protected function executeTaskClosure(InputInterface $input, OutputInterface $output)
     {
-        return call_user_func($this->task->closure, $this->task);
+        return call_user_func($this->task->getClosure(), $this->task);
     }
 
 
     protected function preProcessForTask(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("<info>Running task </info>".$this->task->name);
+        $output->writeln("<info>Running task </info>".$this->task->getName());
         $this->task->setInput($input);
         $this->task->setOutput($output);
 
