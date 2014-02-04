@@ -145,17 +145,25 @@ EOL;
         }
     }
 
+    /**
+     * [registerTasksAsConsoleCommands description]
+     * @return [type] [description]
+     */
     protected function registerTasksAsConsoleCommands()
     {
         $tasks = $this->container->get("tasks");
 
         foreach ($tasks as $task) {
-            $command = new \Altax\Command\Command($task->name);
+            $command = new \Altax\Module\Task\Command\TaskAwareCommand($task->name);
             $command->initializeWithTask($task);
             $this->add($command);
         } 
     }
 
+    /**
+     * [getLongVersion description]
+     * @return [type] [description]
+     */
     public function getLongVersion()
     {
         return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
