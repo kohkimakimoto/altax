@@ -1,8 +1,9 @@
 <?php
-
 namespace Altax\Module\Server\Resource;
 
-class Server
+use Altax\Util\Arr;
+
+class Node
 {
     public $name;
 
@@ -93,7 +94,13 @@ class Server
     public function setReferenceRoles($roles)
     {
         if (is_string($roles)) {
-            $roles = array($roles);
+            $roles = array($roles => $roles);
+        } elseif (Arr::isVector($roles)) {
+            $vrs = $roles;
+            $roles = array();
+            foreach ($vrs as $r) {
+                $roles[$r] = $r;
+            }
         }
 
         $this->referenceRoles = $roles;
@@ -104,6 +111,12 @@ class Server
         return $this->referenceRoles;
     }
 
-
+    public function mergeReferenceRoles($roles)
+    {
+        if (is_string($roles)) {
+            $roles = array($roles => $roles);
+        }
+        $this->referenceRoles = array_merge($this->referenceRoles, $roles);
+    }
 
 }
