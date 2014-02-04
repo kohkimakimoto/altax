@@ -153,10 +153,12 @@ EOL;
     {
         $tasks = $this->container->get("tasks");
 
-        foreach ($tasks as $task) {
-            $command = new \Altax\Module\Task\Command\TaskAwareCommand($task);
-            $this->add($command);
-        } 
+        if ($tasks && is_array($tasks)) {
+            foreach ($tasks as $task) {
+                $command = new \Altax\Module\Task\Command\TaskAwareCommand($task);
+                $this->add($command);
+            }
+        }
     }
 
     /**
