@@ -29,4 +29,5 @@ class TaskModule extends Module
 
         return $task;
     }
+
 }
