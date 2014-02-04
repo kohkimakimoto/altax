@@ -73,4 +73,15 @@ class ServerModule extends Module
 
     }
 
+    public function getNode($name)
+    {
+        return $this->container->get("nodes/".$name, null);
+    }
+
+
+    public function getRole($name)
+    {
+        return $this->container->get("roles/".$name, null);
+    }
+
 }
