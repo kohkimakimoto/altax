@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Altax\Module\Task\Resource\RuntimeTask;
 
 class TaskAwareCommand extends \Altax\Command\Command
 {
@@ -30,15 +31,13 @@ class TaskAwareCommand extends \Altax\Command\Command
 
     protected function executeTaskClosure(InputInterface $input, OutputInterface $output)
     {
-        return call_user_func($this->task->getClosure(), $this->task);
+        $runtimeTask = new RuntimeTask($this->task, $input, $output);        
+        $output->writeln("<info>Running task </info>".$this->task->getName());
+        return call_user_func($this->task->getClosure(), $runtimeTask);
     }
 
     protected function preProcessForTask(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("<info>Running task </info>".$this->task->getName());
-        $this->task->setInput($input);
-        $this->task->setOutput($output);
-
         if ($this->task->hasClosure()) {
             $this->setCode(array($this, "executeTaskClosure"));
         }

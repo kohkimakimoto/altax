@@ -1,5 +1,4 @@
 <?php
-
 namespace Altax\Module\Task\Resource;
 
 use Altax\Module\Task\Process\Process;
@@ -12,8 +11,6 @@ class Task
     protected $closure;
     protected $command;
     protected $description;
-    protected $input;
-    protected $output;
 
     public function setName($name)
     {
@@ -79,41 +76,4 @@ class Task
     {
         return isset($this->command);
     }
-
-    public function setInput($input)
-    {
-        $this->input = $input;
-    }
-
-    public function getInput()
-    {
-        return $this->input;
-    }
-
-    public function setOutput($output)
-    {
-        $this->output = $output;
-    }
-
-    public function getOutput()
-    {
-        return $this->output;
-    }
-
-    public function process()
-    {
-        $args = func_get_args();
-
-        if (count($args) == 1 && is_string($args[0])) {
-            $process = new Process($args[0]);
-            $process->setTask($this);
-            return $process;
-        }
-    }
-
-    public function run($commandline)
-    {
-        $this->process($commandline)->run();
-    }
-
 }
