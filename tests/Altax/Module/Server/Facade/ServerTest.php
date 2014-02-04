@@ -1,11 +1,11 @@
 <?php
-namespace Test\Altax\Module\Node;
+namespace Test\Altax\Module\Server;
 
 use Altax\Foundation\Container;
 use Altax\Foundation\ModuleFacade;
-use Altax\Module\Node\Facade\Node;
+use Altax\Module\Server\Facade\Server;
 
-class NodeTest extends \PHPUnit_Framework_TestCase
+class ServerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -14,29 +14,24 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
 
-        $module = new \Altax\Module\Node\NodeModule();
+        $module = new \Altax\Module\Server\ServerModule();
         $module->setContainer($this->container);
 
-        $this->container->addModule(Node::getModuleName(), $module);
+        $this->container->addModule(Server::getModuleName(), $module);
         
     }
 
     public function testSet()
     {
         try {
-            Node::host();
+            Server::node();
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
 
-        Node::host("web1.exsample.com");
-        Node::host("web2.exsample.com");
-
-        //Facade::node("web2.exsample.com");
-
-        // print_r($this->container->get("nodes"));
-
+        Server::node("web1.exsample.com");
+        Server::node("web2.exsample.com");
     }
 
 }

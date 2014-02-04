@@ -36,13 +36,25 @@ class RuntimeTask
         return $this->output;
     }
 
+    public function writeln($string)
+    {
+        $this->output->writeln($string);
+    }
+
+    public function write($string)
+    {
+        $this->output->write($string);
+    }
+
     public function process()
     {
         $args = func_get_args();
+        
+        $process = new Process($this);
 
         if (count($args) == 1 && is_string($args[0])) {
-            $process = new Process($args[0]);
-            $process->setTask($this);
+            // Passed a commandline string to run.
+            $process->setCommandline($args[0]);
             return $process;
         }
     }

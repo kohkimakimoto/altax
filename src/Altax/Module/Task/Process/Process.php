@@ -5,15 +5,15 @@ use Symfony\Component\Process\Process as SymfonyProcess;
 
 class Process
 {
+    protected $runtimeTask;
     protected $commandline;
-    protected $task;
 
-    public function setTask($task)
+    public function __construct($runtimeTask)
     {
-        $this->task = $task;
+        $this->runtimeTask = $runtimeTask;
     }
 
-    public function __construct($commandline, $cwd = null, array $env = null, $stdin = null, $timeout = 60, array $options = array())
+    public function setCommandline($commandline)
     {
         $this->commandline = $commandline;
     }
@@ -25,7 +25,7 @@ class Process
         $symfonyProcess = new SymfonyProcess($this->commandline);
         $symfonyProcess->setTimeout(null);
         $symfonyProcess->run(function ($type, $buffer) use ($self) {
-            $self->task->getOutput()->write($buffer);
+            $self->runtimeTask->getOutput()->write($buffer);
         });
     }
 }

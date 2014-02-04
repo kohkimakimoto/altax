@@ -1,8 +1,8 @@
 <?php
 
-namespace Altax\Module\Node\Resource;
+namespace Altax\Module\Server\Resource;
 
-class Node
+class Server
 {
     public $name;
 
