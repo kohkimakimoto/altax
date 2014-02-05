@@ -7,4 +7,3 @@
 A simple deployment tool for PHP.
 
 Altax version 3 is under the development.
-
