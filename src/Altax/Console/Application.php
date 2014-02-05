@@ -155,8 +155,8 @@ EOL;
 
         if ($tasks && is_array($tasks)) {
             foreach ($tasks as $task) {
-                $command = new \Altax\Module\Task\Command\TaskAwareCommand($task);
-                $this->add($command);
+                $this->add($task->createCommandInstance());
+
             }
         }
     }

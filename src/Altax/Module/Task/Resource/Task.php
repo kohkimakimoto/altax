@@ -2,14 +2,14 @@
 namespace Altax\Module\Task\Resource;
 
 use Altax\Module\Task\Process\Process;
+use \Altax\Module\Task\Command\ClosureTaskCommand;
 
 class Task
 {
-
     protected $container;
     protected $name;
     protected $closure;
-    protected $command;
+    protected $commandClass;
     protected $description;
 
     public function setName($name)
@@ -62,18 +62,34 @@ class Task
         return isset($this->closure);
     }
 
-    public function setCommand($command)
+    public function setCommandClass($commandClass)
     {
-        $this->command = $command;
+        $this->commandClass = $commandClass;
     }
 
-    public function getCommand()
+    public function getCommandClass()
     {
-        return $this->command;
+        return $this->commandClass;
     }
 
-    public function hasCommand()
+    public function hasCommandClass()
     {
-        return isset($this->command);
+        return isset($this->commandClass);
+    }
+
+    public function createCommandInstance()
+    {   
+        $command = null;
+        if ($this->hasClosure()) {
+            $command = new ClosureTaskCommand($this);
+        } elseif ($this->hasCommandClass()) {
+            $r = new \ReflectionClass($this->getCommandClass());
+            $command = $r->newInstance($this->getName());
+        } else {
+            throw new \RuntimeException("Couldn't create command instance from a task named '".$this->name."'.");
+        }
+
+        return $command;
+                
     }
 }

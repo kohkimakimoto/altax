@@ -24,10 +24,7 @@ class TaskModule extends Module
             $task->setClosure($args[1]);
         } elseif (is_string($args[1])) {
             // Task is a command class.
-            $r = new \ReflectionClass($args[1]);
-            $command = $r->newInstance($task->getName());
-            $command->setApplication($this->container->getApp());
-            $task->setCommand($command);
+            $task->setCommandClass($args[1]);
         }
 
 
