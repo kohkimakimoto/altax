@@ -11,7 +11,7 @@ A simple deploy tool for PHP.
 ## Overview
 
 Altax is a command-line tool for running tasks to remote servers.
-Like a [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
+it's like a [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 
 ## Documentation
 
