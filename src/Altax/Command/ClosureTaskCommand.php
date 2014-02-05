@@ -1,6 +1,5 @@
 <?php
-namespace Altax\Module\Task\Command;
-
+namespace Altax\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

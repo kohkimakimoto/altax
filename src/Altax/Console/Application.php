@@ -53,7 +53,7 @@ EOL;
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->configureContainer($input, $output);
-        $this->registerBaseCommands();
+        $this->registerBuilinCommands();
         $this->registerBaseModules();
         $this->loadConfiguration($input, $output);
         $this->registerTasksAsConsoleCommands();
@@ -80,22 +80,19 @@ EOL;
     /**
      * Register base commands
      */
-    protected function registerBaseCommands()
+    protected function registerBuilinCommands()
     {
         $finder = new Finder();
-        $finder->files()->name('*Command.php')->in(__DIR__."/../Command");
+        $finder->files()->name('*Command.php')->in(__DIR__."/../Command/Builtin");
         foreach ($finder as $file) {
-
             if ($file->getFilename() === 'Command.php') {
                 continue;
             }
 
-            $class = "Altax\Command\\".$file->getBasename('.php');
+            $class = "Altax\Command\Builtin\\".$file->getBasename('.php');
             $r = new \ReflectionClass($class);
             $command = $r->newInstance();
-            $command->setApplication($this);
             $this->add($command);
-
         }
     }
 
@@ -110,7 +107,6 @@ EOL;
         $finder = new Finder();
         $finder->directories()->depth('== 0')->in(__DIR__."/../Module");
         foreach ($finder as $dir) {
-
             $module =  $dir->getBasename();
 
             $facadeClass = "Altax\Module\\".$module."\Facade\\".$module;

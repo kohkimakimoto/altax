@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Command;
+namespace Altax\Command\Builtin;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class RolesCommand extends \Altax\Command\Command
+class RolesCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
@@ -19,7 +19,7 @@ class RolesCommand extends \Altax\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
+        $container = $this->getApplication()->getContainer();
         $roles = $container->get("roles");
 
         $table = $this->getHelperSet()->get('table');

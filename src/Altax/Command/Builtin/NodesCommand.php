@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Command;
+namespace Altax\Command\Builtin;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class NodesCommand extends \Altax\Command\Command
+class NodesCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
@@ -25,7 +25,7 @@ class NodesCommand extends \Altax\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
+        $container = $this->getApplication()->getContainer();
         $nodes = $container->get("nodes");
 
         $isDetail = $input->getOption("detail");

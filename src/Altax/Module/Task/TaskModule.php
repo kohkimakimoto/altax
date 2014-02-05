@@ -3,7 +3,7 @@
 namespace Altax\Module\Task;
 
 use Altax\Foundation\Module;
-use Altax\Module\Task\Resource\Task;
+use Altax\Module\Task\Resource\DefinedTask;
 
 class TaskModule extends Module
 {
@@ -15,7 +15,7 @@ class TaskModule extends Module
             throw new \RuntimeException("Missing argument. Must 2 arguments at minimum.");
         }
 
-        $task = new Task();
+        $task = new DefinedTask();
         $task->setContainer($this->getContainer());
         $task->setName($args[0]);
 
@@ -26,7 +26,6 @@ class TaskModule extends Module
             // Task is a command class.
             $task->setCommandClass($args[1]);
         }
-
 
         $this->container->set("tasks/".$task->getName(), $task);
 

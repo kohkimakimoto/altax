@@ -2,9 +2,9 @@
 namespace Altax\Module\Task\Resource;
 
 use Altax\Module\Task\Process\Process;
-use \Altax\Module\Task\Command\ClosureTaskCommand;
+use \Altax\Command\ClosureTaskCommand;
 
-class Task
+class DefinedTask
 {
     protected $container;
     protected $name;
@@ -85,6 +85,7 @@ class Task
         } elseif ($this->hasCommandClass()) {
             $r = new \ReflectionClass($this->getCommandClass());
             $command = $r->newInstance($this->getName());
+
         } else {
             throw new \RuntimeException("Couldn't create command instance from a task named '".$this->name."'.");
         }

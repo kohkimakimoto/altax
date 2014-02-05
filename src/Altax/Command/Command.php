@@ -12,4 +12,17 @@ class Command extends \Symfony\Component\Console\Command\Command
     {
         return $this->getApplication()->getContainer();
     }
+    
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $runtimeTask = new RuntimeTask($this->task, $input, $output);        
+        $output->writeln("<info>Running task </info>".$this->task->getName());
+        
+        return $this->fire($runtimeTask);
+    }
+
+    protected function fire($task)
+    {
+        throw new \RuntimeException("You need to override 'fire' method.");
+    }
 }
