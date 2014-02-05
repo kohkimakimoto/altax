@@ -84,8 +84,7 @@ class DefinedTask
             $command = new ClosureTaskCommand($this);
         } elseif ($this->hasCommandClass()) {
             $r = new \ReflectionClass($this->getCommandClass());
-            $command = $r->newInstance($this->getName());
-
+            $command = $r->newInstance($this);
         } else {
             throw new \RuntimeException("Couldn't create command instance from a task named '".$this->name."'.");
         }
