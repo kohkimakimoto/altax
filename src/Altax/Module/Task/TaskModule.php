@@ -20,10 +20,16 @@ class TaskModule extends Module
         $task->setName($args[0]);
 
         if ($args[1] instanceof \Closure) {
+            // Task is a closure
             $task->setClosure($args[1]);
         } elseif (is_string($args[1])) {
-            $task->setCommand($args[1]);
+            // Task is a command class.
+            $r = new \ReflectionClass($args[1]);
+            $command = $r->newInstance($task->getName());
+            $command->setApplication($this->container->getApp());
+            $task->setCommand($command);
         }
+
 
         $this->container->set("tasks/".$task->getName(), $task);
 
