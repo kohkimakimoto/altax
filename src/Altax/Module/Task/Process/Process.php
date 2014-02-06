@@ -50,6 +50,11 @@ class Process
         $this->timeout = $timeout;
     }
 
+    public function getRuntimeTask()
+    {
+        return $this->runtimeTask;
+    }
+
     /**
      * Set roles or nodes to run process remotely.
      * 
@@ -291,7 +296,7 @@ class Process
 
         $self = $this;
         $ssh->exec($realCommand, function ($buffer) use ($self) {
-            $self->runtimeTask->getOutput()->write($buffer);
+            $self->getRuntimeTask()->getOutput()->write($buffer);
         });
     }
 
@@ -319,7 +324,7 @@ class Process
         $symfonyProcess = new SymfonyProcess($realCommand);
         $symfonyProcess->setTimeout($this->timeout);
         $symfonyProcess->run(function ($type, $buffer) use ($self) {
-            $self->runtimeTask->getOutput()->write($buffer);
+            $self->getRuntimeTask()->getOutput()->write($buffer);
         });
     }
 
