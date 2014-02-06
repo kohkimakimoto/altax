@@ -288,11 +288,17 @@ class Process
 
         // Organize realcommand to run
         $realCommand = "";
+        
+        $commandline = null;
         if ($this->hasClosure()) {
-            $realCommand =call_user_func($this->closure, $node);
+            $commandline .= call_user_func($this->closure, $node);
         } else {
-            $realCommand .= $this->commandline;
+            $commandline .= $this->commandline;
         }
+
+        $commandline = $this->compileCommandline($commandline, $node);
+
+        $realCommand .= $commandline;
 
         $self = $this;
         $ssh->exec($realCommand, function ($buffer) use ($self) {
@@ -314,11 +320,17 @@ class Process
 
         // Organize realcommand to run
         $realCommand = "";
+        
+        $commandline = null;
         if ($this->hasClosure()) {
-            $realCommand =call_user_func($this->closure, $node);
+            $commandline .= call_user_func($this->closure, $node);
         } else {
-            $realCommand .= $this->commandline;
+            $commandline .= $this->commandline;
         }
+
+        $commandline = $this->compileCommandline($commandline, $node);
+
+        $realCommand .= $commandline;
 
         $self = $this;
         $symfonyProcess = new SymfonyProcess($realCommand);
@@ -328,6 +340,23 @@ class Process
         });
     }
 
+    public function compileCommandline($value, $node)
+    {
+        $pattern = '/{{\s*(.+?)\s*}}/s';
+        $self = $this;
+        $callback = function($matches) {
+            return '<?php echo '.$matches[1].'; ?>';
+        };
+
+        $compiledValue = preg_replace_callback($pattern, $callback, $value);
+
+        ob_start();
+        eval(' ?>'.$compiledValue.'<?php ');
+        $generatedValue = ob_get_contents();
+        ob_end_clean();
+        
+        return $generatedValue;
+    }
 
     public function setNodes($nodes)
     {

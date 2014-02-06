@@ -4,7 +4,7 @@ namespace Test\bin;
 use Symfony\Component\Process\Process;
 
 /**
- * End to End test for command line application.
+ * End to end test of a command line application.
  * Note: Can't trac coverage of running code.
  */
 class E2eTest extends \PHPUnit_Framework_TestCase

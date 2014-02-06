@@ -9,6 +9,8 @@ use Altax\Foundation\ModuleFacade;
 use Altax\Module\Task\Resource\DefinedTask;
 use Altax\Module\Task\Resource\RuntimeTask;
 use Altax\Module\Task\Process\Process;
+use Altax\Module\Server\Resource\Node;
+
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,4 +39,23 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("testecho\n", $output->fetch());
     }
 
+    public function testCompileCommandline()
+    {
+        $task = new DefinedTask();
+        $task->setName("test_process_run");
+
+        $input = new ArgvInput();
+        $output = new BufferedOutput();
+
+        $node = new Node();
+        $node->setName("nameeeee!");
+
+        $runtimeTask = new RuntimeTask($task, $input, $output);
+        $process = new Process($runtimeTask);
+        $ret = $process->compileCommandline('echo {{ $node->getName() }}', $node);
+        $this->assertEquals("echo nameeeee!", $ret);
+    }
+
 }
+
+
