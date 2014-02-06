@@ -8,6 +8,7 @@ class Process
 {
     protected $runtimeTask;
     protected $commandline;
+    protected $closure;
     protected $timeout;
     protected $isLocal;
     protected $nodes = array();
@@ -19,6 +20,7 @@ class Process
     {
         $this->runtimeTask = $runtimeTask;
         $this->commandline = null;
+        $this->closure = null;
         $this->timeout = null;
         $this->isLocal = true;
     }
@@ -26,6 +28,21 @@ class Process
     public function setCommandline($commandline)
     {
         $this->commandline = $commandline;
+    }
+
+    public function setClosure($closure)
+    {
+        $this->closure = $closure;
+    }
+
+    public function getClosure()
+    {
+        return $this->closure;
+    }
+
+    public function hasClosure()
+    {
+        return isset($this->closure);
     }
 
     public function setTimeout($timeout)
@@ -187,7 +204,10 @@ class Process
         return $concreteNodes;
     }
 
-
+    /**
+     * Run the process.
+     * @return [type] [description]
+     */
     public function run()
     {
         $nodes = $this->getNodes();
@@ -263,7 +283,11 @@ class Process
 
         // Organize realcommand to run
         $realCommand = "";
-        $realCommand .= $this->commandline;
+        if ($this->hasClosure()) {
+            $realCommand =call_user_func($this->closure, $node);
+        } else {
+            $realCommand .= $this->commandline;
+        }
 
         $self = $this;
         $ssh->exec($realCommand, function ($buffer) use ($self) {
@@ -271,6 +295,11 @@ class Process
         });
     }
 
+    /**
+     * Run the process locally
+     * @param  [type] $node [description]
+     * @return [type]       [description]
+     */
     protected function runLocally($node = null)
     {
         // Output info
@@ -280,7 +309,11 @@ class Process
 
         // Organize realcommand to run
         $realCommand = "";
-        $realCommand .= $this->commandline;
+        if ($this->hasClosure()) {
+            $realCommand =call_user_func($this->closure, $node);
+        } else {
+            $realCommand .= $this->commandline;
+        }
 
         $self = $this;
         $symfonyProcess = new SymfonyProcess($realCommand);
