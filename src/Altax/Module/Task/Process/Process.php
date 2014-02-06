@@ -97,8 +97,6 @@ class Process
         return $this;
     }
 
-
-
     /**
      * Load nods from variable length argument lists same 'on' and 'for' method.
      * @return array Array of Altax\Module\Server\Resource\Node
