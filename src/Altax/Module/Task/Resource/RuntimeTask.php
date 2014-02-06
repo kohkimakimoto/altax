@@ -56,6 +56,8 @@ class RuntimeTask
             // Passed a commandline string to run.
             $process->setCommandline($args[0]);
             return $process;
+        } else {
+            throw new \RuntimeException("Unsupported calling the method.");
         }
     }
 

@@ -26,14 +26,26 @@ class Command extends \Symfony\Component\Console\Command\Command
         }
 
         parent::__construct();
+
+        // Override the command name.
+        $this->setName($this->definedTask->getName());
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $runtimeTask = new RuntimeTask($this->definedTask, $input, $output);        
-        $output->writeln("<info>Running task </info>".$this->definedTask->getName());
         
-        return $this->fire($runtimeTask);
+        if ($output->isVerbose()) {
+            $output->writeln("<info>Running task </info>".$this->definedTask->getName());
+        }
+        
+        $retVal = $this->fire($runtimeTask);
+
+        if ($output->isVerbose()) {
+            $output->writeln("<info>Finished task </info>".$this->definedTask->getName());
+        }
+
+        return $retVal;
     }
 
     protected function fire($task)
