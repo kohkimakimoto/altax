@@ -1,5 +1,5 @@
 <?php
-namespace Test\Altax\Module\Server;
+namespace Test\Altax\Module\Server\Facade;
 
 use Altax\Foundation\Container;
 use Altax\Foundation\ModuleFacade;
