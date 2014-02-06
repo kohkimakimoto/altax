@@ -41,4 +41,4 @@ If you use Altax version 1 or 2. You can see **2.x branch**
 * Developing a plugable system via composer like the `Grunt`.
 * Implementing a way of replacing a part of commandline string in the process function. 
 * Writing proper comments in the source code.
-
+* Implementing process option to specify a current directory and user. 
