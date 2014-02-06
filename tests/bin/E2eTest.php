@@ -19,4 +19,18 @@ class E2eTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals("This is a test001\n", $process->getOutput());
     }
+
+    public function testRunTaskTest002()
+    {   
+        // Just runs task.
+        
+        $bin = realpath(__DIR__."/../../bin/altax");
+        $currentDir = __DIR__;
+        $process = new Process("cd $currentDir && php $bin test002");
+        $process->run();
+        $this->assertEquals(true, $process->isSuccessful());
+
+        // echo $process->getOutput();
+    }
+
 }
