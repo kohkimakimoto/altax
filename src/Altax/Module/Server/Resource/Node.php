@@ -88,7 +88,6 @@ class Node
         if (isset($options["username"])) {
             $this->username = $options["username"];
         }
-
     }
 
     public function setReferenceRoles($roles)
@@ -118,5 +117,4 @@ class Node
         }
         $this->referenceRoles = array_merge($this->referenceRoles, $roles);
     }
-
 }

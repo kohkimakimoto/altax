@@ -2,6 +2,7 @@
 namespace Altax\Module\Task\Process;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
+use Altax\Module\Server\Facade\Server;
 
 class Process
 {
@@ -46,6 +47,23 @@ class Process
         if (count($args) === 1 && is_string($args[0])) {
             $candidateNodeNames = array($args[0]);
         }
+
+        foreach ($candidateNodeNames as $candidateNodeName) {
+            
+            $node = Server::getNode($candidateNodeName);
+            $role = Server::getRole($candidateNodeName);
+            
+            if ($node && $role) {
+                throw new \RuntimeException("The key '$candidateNodeName' was found in both nodes and roles. So It couldn't identify to unique node.");
+            }
+
+            if ($node) {
+
+            }
+
+            print_r($node);
+
+        } 
 
 //        print_r($candidateNodeNames);
 
