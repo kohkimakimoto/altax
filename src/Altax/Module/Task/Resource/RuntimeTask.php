@@ -67,4 +67,21 @@ class RuntimeTask
         $this->process($commandline)->run();
     }
 
+    public function call($taskName)
+    {
+        if ($this->output->isVerbose()) {
+            $this->output->writeln("<info>Calling task: </info><comment>".$taskName."</comment> from ".$this->task->getName());
+        }
+
+        $command = $this
+            ->task
+            ->getContainer()
+            ->getApp()
+            ->find($taskName)
+            ;
+
+        // TODO: implement logic to create proper input object.
+        $command->run($this->input, $this->output);
+    }
+
 }
