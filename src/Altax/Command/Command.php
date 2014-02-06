@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Altax\Module\Task\Resource\RuntimeTask;
 
-class Command extends \Symfony\Component\Console\Command\Command
+abstract class Command extends \Symfony\Component\Console\Command\Command
 {
     protected $definedTask;
 

@@ -1,6 +1,7 @@
 <?php
 namespace Altax\Module\Task\Resource;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Altax\Module\Task\Process\Process;
 
 class RuntimeTask
@@ -67,7 +68,7 @@ class RuntimeTask
         $this->process($commandline)->run();
     }
 
-    public function call($taskName)
+    public function call($taskName, $arguments = array())
     {
         if ($this->output->isVerbose()) {
             $this->output->writeln("<info>Calling task: </info><comment>".$taskName."</comment> from ".$this->task->getName());
@@ -80,8 +81,8 @@ class RuntimeTask
             ->find($taskName)
             ;
 
-        // TODO: implement logic to create proper input object.
-        $command->run($this->input, $this->output);
+        $input = new ArrayInput($arguments);
+        return $command->run($this->input, $this->output);
     }
 
 }

@@ -8,7 +8,7 @@ use Altax\Foundation\Container;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDefault()
+    public function testList()
     {
         $container = new Container();
 
