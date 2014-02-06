@@ -32,3 +32,12 @@ See [LICENSE](./LICENSE)
 If you use Altax version 1 or 2. You can see **2.x branch**
 
 
+## TODO
+
+* Implementing after and before task.
+* Writing documents.
+* Creating online installation script. 
+* Updating init command.
+
+
+
