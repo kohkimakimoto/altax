@@ -55,10 +55,11 @@ class RuntimeTask
         if (count($args) == 1 && is_string($args[0])) {
             // Passed a commandline string to run.
             $process->setCommandline($args[0]);
-            return $process;
         } else {
             throw new \RuntimeException("Unsupported calling the method.");
         }
+
+        return $process;
     }
 
     public function run($commandline)
