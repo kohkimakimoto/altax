@@ -14,6 +14,9 @@ class Process
     protected $nodes = array();
     protected $isAlreadyCalledOn = false;
     protected $isAlreadyCalledTo = false;
+    protected $cwd = null;
+    protected $user = null;
+
     protected $childPids = array();
 
     public function __construct($runtimeTask)
@@ -116,6 +119,18 @@ class Process
         $this->isLocal = true;
         $this->isAlreadyCalledTo = true;
         
+        return $this;
+    }
+
+    public function cwd($cwd)
+    {
+        $this->cwd = $cwd;
+        return $this;
+    }
+
+    public function user($user)
+    {
+        $this->user = $user;
         return $this;
     }
 
@@ -286,9 +301,7 @@ class Process
             throw new \RuntimeException('Unable to login '.$node->getName());
         }
 
-        // Organize realcommand to run
-        $realCommand = "";
-        
+        // Organize realcommand to run        
         $commandline = null;
         if ($this->hasClosure()) {
             $commandline .= call_user_func($this->closure, $node);
@@ -297,8 +310,11 @@ class Process
         }
 
         $commandline = $this->compileCommandline($commandline, $node);
+        $realCommand = $this->compileRealCommand($commandline);
 
-        $realCommand .= $commandline;
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln("<info>Real command: </info>$realCommand");
+        }
 
         $self = $this;
         $ssh->exec($realCommand, function ($buffer) use ($self) {
@@ -319,8 +335,6 @@ class Process
         }
 
         // Organize realcommand to run
-        $realCommand = "";
-        
         $commandline = null;
         if ($this->hasClosure()) {
             $commandline .= call_user_func($this->closure, $node);
@@ -329,8 +343,11 @@ class Process
         }
 
         $commandline = $this->compileCommandline($commandline, $node);
+        $realCommand = $this->compileRealCommand($commandline);
 
-        $realCommand .= $commandline;
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln("<info>Real command: </info>$realCommand");
+        }
 
         $self = $this;
         $symfonyProcess = new SymfonyProcess($realCommand);
@@ -356,6 +373,29 @@ class Process
         ob_end_clean();
         
         return $generatedValue;
+    }
+
+    public function compileRealCommand($value)
+    {
+        if (!$this->user && !$this->cwd) {
+            return $value;
+        }
+
+        $realCommand = "";
+        if ($this->user) {
+            $realCommand .= 'sudo -u'.$this->user.' TERM=dumb ';
+        }
+
+        $realCommand .= 'sh -c "';
+
+        if ($this->cwd) {
+            $realCommand .= 'cd '.$this->cwd.' && ';
+        }
+
+        $realCommand .= $value;
+        $realCommand .= '"';
+
+        return $realCommand;
     }
 
     public function setNodes($nodes)
