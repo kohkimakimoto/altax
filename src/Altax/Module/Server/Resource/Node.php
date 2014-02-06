@@ -5,17 +5,21 @@ use Altax\Util\Arr;
 
 class Node
 {
-    public $name;
+    protected $name;
 
-    public $host;
+    protected $host;
 
-    public $port;
+    protected $port;
 
-    public $key;
+    protected $key;
 
-    public $username;
+    protected $defaultKey;
 
-    public $referenceRoles = array();
+    protected $username;
+
+    protected $defaultUsername;
+
+    protected $referenceRoles = array();
 
     public function setName($name)
     {
@@ -37,6 +41,11 @@ class Node
         return $this->host;
     }
 
+    public function getHostOrDefault()
+    {
+        return $this->host ? $this->host : $this->name;
+    }
+
     public function setPort($port)
     {
         $this->port = $port;
@@ -45,6 +54,11 @@ class Node
     public function getPort()
     {
         return $this->port;
+    }
+
+    public function getPortOrDefault()
+    {
+        return $this->port ? $this->port : 22;
     }
 
     public function setKey($key)
@@ -57,6 +71,21 @@ class Node
         return $this->key;
     }
 
+    public function setDefaultKey($defaultKey)
+    {
+        $this->defaultKey = $defaultKey;
+    }
+
+    public function getDefaultKey()
+    {
+        return $this->defaultKey ? $this->defaultKey : getenv("HOME")."/.ssh/id_rsa";
+    }
+
+    public function getKeyOrDefault()
+    {
+        return $this->key ? $this->key : $this->getDefaultKey();
+    }
+
     public function setUsername($username)
     {
         $this->username = $username;
@@ -65,6 +94,21 @@ class Node
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function setDefaultUsername($defaultUsername)
+    {
+        $this->defaultUsername = $defaultUsername;
+    }
+    
+    public function getDefaultUsername()
+    {
+        return $this->defaultUsername ? $this->defaultUsername : getenv("USER");
+    }
+
+    public function getUsernameOrDefault()
+    {
+        return $this->username ? $this->username : $this->getDefaultUsername();
     }
 
     public function setOptions($options)

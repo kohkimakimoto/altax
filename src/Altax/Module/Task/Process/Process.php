@@ -192,72 +192,94 @@ class Process
 
     public function run()
     {
-        if ($this->isLocal()) {
-            // Runs process locally.
+        $nodes = $this->getNodes();
+        if (count($nodes) === 0) {
+            // Do not use parallel processing. (Do not use fork.)
+            $this->runLocally();
+            return;
+        }
 
-            // Output info
-            if ($this->runtimeTask->getOutput()->isVerbose()) {
-                $this->runtimeTask->getOutput()->writeln("<info>Process#run </info>Running process <comment>locally</comment>.");
-            }
+        // Fork process
+        declare(ticks = 1);
+        pcntl_signal(SIGTERM, array($this, "signalHander"));
+        pcntl_signal(SIGINT, array($this, "signalHander"));
 
-            $self = $this;
-            $symfonyProcess = new SymfonyProcess($this->commandline);
-            $symfonyProcess->setTimeout($this->timeout);
-            $symfonyProcess->run(function ($type, $buffer) use ($self) {
-                $self->runtimeTask->getOutput()->write($buffer);
-            });
-
-        } else {
-            // Runs process remotely.
-            
-            // Output info
-            if ($this->runtimeTask->getOutput()->isVerbose()) {
-                $this->runtimeTask->getOutput()->writeln("<info>Process#run </info>Running process <comment>remotely</comment>.");
-            }
-
-            // Fork process
-            declare(ticks = 1);
-            pcntl_signal(SIGTERM, array($this, "signalHander"));
-            pcntl_signal(SIGINT, array($this, "signalHander"));
-
-            $nodes = $this->getNodes();
-            foreach ($nodes as $node) {
-                $pid = pcntl_fork();
-                if ($pid === -1) {
-                    // Error
-                    throw new \RuntimeException("Fork Error.");
-                } else if ($pid) {
-                    // Parent process
-                    $this->childPids[$pid] = $node;
+        foreach ($nodes as $node) {
+            $pid = pcntl_fork();
+            if ($pid === -1) {
+                // Error
+                throw new \RuntimeException("Fork Error.");
+            } else if ($pid) {
+                // Parent process
+                $this->childPids[$pid] = $node;
+            } else {
+                // Child process
+                if ($this->runtimeTask->getOutput()->isVerbose()) {
+                    $this->runtimeTask->getOutput()->writeln("<info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
+                }
+                
+                if ($this->isLocal()) {
+                    $this->runLocally($node);
                 } else {
-                    // Child process
-                    if ($this->runtimeTask->getOutput()->isVerbose()) {
-                        $this->runtimeTask->getOutput()->writeln("<info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
-                    }
-
-                    exit(0);
-                }
-            }
-
-            // At the following code, only parent precess runs.
-            while (count($this->childPids) > 0) {
-                // Keep to wait until to finish all child processes.
-                $status = null;
-                $pid = pcntl_wait($status);
-                if (!$pid) {
-                    throw new \RuntimeException("pcntl_wait error.");
+                    $this->runRemotely($node);
                 }
 
-                if (!array_key_exists($pid, $this->childPids)) {
-                    throw new \RuntimeException("pcntl_wait error.".$pid);
-                }
-
-                // When a child process is done, removes managed child pid.
-                $node = $this->childPids[$pid];
-                unset($this->childPids[$pid]);
+                exit(0);
             }
         }
+
+        // At the following code, only parent precess runs.
+        while (count($this->childPids) > 0) {
+            // Keep to wait until to finish all child processes.
+            $status = null;
+            $pid = pcntl_wait($status);
+            if (!$pid) {
+                throw new \RuntimeException("pcntl_wait error.");
+            }
+
+            if (!array_key_exists($pid, $this->childPids)) {
+                throw new \RuntimeException("pcntl_wait error.".$pid);
+            }
+
+            // When a child process is done, removes managed child pid.
+            $node = $this->childPids[$pid];
+            unset($this->childPids[$pid]);
+        }
     }
+
+    protected function runRemotely($node)
+    {
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln("<info>Running process for </info><comment>remote</comment>.");
+        }
+
+        $ssh = new \Net_SSH2(
+            $node->getHostOrDefault(),
+            $node->getPortOrDefault());
+        $key = new \Crypt_RSA();
+        $key->loadKey(file_get_contents($node->getKeyOrDefault()));
+        if (!$ssh->login($node->getUsernameOrDefault(), $key)) {
+            throw new \RuntimeException('Unable to login '.$node->getName());
+        }
+
+    }
+
+    protected function runLocally($node = null)
+    {
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln("<info>Running process for </info><comment>local</comment>.");
+        }
+
+        $self = $this;
+        $symfonyProcess = new SymfonyProcess($this->commandline);
+        $symfonyProcess->setTimeout($this->timeout);
+        $symfonyProcess->run(function ($type, $buffer) use ($self) {
+            $self->runtimeTask->getOutput()->write($buffer);
+        });
+    }
+
 
     public function setNodes($nodes)
     {
