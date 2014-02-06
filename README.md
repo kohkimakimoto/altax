@@ -38,6 +38,5 @@ If you use Altax version 1 or 2. You can see **2.x branch**
 * Writing documents.
 * Creating online installation script. 
 * Updating init command.
-
-
+* Developing a plugable system via composer like the `Grunt`.
 
