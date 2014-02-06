@@ -58,14 +58,20 @@ class Process
             }
 
             if ($node) {
-
+                $concreteNodes[$node->getName()] = $node;
             }
-
-            print_r($node);
 
         } 
 
-//        print_r($candidateNodeNames);
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+
+            $this->runtimeTask->getOutput()
+                ->writeln("<info>Process#on found</info> <comment>"
+                    .count($concreteNodes)
+                    ."</comment> nodes: "
+                    ."".trim(implode(", ", array_keys($concreteNodes))));
+        }
 
         return $this;
     }
