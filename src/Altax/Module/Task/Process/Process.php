@@ -263,6 +263,14 @@ class Process
             throw new \RuntimeException('Unable to login '.$node->getName());
         }
 
+        // Organize realcommand to run
+        $realCommand = "";
+        $realCommand .= $this->commandline;
+
+        $self = $this;
+        $ssh->exec($realCommand, function ($buffer) use ($self) {
+            $self->runtimeTask->getOutput()->write($buffer);
+        });
     }
 
     protected function runLocally($node = null)
@@ -272,8 +280,12 @@ class Process
             $this->runtimeTask->getOutput()->writeln("<info>Running process for </info><comment>local</comment>.");
         }
 
+        // Organize realcommand to run
+        $realCommand = "";
+        $realCommand .= $this->commandline;
+
         $self = $this;
-        $symfonyProcess = new SymfonyProcess($this->commandline);
+        $symfonyProcess = new SymfonyProcess($realCommand);
         $symfonyProcess->setTimeout($this->timeout);
         $symfonyProcess->run(function ($type, $buffer) use ($self) {
             $self->runtimeTask->getOutput()->write($buffer);
