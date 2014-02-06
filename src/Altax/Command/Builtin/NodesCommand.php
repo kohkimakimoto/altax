@@ -46,7 +46,7 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
                     $node->getPort(),
                     $node->getUsername(),
                     $node->getKey(),
-                    implode(", ", $node->getReferenceRoles()),
+                    trim(implode(", ", $node->getReferenceRoles())),
                 ));
             } else {
                 $table->addRow(array(

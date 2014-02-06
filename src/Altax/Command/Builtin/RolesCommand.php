@@ -29,7 +29,7 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
         foreach ($roles as $key => $nodes) {
             $table->addRow(array(
                 $key,
-                implode(", ", $nodes),
+                trim(implode(", ", $nodes)),
             ));
         }
 
