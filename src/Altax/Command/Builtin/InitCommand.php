@@ -11,21 +11,40 @@ class InitCommand extends \Symfony\Component\Console\Command\Command
 {
     const TEMPLATE = <<<EOL
 <?php
-/*
-|--------------------------------------------------------------------------
-| Altax configurations
-|--------------------------------------------------------------------------
-|
-| You need to modify this file for your environment.
-|
-*/
+// Setup autoloading for plugin command classes.
+if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/autoload.php';
+
+// ***************************************************************
+// Server definition.
+// ***************************************************************
+//
+// Examples: 
+//
+//   Server::node("web1.example.com", array("web", "production"));
+//   Server::node("web2.example.com", array("web", "production"));
+//   Server::node("db1.example.com",  array("db", "production"));
+//   Server::node("dev1.example.com", "development");
+//
+
+// ***************************************************************
+// Task definision 
+// ***************************************************************
+//
+// Examples: 
+//
+//   Task::register("hello", function(\$task){
+//   
+//       \$task->process("echo hello world!")->run();
+//   });
+//
 
 EOL;
     
     const COMPOSER_TEMPLATE = <<<EOL
 {
   "require": {
-    "php": ">=5.3.0"
+    "php": ">=5.3.0",
+    "kohkimakimoto/altax-server": "dev-master"
   }
 }
 
