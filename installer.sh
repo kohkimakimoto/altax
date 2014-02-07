@@ -59,7 +59,7 @@ if [ $# -eq 2  ]; then
   fi
   if [ $2 = "v3" ]; then
     # Recent version of v3
-    install_version="v3.0.0"
+    install_version="3.0"
   fi
   if [ $2 = "master" ]; then
     # Recent version of develpment
