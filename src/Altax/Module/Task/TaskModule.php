@@ -32,4 +32,8 @@ class TaskModule extends Module
         return $task;
     }
 
+    public function getTask($name)
+    {
+        return $this->container->get("tasks/".$name, null);
+    }
 }

@@ -11,6 +11,8 @@ class DefinedTask
     protected $closure;
     protected $commandClass;
     protected $description;
+    protected $beforeTaskNames = array();
+    protected $afterTaskNames = array();
 
     public function setName($name)
     {
@@ -25,6 +27,7 @@ class DefinedTask
     public function setContainer($container)
     {
         $this->container = $container;
+        return $this;
     }
 
     public function getContainer()
@@ -35,6 +38,7 @@ class DefinedTask
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     public function getDescription()
@@ -50,6 +54,7 @@ class DefinedTask
     public function setClosure($closure)
     {
         $this->closure = $closure;
+        return $this;
     }
 
     public function getClosure()
@@ -65,6 +70,7 @@ class DefinedTask
     public function setCommandClass($commandClass)
     {
         $this->commandClass = $commandClass;
+        return $this;
     }
 
     public function getCommandClass()
@@ -90,6 +96,39 @@ class DefinedTask
         }
 
         return $command;
-                
     }
+
+    public function description($description)
+    {
+        return $this->setDescription($description);
+    }
+
+    public function before()
+    {
+        $args = func_get_args();
+        
+        foreach ($args as $arg) {
+            if (is_string($arg)) {
+                $this->beforeTaskNames[] = $arg;
+            } elseif (\Altax\Util\Arr::isVector($arg)) {
+                $this->beforeTaskNames = array_merge($this->beforeTaskNames, $arg);
+            }
+        }
+        return $this;
+    }
+
+    public function after()
+    {
+        $args = func_get_args();
+        
+        foreach ($args as $arg) {
+            if (is_string($arg)) {
+                $this->afterTaskNames[] = $arg;
+            } elseif (\Altax\Util\Arr::isVector($arg)) {
+                $this->afterTaskNames = array_merge($this->afterTaskNames, $arg);
+            }
+        }
+        return $this;
+    }
+
 }
