@@ -4,14 +4,14 @@
 [![Coverage Status](https://coveralls.io/repos/kohkimakimoto/altax/badge.png?branch=3.0)](https://coveralls.io/r/kohkimakimoto/altax?branch=3.0)
 [![Latest Stable Version](https://poser.pugx.org/kohkimakimoto/altax/v/stable.png)](https://packagist.org/packages/kohkimakimoto/altax)
 
-A simple deployment tool for PHP.
+**Altax version 3 is being developed now. You shouldn't use it.**
 
-**Altax version 3 is under the development.**
+A simple deployment tool for PHP.
 
 ## Overview
 
-Altax is a command-line tool for running tasks to remote servers.
-It's like a [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
+Altax is a command-line tool for running automate tasks to remote servers.
+It's strongly inspired [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 
 ## Documentation
 
