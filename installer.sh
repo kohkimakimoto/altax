@@ -23,7 +23,7 @@ install_altax() {
   fi
 
   echo "You will install Altax version $version."
-  curl -o altax.${TMPTIMESTAMP}.phar https://raw.github.com/kohkimakimoto/altax/$version/altax.phar
+  curl -s -o altax.${TMPTIMESTAMP}.phar https://raw.github.com/kohkimakimoto/altax/$version/altax.phar
   chmod 755 altax.${TMPTIMESTAMP}.phar
 
   install_to="${COMMAND_DIR}/altax.phar"
@@ -37,7 +37,12 @@ install_altax() {
 
   mv altax.${TMPTIMESTAMP}.phar ${install_to}
 
-  echo "Installed altax to ${install_to}"
+  echo "Done."
+
+  echo "********************************"
+  echo "  Thanks for installing altax!  "
+  echo "********************************"
+
 }
 
 install_type="local"
