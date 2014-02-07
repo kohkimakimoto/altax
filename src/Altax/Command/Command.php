@@ -57,4 +57,9 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
     {
         return $this->definedTask;
     }
+
+    public function getTaskConfig()
+    {
+        return $this->definedTask->getConfig();
+    }
 }
