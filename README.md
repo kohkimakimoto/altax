@@ -10,7 +10,7 @@ A simple deployment tool for PHP.
 
 ## Overview
 
-Altax is a command-line tool for running automate tasks to remote servers.
+Altax is a command-line tool for running tasks to remote servers.
 It's strongly inspired [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 
 ## Documentation
@@ -35,7 +35,5 @@ If you use Altax version 1 or 2. You can see **2.x branch**
 ## TODO
 
 * Implementing after and before task.
-* Writing documents.
 * Updating init command.
 * Developing a plugable system via composer like the `Grunt`.
-* Writing proper comments in the source code.
