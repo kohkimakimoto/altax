@@ -28,34 +28,40 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
         $container = $this->getApplication()->getContainer();
         $nodes = $container->get("nodes");
 
-        $isDetail = $input->getOption("detail");
+        if ($nodes) {
 
-        $table = $this->getHelperSet()->get('table');
-        
-        if ($isDetail) {
-            $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
-        } else {
-            $table->setHeaders(array('name'));
-        }
+            $isDetail = $input->getOption("detail");
 
-        foreach ($nodes as $node) {
+            $table = $this->getHelperSet()->get('table');
+            
             if ($isDetail) {
-                $table->addRow(array(
-                    $node->getName(),
-                    $node->getHost(),
-                    $node->getPort(),
-                    $node->getUsername(),
-                    $node->getKey(),
-                    trim(implode(", ", $node->getReferenceRoles())),
-                ));
+                $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
             } else {
-                $table->addRow(array(
-                    $node->getName()
-                ));
+                $table->setHeaders(array('name'));
             }
+
+            foreach ($nodes as $node) {
+                if ($isDetail) {
+                    $table->addRow(array(
+                        $node->getName(),
+                        $node->getHost(),
+                        $node->getPort(),
+                        $node->getUsername(),
+                        $node->getKey(),
+                        trim(implode(", ", $node->getReferenceRoles())),
+                    ));
+                } else {
+                    $table->addRow(array(
+                        $node->getName()
+                    ));
+                }
+            }
+
+            $table->render($output);
+        } else {
+            $output->writeln("There are not any nodes.");
         }
 
-        $table->render($output);
     }
 
 }

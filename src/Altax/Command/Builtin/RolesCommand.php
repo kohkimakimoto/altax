@@ -24,16 +24,21 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
 
         $table = $this->getHelperSet()->get('table');
 
-        $table->setHeaders(array('name', 'nodes'));
+        if ($roles) {
+            $table->setHeaders(array('name', 'nodes'));
 
-        foreach ($roles as $key => $nodes) {
-            $table->addRow(array(
-                $key,
-                trim(implode(", ", $nodes)),
-            ));
+            foreach ($roles as $key => $nodes) {
+                $table->addRow(array(
+                    $key,
+                    trim(implode(", ", $nodes)),
+                ));
+            }
+
+            $table->render($output);
+        } else {
+            $output->writeln("There are not any roles.");
         }
 
-        $table->render($output);
     }
 
 }
