@@ -29,8 +29,8 @@ See [LICENSE](./LICENSE)
 
 ## Previous version 
 
-If you use Altax version 1 or 2. You can see **2.x branch**
-
+If you use Altax version 2. You can see **2.x branch**.
+Altax version 1 is no longer maintained.
 
 ## TODO
 
