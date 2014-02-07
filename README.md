@@ -13,6 +13,50 @@ A simple deployment tool for PHP.
 Altax is a command-line tool for running tasks to remote servers.
 It's strongly inspired [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 
+## Requirement
+
+PHP5.3 or later.
+
+## Installation
+
+There are several ways to install Altax to your system.
+
+### Installing as a phar (Most easy way)
+
+Most easy way to install Altax to your system is to run the below command.
+
+    $ curl https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system v3
+
+You will get `altax` to `/usr/local/bin` directory.
+
+Or, You can install it manually. Download [`altax.phar`](https://github.com/kohkimakimoto/altax/raw/master/altax.phar).
+And move `altax.phar` to `/usr/local/bin`.
+
+    $ wget https://github.com/kohkimakimoto/altax/raw/3.0/altax.phar
+    $ chmod 755 altax.phar
+    $ mv altax.phar /usr/local/bin/altax
+
+### Installing as a composer package
+
+[Composer](http://getcomposer.org/) is a famous dependency management tool for PHP. 
+If you want to use Altax through a composer package management, 
+you can use composer installation. 
+Make `composer.json` file like the following.
+
+```json
+{
+  "require": {
+    "kohkimakimoto/altax": "3.*"
+  }
+}
+```
+And run composer install command.
+
+```
+$ curl -s http://getcomposer.org/installer | php
+$ php composer.phar install
+```
+
 ## Documentation
 
 Visit [altax project page](http://kohkimakimoto.github.io/altax/)
