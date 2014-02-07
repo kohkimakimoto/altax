@@ -36,8 +36,6 @@ If you use Altax version 1 or 2. You can see **2.x branch**
 
 * Implementing after and before task.
 * Writing documents.
-* Creating online installation script. 
 * Updating init command.
 * Developing a plugable system via composer like the `Grunt`.
 * Writing proper comments in the source code.
-* Implement shell script process.
