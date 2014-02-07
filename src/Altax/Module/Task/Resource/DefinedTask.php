@@ -14,6 +14,7 @@ class DefinedTask
     protected $beforeTaskNames = array();
     protected $afterTaskNames = array();
     protected $isHidden = false;
+    protected $config = array();
 
     public function setName($name)
     {
@@ -84,6 +85,18 @@ class DefinedTask
         return isset($this->commandClass);
     }
 
+
+    public function setConfig($config)
+    {
+        $this->config = $config;
+        return $this;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
     public function createCommandInstance()
     {   
         $command = null;
@@ -142,5 +155,11 @@ class DefinedTask
     {
         return $this->isHidden;
     }
+
+    public function config($config)
+    {
+        return $this->setConfig($config);
+    }
+
 
 }

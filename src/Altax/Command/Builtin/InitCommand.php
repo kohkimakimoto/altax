@@ -16,7 +16,7 @@ class InitCommand extends \Symfony\Component\Console\Command\Command
 | Altax configurations
 |--------------------------------------------------------------------------
 |
-| You can modify this file for your environment.
+| You need to modify this file for your environment.
 |
 */
 
@@ -43,22 +43,32 @@ EOL;
     {
         $configurationPath = getcwd()."/.altax/config.php";
 
-        if (is_file($configurationPath)) {
-            throw new \RuntimeException("$configurationPath already exists.");
+        if (!is_file($configurationPath)) {
+            $this->generateConfig($configurationPath, $output);
+        } else {
+            $output->writeln("<error>File '$configurationPath' is already exists. Skiped creation process.</error>");
         }
 
+        $composerFile = dirname($configurationPath)."/composer.json";
+        if (!is_file($composerFile)) {
+            $this->generateComposerFile($composerFile, $output);
+        } else {
+            $output->writeln("<error>File '$composerFile' is already exists. Skiped creation process.</error>");
+        }
+     }
+
+
+     protected function generateConfig($configurationPath, $output)
+     {
         $fs = new Filesystem();
         $fs->mkdir(dirname($configurationPath), 0755);
         file_put_contents($configurationPath, self::TEMPLATE);
         $output->writeln("<info>Created file: </info>$configurationPath");
-
-        $composerFile = dirname($configurationPath)."/composer.json";
-        if (is_file($composerFile)) {
-            throw new \RuntimeException("$composerFile already exists.");
-        }
-        file_put_contents($composerFile, self::COMPOSER_TEMPLATE);
-        $output->writeln("<info>Created file: </info>$composerFile");
-
      }
 
+     protected function generateComposerFile($composerFile, $output)
+     {
+        file_put_contents($composerFile, self::COMPOSER_TEMPLATE);
+        $output->writeln("<info>Created file: </info>$composerFile");
+     }
 }

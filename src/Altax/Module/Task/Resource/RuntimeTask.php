@@ -37,6 +37,11 @@ class RuntimeTask
         return $this->output;
     }
 
+    public function getConfig()
+    {
+        return $this->task->getConfig();
+    }
+
     public function writeln($string)
     {
         $this->output->writeln($string);
