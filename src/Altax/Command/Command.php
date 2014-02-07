@@ -52,4 +52,9 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
     {
         throw new \RuntimeException("You need to override 'fire' method.");
     }
+
+    public function getDefinedTask()
+    {
+        return $this->definedTask;
+    }
 }

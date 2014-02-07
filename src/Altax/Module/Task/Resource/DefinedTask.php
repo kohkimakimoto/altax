@@ -13,6 +13,7 @@ class DefinedTask
     protected $description;
     protected $beforeTaskNames = array();
     protected $afterTaskNames = array();
+    protected $isHidden = false;
 
     public function setName($name)
     {
@@ -129,6 +130,17 @@ class DefinedTask
             }
         }
         return $this;
+    }
+
+    public function hidden()
+    {
+        $this->isHidden = true;
+        return $this;
+    }
+
+    public function isHidden()
+    {
+        return $this->isHidden;
     }
 
 }

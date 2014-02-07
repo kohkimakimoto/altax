@@ -8,7 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\HelpCommand;
+use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Finder\Finder;
+
 use Altax\Foundation\ModuleFacade;
 use Altax\Util\Str;
 
@@ -60,6 +63,24 @@ EOL;
 
         // Runs specified command under the symfony console.
         return parent::doRun($input, $output);
+    }
+
+    public function all($namespace = null)
+    {
+        $commands = parent::all($namespace);
+
+        // Remove hidden command to prevent listing commands by ListCommand
+        foreach ($commands as $name => $command) {
+            if (method_exists($command, "getDefinedTask")) {
+                // Consider the command Altax\Command\Command instance
+                $definedTask = $command->getDefinedTask();
+                if ($definedTask->isHidden()) {
+                    unset($commands[$name]);
+                }
+            }
+        }
+
+        return $commands;
     }
 
     /**
