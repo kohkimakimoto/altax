@@ -1,7 +1,7 @@
 {
   "name": "kohkimakimoto/altax",
   "description": "A simple deployment tool For PHP.",
-  "keywords": ["deploy", "deployment", "ssh"],
+  "keywords": ["deploy", "deployment", "ssh", "altax"],
   "homepage": "https://github.com/kohkimakimoto/altax",
   "license": "Apache License 2.0",
   "authors": [
