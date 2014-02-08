@@ -54,4 +54,36 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($this->definedTask->getConfig(), $runtimeTask->getConfig());
     }
+
+    public function testWriteln()
+    {
+        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask->writeln("Write log test");
+        
+        $this->assertEquals("Write log test\n", $this->output->fetch());
+    }
+
+    public function testWrite()
+    {
+        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask->write("Write log test");
+        
+        $this->assertEquals("Write log test", $this->output->fetch());
+   }
+
+   public function testProcess()
+   {
+        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        try {
+            $process = $runtimeTask->process();
+            $this->assertEquals(true, false);
+        } catch (\RuntimeException $e) {
+            $this->assertEquals(true, true);
+        }
+
+        // Do not check inside of process instance. 
+        // Just create instance by the method.
+        $process = $runtimeTask->process("echo foobar");
+        $process = $runtimeTask->process(function(){});
+   }
 }

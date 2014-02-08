@@ -71,9 +71,9 @@ class RuntimeTask
         return $process;
     }
 
-    public function run($commandline)
+    public function run($commandline, $nodesOrRoles = array())
     {
-        return $this->process($commandline)->run();
+        return $this->process($commandline)->to($nodesOrRoles)->run();
     }
 
     public function runLocally($commandline)
