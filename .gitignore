@@ -5,5 +5,6 @@
 /.project
 /.altax
 /build
+/tests/tmp/*
 .DS_Store
 Thumbs.db
