@@ -120,7 +120,7 @@ class Process
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $candidateNodeNames[] = array(
-                    "type" => null,
+                    "type" => null, // Means both node and role.
                     "name" => $arg
                     );
             }

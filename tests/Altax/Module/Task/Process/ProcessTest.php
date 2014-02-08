@@ -10,14 +10,14 @@ use Altax\Module\Task\Resource\DefinedTask;
 use Altax\Module\Task\Resource\RuntimeTask;
 use Altax\Module\Task\Process\Process;
 use Altax\Module\Server\Resource\Node;
-
+use Altax\Module\Server\Facade\Server;
+use Altax\Module\Task\Facade\Task;
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
         $this->container = new Container();
-
 
         $this->task = new DefinedTask();
         $this->task->setName("test_process_run");
@@ -37,6 +37,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
             new \Altax\Module\Task\TaskModule($this->container)
             );
 
+        Server::node("127.0.0.1", "test");
     }
 
     public function testAccessorOfCommandline()
@@ -71,17 +72,18 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function testTo()
     {
         $process = new Process($this->runtimeTask);
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+
         try {
             $process->to();
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
-
-        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
         $process->to("127.0.0.1");
 
-        $this->runtimeTask->getOutput()->fetch();
+        $this->assertEquals("Process#to set 1 nodes: 127.0.0.1\n", $this->runtimeTask->getOutput()->fetch());
     }
 
 
