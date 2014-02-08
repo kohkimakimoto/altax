@@ -47,4 +47,11 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($output, $runtimeTask->getOutput());
         $this->assertNotSame($this->output, $runtimeTask->getOutput());
     }
+
+    public function testGetConfig()
+    {
+        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+
+        $this->assertSame($this->definedTask->getConfig(), $runtimeTask->getConfig());
+    }
 }
