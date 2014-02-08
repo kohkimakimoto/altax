@@ -38,6 +38,5 @@ class ServerModuleTest extends \PHPUnit_Framework_TestCase
 
         $module->node("node6", array("roles" => "role4"));
         $this->assertSame(array("node5" => "node5", "node6" => "node6"), $module->getRole("role4"));
-
     }
 }

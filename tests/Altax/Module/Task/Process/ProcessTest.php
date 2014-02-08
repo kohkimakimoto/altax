@@ -17,41 +17,46 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->container = new Container();
+        $this->task = new DefinedTask();
+        $this->task->setName("test_process_run");
+        $this->input = new ArgvInput();
+        $this->output = new BufferedOutput();
+        $this->runtimeTask = new RuntimeTask($this->task, $this->input, $this->output);
 
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
     }
 
-    public function testProcessRunLocally()
+    public function testRunLocally()
     {
-        $task = new DefinedTask();
-        $task->setName("test_process_run");
-
-        $input = new ArgvInput();
-        $output = new BufferedOutput();
-
-        $runtimeTask = new RuntimeTask($task, $input, $output);
-        $process = new Process($runtimeTask);
+        $process = new Process($this->runtimeTask);
         $process->setCommandline("echo testecho");
-        $process->setTimeout(null);
         $process->runLocally();
 
-        $this->assertEquals("testecho\n", $output->fetch());
+        $this->assertEquals("testecho\n", $process->getRuntimeTask()->getOutput()->fetch());
+    }
+
+    public function testRun()
+    {
+        $process = new Process($this->runtimeTask);
+        $process->setCommandline("echo testecho");
+
+        try {
+            $process->run();
+            $this->assertEquals(false, true);
+        } catch (\RuntimeException $e) {
+            // Not found any remote node to connect.
+            $this->assertEquals(true, true);
+        }
     }
 
     public function testCompileCommandline()
     {
-        $task = new DefinedTask();
-        $task->setName("test_process_run");
-
-        $input = new ArgvInput();
-        $output = new BufferedOutput();
+        $process = new Process($this->runtimeTask);
 
         $node = new Node();
         $node->setName("nameeeee!");
 
-        $runtimeTask = new RuntimeTask($task, $input, $output);
-        $process = new Process($runtimeTask);
         $ret = $process->compileCommandline('echo {{ $node->getName() }}', $node);
         $this->assertEquals("echo nameeeee!", $ret);
     }
