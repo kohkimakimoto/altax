@@ -38,5 +38,18 @@ class ServerModuleTest extends \PHPUnit_Framework_TestCase
 
         $module->node("node6", array("roles" => "role4"));
         $this->assertSame(array("node5" => "node5", "node6" => "node6"), $module->getRole("role4"));
+
+        $module->node("node7", array("username" => "kohkimakimoto"), "role7");
+        $this->assertSame(array("node7" => "node7"), $module->getRole("role7"));
+    }
+
+    public function testRole()
+    {
+        $module = new ServerModule($this->container);
+
+        $module->role("role1", "node1");
+        $this->assertSame(array("node1" => "node1"), $module->getRole("role1"));
+        $this->assertSame("node1", $module->getNode("node1")->getName());
+
     }
 }
