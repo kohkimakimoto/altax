@@ -25,14 +25,14 @@ There are several ways to install Altax to your system.
 
 Most easy way to install Altax to your system is to run the below command.
 
-    $ curl https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system v3
+    $ curl -L https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system v3
 
 You will get `altax` to `/usr/local/bin` directory.
 
 Or, You can install it manually. Download [`altax.phar`](https://github.com/kohkimakimoto/altax/raw/master/altax.phar).
 And move `altax.phar` to `/usr/local/bin`.
 
-    $ wget https://github.com/kohkimakimoto/altax/raw/3.0/altax.phar
+    $ curl -L -O https://github.com/kohkimakimoto/altax/raw/3.0/altax.phar
     $ chmod 755 altax.phar
     $ mv altax.phar /usr/local/bin/altax
 
@@ -79,5 +79,3 @@ Altax version 1 is no longer maintained.
 ## TODO
 
 * Implementing after and before task.
-* Updating init command.
-* Developing a plugable system via composer like the `Grunt`.

@@ -2,7 +2,8 @@
 namespace Altax\Module\Task\Resource;
 
 use Altax\Module\Task\Process\Process;
-use \Altax\Command\ClosureTaskCommand;
+use Altax\Command\ClosureTaskCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class DefinedTask
 {
@@ -15,6 +16,15 @@ class DefinedTask
     protected $afterTaskNames = array();
     protected $isHidden = false;
     protected $config = array();
+
+    public static function newInstance($name, $container)
+    {
+        $instance = new self();
+        $instance->setName($name);
+        $instance->setContainer($container);
+
+        return $instance;
+    }
 
     public function setName($name)
     {
@@ -95,6 +105,32 @@ class DefinedTask
     public function getConfig()
     {
         return $this->config;
+    }
+
+    public function getBeforeTasks()
+    {
+        $tasks = array();
+        foreach ($this->beforeTaskNames as $taskName) {
+            $task = $this->container->get("tasks/".$taskName, null);
+            if (!$task) {
+                throw new \RuntimeException("Registered before task '$taskName' is not found.");
+            }
+            $tasks[] = $task;
+        }
+        return $tasks;
+    }
+
+    public function getAfterTasks()
+    {
+        $tasks = array();
+        foreach ($this->afterTaskNames as $taskName) {
+            $task = $this->container->get("tasks/".$taskName, null);
+            if (!$task) {
+                throw new \RuntimeException("Registered after task '$taskName' is not found.");
+            }
+            $tasks[] = $task;
+        }
+        return $tasks;
     }
 
     public function createCommandInstance()

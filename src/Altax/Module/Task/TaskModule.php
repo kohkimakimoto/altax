@@ -15,9 +15,7 @@ class TaskModule extends Module
             throw new \RuntimeException("Missing argument. Must 2 arguments at minimum.");
         }
 
-        $task = new DefinedTask();
-        $task->setContainer($this->getContainer());
-        $task->setName($args[0]);
+        $task = DefinedTask::newInstance($args[0], $this->getContainer());
 
         if ($args[1] instanceof \Closure) {
             // Task is a closure

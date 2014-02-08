@@ -84,7 +84,7 @@ class RuntimeTask
     public function call($taskName, $arguments = array())
     {
         if ($this->output->isVerbose()) {
-            $this->output->writeln("<info>Calling task: </info><comment>".$taskName."</comment> from ".$this->task->getName());
+            $this->output->writeln("<info>Calling task: </info>".$taskName." from ".$this->task->getName());
         }
 
         $command = $this
@@ -93,6 +93,12 @@ class RuntimeTask
             ->getApp()
             ->find($taskName)
             ;
+
+        if (!$command) {
+            throw new \RuntimeException("Not found a before task command '$taskName'.");
+        }
+        
+        $arguments['command'] = $taskName;
 
         $input = new ArrayInput($arguments);
         return $command->run($this->input, $this->output);
