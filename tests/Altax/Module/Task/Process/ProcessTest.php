@@ -27,6 +27,35 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         ModuleFacade::setContainer($this->container);
     }
 
+    public function testAccessorOfCommandline()
+    {
+        $process = new Process($this->runtimeTask);
+        $process->setCommandline("ls -la");
+        $this->assertEquals("ls -la", $process->getCommandline());
+    }
+
+    public function testAccessorOfClosure()
+    {
+        $process = new Process($this->runtimeTask);
+        $closure = function(){};
+        $process->setClosure($closure);
+        $this->assertSame($closure, $process->getClosure());
+        $this->assertEquals(true, $process->hasClosure());
+    }
+
+    public function testAccessorOfTimeout()
+    {
+        $process = new Process($this->runtimeTask);
+        $process->setTimeout(1234);
+        $this->assertEquals(1234, $process->getTimeout());
+    }
+
+    public function testGetRuntimeTask()
+    {
+        $process = new Process($this->runtimeTask);
+        $this->assertEquals($this->runtimeTask, $process->getRuntimeTask());        
+    }
+
     public function testRunLocally()
     {
         $process = new Process($this->runtimeTask);

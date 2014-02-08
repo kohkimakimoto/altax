@@ -31,6 +31,11 @@ class Process
         $this->commandline = $commandline;
     }
 
+    public function getCommandline()
+    {
+        return $this->commandline;
+    }
+
     public function setClosure($closure)
     {
         $this->closure = $closure;
@@ -49,6 +54,11 @@ class Process
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+    }
+
+    public function getTimeout()
+    {
+        return $this->timeout;
     }
 
     public function getRuntimeTask()
