@@ -22,13 +22,22 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $application->add(new InitCommand());
         $command = $application->find("init");
 
+        $testTmpConfigPath = __DIR__."/../../../tmp/Altax/Command/Builtin/InitCommandTest/.altax/config.php";
+        @unlink($testTmpConfigPath);
+        @unlink(dirname($testTmpConfigPath)."/composer.json");
+
         $commandTester = new CommandTester($command);
         $commandTester->execute(
-            array("command" => $command->getName())
+            array(
+                "command" => $command->getName(),
+                "--path" => $testTmpConfigPath,
+                )
             );
-        
-        //echo $commandTester->getDisplay();
 
-        //$this->assertEquals("test message", $commandTester->getDisplay());
+        $this->assertEquals(true, is_file($testTmpConfigPath));
+        $this->assertEquals(true, is_file(dirname($testTmpConfigPath)."/composer.json"));
+
+        unlink($testTmpConfigPath);
+        unlink(dirname($testTmpConfigPath)."/composer.json");
     }
 }
