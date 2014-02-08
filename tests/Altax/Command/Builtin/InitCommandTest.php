@@ -34,6 +34,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
+        // Only checks to exist files. Don't inspect content of files.
         $this->assertEquals(true, is_file($testTmpConfigPath));
         $this->assertEquals(true, is_file(dirname($testTmpConfigPath)."/composer.json"));
 
