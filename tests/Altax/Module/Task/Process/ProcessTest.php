@@ -38,6 +38,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
             );
 
         Server::node("127.0.0.1", "test");
+        Server::node("localhost", "test");
     }
 
     public function testAccessorOfCommandline()
@@ -69,9 +70,11 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->runtimeTask, $process->getRuntimeTask());        
     }
 
-    public function testTo()
+    public function testTo1()
     {
         $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
         $this->runtimeTask->getOutput()->setVerbosity(2);
 
         try {
@@ -80,12 +83,43 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
+    }
+
+    public function testTo2()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
         
         $process->to("127.0.0.1");
 
         $this->assertEquals("Process#to set 1 nodes: 127.0.0.1\n", $this->runtimeTask->getOutput()->fetch());
     }
 
+    public function testTo3()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
+        $process->to("127.0.0.1", "localhost");
+
+        $this->assertEquals("Process#to set 2 nodes: 127.0.0.1, localhost\n", $this->runtimeTask->getOutput()->fetch());
+    }
+
+    public function testTo4()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
+        $process->to(array("127.0.0.1", "localhost"));
+
+        $this->assertEquals("Process#to set 2 nodes: 127.0.0.1, localhost\n", $this->runtimeTask->getOutput()->fetch());
+    }
 
     public function testRunLocally()
     {

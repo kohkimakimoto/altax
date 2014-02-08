@@ -3,6 +3,8 @@ namespace Altax\Module\Task\Process;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 use Altax\Module\Server\Facade\Server;
+use Altax\Util\Arr;
+
 
 class Process
 {
@@ -121,7 +123,7 @@ class Process
             if (is_string($arg)) {
                 $candidateNodeNames[] = array(
                     "type" => null, // Means both node and role.
-                    "name" => $arg
+                    "name" => $arg,
                     );
             }
 
@@ -158,6 +160,16 @@ class Process
                         );
                     } 
                 }
+
+                if (Arr::isVector($arg)) {
+                    foreach ($arg as $name) {
+                        $candidateNodeNames[] = array(
+                            "type" => null,
+                            "name" => $name,
+                        );
+                    }
+                }
+
             }
         }
 
