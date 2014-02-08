@@ -30,9 +30,23 @@ class TaskModuleTest extends \PHPUnit_Framework_TestCase
 
         $task = $module->register("test", "Test\Altax\Module\Task\TaskModuleTest\Test01Command");
         $this->assertEquals("test", $task->getName());
-        $this->assertEquals(false, $task->hasClosure());
+        $this->assertEquals(false,  $task->hasClosure());
         $this->assertEquals($this->container->get("tasks/test"), $task);
+    }
 
+    public function testGetTaks()
+    {
+        $module = new TaskModule($this->container);
 
+        $task = $module->register("test", function(){});
+        $this->assertEquals($task, $module->getTask("test"));
+    }
+
+    public function testGet()
+    {
+        $module = new TaskModule($this->container);
+
+        $task = $module->register("test", function(){});
+        $this->assertEquals($task, $module->get("test"));
     }
 }

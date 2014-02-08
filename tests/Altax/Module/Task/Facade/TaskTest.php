@@ -20,7 +20,6 @@ class TaskTest extends \PHPUnit_Framework_TestCase
         $module = new \Altax\Module\Task\TaskModule($this->container);
 
         $this->container->addModule(Task::getModuleName(), $module);
-        
     }
 
     public function testDefault()
