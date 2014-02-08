@@ -146,6 +146,30 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Process#to set 2 nodes: 127.0.0.1, localhost\n", $this->runtimeTask->getOutput()->fetch());
     }
 
+    public function testTo7()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
+        $process->to(array("nodes" => array("127.0.0.1", "localhost")));
+
+        $this->assertEquals("Process#to set 2 nodes: 127.0.0.1, localhost\n", $this->runtimeTask->getOutput()->fetch());
+    }
+
+    public function testTo8()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
+        $process->to(array("roles" => array("test")));
+
+        $this->assertEquals("Process#to set 2 nodes: 127.0.0.1, localhost\n", $this->runtimeTask->getOutput()->fetch());
+    }
+
     public function testRunLocally()
     {
         $process = new Process($this->runtimeTask);
