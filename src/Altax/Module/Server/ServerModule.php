@@ -33,7 +33,7 @@ class ServerModule extends Module
                 $node->setReferenceRoles($args[1]);
             } else {
                 if (isset($args[1]['roles'])) {
-                    $node->setRoles($args[1]['roles']);
+                    $node->setReferenceRoles($args[1]['roles']);
                     unset($args[1]['roles']);
                 }
                 $node->setOptions($args[1]);
