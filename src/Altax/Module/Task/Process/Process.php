@@ -10,7 +10,6 @@ class Process
     protected $commandline;
     protected $closure;
     protected $timeout;
-    protected $isLocal;
     protected $nodes = array();
     protected $isAlreadyCalledOn = false;
     protected $isAlreadyCalledTo = false;
@@ -25,7 +24,6 @@ class Process
         $this->commandline = null;
         $this->closure = null;
         $this->timeout = null;
-        $this->isLocal = true;
     }
 
     public function setCommandline($commandline)
@@ -59,48 +57,12 @@ class Process
     }
 
     /**
-     * Set roles or nodes to run process remotely.
-     * 
-     * @return [type] [description]
-     */
-    public function on()
-    {
-        if ($this->isAlreadyCalledTo) {
-            throw new \RuntimeException("You have already called 'to' method. Couldn't call 'on' after 'to'.");
-        }
-
-        $nodes = call_user_func_array(array($this, "loadNodes"), func_get_args());
-
-        $this->setNodes($nodes);
-
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-
-            $this->runtimeTask->getOutput()
-                ->writeln("<info>Process#on set</info> <comment>"
-                    .count($nodes)
-                    ."</comment> nodes: "
-                    ."".trim(implode(", ", array_keys($nodes))));
-        }
-
-        // 'on' means to run command remotely.
-        $this->isLocal = false;
-        $this->isAlreadyCalledOn = true;
-
-        return $this;
-    }
-
-    /**
-     * Set roles or nodes to run process locally.
+     * Set roles or nodes for running process.
      * 
      * @return [type] [description]
      */
     public function to()
     {
-        if ($this->isAlreadyCalledOn) {
-            throw new \RuntimeException("You have already called 'on' method. Couldn't call 'to' after 'on'.");
-        }
-
         $nodes = call_user_func_array(array($this, "loadNodes"), func_get_args());
 
         $this->setNodes($nodes);
@@ -115,10 +77,6 @@ class Process
                     ."".trim(implode(", ", array_keys($nodes))));
         }
 
-        // 'on' means to run command remotely.
-        $this->isLocal = true;
-        $this->isAlreadyCalledTo = true;
-        
         return $this;
     }
 
@@ -225,15 +183,29 @@ class Process
     }
 
     /**
-     * Run the process.
+     * Run the process locally
      * @return [type] [description]
      */
-    public function run()
+    public function runLocally()
+    {
+        return $this->run(false);
+    }
+
+
+    /**
+     * Run the process remotely.
+     * @return [type] [description]
+     */
+    public function run($isRemote = true)
     {
         $nodes = $this->getNodes();
-        if (count($nodes) === 0) {
+        if ($isRemote && count($nodes) === 0) {
+            throw new \RuntimeException("Not found any remote node to connect.");
+        }
+
+        if (!$isRemote && count($nodes) === 0) {
             // Do not use parallel processing. (Do not use fork.)
-            $this->runLocally();
+            $this->doRunLocally();
             return;
         }
 
@@ -256,10 +228,10 @@ class Process
                     $this->runtimeTask->getOutput()->writeln("<info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
                 }
                 
-                if ($this->isLocal()) {
-                    $this->runLocally($node);
+                if ($isRemote) {
+                    $this->doRunRemotely($node);
                 } else {
-                    $this->runRemotely($node);
+                    $this->doRunLocally($node);
                 }
 
                 exit(0);
@@ -285,7 +257,7 @@ class Process
         }
     }
 
-    protected function runRemotely($node)
+    protected function doRunRemotely($node)
     {
         // Output info
         if ($this->runtimeTask->getOutput()->isVerbose()) {
@@ -327,7 +299,7 @@ class Process
      * @param  [type] $node [description]
      * @return [type]       [description]
      */
-    protected function runLocally($node = null)
+    protected function doRunLocally($node = null)
     {
         // Output info
         if ($this->runtimeTask->getOutput()->isVerbose()) {
@@ -408,19 +380,8 @@ class Process
         return $this->nodes;
     }
 
-    public function isLocal()
-    {
-        return $this->isLocal;
-    }
-
-    public function isRemote()
-    {
-        return !$this->isLocal();
-    }
-
     public function signalHander($signo)
     {
-        // TODO: Impliment.
         switch ($signo) {
             case SIGTERM:
                 $this->runtimeTask->getOutput()->writeln("Got SIGTERM.");

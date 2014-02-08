@@ -22,7 +22,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         ModuleFacade::setContainer($this->container);
     }
 
-    public function testProcessRun()
+    public function testProcessRunLocally()
     {
         $task = new DefinedTask();
         $task->setName("test_process_run");
@@ -34,7 +34,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $process = new Process($runtimeTask);
         $process->setCommandline("echo testecho");
         $process->setTimeout(null);
-        $process->run();
+        $process->runLocally();
 
         $this->assertEquals("testecho\n", $output->fetch());
     }

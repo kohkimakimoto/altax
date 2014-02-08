@@ -73,7 +73,12 @@ class RuntimeTask
 
     public function run($commandline)
     {
-        $this->process($commandline)->run();
+        return $this->process($commandline)->run();
+    }
+
+    public function runLocally($commandline)
+    {
+        return $this->process($commandline)->runLocally();
     }
 
     public function call($taskName, $arguments = array())
