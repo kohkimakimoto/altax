@@ -65,6 +65,10 @@ class DefinedTask
 
     public function setClosure($closure)
     {
+        if (!$closure instanceof \Closure) {
+            throw new \RuntimeException("Passed not a closure");
+        }
+
         $this->closure = $closure;
         return $this;
     }
