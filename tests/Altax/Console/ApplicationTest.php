@@ -8,11 +8,17 @@ use Altax\Foundation\Container;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-    public function testList()
+    protected function setUp()
     {
-        $container = new Container();
+        $this->container = new Container();
+        $this->container->setConfigFiles(array(
+            "current", __DIR__."/ApplicationTest/config.php",
+        ));
+    }
 
-        $application = new Application($container);
+    public function testDefault()
+    {
+        $application = new Application($this->container);
         $application->setAutoExit(false);
 
         $applicationTester = new ApplicationTester($application);
