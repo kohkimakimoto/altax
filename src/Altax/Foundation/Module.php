@@ -20,6 +20,11 @@ abstract class Module
 {
     protected $container;
 
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
     public function setContainer($container)
     {
         $this->container = $container;

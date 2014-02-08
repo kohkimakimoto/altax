@@ -6,6 +6,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 use Altax\Foundation\Container;
 use Altax\Foundation\ModuleFacade;
+use Altax\Module\Task\Facade\Task;
 
 class TaskTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,9 +16,14 @@ class TaskTest extends \PHPUnit_Framework_TestCase
 
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
+
+        $module = new \Altax\Module\Task\TaskModule($this->container);
+
+        $this->container->addModule(Task::getModuleName(), $module);
+        
     }
 
-    public function testDefult()
+    public function testDefault()
     {
 
     }

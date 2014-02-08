@@ -10,15 +10,11 @@ class TaskModuleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->container = new Container();
-
-        ModuleFacade::clearResolvedInstances();
-        ModuleFacade::setContainer($this->container);
     }
 
     public function testRegisterClosure()
     {
-        $module = new TaskModule();
-        $module->setContainer($this->container);
+        $module = new TaskModule($this->container);
 
         $task = $module->register("test", function(){});
         $this->assertEquals("test", $task->getName());
@@ -28,8 +24,7 @@ class TaskModuleTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterCommand()
     {
-        $module = new TaskModule();
-        $module->setContainer($this->container);
+        $module = new TaskModule($this->container);
 
         require_once __DIR__."/TaskModuleTest/Test01Command.php";
 

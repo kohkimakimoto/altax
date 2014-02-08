@@ -14,11 +14,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
 
-        $module = new \Altax\Module\Server\ServerModule();
-        $module->setContainer($this->container);
+        $module = new \Altax\Module\Server\ServerModule($this->container);
 
         $this->container->addModule(Server::getModuleName(), $module);
-        
     }
 
     public function testSet()
