@@ -72,4 +72,36 @@ class NodesCommandTest extends \PHPUnit_Framework_TestCase
 EOL;
         $this->assertEquals($expected, $commandTester->getDisplay());
     }
+
+    public function testDetailOutput()
+    {
+        $application = new Application($this->container);
+        $application->setAutoExit(false);
+        $application->add(new NodesCommand());
+        $command = $application->find("nodes");
+
+        Server::node("web1.example.com");
+        Server::node("web2.example.com");
+        Server::node("web3.example.com");
+        
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            array(
+                "command" => $command->getName(),
+                "--detail" => true,
+                )
+            );
+
+        $expected = <<<EOL
++------------------+------+------+----------+-----+-------+
+| name             | host | port | username | key | roles |
++------------------+------+------+----------+-----+-------+
+| web1.example.com |      |      |          |     |       |
+| web2.example.com |      |      |          |     |       |
+| web3.example.com |      |      |          |     |       |
++------------------+------+------+----------+-----+-------+
+
+EOL;
+        $this->assertEquals($expected, $commandTester->getDisplay());
+    }
 }

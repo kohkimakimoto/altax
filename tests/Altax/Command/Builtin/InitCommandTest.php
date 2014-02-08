@@ -38,6 +38,16 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, is_file($testTmpConfigPath));
         $this->assertEquals(true, is_file(dirname($testTmpConfigPath)."/composer.json"));
 
+        // One more test. When files exits. it echo skip message.
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            array(
+                "command" => $command->getName(),
+                "--path" => $testTmpConfigPath,
+                )
+            );
+        $this->assertRegExp("/Skiped creation process/", $commandTester->getDisplay());
+
         unlink($testTmpConfigPath);
         unlink(dirname($testTmpConfigPath)."/composer.json");
     }
