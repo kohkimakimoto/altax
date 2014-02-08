@@ -5,7 +5,7 @@ use Altax\Foundation\Container;
 use Altax\Foundation\ModuleFacade;
 use Altax\Module\Task\TaskModule;
 
-class ServerTest extends \PHPUnit_Framework_TestCase
+class TaskModuleTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
