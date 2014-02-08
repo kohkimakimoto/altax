@@ -61,13 +61,13 @@ class NodesCommandTest extends \PHPUnit_Framework_TestCase
             );
 
         $expected = <<<EOL
-+------------------+
-| name             |
-+------------------+
-| web1.example.com |
-| web2.example.com |
-| web3.example.com |
-+------------------+
++------------------+-------+
+| name             | roles |
++------------------+-------+
+| web1.example.com |       |
+| web2.example.com |       |
+| web3.example.com |       |
++------------------+-------+
 
 EOL;
         $this->assertEquals($expected, $commandTester->getDisplay());

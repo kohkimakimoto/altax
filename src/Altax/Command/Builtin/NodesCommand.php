@@ -37,7 +37,7 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
             if ($isDetail) {
                 $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
             } else {
-                $table->setHeaders(array('name'));
+                $table->setHeaders(array('name', 'roles'));
             }
 
             foreach ($nodes as $node) {
@@ -52,7 +52,8 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
                     ));
                 } else {
                     $table->addRow(array(
-                        $node->getName()
+                        $node->getName(),
+                        trim(implode(", ", $node->getReferenceRoles())),
                     ));
                 }
             }

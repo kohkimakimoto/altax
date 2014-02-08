@@ -78,8 +78,10 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(true, true);
         }
 
+        $this->runtimeTask->getOutput()->setVerbosity(2);
         $process->to("127.0.0.1");
-        
+
+        $this->runtimeTask->getOutput()->fetch();
     }
 
 
