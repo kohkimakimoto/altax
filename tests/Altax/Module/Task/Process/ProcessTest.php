@@ -17,6 +17,8 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->container = new Container();
+
+
         $this->task = new DefinedTask();
         $this->task->setName("test_process_run");
         $this->input = new ArgvInput();
@@ -25,6 +27,16 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
+
+        $this->container->addModule(
+            \Altax\Module\Server\Facade\Server::getModuleName(),
+            new \Altax\Module\Server\ServerModule($this->container)
+            );
+        $this->container->addModule(
+            \Altax\Module\Task\Facade\Task::getModuleName(),
+            new \Altax\Module\Task\TaskModule($this->container)
+            );
+
     }
 
     public function testAccessorOfCommandline()
@@ -55,6 +67,21 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $process = new Process($this->runtimeTask);
         $this->assertEquals($this->runtimeTask, $process->getRuntimeTask());        
     }
+
+    public function testTo()
+    {
+        $process = new Process($this->runtimeTask);
+        try {
+            $process->to();
+            $this->assertEquals(false, true);
+        } catch (\RuntimeException $e) {
+            $this->assertEquals(true, true);
+        }
+
+        $process->to("127.0.0.1");
+        
+    }
+
 
     public function testRunLocally()
     {
