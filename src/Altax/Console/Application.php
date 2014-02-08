@@ -130,9 +130,9 @@ EOL;
         foreach ($finder as $dir) {
             $module =  $dir->getBasename();
 
-            $facadeClass = "Altax\Module\\".$module."\Facade\\".$module;
-            $implClass = "Altax\Module\\".$module."\\".$module."Module";
-
+            $facadeClass = "\\Altax\\Module\\".$module."\\Facade\\".$module;
+            $implClass = "\\Altax\\Module\\".$module."\\".$module."Module";
+            
             $moduleName = $facadeClass::getModuleName();
 
             $r = new \ReflectionClass($implClass);
