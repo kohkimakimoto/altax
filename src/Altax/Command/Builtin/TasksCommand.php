@@ -19,19 +19,23 @@ class TasksCommand extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
+        $container = $this->getApplication()->getContainer();
         $tasks = $container->get("tasks");
 
-        $table = $this->getHelperSet()->get('table');
-        $table->setHeaders(array('name', 'description'));
-        foreach ($tasks as $task) {
-            $table->addRow(array(
-                $task->name,
-                $task->description,
-                ));
-        }
+        if ($tasks) {
+            $table = $this->getHelperSet()->get('table');
+            $table->setHeaders(array('name', 'description'));
+            foreach ($tasks as $task) {
+                $table->addRow(array(
+                    $task->getName(),
+                    $task->getDescription(),
+                    ));
+            }
 
-        $table->render($output);
+            $table->render($output);
+        } else {
+            $output->writeln("There are not any tasks.");
+        }
     }
 
 }
