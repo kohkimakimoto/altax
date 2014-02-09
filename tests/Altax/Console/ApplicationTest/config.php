@@ -15,7 +15,7 @@ Task::register("sample_hidden", function(){
     
 })->hidden();
 
-Task::register("sample3", function(){
+Task::register("testBeforeAndAfter", function(){
 
     
 })->after("sample2")->before("sample");

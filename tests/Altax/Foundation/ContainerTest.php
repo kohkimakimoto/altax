@@ -56,6 +56,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $container = new Container();
         $container->set("foo", "bar");
         $this->assertEquals("bar", $container["foo"]);
+
+        unset($container["foo"]);
+        $this->assertEquals(false, isset($container["foo"]));
+
+        $container["foo"] = "aaaa";   
+        $this->assertEquals("aaaa", $container["foo"]);
     }
 
     public function testIterator()
