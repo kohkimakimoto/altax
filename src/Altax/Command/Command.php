@@ -8,6 +8,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Altax\Module\Task\Resource\RuntimeTask;
 
+/**
+ * Altax base command class for defining task. 
+ */
 abstract class Command extends \Symfony\Component\Console\Command\Command
 {
     protected $definedTask;

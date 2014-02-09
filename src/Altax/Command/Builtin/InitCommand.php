@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Init Command
+ */
 class InitCommand extends \Symfony\Component\Console\Command\Command
 {
     const TEMPLATE = <<<EOL
@@ -87,7 +90,6 @@ EOL;
             $output->writeln("<error>File '$composerFile' is already exists. Skiped creation process.</error>");
         }
      }
-
 
      protected function generateConfig($configurationPath, $output)
      {

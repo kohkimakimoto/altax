@@ -6,6 +6,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Altax closure task command.
+ */
 class ClosureTaskCommand extends \Altax\Command\Command
 {
 

@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Roles Command
+ */
 class RolesCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
@@ -33,7 +36,6 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
                     trim(implode(", ", $nodes)),
                 ));
             }
-
             $table->render($output);
         } else {
             $output->writeln("There are not any roles.");

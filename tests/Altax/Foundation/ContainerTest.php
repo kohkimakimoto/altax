@@ -102,6 +102,5 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(5, $status);
         $this->assertEquals(5, count($container));
-
     }
 }

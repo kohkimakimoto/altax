@@ -1,19 +1,23 @@
 <?php
-/*
- | -------------------------------------------------------------
- | This class is referenced `Illuminate\Support\Str`
- | that is a part of laravel framework.
- | 
- | see https://github.com/laravel/framework
- | 
- | The Laravel framework is open-sourced software licensed 
- | under the MIT license.
- | -------------------------------------------------------------
-*/
 namespace Altax\Util;
 
+/**
+ * Utility class for strings
+ */
 class Str
 {
+    /*
+     | -------------------------------------------------------------
+     | This class is referenced `Illuminate\Support\Str`
+     | that is a part of laravel framework.
+     | 
+     | see https://github.com/laravel/framework
+     | 
+     | The Laravel framework is open-sourced software licensed 
+     | under the MIT license.
+     | -------------------------------------------------------------
+    */
+
     /**
      * Convert a value to camel case.
      *

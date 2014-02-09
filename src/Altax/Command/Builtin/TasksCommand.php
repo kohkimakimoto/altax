@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Tasks Command
+ */
 class TasksCommand extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
@@ -31,7 +34,6 @@ class TasksCommand extends \Symfony\Component\Console\Command\Command
                     $task->getDescription(),
                     ));
             }
-
             $table->render($output);
         } else {
             $output->writeln("There are not any tasks.");

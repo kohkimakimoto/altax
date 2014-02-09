@@ -1,11 +1,13 @@
 <?php
-
 namespace Altax\Module\Server;
 
 use Altax\Foundation\Module;
 use Altax\Module\Server\Resource\Node;
 use Altax\Util\Arr;
 
+/**
+ * Server module 
+ */
 class ServerModule extends Module
 {
     /**

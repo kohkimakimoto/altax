@@ -1,10 +1,12 @@
 <?php
-
 namespace Altax\Module\Task;
 
 use Altax\Foundation\Module;
 use Altax\Module\Task\Resource\DefinedTask;
 
+/**
+ * Task module
+ */
 class TaskModule extends Module
 {
     public function register()
