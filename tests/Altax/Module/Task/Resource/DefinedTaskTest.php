@@ -54,4 +54,20 @@ class DefinedTaskTest extends \PHPUnit_Framework_TestCase
         $task->setConfig(array("key" => "value"));
         $this->assertSame(array("key" => "value"), $task->getConfig());
     }
+
+    public function testDescription()
+    {
+        $task = DefinedTask::newInstance("test", $this->container);
+        $task->description("aaaaaaa");
+
+        $this->assertEquals("aaaaaaa", $task->getDescription());
+    }
+
+    public function testConfig()
+    {
+        $task = DefinedTask::newInstance("test", $this->container);
+        $task->config(array("a" => "b"));
+
+        $this->assertSame(array("a" => "b"), $task->getConfig());
+    }
 }
