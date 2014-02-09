@@ -24,7 +24,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
-            array("command" => $command->getName())
+            array("command" => $command->getName(), "--verbose" => 3)
             );
 
         $this->assertEquals("test message", $commandTester->getDisplay());

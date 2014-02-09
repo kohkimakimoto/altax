@@ -25,14 +25,77 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             $container->getConfigFiles());
     }
 
-    public function testSet()
+    public function testSetAndGet()
     {
         $container = new Container();
-        $container->set("nodes/web1", array("node" => "192.168.56.1"));
-        $container->set("nodes/web2", array("node" => "192.168.56.1"));
+        $container->set("a", "aaa");
+        $container->set("b/c", "BBB");
 
-        $container->set("roles/web/nodes", "web1");
+        $this->assertEquals("aaa", $container->get("a"));
+        $this->assertEquals("BBB", $container->get("b/c"));
 
-//        print_r($container);
+    }
+
+    public function testSetAndGetModule()
+    {
+        $container = new Container();
+        $container->setModules(array("abc" => "def"));
+        $this->assertSame(array("abc" => "def"), $container->getModules());
+    }
+
+    public function testDelete()
+    {
+        $container = new Container();
+        $container->set("foo", "bar");
+        $container->delete("foo");
+        $this->assertEquals(null, $container->get("foo"));
+    }
+
+    public function testArrayAccess()
+    {
+        $container = new Container();
+        $container->set("foo", "bar");
+        $this->assertEquals("bar", $container["foo"]);
+    }
+
+    public function testIterator()
+    {
+
+        $container = new Container();
+        $container->set("foo", "bar");
+        $container->set("foo1", "bar1");
+        $container->set("foo2", "bar2");
+        $container->set("foo3"," bar3");
+        $container->set("foo4", "bar4");
+
+        $i = 0;
+        $status = 0;
+        foreach ($container as $k => $v) {
+            if ($i == 0) {
+                $this->assertEquals("foo", $k);
+                $status++;
+            }
+            if ($i == 1) {
+                $this->assertEquals("foo1", $k); 
+                $status++;
+            }
+            if ($i == 2) {
+                $this->assertEquals("foo2", $k); 
+                $status++;
+            }
+            if ($i == 3) {
+                $this->assertEquals("foo3", $k); 
+                $status++;
+            }
+            if ($i == 4) {
+                $this->assertEquals("foo4", $k); 
+                $status++;
+            }
+            $i++;
+        }
+
+        $this->assertEquals(5, $status);
+        $this->assertEquals(5, count($container));
+
     }
 }
