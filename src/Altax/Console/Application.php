@@ -141,11 +141,9 @@ EOL;
             // register module into container
             $this->container->addModule($moduleName, $instance);
 
-            if (class_exists($moduleName)) {
-                throw new \RuntimeException("Class name '".$moduleName."' is already defined.");
+            if (!class_exists($moduleName)) {
+                class_alias($facadeClass, $moduleName);
             }
-
-            class_alias($facadeClass, $moduleName);
         }
     }
 
@@ -156,7 +154,7 @@ EOL;
     {
         foreach ($this->container->getConfigFiles() as $key => $file) {
             if ($file && is_file($file)) {
-                require_once $file;
+                require $file;
             }
         }
     }

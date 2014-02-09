@@ -16,7 +16,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
-    public function testDefault()
+    public function testListCommand()
     {
         $application = new Application($this->container);
         $application->setAutoExit(false);
@@ -27,4 +27,22 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $output = $applicationTester->getDisplay();
         $this->assertRegExp("/Available commands:/", $output);
     }
+
+    
+    public function testTestBasicCommand()
+    {
+        $application = new Application($this->container);
+        $application->setAutoExit(false);
+
+        $applicationTester = new ApplicationTester($application);
+        $applicationTester->run(array("command" => "testBasic", "--verbose" => 3));
+
+        $output = $applicationTester->getDisplay();
+        $this->assertRegExp("/output log/", $output);
+        $this->assertRegExp("/Real command: echo runLocally/", $output);
+        $this->assertRegExp("/runLocally/", $output);
+
+        // echo $output;
+    }
+    
 }
