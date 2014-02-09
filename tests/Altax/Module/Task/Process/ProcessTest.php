@@ -203,6 +203,13 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testRun2()
+    {
+        $process = new Process($this->runtimeTask);
+        $process->setCommandline("echo testecho");
+        $process->to("127.0.0.1")->run();
+    }
+
     public function testCompileCommandline()
     {
         $process = new Process($this->runtimeTask);
