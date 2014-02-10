@@ -27,17 +27,38 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $node->setName("test_node_name");
         $this->assertEquals("test_node_name", $node->getName());
         
+        $this->assertEquals("test_node_name", $node->getHostOrDefault());
         $node->setHost("test.node.exsample.com");
         $this->assertEquals("test.node.exsample.com", $node->getHost());
-  
+        $this->assertEquals("test.node.exsample.com", $node->getHostOrDefault());
+
+        $this->assertEquals(22, $node->getPortOrDefault());  
         $node->setPort(2022);
         $this->assertEquals(2022, $node->getPort());
+        $this->assertEquals(2022, $node->getPortOrDefault());  
+
+        $node->setDefaultKey("/path/to/default/private_key");
+        $this->assertEquals("/path/to/default/private_key", $node->getDefaultKey());
+        $this->assertEquals("/path/to/default/private_key", $node->getKeyOrDefault());
 
         $node->setKey("/path/to/private_key");
         $this->assertEquals("/path/to/private_key", $node->getKey());
+        $this->assertEquals("/path/to/private_key", $node->getKeyOrDefault());
+
+        $node->setDefaultUsername("default_ssh_connection_user");
+        $this->assertEquals("default_ssh_connection_user", $node->getDefaultUsername());
+        $this->assertEquals("default_ssh_connection_user", $node->getUsernameOrDefault());
 
         $node->setUsername("ssh_connection_user");
         $this->assertEquals("ssh_connection_user", $node->getUsername());
+        $this->assertEquals("ssh_connection_user", $node->getUsernameOrDefault());
+
+        try {
+            $node->setOptions("aaa");
+            $this->assertEquals(fales, true);
+        } catch (\RuntimeException $e) {
+            $this->assertEquals(true, true);
+        }
     }
 
 }

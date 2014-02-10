@@ -114,7 +114,7 @@ class Node
     public function setOptions($options)
     {   
         if (!is_array($options)) {
-            throw new RuntimeException("You must pass option as Array");
+            throw new \RuntimeException("You must pass option as Array");
         }
 
         if (isset($options["host"])) {
