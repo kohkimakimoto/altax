@@ -2,7 +2,6 @@
 namespace Altax\Script;
 
 /**
- * ScriptHandler
  * @codeCoverageIgnore
  */
 class ScriptHandler

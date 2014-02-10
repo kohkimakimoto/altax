@@ -55,6 +55,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $output = $applicationTester->getDisplay();
         $this->assertRegExp("/before!((?:.|\n)+)hello!((?:.|\n)+)after!/", $output);
 
-        echo $output;
+//        echo $output;
     }
 }
