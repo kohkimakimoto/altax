@@ -3,6 +3,9 @@
 require_once __DIR__."/Test01Command.php";
 
 Server::node("127.0.0.1");
+Server::node("localhost", array("host" => "127.0.0.1", "username" => getenv("USER"), "port" => 22, "key" => getenv("HOME")."/.ssh/id_rsa"));
+
+Server::role("test", array("127.0.0.1", "localhost"));
 
 // Basic test task
 Task::register("testBasic", function($task){
@@ -35,6 +38,13 @@ Task::register("testBasic", function($task){
     $task->runLocally("echo aaaa", array("127.0.0.1"));
     $task->runLocally("echo aaaa");
 
+    $task->process("echo hello")
+        ->to("127.0.0.1", "localhost")
+        ->run();
+
+    $task->process("echo hello")
+        ->to("test")
+        ->run();
 });
 
 
