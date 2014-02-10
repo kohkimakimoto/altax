@@ -40,6 +40,7 @@ Task::register("testBasic", function($task){
 
     $task->process("echo hello")
         ->to("127.0.0.1", "localhost")
+        ->cwd(getenv("HOME"))
         ->run();
 
     $task->process("echo hello")
