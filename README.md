@@ -56,18 +56,6 @@ $ curl -s http://getcomposer.org/installer | php
 $ php composer.phar install
 ```
 
-### Initialize command
-
-You should run the following command to create config files
-
-    $ altax init
-
-You will get `.altax` directory in your current working directory.
-
-    .altax
-    ├── config.php
-    └── composer.json
-
 ## Documentation
 
 Visit [altax project page](http://kohkimakimoto.github.io/altax/)
