@@ -33,11 +33,28 @@ Task::register("testBasic", function($task){
 
 
 Task::register("testHidden", function(){
-
     
 })->hidden();
 
-Task::register("testBeforeAndAfter", function(){
 
-    
-})->after("sample2")->before("sample");
+Task::register("testBeforeAndAfter0", function($task){
+
+    $task->writeln("before!");
+
+});
+
+Task::register("testBeforeAndAfter2", function($task){
+
+    $task->writeln("after!");
+
+});
+
+Task::register("testBeforeAndAfter1", function($task){
+
+    $task->writeln("hello!");
+
+})
+->before("testBeforeAndAfter0")
+->after("testBeforeAndAfter2")
+;
+

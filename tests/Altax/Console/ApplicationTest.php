@@ -45,4 +45,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 //        echo $output;
     }
     
+    public function testTestBeforeAndAfter1Command()
+    {
+        $application = new Application($this->container);
+        $application->setAutoExit(false);
+
+        $applicationTester = new ApplicationTester($application);
+        $applicationTester->run(array("command" => "testBeforeAndAfter1", "--verbose" => 3));
+        $output = $applicationTester->getDisplay();
+        $this->assertRegExp("/before!((?:.|\n)+)hello!((?:.|\n)+)after!/", $output);
+
+        echo $output;
+    }
 }
