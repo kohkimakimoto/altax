@@ -45,11 +45,15 @@ Task::register("testBasic", function($task){
     $task->process("echo hello")
         ->to("test")
         ->run();
+
+    $task->call("testHidden");
 });
 
 
-Task::register("testHidden", function(){
+Task::register("testHidden", function($task){
     
+    $task->writeln("Run testHidden!");
+
 })->hidden();
 
 
