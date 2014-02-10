@@ -71,14 +71,18 @@ class RuntimeTask
         return $process;
     }
 
-    public function run($commandline, $nodesOrRoles = array())
+    public function run($commandline, Array $nodesOrRoles)
     {
         return $this->process($commandline)->to($nodesOrRoles)->run();
     }
 
-    public function runLocally($commandline)
+    public function runLocally($commandline, Array $nodesOrRoles = null)
     {
-        return $this->process($commandline)->runLocally();
+        $process = $this->process($commandline);
+        if ($nodesOrRoles) {
+            $process->to($nodesOrRoles);
+        }
+        return $process->runLocally();
     }
 
     public function call($taskName, $arguments = array())
