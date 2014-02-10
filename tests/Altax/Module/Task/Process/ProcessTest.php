@@ -170,6 +170,18 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Process#to set 2 nodes: 127.0.0.1, localhost\n", $this->runtimeTask->getOutput()->fetch());
     }
 
+    public function testTo9()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
+        $process->to("unknown.sample.com");
+
+        $this->assertEquals("Process#to set 1 nodes: unknown.sample.com\n", $this->runtimeTask->getOutput()->fetch());
+    }
+
     public function testUserAndCwd()
     {
         $process = new Process($this->runtimeTask);
@@ -242,7 +254,6 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $ret = $process->compileRealCommand("ls -la");
         $this->assertEquals('sudo -ukohkimakimoto TERM=dumb sh -c "cd /var/tmp && ls -la"', $ret);
     }
-
 }
 
 

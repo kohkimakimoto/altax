@@ -3,6 +3,7 @@ namespace Altax\Module\Task\Process;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 use Altax\Module\Server\Facade\Server;
+use Altax\Module\Server\Resource\Node;
 use Altax\Util\Arr;
 
 
@@ -188,6 +189,12 @@ class Process
             
             if ($node && $role) {
                 throw new \RuntimeException("The key '$candidateNodeName' was found in both nodes and roles. So It couldn't identify to unique node.");
+            }
+
+            if (!$node && !$role && ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node")) {
+                // Passed unregisterd node name. Create node instance.
+                $node = new Node();
+                $node->setName($candidateNodeName["name"]);
             }
 
             if ($node) {
