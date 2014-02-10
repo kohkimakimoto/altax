@@ -6,6 +6,9 @@
     </testsuite>
   </testsuites>
   <filter>
+    <blacklist>
+      <file>./src/Altax/Script/ScriptHandler.php</file>
+    </blacklist>
     <whitelist>
       <directory suffix=".php">./src</directory>
     </whitelist>
@@ -14,3 +17,4 @@
     <log type="coverage-clover" target="build/logs/clover.xml"/>
   </logging>
 </phpunit>
+
