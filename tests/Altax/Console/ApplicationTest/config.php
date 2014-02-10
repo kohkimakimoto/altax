@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__."/Test01Command.php";
+
 Server::node("127.0.0.1");
 
 // Basic test task
@@ -62,3 +64,4 @@ Task::register("testBeforeAndAfter1", function($task){
 ->after("testBeforeAndAfter2")
 ;
 
+Task::register("testRegisterCommand", "Test\Altax\Console\ApplicationTest\Test01Command");

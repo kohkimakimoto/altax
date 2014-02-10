@@ -57,4 +57,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
 //        echo $output;
     }
+
+    public function testRegisterCommand()
+    {
+        $application = new Application($this->container);
+        $application->setAutoExit(false);
+
+        $applicationTester = new ApplicationTester($application);
+        $applicationTester->run(array("command" => "testRegisterCommand", "--verbose" => 3));
+        $output = $applicationTester->getDisplay();
+        $this->assertRegExp("/Fired test01 command task!/", $output);
+    }
 }
