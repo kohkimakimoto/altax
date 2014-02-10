@@ -221,6 +221,28 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("echo nameeeee!", $ret);
     }
 
+    public function testCompileRealCommand()
+    {
+        $process = new Process($this->runtimeTask);
+
+        $node = new Node();
+        $ret = $process->compileRealCommand("ls -la");
+        $this->assertEquals("ls -la", $ret);
+
+        $process = new Process($this->runtimeTask);
+
+        $node = new Node();
+        $process->user("kohkimakimoto");
+        $ret = $process->compileRealCommand("ls -la");
+        $this->assertEquals('sudo -ukohkimakimoto TERM=dumb sh -c "ls -la"', $ret);
+
+        $node = new Node();
+        $process->user("kohkimakimoto");
+        $process->cwd("/var/tmp");
+        $ret = $process->compileRealCommand("ls -la");
+        $this->assertEquals('sudo -ukohkimakimoto TERM=dumb sh -c "cd /var/tmp && ls -la"', $ret);
+    }
+
 }
 
 
