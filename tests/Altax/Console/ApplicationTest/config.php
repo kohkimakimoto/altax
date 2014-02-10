@@ -15,6 +15,20 @@ Task::register("testBasic", function($task){
         ->run()
         ;
 
+    $task->process(function($node){
+
+        return "echo ".$node->getName()."";
+
+    })->to("127.0.0.1")->runLocally();
+
+    $task->process(function($node){
+
+        return "echo ".$node->getName()."";
+
+    })->to("127.0.0.1")->run();
+
+    $task->process('echo {{ $node->getName() }}')->to("127.0.0.1")->runLocally();
+
 });
 
 

@@ -360,7 +360,7 @@ class Process
         };
 
         $compiledValue = preg_replace_callback($pattern, $callback, $value);
-
+        
         ob_start();
         eval(' ?>'.$compiledValue.'<?php ');
         $generatedValue = ob_get_contents();
