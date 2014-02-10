@@ -41,6 +41,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp("/output log/", $output);
         $this->assertRegExp("/Real command: echo runLocally/", $output);
         $this->assertRegExp("/runLocally/", $output);
+        $this->assertRegExp("/runLocally using closure/", $output);
         $this->assertRegExp("/Run testHidden!/", $output);
         $this->assertRegExp("/Finished task: testBasic/", $output);
 

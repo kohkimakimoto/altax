@@ -39,6 +39,9 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         Server::node("127.0.0.1", "test");
         Server::node("localhost", "test");
+
+        Server::node("nodeIsSameNameOfRole", "nodeIsSameNameOfRole");
+        
     }
 
     public function testAccessorOfCommandline()
@@ -181,6 +184,23 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals("Process#to set 1 nodes: unknown.sample.com\n", $this->runtimeTask->getOutput()->fetch());
     }
+
+    public function testTo10()
+    {
+        $process = new Process($this->runtimeTask);
+
+        // In order to check output debug message.
+        $this->runtimeTask->getOutput()->setVerbosity(2);
+        
+        try {
+            $process->to("nodeIsSameNameOfRole");
+            $this->assertEquals(false, true);
+        } catch (\RuntimeException $e) {
+            $this->assertEquals(true, true);
+        }
+
+    }
+
 
     public function testUserAndCwd()
     {

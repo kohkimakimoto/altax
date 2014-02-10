@@ -20,6 +20,12 @@ Task::register("testBasic", function($task){
         ->run()
         ;
 
+    $task->process(function(){
+
+        return "echo runLocally using closure";
+
+    })->runLocally();
+
     $task->process(function($node){
 
         return "echo ".$node->getName()."";
