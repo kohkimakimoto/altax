@@ -56,6 +56,11 @@ EOL;
 
 EOL;
 
+    const GITIGNORE_TEMPLATE = <<<EOL
+/vendor
+
+EOL;
+
     protected function configure()
     {
         $this
@@ -89,6 +94,14 @@ EOL;
         } else {
             $output->writeln("<error>File '$composerFile' is already exists. Skiped creation process.</error>");
         }
+
+        $gitignoreFile = dirname($configurationPath)."/.gitignore";
+        if (!is_file($gitignoreFile)) {
+            $this->generateGitignore($gitignoreFile, $output);
+        } else {
+            $output->writeln("<error>File '$gitignoreFile' is already exists. Skiped creation process.</error>");
+        }
+        
      }
 
      protected function generateConfig($configurationPath, $output)
@@ -104,4 +117,11 @@ EOL;
         file_put_contents($composerFile, self::COMPOSER_TEMPLATE);
         $output->writeln("<info>Created file: </info>$composerFile");
      }
+
+     protected function generateGitignore($gitignorePath, $output)
+     {
+        file_put_contents($gitignorePath, self::GITIGNORE_TEMPLATE);
+        $output->writeln("<info>Created file: </info>$gitignorePath");
+     }
+
 }
