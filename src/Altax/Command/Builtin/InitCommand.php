@@ -35,13 +35,13 @@ if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/a
 //
 // Examples: 
 //
-//   Task::register("hello", function(\$task){
+//   Task::register('hello', function(\$task){
 //   
-//       \$task->process("echo hello world!")->run();
+//       \$task->process('echo hello world!')->runLocally();
 // 
 //   });
 //
-//   Task::register("server", "Altax\\\\Command\\\\ServerCommand");
+//   Task::register('server', 'Altax\\Command\\ServerCommand');
 //
 
 EOL;
