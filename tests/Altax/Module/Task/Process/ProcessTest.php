@@ -266,13 +266,13 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $node = new Node();
         $process->user("kohkimakimoto");
         $ret = $process->compileRealCommand("ls -la");
-        $this->assertEquals('sudo -ukohkimakimoto TERM=dumb sh -c "ls -la"', $ret);
+        $this->assertEquals('sudo -ukohkimakimoto TERM=dumb /bin/bash -l -c "ls -la"', $ret);
 
         $node = new Node();
         $process->user("kohkimakimoto");
         $process->cwd("/var/tmp");
         $ret = $process->compileRealCommand("ls -la");
-        $this->assertEquals('sudo -ukohkimakimoto TERM=dumb sh -c "cd /var/tmp && ls -la"', $ret);
+        $this->assertEquals('sudo -ukohkimakimoto TERM=dumb /bin/bash -l -c "cd /var/tmp && ls -la"', $ret);
     }
 }
 

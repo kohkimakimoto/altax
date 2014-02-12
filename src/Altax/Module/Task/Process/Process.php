@@ -387,7 +387,7 @@ class Process
             $realCommand .= 'sudo -u'.$this->user.' TERM=dumb ';
         }
 
-        $realCommand .= 'sh -c "';
+        $realCommand .= '/bin/bash -l -c "';
 
         if ($this->cwd) {
             $realCommand .= 'cd '.$this->cwd.' && ';
