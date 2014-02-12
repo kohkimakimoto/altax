@@ -28,7 +28,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp("/Available commands:/", $output);
     }
 
-    
     public function testTestBasicCommand()
     {
         $application = new Application($this->container);
