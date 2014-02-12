@@ -259,7 +259,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         $node = new Node();
         $ret = $process->compileRealCommand("ls -la");
-        $this->assertEquals("ls -la", $ret);
+        $this->assertEquals('/bin/bash -l -c "ls -la"', $ret);
 
         $process = new Process($this->runtimeTask);
 

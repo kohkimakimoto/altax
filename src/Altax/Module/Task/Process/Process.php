@@ -378,10 +378,6 @@ class Process
 
     public function compileRealCommand($value)
     {
-        if (!$this->user && !$this->cwd) {
-            return $value;
-        }
-
         $realCommand = "";
         if ($this->user) {
             $realCommand .= 'sudo -u'.$this->user.' TERM=dumb ';
