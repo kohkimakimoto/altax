@@ -14,7 +14,7 @@ class InitCommand extends \Symfony\Component\Console\Command\Command
 {
     const TEMPLATE = <<<EOL
 <?php
-// Setup autoloading for plugin command classes.
+// Autoloading for plugin command classes.
 if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/autoload.php';
 
 // ***************************************************************
@@ -49,8 +49,7 @@ EOL;
     const COMPOSER_TEMPLATE = <<<EOL
 {
   "require": {
-    "php": ">=5.3.0",
-    "kohkimakimoto/altax-server": "dev-master"
+    "php": ">=5.3.0"
   }
 }
 
