@@ -2,7 +2,7 @@
 namespace Altax\Module\Task\Resource;
 
 use Symfony\Component\Console\Input\ArrayInput;
-use Altax\Module\Task\Process\Process;
+use Altax\Module\Task\Process\Executor;
 
 class RuntimeTask
 {
@@ -53,11 +53,12 @@ class RuntimeTask
     }
 
 
-    public function process($closure, $options)
+    public function exec($closure, $options = array())
     {
-
+        $process = new Executor($this, $closure, $options);
+        $process->execute();
     }
-    
+
 /*
     public function process($)
     {
