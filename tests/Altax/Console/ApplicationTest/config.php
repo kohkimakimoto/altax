@@ -74,3 +74,27 @@ Task::register("testBeforeAndAfter1", function($task){
 ;
 
 Task::register("testRegisterCommand", "Test\Altax\Console\ApplicationTest\Test01Command");
+
+
+
+
+
+// test before after
+Task::register("testAncestry1", function($task){
+
+
+})->before("testAncestry2")->after("testAncestry3");
+
+Task::register("testAncestry2", function($task){
+
+    
+})->before("testAncestry2-1");
+
+Task::register("testAncestry2-1", function($task){
+
+    
+})->before("testAncestry1");
+
+Task::register("testAncestry3", function($task){
+    
+})->before("testAncestry1");

@@ -14,6 +14,7 @@ use Altax\Module\Task\Resource\RuntimeTask;
 abstract class Command extends \Symfony\Component\Console\Command\Command
 {
     protected $definedTask;
+    protected $ancestry = array();
 
     protected function getContainer()
     {
@@ -43,6 +44,12 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
             $output->writeln("<info>Starting </info>".$this->definedTask->getName());
         }
         
+        $this->ancestry[] = $this->definedTask->getName();
+
+        if ($output->isDebug()) {
+            $output->writeln("<info>Current ancestry is </info>".implode(" > ", $this->ancestry));
+        }
+
         $this->runBeforeTask($output);
 
         if ($output->isVerbose()) {
@@ -85,6 +92,11 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
                 $output->writeln("<info>Found a before task need to run: </info>".$task->getName());
             }
 
+            if (in_array($task->getName(), $this->ancestry)) {
+                $output->writeln("<error>Skip a before task ".$task->getName()." to prevent infinit loop. Because of existing it in ancestry tasks.</error>");
+                continue;
+            }
+
             $command = $this->getApplication()
                 ->find($task->getName())
                 ;
@@ -92,6 +104,8 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
             if (!$command) {
                 throw new \RuntimeException("Not found a before task command '$taskName'.");
             }
+
+            $command->setAncestry($this->ancestry);
 
             $input = new ArrayInput(array("command" => $task->getName()));
             $command->run($input, $output);
@@ -107,6 +121,11 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
                 $output->writeln("<info>Found a after task need to run: </info>".$task->getName());
             }
 
+            if (in_array($task->getName(), $this->ancestry)) {
+                $output->writeln("<error>Skip a before task ".$task->getName()." to prevent infinit loop. Because of existing it in ancestry tasks.</error>");
+                continue;
+            }
+
             $command = $this->getApplication()
                 ->find($task->getName())
                 ;
@@ -115,8 +134,15 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
                 throw new \RuntimeException("Not found a after task command '$taskName'.");
             }
 
+            $command->setAncestry($this->ancestry);
+
             $input = new ArrayInput(array("command" => $task->getName()));
             $command->run($input, $output);
         }
+    }
+
+    public function setAncestry($ancestry)
+    {
+        $this->ancestry = $ancestry;
     }
 }

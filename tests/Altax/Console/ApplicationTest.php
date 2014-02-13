@@ -68,4 +68,18 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $output = $applicationTester->getDisplay();
         $this->assertRegExp("/Fired test01 command task!/", $output);
     }
+
+    public function testTestBeforeAndAfterAncestryCommand()
+    {
+        $application = new Application($this->container);
+        $application->setAutoExit(false);
+
+        $applicationTester = new ApplicationTester($application);
+        $applicationTester->run(array("command" => "testAncestry1", "--verbose" => 3));
+        $output = $applicationTester->getDisplay();
+        $this->assertRegExp("/Skip a before task testAncestry1 to prevent infinit loop. Because of existing it in ancestry tasks./", $output);
+
+//        echo $output;
+    }
+
 }

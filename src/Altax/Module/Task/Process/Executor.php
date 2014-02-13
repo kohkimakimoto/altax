@@ -12,7 +12,7 @@ class Executor
     protected $runtimeTask;
     protected $closure;
     protected $options;
-    protected $childPids;
+    protected $childPids = array();
 
     public function __construct($runtimeTask, $closure, $options)
     {
