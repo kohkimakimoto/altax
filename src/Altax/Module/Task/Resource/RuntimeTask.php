@@ -52,7 +52,14 @@ class RuntimeTask
         $this->output->write($string);
     }
 
-    public function process()
+
+    public function process($closure, $options)
+    {
+
+    }
+    
+/*
+    public function process($)
     {
         $args = func_get_args();
         
@@ -84,6 +91,7 @@ class RuntimeTask
         }
         return $process->runLocally();
     }
+*/
 
     public function call($taskName, $arguments = array())
     {

@@ -11,47 +11,7 @@ Server::role("test", array("127.0.0.1", "localhost"));
 Task::register("testBasic", function($task){
 
     $task->writeln("output log");
-    $task->process("echo runLocally")->runLocally();
     
-    // Can't catch the output message on PHPUnit test case.
-    // Because this process runs on child forked process.
-    $task->process("echo run Remotely")
-        ->to("127.0.0.1")
-        ->run()
-        ;
-
-    $task->process(function(){
-
-        return "echo runLocally using closure";
-
-    })->runLocally();
-
-    $task->process(function($node){
-
-        return "echo ".$node->getName()."";
-
-    })->to("127.0.0.1")->runLocally();
-
-    $task->process(function($node){
-
-        return "echo ".$node->getName()."";
-
-    })->to("127.0.0.1")->run();
-
-    $task->process('echo {{ $node->getName() }}')->to("127.0.0.1")->runLocally();
-
-    $task->run("echo aaaa", array("127.0.0.1"));
-    $task->runLocally("echo aaaa", array("127.0.0.1"));
-    $task->runLocally("echo aaaa");
-
-    $task->process("echo hello")
-        ->to("127.0.0.1", "localhost")
-        ->cwd(getenv("HOME"))
-        ->run();
-
-    $task->process("echo hello")
-        ->to("test")
-        ->run();
 
     $task->call("testHidden");
 });

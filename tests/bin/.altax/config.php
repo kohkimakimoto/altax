@@ -10,17 +10,5 @@ Task::register("test001", function($task){
 
 Task::register("test002", function($task){
 
-    $task->process("whoami")
-        ->to("web")
-        ->runLocally();
-
-    $task->process("whoami")
-        ->to("127.0.0.1")
-        ->run();
-
-    $task->process("whoami")
-        ->to("127.0.0.1")
-        ->run();
-
 });
 
