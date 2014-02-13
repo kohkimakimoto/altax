@@ -12,6 +12,24 @@ Task::register("testBasic", function($task){
 
     $task->writeln("output log");
     
+    $task->exec(function($process){
+
+        $process->runLocally("echo runLocally!");
+
+    });
+
+    $task->exec(function($process){
+
+        $process->run("echo run!");
+
+    }, array("127.0.0.1"));
+
+    $task->exec(function($process){
+
+        $process->run("echo run!");
+
+    });
+
 
     $task->call("testHidden");
 });

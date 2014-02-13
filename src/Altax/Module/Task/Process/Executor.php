@@ -178,12 +178,6 @@ class Executor
         return $concreteNodes;
     }
 
-
-    public function setNodes($nodes)
-    {
-        $this->nodes = $nodes;
-    }
-
     public function getNodes()
     {
         return $this->nodes;

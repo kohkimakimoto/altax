@@ -20,6 +20,10 @@ class Process
 
     public function run($commandline, $options = array())
     {
+        if (!$this->node) {
+            throw new \RuntimeException("Node is not defined to run the command.");
+        }
+
         // Output info
         if ($this->runtimeTask->getOutput()->isVerbose()) {
             $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Run: </info>$commandline");

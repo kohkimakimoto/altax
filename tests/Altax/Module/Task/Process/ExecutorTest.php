@@ -101,4 +101,88 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testExecute5()
+    {
+        $this->output->setVerbosity(3);
+
+        $executor = new Executor($this->runtimeTask, 
+            function($process){
+
+
+
+            }, 
+            array("test"));
+        $executor->execute();
+
+        $output = $this->output->fetch();
+        $this->assertRegExp("/Found 2 nodes/", $output);
+    }
+
+    public function testExecute6()
+    {
+        // role array
+        $this->output->setVerbosity(3);
+
+        $executor = new Executor($this->runtimeTask, 
+            function($process){
+
+
+
+            }, 
+            array("roles" => array("test")));
+        $executor->execute();
+
+        // role string
+        $output = $this->output->fetch();
+        $this->assertRegExp("/Found 2 nodes/", $output);
+
+        $this->output->setVerbosity(3);
+
+        $executor = new Executor($this->runtimeTask, 
+            function($process){
+
+
+
+            }, 
+            array("roles" => "test"));
+        $executor->execute();
+
+        $output = $this->output->fetch();
+        $this->assertRegExp("/Found 2 nodes/", $output);
+    }
+
+    public function testExecute7()
+    {
+        // nodes array
+        $this->output->setVerbosity(3);
+
+        $executor = new Executor($this->runtimeTask, 
+            function($process){
+
+
+
+            }, 
+            array("nodes" => array("127.0.0.1")));
+        $executor->execute();
+
+        // nodes string
+        $output = $this->output->fetch();
+        $this->assertRegExp("/Found 1 nodes/", $output);
+
+        $this->output->setVerbosity(3);
+
+        $executor = new Executor($this->runtimeTask, 
+            function($process){
+
+
+
+            }, 
+            array("nodes" => "127.0.0.1"));
+        $executor->execute();
+
+        $output = $this->output->fetch();
+        $this->assertRegExp("/Found 1 nodes/", $output);
+
+
+    }
 }
