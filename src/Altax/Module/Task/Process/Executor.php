@@ -56,7 +56,7 @@ class Executor
                 $this->childPids[$pid] = $node;
             } else {
                 // Child process
-                if ($this->runtimeTask->getOutput()->isVerbose()) {
+                if ($this->runtimeTask->getOutput()->isVeryVerbose()) {
                     $this->runtimeTask->getOutput()->writeln("<info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
                 }
                 
@@ -65,11 +65,28 @@ class Executor
             }
         }
 
+        // At the following code, only parent precess runs.
+        while (count($this->childPids) > 0) {
+            // Keep to wait until to finish all child processes.
+            $status = null;
+            $pid = pcntl_wait($status);
+            if (!$pid) {
+                throw new \RuntimeException("pcntl_wait error.");
+            }
+
+            if (!array_key_exists($pid, $this->childPids)) {
+                throw new \RuntimeException("pcntl_wait error.".$pid);
+            }
+
+            // When a child process is done, removes managed child pid.
+            $node = $this->childPids[$pid];
+            unset($this->childPids[$pid]);
+        }
     }
 
     protected function doExecute($node)
     {
-        call_user_func($this->closure, new Process($node));
+        call_user_func($this->closure, new Process($this->runtimeTask, $node));
     }
 
 
@@ -177,12 +194,12 @@ class Executor
     {
         switch ($signo) {
             case SIGTERM:
-                $this->runtimeTask->getOutput()->writeln("Got SIGTERM.");
+                $this->runtimeTask->getOutput()->writeln("<fg=red>Got SIGTERM.</fg=red>");
                 $this->killAllChildren();
                 exit;
 
             case SIGINT:
-                $this->runtimeTask->getOutput()->writeln("Got SIGINT.");
+                $this->runtimeTask->getOutput()->writeln("<fg=red>Got SIGINT.</fg=red>");
                 $this->killAllChildren();
                 exit;
         }
@@ -191,10 +208,9 @@ class Executor
     public function killAllChildren()
     {
         foreach ($this->childPids as $pid => $host) {
-            $this->runtimeTask->getOutput()->writeln("Sending sigint to child (pid:<comment>$pid</comment>)");
+            $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
             posix_kill($pid, SIGINT);
         }
     }
-
 
 }

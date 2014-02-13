@@ -40,13 +40,13 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
         $runtimeTask = new RuntimeTask($this->definedTask, $input, $output);        
         
         if ($output->isVerbose()) {
-            $output->writeln("<info>Starting task: </info>".$this->definedTask->getName());
+            $output->writeln("<info>Starting </info>".$this->definedTask->getName());
         }
         
         $this->runBeforeTask($output);
 
         if ($output->isVerbose()) {
-            $output->writeln("<info>Running task: </info>".$this->definedTask->getName());
+            $output->writeln("<info>Running </info>".$this->definedTask->getName());
         }
         
         $retVal = $this->fire($runtimeTask);
@@ -55,7 +55,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
 
 
         if ($output->isVerbose()) {
-            $output->writeln("<info>Finished task: </info>".$this->definedTask->getName());
+            $output->writeln("<info>Finished </info>".$this->definedTask->getName());
         }
 
         return $retVal;

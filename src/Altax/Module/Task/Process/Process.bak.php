@@ -409,12 +409,12 @@ class Process
     {
         switch ($signo) {
             case SIGTERM:
-                $this->runtimeTask->getOutput()->writeln("Got SIGTERM.");
+                $this->runtimeTask->getOutput()->writeln("<fg=red>Got SIGTERM.</fg=red>");
                 $this->killAllChildren();
                 exit;
 
             case SIGINT:
-                $this->runtimeTask->getOutput()->writeln("Got SIGINT.");
+                $this->runtimeTask->getOutput()->writeln("<fg=red>Got SIGINT.</fg=red>");
                 $this->killAllChildren();
                 exit;
         }
@@ -423,7 +423,7 @@ class Process
     public function killAllChildren()
     {
         foreach ($this->childPids as $pid => $host) {
-            $this->runtimeTask->getOutput()->writeln("Sending sigint to child (pid:<comment>$pid</comment>)");
+            $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
             posix_kill($pid, SIGINT);
         }
     }
