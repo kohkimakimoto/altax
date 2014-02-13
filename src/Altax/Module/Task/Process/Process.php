@@ -39,14 +39,7 @@ class Process
             $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Real command: </info>$realCommand");
         }
 
-        $ssh = new \Net_SSH2(
-            $this->node->getHostOrDefault(),
-            $this->node->getPortOrDefault());
-        $key = new \Crypt_RSA();
-        $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
-        if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
-            throw new \RuntimeException('Unable to login '.$this->node->getName());
-        }
+        $ssh = $this->getSSH();
 
         $self = $this;
         if (isset($options["timeout"])) {
@@ -117,6 +110,87 @@ class Process
         $realCommand .= '"';
 
         return $realCommand;
+    }
+
+    protected function getSSH()
+    {
+        $ssh = new \Net_SSH2(
+            $this->node->getHostOrDefault(),
+            $this->node->getPortOrDefault());
+        $key = new \Crypt_RSA();
+        $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
+        if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
+            throw new \RuntimeException('Unable to login '.$this->node->getName());
+        }
+
+        return $ssh;
+    }
+
+
+    public function get($remote, $local)
+    {
+        if (!$this->node) {
+            throw new \RuntimeException("Node is not defined to get a file.");
+        }
+
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote -> $local");
+        }
+
+    }
+
+    public function getString($remote)
+    {
+        if (!$this->node) {
+            throw new \RuntimeException("Node is not defined to get a file.");
+        }
+
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote");
+        }
+
+    }
+
+    public function put($local, $remote)
+    {
+        if (!$this->node) {
+            throw new \RuntimeException("Node is not defined to put a file.");
+        }
+
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$local -> $remote");
+        }
+
+    }
+
+    public function putString($remote, $contents)
+    {
+        if (!$this->node) {
+            throw new \RuntimeException("Node is not defined to put a file.");
+        }
+
+        // Output info
+        if ($this->runtimeTask->getOutput()->isVerbose()) {
+            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$remote");
+        }
+
+    }
+
+    protected function getSFTP()
+    {
+        $sftp = new \Net_SFTP(
+            $this->node->getHostOrDefault(), 
+            $this->node->getPortOrDefault());
+        $key = new \Crypt_RSA();
+        $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
+        if (!$sftp->login($this->node->getUsernameOrDefault(), $key)) {
+            throw new \RuntimeException('Unable to login '.$this->node->getName());
+        }
+
+        return $sftp;
     }
 
     public function getNodeName()
