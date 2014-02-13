@@ -55,44 +55,9 @@ class RuntimeTask
 
     public function exec($closure, $options = array())
     {
-        $process = new Executor($this, $closure, $options);
-        $process->execute();
+        $executor = new Executor($this, $closure, $options);
+        $executor->execute();
     }
-
-/*
-    public function process($)
-    {
-        $args = func_get_args();
-        
-        $process = new Process($this);
-
-        if (count($args) == 1 && is_string($args[0])) {
-            // Passed a commandline string to run.
-            $process->setCommandline($args[0]);
-        } elseif (count($args) == 1 && $args[0] instanceof \Closure) {
-            // Passed a closure.
-            $process->setClosure($args[0]);
-        } else {
-            throw new \RuntimeException("Unsupported calling the method.");
-        }
-
-        return $process;
-    }
-
-    public function run($commandline, Array $nodesOrRoles)
-    {
-        return $this->process($commandline)->to($nodesOrRoles)->run();
-    }
-
-    public function runLocally($commandline, Array $nodesOrRoles = null)
-    {
-        $process = $this->process($commandline);
-        if ($nodesOrRoles) {
-            $process->to($nodesOrRoles);
-        }
-        return $process->runLocally();
-    }
-*/
 
     public function call($taskName, $arguments = array())
     {
