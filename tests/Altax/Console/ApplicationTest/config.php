@@ -10,7 +10,10 @@ Server::role("test", array("127.0.0.1", "localhost"));
 // Basic test task
 Task::register("testBasic", function($task){
 
+
     $task->writeln("output log");
+
+    $task->call("testHidden");
     
     $task->exec(function($process){
 
@@ -31,7 +34,6 @@ Task::register("testBasic", function($task){
     });
 
 
-    $task->call("testHidden");
 });
 
 

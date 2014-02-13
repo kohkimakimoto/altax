@@ -38,6 +38,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $output = $applicationTester->getDisplay();
         $this->assertRegExp("/output log/", $output);
+        $this->assertRegExp("/Run testHidden!/", $output);
         $this->assertRegExp("/runLocally!/", $output);
         $this->assertRegExp("/Node is not defined to run the command./", $output);
 
