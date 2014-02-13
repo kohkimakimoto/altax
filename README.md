@@ -19,10 +19,11 @@ Server::node("db1,exsample.com",  "db");
 
 Task::register("deploy", function($task){
 
-    $task->process("git pull")
-      ->cwd("/path/to/applicaion")
-      ->to("web", "db")
-      ->run();
+  $task->exec(function($process){
+
+    $process->run("git pull");
+
+  }, array("web"));
 
 });
 ```

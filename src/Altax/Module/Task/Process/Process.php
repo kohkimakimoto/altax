@@ -24,6 +24,10 @@ class Process
             throw new \RuntimeException("Node is not defined to run the command.");
         }
 
+        if (is_array($commandline)) {
+            $commandline = implode(" && ", $commandline);
+        }
+
         // Output info
         if ($this->runtimeTask->getOutput()->isVerbose()) {
             $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Run: </info>$commandline");
@@ -63,6 +67,10 @@ class Process
 
     public function runLocally($commandline, $options = array())
     {
+        if (is_array($commandline)) {
+            $commandline = implode(" && ", $commandline);
+        }
+
         // Output info
         if ($this->runtimeTask->getOutput()->isVerbose()) {
             $this->runtimeTask->getOutput()->writeln($this->getLocalInfoPrefix()."<info>Run: </info>$commandline");

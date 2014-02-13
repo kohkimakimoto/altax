@@ -40,12 +40,11 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $output = $process->getRuntimeTask()->getOutput()->fetch();
         $this->assertRegExp("/helloworld/", $output);
         $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd ~ && echo helloworld"/', $output);
-    
-        
+
         //echo $output;
     }
 
-    public function testRunLocally()
+    public function testRunLocally1()
     {
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
@@ -58,6 +57,20 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd ~ && echo helloworld"/', $output);
     }
 
+    public function testRunLocally2()
+    {
+        $this->runtimeTask->getOutput()->setVerbosity(3);
+
+        $node = new Node();
+        $node->setName("127.0.0.1");
+        $process = new Process($this->runtimeTask, $node);
+        $process->runLocally(array(
+            "cd /var/tmp",
+            "pwd",
+        ));
+        $output = $process->getRuntimeTask()->getOutput()->fetch();
+        $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd \/var\/tmp && pwd"/', $output);
+    }
 }
 
 
