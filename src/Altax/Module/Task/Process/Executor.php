@@ -89,7 +89,6 @@ class Executor
         call_user_func($this->closure, new Process($this->runtimeTask, $node));
     }
 
-
     /**
      * Load nods from variable length argument lists same 'on' and 'for' method.
      * @return array Array of Altax\Module\Server\Resource\Node

@@ -41,11 +41,20 @@ class Process
         }
 
         $self = $this;
-        $ssh->exec($realCommand, function ($buffer) use ($self) {
+        if (isset($options["timeout"])) {
+            $ssh->setTimeout($options["timeout"]);
+        } else {
+            $ssh->setTimeout(null);
+        }
+
+        $resultContent = null;
+        $ssh->exec($realCommand, function ($buffer) use ($self, &$resultContent) {
             $self->getRuntimeTask()->getOutput()->write($buffer);
+            $resultContent .= $buffer;
         });
 
-        return new ProcessResult();
+        $returnCode = $ssh->getExitStatus();
+        return new ProcessResult($returnCode, $resultContent);
     }
 
     public function runLocally($commandline, $options = array())
@@ -63,12 +72,18 @@ class Process
 
         $self = $this;
         $symfonyProcess = new SymfonyProcess($realCommand);
-        $symfonyProcess->setTimeout(null);
-        $symfonyProcess->run(function ($type, $buffer) use ($self) {
-            $self->getRuntimeTask()->getOutput()->write($buffer);
-        });
+        if (isset($options["timeout"])) {
+            $symfonyProcess->setTimeout($options["timeout"]);
+        } else {
+            $symfonyProcess->setTimeout(null);
+        }
 
-        return new ProcessResult();
+        $resultContent = null;
+        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($self, &$resultContent) {
+            $self->getRuntimeTask()->getOutput()->write($buffer);
+            $resultContent .= $buffer;
+        });
+        return new ProcessResult($returnCode, $resultContent);
     }
 
     protected function compileRealCommand($commandline, $options)
