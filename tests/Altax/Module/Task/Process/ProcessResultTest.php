@@ -28,10 +28,10 @@ class ProcessResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $processResult->isSuccessful());
     }
 
-    public function testGetBuffer()
+    public function testGetContents()
     {
         $processResult = new ProcessResult(0, "aaaa");
-        $this->assertEquals("aaaa", $processResult->getBuffer());
+        $this->assertEquals("aaaa", $processResult->getContents());
     }
 
     public function testToString()

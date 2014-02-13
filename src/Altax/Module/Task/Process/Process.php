@@ -28,10 +28,7 @@ class Process
             $commandline = implode(" && ", $commandline);
         }
 
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Run: </info>$commandline");
-        }
+        $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Run: </info>$commandline");
 
         $realCommand = $this->compileRealCommand($commandline, $options);
 
@@ -64,10 +61,7 @@ class Process
             $commandline = implode(" && ", $commandline);
         }
 
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-            $this->runtimeTask->getOutput()->writeln($this->getLocalInfoPrefix()."<info>Run: </info>$commandline");
-        }
+        $this->runtimeTask->getOutput()->writeln($this->getLocalInfoPrefix()."<info>Run: </info>$commandline");
 
         $realCommand = $this->compileRealCommand($commandline, $options);
 
@@ -133,11 +127,11 @@ class Process
             throw new \RuntimeException("Node is not defined to get a file.");
         }
 
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote -> $local");
-        }
+        $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote -> $local");
 
+        $sftp = $this->getSFTP();
+
+        $sftp->get($remote, $local);
     }
 
     public function getString($remote)
@@ -146,11 +140,10 @@ class Process
             throw new \RuntimeException("Node is not defined to get a file.");
         }
 
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote");
-        }
+        $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote");
 
+        $sftp = $this->getSFTP();
+        return $sftp->get($remote);
     }
 
     public function put($local, $remote)
@@ -159,11 +152,11 @@ class Process
             throw new \RuntimeException("Node is not defined to put a file.");
         }
 
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$local -> $remote");
-        }
+        $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$local -> $remote");
 
+        $sftp = $this->getSFTP();
+
+        $sftp->put($remote, $local, NET_SFTP_LOCAL_FILE);
     }
 
     public function putString($remote, $contents)
@@ -172,11 +165,10 @@ class Process
             throw new \RuntimeException("Node is not defined to put a file.");
         }
 
-        // Output info
-        if ($this->runtimeTask->getOutput()->isVerbose()) {
-            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$remote");
-        }
+        $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$remote");
 
+        $sftp = $this->getSFTP();
+        $sftp->put($remote, $contents);
     }
 
     protected function getSFTP()

@@ -8,12 +8,12 @@ use Altax\Util\Arr;
 class ProcessResult
 {
     protected $returnCode;
-    protected $buffer;
+    protected $contents;
 
-    public function __construct($returnCode, $buffer)
+    public function __construct($returnCode, $contents)
     {
         $this->returnCode = $returnCode;
-        $this->buffer = $buffer;
+        $this->contents = $contents;
     }
 
     public function isFailed()
@@ -30,13 +30,13 @@ class ProcessResult
         }
     }
 
-    public function getBuffer()
+    public function getContents()
     {
-        return $this->buffer;
+        return $this->contents;
     }
 
     public function __toString()
     {
-        return $this->buffer;
+        return $this->contents;
     }
 }
