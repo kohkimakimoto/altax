@@ -29,6 +29,14 @@ Task::register("testBasic", function($task){
 
     $task->exec(function($process){
 
+        $process->run("echo run!", array("cwd" => "~"));
+
+        $process->getNode();
+
+    }, array("127.0.0.1"));
+
+    $task->exec(function($process){
+
         $process->run("echo run!");
 
     });
