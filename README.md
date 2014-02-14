@@ -6,7 +6,7 @@
 
 **Altax version 3 is being developed now. You shouldn't use it.**
 
-Altax is a simple deployment tool for PHP.
+Altax is a deployment tool for PHP.
 I designed it as a command-line tool for running tasks to remote servers 
 like the [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 It also has a plugin mechanism for managing and installing tasks easily. 
@@ -14,19 +14,41 @@ It also has a plugin mechanism for managing and installing tasks easily.
 This is a simple task definition.
 
 ```php
-Server::node("web1,exsample.com", "web");
-Server::node("web2,exsample.com", "web");
-Server::node("db1,exsample.com",  "db");
+Server::node("web1.exsample.com", "web");
+Server::node("web2.exsample.com", "web");
+Server::node("db1.exsample.com",  "db");
 
 Task::register("deploy", function($task){
 
-  $task->exec(function($process){
+    $appDir = "/path/to/app";
 
-    $process->run("git pull");
+    $task->exec(function($process) use ($appDir){
 
-  }, array("web"));
+        if ($process->run("test -d $appDir")->isFailed()) {
+            $process->run("git clone git@github.com:path/to/app.git $appDir");
+        } else {
+            $process->run(array(
+                "cd $appDir",
+                "git pull",
+                ));
+        }
+
+    }, array("web"));
 
 });
+
+```
+
+You can run it like below
+
+```Shell
+$ altax deploy
+[web1.exsample.com:8550] Run: test -d /var/tmp/altax
+[web1.exsample.com:8550] Run: git clone git@github.com:kpath/to/app.git /path/to/app
+Initialized empty Git repository in /path/to/app/.git/
+[web2.exsample.com:8551] Run: test -d /var/tmp/altax
+[web3.exsample.com:8551] Run: git clone git@github.com:kpath/to/app.git /path/to/app
+Initialized empty Git repository in /path/to/app/.git/
 ```
 
 ## Requirement
