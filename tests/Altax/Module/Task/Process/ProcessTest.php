@@ -87,6 +87,57 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, is_file(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt"));
         @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
     }
+
+    public function testGetString()
+    {
+        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+
+        $this->runtimeTask->getOutput()->setVerbosity(3);
+
+        $node = new Node();
+        $node->setName("127.0.0.1");
+        $process = new Process($this->runtimeTask, $node);
+        $retString =$process->getString(__DIR__."/ProcessTest/gettest.txt");
+        $output = $process->getRuntimeTask()->getOutput()->fetch();
+
+        $this->assertEquals("gettest contents", $retString);
+
+//        $this->assertEquals(true, is_file(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt"));
+        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+    }
+
+    public function testPut()
+    {
+        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+
+        $this->runtimeTask->getOutput()->setVerbosity(3);
+
+        $node = new Node();
+        $node->setName("127.0.0.1");
+        $process = new Process($this->runtimeTask, $node);
+        $process->put(__DIR__."/ProcessTest/puttest.txt", __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+        $output = $process->getRuntimeTask()->getOutput()->fetch();
+
+        $this->assertEquals(true, is_file(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt"));
+        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+    }
+
+    public function testPutString()
+    {
+        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+
+        $this->runtimeTask->getOutput()->setVerbosity(3);
+
+        $node = new Node();
+        $node->setName("127.0.0.1");
+        $process = new Process($this->runtimeTask, $node);
+        $process->putString(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt", "putstring contents");
+        $output = $process->getRuntimeTask()->getOutput()->fetch();
+
+        $this->assertEquals("putstring contents", file_get_contents(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt"));
+        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+    }
+
 }
 
 

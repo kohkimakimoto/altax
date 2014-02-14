@@ -141,6 +141,11 @@ class Process
         }
 
         $ret = $sftp->get($remote, $local);
+        if ($ret === false) {
+            $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<error>Couldn't get: $remote -> $local</error>");
+        }
+
+        return $ret;
     }
 
     public function getString($remote)
@@ -152,7 +157,12 @@ class Process
         $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Get: </info>$remote");
 
         $sftp = $this->getSFTP();
-        return $sftp->get($remote);
+        $ret = $sftp->get($remote);
+        if ($ret === false) {
+            throw new \RuntimeException("Couldn't get: $remote -> $local");
+        }
+
+        return $ret;
     }
 
     public function put($local, $remote)
@@ -164,6 +174,10 @@ class Process
         $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$local -> $remote");
 
         $sftp = $this->getSFTP();
+        
+        if (!is_file($local)) {
+           throw new \RuntimeException("Couldn't put: $local -> $remote");
+        }
 
         $sftp->put($remote, $local, NET_SFTP_LOCAL_FILE);
     }
