@@ -123,8 +123,14 @@ Available commands:
   ...
 ```
 
+`hello` task you defined can be executed by `altax` command with task name like the followiing.
 
+```Shell
+$ altax hello
+Hello world!
+``` 
 
+You got a first altax task now!
 
 If you want to see more information, Visit a [documentation](http://kohkimakimoto.github.io/altax/) page.
 
