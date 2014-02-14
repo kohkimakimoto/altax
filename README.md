@@ -70,11 +70,21 @@ You will get `altax` to `/usr/local/bin` directory.
 
 This is a basic usage.
 
-Runs 
+Runs `altax init` command to generate first configuration.
+
+```Shell
+[root@hakoniwa-dev01 work]# altax init
+Created file: /path/to/yourdirectory/.altax/config.php
+Created file: /path/to/yourdirectory/.altax/composer.json
+Created file: /path/to/yourdirectory/.altax/.gitignore
+```
+
+
+If you want to see more information, Visit a [documentation](http://kohkimakimoto.github.io/altax/) page.
 
 ## Documentation
 
-Visit [altax project page](http://kohkimakimoto.github.io/altax/)
+See [altax project page](http://kohkimakimoto.github.io/altax/)
 
 ## Author 
 
