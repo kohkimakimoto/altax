@@ -132,7 +132,7 @@ Hello world!
 
 You got a first altax task now!
 
-If you want to see more information, Visit a [documentation](http://kohkimakimoto.github.io/altax/) page.
+If you want to see more information, visit a [documentation](http://kohkimakimoto.github.io/altax/) page.
 
 ## Documentation
 
