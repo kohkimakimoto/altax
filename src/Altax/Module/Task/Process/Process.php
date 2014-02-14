@@ -2,6 +2,7 @@
 namespace Altax\Module\Task\Process;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
+use Symfony\Component\Filesystem\Filesystem;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\ProcessResult;
@@ -131,7 +132,15 @@ class Process
 
         $sftp = $this->getSFTP();
 
-        $sftp->get($remote, $local);
+        if (!is_dir(dirname($local))) {
+            $fs = new Filesystem();
+            $fs->mkdir(dirname($local));
+            if ($this->runtimeTask->getOutput()->isVerbose()) {
+                $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Create directory: </info>".dirname($local));
+            }
+        }
+
+        $ret = $sftp->get($remote, $local);
     }
 
     public function getString($remote)
