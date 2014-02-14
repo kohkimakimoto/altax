@@ -82,7 +82,7 @@ Apache License 2.0
 
 ## Usage
 
-This is a basic usage.
+I describe a basic usage in this section.
 
 Run `altax init` command to generate first configuration.
 
@@ -93,9 +93,9 @@ Created file: /path/to/your/directory/.altax/composer.json
 Created file: /path/to/your/directory/.altax/.gitignore
 ```
 
-`.altax/config.php` file in your current directory is a main configuration file for altax.
+Created `.altax/config.php` file in your current directory is a main configuration file for altax.
 You can modify this file to define tasks and servers you managed.
-So now, add the following code to your `.altax/config.php`
+So now, add the following code in the file.
 
 ```php
 Task::register("hello", function($task){
@@ -105,9 +105,9 @@ Task::register("hello", function($task){
 })->description("This is a first sample task.");
 ```
 
-This is a task difinition. Defined task is listed by executing just `altax` command.
+This is a simple task definition. Defined task is listed by executing just `altax` command.
 
-```php
+```Shell
 $ altax
 Altax version 3.0.0
 
