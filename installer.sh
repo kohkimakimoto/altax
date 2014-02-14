@@ -43,7 +43,7 @@ install_altax() {
 }
 
 install_type="local"
-install_version="v3.0.0"
+install_version="3.0"
 
 if [ $# -eq 1  ]; then
   if [ $1 = "system" ]; then
