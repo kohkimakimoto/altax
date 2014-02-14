@@ -55,6 +55,9 @@ if [ $# -eq 2  ]; then
   if [ $1 = "system" ]; then
     install_type="system"
   fi
+  
+  install_version=$2
+  
   if [ $2 = "v2" ]; then
     # Recent version of v2
     install_version="v2.1.10"
