@@ -88,22 +88,42 @@ Run `altax init` command to generate first configuration.
 
 ```Shell
 [root@hakoniwa-dev01 work]# altax init
-Created file: /path/to/yourdirectory/.altax/config.php
-Created file: /path/to/yourdirectory/.altax/composer.json
-Created file: /path/to/yourdirectory/.altax/.gitignore
+Created file: /path/to/your/directory/.altax/config.php
+Created file: /path/to/your/directory/.altax/composer.json
+Created file: /path/to/your/directory/.altax/.gitignore
 ```
 
-`.altax/config.php` in your current directory is a main configuration file for altax.
+`.altax/config.php` file in your current directory is a main configuration file for altax.
 You can modify this file to define tasks and servers you managed.
-So now, add the following lines to your `.altax/config.php`
+So now, add the following code to your `.altax/config.php`
 
 ```php
 Task::register("hello", function($task){
 
-  $task->writeln("Hello world!);
+  $task->writeln("Hello world!");
 
-});
+})->description("This is a first sample task.");
 ```
+
+This is a task difinition. Defined task is listed by executing just `altax` command.
+
+```php
+$ altax
+Altax version 3.0.0
+
+Altax is a deployment tool for PHP.
+it's designed as a command-line tool for running tasks to remote servers.
+Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
+Apache License 2.0
+
+...
+
+Available commands:
+  hello   This is a first sample task.
+  ...
+```
+
+
 
 
 If you want to see more information, Visit a [documentation](http://kohkimakimoto.github.io/altax/) page.
