@@ -136,7 +136,7 @@ If you want to see more information, visit a [documentation](http://kohkimakimot
 
 ## Documentation
 
-See [altax project page](http://kohkimakimoto.github.io/altax/)
+See [documentation](http://kohkimakimoto.github.io/altax/) page.
 
 ## Author 
 
