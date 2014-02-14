@@ -62,9 +62,23 @@ I recommend you to install it as a phar command file.
 This is a most easy way.
 Runs the below command.
 
-    $ curl -L https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system
+```Shell
+$ curl -L https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system
+```
 
-You will get `altax` to `/usr/local/bin` directory.
+You will get `altax` to `/usr/local/bin` directory. In order to check installation you execute just `altax` command.
+
+```Shell
+$ altax
+Altax version 3.0.0
+
+Altax is a deployment tool for PHP.
+it's designed as a command-line tool for running tasks to remote servers.
+Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
+Apache License 2.0
+...
+
+```
 
 ## Usage
 
