@@ -11,7 +11,7 @@ I designed it as a command-line tool for running tasks to remote servers
 like the [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 It also has a plugin mechanism for managing and installing tasks easily. 
 
-This is a simple task definition.
+This is a simple task definition. You cau use PHP.
 
 ```php
 Server::node("web1.exsample.com", "web");
