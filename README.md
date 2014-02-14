@@ -60,7 +60,7 @@ PHP5.3 or later.
 There are several ways to install Altax to your system.
 I recommend you to install it as a phar command file.
 This is a most easy way.
-Runs the below command.
+Run the below command.
 
 ```Shell
 $ curl -L https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system
@@ -84,13 +84,25 @@ Apache License 2.0
 
 This is a basic usage.
 
-Runs `altax init` command to generate first configuration.
+Run `altax init` command to generate first configuration.
 
 ```Shell
 [root@hakoniwa-dev01 work]# altax init
 Created file: /path/to/yourdirectory/.altax/config.php
 Created file: /path/to/yourdirectory/.altax/composer.json
 Created file: /path/to/yourdirectory/.altax/.gitignore
+```
+
+`.altax/config.php` in your current directory is a main configuration file for altax.
+You can modify this file to define tasks and servers you managed.
+So now, add the following lines to your `.altax/config.php`
+
+```php
+Task::register("hello", function($task){
+
+  $task->writeln("Hello world!);
+
+});
 ```
 
 
