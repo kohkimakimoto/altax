@@ -16,6 +16,7 @@ class UpdateCommand extends \Composer\Command\UpdateCommand
     {
         parent::configure();
         $this
+            ->setDescription("Updates plugin packages from the .altax/composer.json under the current directory.")
             ->addOption(
                 '--working-dir',
                 '-d',

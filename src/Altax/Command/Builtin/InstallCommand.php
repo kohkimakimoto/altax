@@ -16,6 +16,7 @@ class InstallCommand extends \Composer\Command\InstallCommand
     {
         parent::configure();
         $this
+            ->setDescription("Installs plugin packages from the .altax/composer.json under the current directory.")
             ->addOption(
                 '--working-dir',
                 '-d',

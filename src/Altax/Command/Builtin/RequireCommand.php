@@ -16,6 +16,7 @@ class RequireCommand extends \Composer\Command\RequireCommand
     {
         parent::configure();
         $this
+            ->setDescription("Adds plugin packages to your .altax/composer.json under the current directory.")
             ->addOption(
                 '--working-dir',
                 '-d',
