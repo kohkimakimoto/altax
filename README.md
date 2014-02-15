@@ -74,7 +74,8 @@ Run the below command to get latest version of Altax.
 $ curl -L https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bash -s system
 ```
 
-You will get `altax` to `/usr/local/bin` directory. In order to check installation you execute just `altax` command.
+You will get `altax` command file to `/usr/local/bin` directory. In order to check installation,
+Execute just `altax` command.
 
 ```Shell
 $ altax
