@@ -41,16 +41,6 @@ EOL;
         $this->container = $container;
     }
 
-    protected function getDefaultInputDefinition()
-    {
-        $definition = parent::getDefaultInputDefinition();
-        $definition->addOptions(array(
-            new InputOption('--file', '-f', InputOption::VALUE_REQUIRED, 'Specifies configuration file to load.')
-        ));
-
-        return $definition;
-    }
-
     /**
      * This cli application main process.
      */
@@ -189,4 +179,15 @@ EOL;
     {
         return $this->container;
     }
+
+    protected function getDefaultInputDefinition()
+    {
+        $definition = parent::getDefaultInputDefinition();
+        $definition->addOptions(array(
+            new InputOption('--file', '-f', InputOption::VALUE_REQUIRED, 'Specifies configuration file to load.')
+        ));
+
+        return $definition;
+    }
+    
 }

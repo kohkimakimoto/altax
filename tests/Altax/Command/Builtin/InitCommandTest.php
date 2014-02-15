@@ -26,11 +26,14 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         @unlink($testTmpConfigPath);
         @unlink(dirname($testTmpConfigPath)."/composer.json");
 
+        $orgDir = getcwd();
+
+        chdir(dirname($testTmpConfigPath)."/..");
+
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
-                "--path" => $testTmpConfigPath,
                 )
             );
 
@@ -43,12 +46,12 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
-                "--path" => $testTmpConfigPath,
                 )
             );
         $this->assertRegExp("/Skiped creation process/", $commandTester->getDisplay());
 
         unlink($testTmpConfigPath);
         unlink(dirname($testTmpConfigPath)."/composer.json");
+        chdir($orgDir);
     }
 }

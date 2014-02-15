@@ -46,9 +46,9 @@ EOL;
     
     const COMPOSER_TEMPLATE = <<<EOL
 {
-  "require": {
-    "php": ">=5.3.0"
-  }
+    "require": {
+
+    }
 }
 
 EOL;
@@ -62,22 +62,13 @@ EOL;
     {
         $this
             ->setName('init')
-            ->addOption(
-                'path',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Creating configuration file path'
-                )
             ->setDescription('Creates default configuration directory and files under the current directory')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationPath = $input->getOption("path");
-        if (!$configurationPath) {
-            $configurationPath = getcwd()."/.altax/config.php";
-        }
+        $configurationPath = getcwd()."/.altax/config.php";
 
         if (!is_file($configurationPath)) {
             $this->generateConfig($configurationPath, $output);
