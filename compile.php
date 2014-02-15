@@ -2,7 +2,7 @@
 <?php
 
 
-// Chenge vendors for production environment.
+// Chenge vendor for production environment.
 system("rm -rf ".__DIR__."/vendor/");
 system("composer install --no-dev --no-interaction");
 
@@ -23,11 +23,13 @@ $phar->setSignatureAlgorithm(\Phar::SHA1);
 $phar->startBuffering();
 
 $finder = new Finder();
-$files = iterator_to_array($finder->files()->exclude('tests')->name('*.php')->in(array('vendor', 'src')));
+$files = iterator_to_array($finder->files()->exclude(array("tests", "Tests"))->in(array('vendor', 'src')));
 foreach ($files as $file) {
   echo "Processing: ".$file->getPathName()."\n";
   $phar->addFromString($file->getPathName(), file_get_contents($file));
 }
+
+echo "Packaging ".count($files)." files.\n";
 
 $content = file_get_contents(__DIR__."/bin/altax");
 $content = preg_replace('{^#!/usr/bin/env php\s*}', '', $content);
@@ -44,9 +46,10 @@ EOL;
 $phar->setStub($stub);
 $phar->stopBuffering();
 
-echo "\n";
+echo "Generated $pharFile \n";
 unset($phar);
 chmod($pharFile, 0755);
 
+echo "File size is ".round(filesize($pharFile) / 1024 / 1024, 2)." MB.\n";
 echo "Complete!\n";
 
