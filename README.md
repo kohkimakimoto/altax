@@ -11,7 +11,7 @@ I designed it as a command-line tool for running tasks to remote servers
 like the [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 It also has a plugin mechanism for managing and installing tasks easily. 
 
-This is a simple git deploy task definition. You can use PHP.
+This is a simple git deploy task definition. You can write task in PHP.
 
 ```php
 Server::node("web1.exsample.com", "web");
@@ -50,6 +50,14 @@ Initialized empty Git repository in /path/to/app/.git/
 [web3.exsample.com:8551] Run: git clone git@github.com:kpath/to/app.git /path/to/app
 Initialized empty Git repository in /path/to/app/.git/
 ```
+
+Altax has below features.
+
+* Implemented in PHP.
+* Runs SSH in parallel.
+* Support basic file transfer functionality (get and put). 
+* Easy to use. It runs in single PHP Archive(phar) file.
+* Has a extensible plugin mechanism using enbedded composer.
 
 ## Requirement
 
