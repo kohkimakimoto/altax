@@ -23,12 +23,14 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $command = $application->find("init");
 
         $testTmpConfigPath = __DIR__."/../../../tmp/Altax/Command/Builtin/InitCommandTest/.altax/config.php";
+        @mkdir(dirname(dirname($testTmpConfigPath)), 0777, true);
+
         @unlink($testTmpConfigPath);
         @unlink(dirname($testTmpConfigPath)."/composer.json");
 
         $orgDir = getcwd();
 
-        chdir(dirname($testTmpConfigPath)."/..");
+        chdir(dirname(dirname($testTmpConfigPath)));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
