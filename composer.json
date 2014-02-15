@@ -18,7 +18,8 @@
     "symfony/yaml": "2.4.*",
     "symfony/finder": "2.4.*",
     "symfony/process": "2.4.*",
-    "phpseclib/phpseclib": "0.3.*"
+    "phpseclib/phpseclib": "0.3.*",
+    "kohkimakimoto/altax-server": "dev-master"
   },
   "scripts": {
     "post-install-cmd": [

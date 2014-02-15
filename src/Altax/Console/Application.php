@@ -190,4 +190,14 @@ EOL;
         return $definition;
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDefaultHelperSet()
+    {
+        $helperSet = parent::getDefaultHelperSet();
+
+        $helperSet->set(new \Composer\Command\Helper\DialogHelper());
+        return $helperSet;
+    }
 }
