@@ -186,7 +186,7 @@ $ altax adminer
 
 Altax runs adminer on built-in web server. So you can use adminer at `http://localhost:3001/`.
 
-If you are interested in Altax plugins, [Search plugins at packagist](https://packagist.org/search/?q=altax)
+If you are interested in Altax plugins, [Search plugins at packagist](https://packagist.org/search/?q=altax)!
 
 ## Author 
 
