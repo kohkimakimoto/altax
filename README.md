@@ -148,6 +148,46 @@ If you want to see more information, visit a [documentation](http://kohkimakimot
 
 See [documentation](http://kohkimakimoto.github.io/altax/) page.
 
+## Plugins 
+
+Altax has a extensible plugin mechanism. It makes adding functionality easy.
+Plugins are stored at [Packagist](https://packagist.org/) and installed using [composer](https://getcomposer.org/).
+As Altax includes embedded composer, you can install plugins by Altax command. 
+
+For instance, if you use PHP5.4 and MySQL database in your product, you can use [Adminer](http://www.adminer.org/) database management tool via Altax plugin.
+Edit your `.altax/composer.json` file like the following.
+
+```json
+{
+  "require": {
+    "kohkimakimoto/altax-adminer": "dev-master"
+  }
+}
+```
+
+And run altax update command which is wrapper command of `composer update` for Altax.
+
+```Shell
+$ altax update
+```
+
+Adminer altax plugin will be installed in your `.altax/vendor` directory.
+In order to register the plugin to your task, add the following line your `.altax/config.php` file.
+
+```php
+Task::register('adminer', 'Altax\Contrib\Adminer\Command\AdminerCommand');
+```
+
+Run the registered plugin task commnad.
+
+```Shell
+$ altax adminer
+```
+
+Altax runs adminer on built-in web server. So you can use adminer at `http://localhost:3001/`.
+
+If you are interested in Altax plugins, [Search plugins at packagist](https://packagist.org/search/?q=altax)
+
 ## Author 
 
 Kohki Makimoto <kohki.makimoto@gmail.com>
