@@ -76,7 +76,7 @@ $ curl -L https://raw.github.com/kohkimakimoto/altax/3.0/installer.sh | sudo bas
 ```
 
 You will get `altax` command file to `/usr/local/bin` directory. In order to check installation,
-Execute just `altax` command.
+execute just `altax` command.
 
 ```Shell
 $ altax
