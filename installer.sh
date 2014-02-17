@@ -43,7 +43,7 @@ install_altax() {
 }
 
 install_type="local"
-install_version="3.0"
+install_version="v3.0"
 
 if [ $# -eq 1  ]; then
   if [ $1 = "system" ]; then
@@ -62,14 +62,12 @@ if [ $# -eq 2  ]; then
     # Recent version of v2
     install_version="v2.1.10"
   fi
+
   if [ $2 = "v3" ]; then
     # Recent version of v3
-    install_version="3.0"
+    install_version="v3.0"
   fi
-  if [ $2 = "master" ]; then
-    # Recent version of develpment
-    install_version="master"
-  fi
+
 fi
 
 install_altax $install_type $install_version

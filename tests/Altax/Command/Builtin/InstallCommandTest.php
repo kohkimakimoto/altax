@@ -16,20 +16,30 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDefault()
     {
+        /*
         $application = new Application($this->container);
         $application->setAutoExit(false);
         $application->add(new InstallCommand());
         $command = $application->find("install");
 
+        $tmpDir = __DIR__."/../../../tmp/Altax/Command/Builtin/InstallCommandTest";
+        @unlink($tmpDir);
+        @mkdir($tmpDir."/.altax/", 0777, true);
+        copy(__DIR__."/InstallCommandTest/.altax/composer.json", $tmpDir."/.altax/composer.json");
+
+        $oldDir = getcwd();
+        chdir($tmpDir);
         $commandTester = new CommandTester($command);
-        /*
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
                 )
             );
 
-        // echo $commandTester->getDisplay();
+        echo $commandTester->getDisplay();
+        chdir($oldDir);
+
+        @unlink($tmpDir);
         */
    }
 }

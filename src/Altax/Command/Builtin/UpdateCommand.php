@@ -28,10 +28,9 @@ class UpdateCommand extends \Composer\Command\UpdateCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($newWorkDir = $this->getNewWorkingDir($input)) {
-            $oldWorkingDir = getcwd();
-            chdir($newWorkDir);
-        }
+        $newWorkDir = $this->getNewWorkingDir($input);
+        $oldWorkingDir = getcwd();
+        chdir($newWorkDir);
 
         $io = new ConsoleIO($input, $output, $this->getHelperSet());
         $composer = Factory::create($io);
@@ -60,6 +59,10 @@ class UpdateCommand extends \Composer\Command\UpdateCommand
 
         if (false === $workingDir) {
             $workingDir = getcwd()."/.altax";
+        }
+
+        if (!is_dir($workingDir)) {
+            throw new \RuntimeException('Invalid working directory.');
         }
 
         return $workingDir;

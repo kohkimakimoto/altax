@@ -16,14 +16,14 @@ class UpdateCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDefault()
     {
-        
+        /*
         $application = new Application($this->container);
         $application->setAutoExit(false);
         $application->add(new UpdateCommand());
         $command = $application->find("update");
 
         $commandTester = new CommandTester($command);
-        /*
+
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
