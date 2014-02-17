@@ -18,15 +18,15 @@ Server::node("web1.exsample.com", "web");
 Server::node("web2.exsample.com", "web");
 Server::node("db1.exsample.com",  "db");
 
-// Register task named 'deploy'.
+// Register a task.
 Task::register("deploy", function($task){
 
     $appDir = "/path/to/app";
 
-    // Execute parallel process for each nodes.
+    // Execute parallel processes for each nodes.
     $task->exec(function($process) use ($appDir){
 
-        // Run command remotely and get a return code.
+        // Run a command remotely and get a return code.
         if ($process->run("test -d $appDir")->isFailed()) {
             $process->run("git clone git@github.com:path/to/app.git $appDir");
         } else {
