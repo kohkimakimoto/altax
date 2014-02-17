@@ -68,7 +68,6 @@ PHP5.3 or later.
 
 ## Installation
 
-There are several ways to install Altax to your system.
 I recommend you to install it as a phar (PHP Archive) which compiled to single executable file.
 This is a most easy way to use Altax.
 Run the below command to get latest version of Altax.
