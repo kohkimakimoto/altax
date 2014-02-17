@@ -152,7 +152,7 @@ See [documentation](http://kohkimakimoto.github.io/altax/) page.
 
 Altax has a extensible plugin mechanism. It makes adding functionality easy.
 Plugins are stored at [Packagist](https://packagist.org/) and installed using [composer](https://getcomposer.org/).
-As Altax includes embedded composer, you can install plugins by Altax command. 
+As Altax includes embedded composer, you can install plugins by altax command. 
 
 For instance, if you use PHP5.4 and MySQL database in your product, you can use [Adminer](http://www.adminer.org/) database management tool via Altax plugin.
 Edit your `.altax/composer.json` file like the following.
