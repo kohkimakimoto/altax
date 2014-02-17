@@ -165,7 +165,7 @@ Edit your `.altax/composer.json` file like the following.
 }
 ```
 
-And run altax update command which is wrapper command of `composer update` for Altax.
+And run altax update command which is a wrapper command of `composer update` for Altax.
 
 ```Shell
 $ altax update
