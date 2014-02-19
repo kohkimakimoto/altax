@@ -10,7 +10,7 @@ I designed it as a command-line tool for running tasks to remote servers
 like the [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
 It also has a plugin mechanism for managing and installing tasks easily. 
 
-This is a simple git deploy task definition. You can write task in PHP.
+This is a simple git deploy task definition. You can write any tasks in PHP.
 
 ```php
 // Register managed nodes to a role.
@@ -54,7 +54,7 @@ Initialized empty Git repository in /path/to/app/.git/
 Initialized empty Git repository in /path/to/app/.git/
 ```
 
-Altax has below features.
+And Altax has below features.
 
 * Implemented in PHP.
 * Runs SSH in parallel.
@@ -184,7 +184,7 @@ Run the registered plugin task commnad.
 $ altax adminer
 ```
 
-Altax runs adminer on built-in web server. So you can use adminer at `http://localhost:3001/`.
+Altax runs adminer on built-in web server. So you can use adminer at `http://localhost:3000/`.
 
 If you are interested in Altax plugins, [Search plugins at packagist](https://packagist.org/search/?q=altax)!
 
