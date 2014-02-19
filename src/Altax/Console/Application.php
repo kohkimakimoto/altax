@@ -7,9 +7,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Finder\Finder;
 
 use Altax\Foundation\ModuleFacade;
@@ -39,6 +41,21 @@ EOL;
     {
         parent::__construct($container->getName(), $container->getVersion());
         $this->container = $container;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function run(InputInterface $input = null, OutputInterface $output = null)
+    {
+        // Add output formatter style used by embedded composer.
+        if (null === $output) {
+            $styles = \Composer\Factory::createAdditionalStyles();
+            $formatter = new OutputFormatter(null, $styles);
+            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+        }
+
+        return parent::run($input, $output);
     }
 
     /**
