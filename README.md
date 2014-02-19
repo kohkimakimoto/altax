@@ -92,7 +92,7 @@ Apache License 2.0
 
 ## Usage
 
-I describe a basic usage in this section.
+I describe basic usage in this section.
 
 Run `altax init` command to generate first configuration.
 
