@@ -97,7 +97,7 @@ I describe basic usage in this section.
 Run `altax init` command to generate first configuration.
 
 ```Shell
-[root@hakoniwa-dev01 work]# altax init
+$ altax init
 Created file: /path/to/your/directory/.altax/config.php
 Created file: /path/to/your/directory/.altax/composer.json
 Created file: /path/to/your/directory/.altax/.gitignore
