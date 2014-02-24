@@ -52,6 +52,28 @@ class RuntimeTask
         $this->output->write($string);
     }
 
+    public function arguments()
+    {
+        if ($this->input->hasArgument('args') 
+            && $args = $this->input->hasArgument('args')) {
+            return $args;
+        } else {
+            return null;
+        }
+    }
+
+    public function argument($index = 0)
+    {
+        if ($args = $this->arguments()) {
+            if (isset($args[$index])) {
+                return $args[$index];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     public function exec($closure, $options = array())
     {

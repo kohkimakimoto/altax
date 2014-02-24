@@ -69,7 +69,19 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
         $runtimeTask->write("Write log test");
         
         $this->assertEquals("Write log test", $this->output->fetch());
-   }
+    }
+    
+    public function testArguments()
+    {
+        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask->arguments();
+    }
+
+    public function testArgument()
+    {
+        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask->argument(0);
+    }
 
    public function testProcess()
    {
