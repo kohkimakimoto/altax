@@ -52,7 +52,7 @@ class RuntimeTask
         $this->output->write($string);
     }
 
-    public function arguments()
+    public function getArguments()
     {
         if ($this->input->hasArgument('args') 
             && $args = $this->input->hasArgument('args')) {
@@ -62,17 +62,19 @@ class RuntimeTask
         }
     }
 
-    public function argument($index = 0)
+    public function getArgument($index = 0, $default = null)
     {
-        if ($args = $this->arguments()) {
+        $retVal = null
+        if ($args = $this->getArguments()) {
             if (isset($args[$index])) {
-                return $args[$index];
+                $retVal = $args[$index];
             } else {
-                return null;
+                $retVal = $default;
             }
         } else {
-            return null;
+            $retVal = $default;
         }
+        return $retVal;
     }
 
     public function exec($closure, $options = array())
