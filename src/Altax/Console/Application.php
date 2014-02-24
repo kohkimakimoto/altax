@@ -26,8 +26,7 @@ class Application extends SymfonyApplication
     const HELP_MESSAGES =<<<EOL
 <info>%s</info> version <comment>%s</comment>
 
-Altax is a deployment tool for PHP.
-it's designed as a command-line tool for running tasks to remote servers.
+Altax is a extensible deployment tool for PHP.
 Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
 EOL;
