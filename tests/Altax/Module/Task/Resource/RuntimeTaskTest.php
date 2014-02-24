@@ -8,6 +8,8 @@ use Altax\Module\Task\Resource\DefinedTask;
 use Altax\Module\Task\Resource\RuntimeTask;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
 
 class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
 {
@@ -72,9 +74,9 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
     }
     
     public function testGetArguments()
-    {
+    {   
         $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
-        $runtimeTask->getArguments();
+        $args = $runtimeTask->getArguments();
     }
 
     public function testGetArgument()

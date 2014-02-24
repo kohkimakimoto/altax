@@ -55,7 +55,7 @@ class RuntimeTask
     public function getArguments()
     {
         if ($this->input->hasArgument('args') 
-            && $args = $this->input->hasArgument('args')) {
+            && $args = $this->input->getArgument('args')) {
             return $args;
         } else {
             return null;
