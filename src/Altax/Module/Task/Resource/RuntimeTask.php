@@ -64,7 +64,7 @@ class RuntimeTask
 
     public function getArgument($index = 0, $default = null)
     {
-        $retVal = null
+        $retVal = null;
         if ($args = $this->getArguments()) {
             if (isset($args[$index])) {
                 $retVal = $args[$index];
