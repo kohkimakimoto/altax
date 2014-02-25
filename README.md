@@ -14,9 +14,9 @@ This is a simple git deploy task definition. You can write any tasks in PHP.
 
 ```php
 // Register managed nodes to a role.
-Server::node("web1.exsample.com", "web");
-Server::node("web2.exsample.com", "web");
-Server::node("db1.exsample.com",  "db");
+Server::node("web1.example.com", "web");
+Server::node("web2.example.com", "web");
+Server::node("db1.example.com",  "db");
 
 // Register a task.
 Task::register("deploy", function($task){
@@ -46,11 +46,11 @@ You can run it like below
 
 ```Shell
 $ altax deploy
-[web1.exsample.com:8550] Run: test -d /var/tmp/altax
-[web1.exsample.com:8550] Run: git clone git@github.com:kpath/to/app.git /path/to/app
+[web1.example.com:8550] Run: test -d /var/tmp/altax
+[web1.example.com:8550] Run: git clone git@github.com:kpath/to/app.git /path/to/app
 Initialized empty Git repository in /path/to/app/.git/
-[web2.exsample.com:8551] Run: test -d /var/tmp/altax
-[web3.exsample.com:8551] Run: git clone git@github.com:kpath/to/app.git /path/to/app
+[web2.example.com:8551] Run: test -d /var/tmp/altax
+[web3.example.com:8551] Run: git clone git@github.com:kpath/to/app.git /path/to/app
 Initialized empty Git repository in /path/to/app/.git/
 ```
 
