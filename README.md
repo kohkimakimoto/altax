@@ -54,13 +54,7 @@ Initialized empty Git repository in /path/to/app/.git/
 Initialized empty Git repository in /path/to/app/.git/
 ```
 
-And Altax has below features.
-
-* Implemented in PHP.
-* Runs SSH in parallel.
-* Support basic file transfer functionality (get and put). 
-* Easy to use. It runs in single PHP Archive(phar) file.
-* Has a extensible plugin mechanism using enbedded composer.
+You can get more information at [http://kohkimakimoto.github.io/altax/](http://kohkimakimoto.github.io/altax/).
 
 ## Requirement
 
