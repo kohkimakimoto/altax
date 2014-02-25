@@ -42,8 +42,9 @@ install_altax() {
   echo "Done."
 }
 
+# default
 install_type="local"
-install_version="3.0"
+install_version="master"
 
 if [ $# -eq 1  ]; then
   if [ $1 = "system" ]; then
