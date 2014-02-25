@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/kohkimakimoto/altax.png?branch=master)](https://travis-ci.org/kohkimakimoto/altax)
 [![Coverage Status](https://coveralls.io/repos/kohkimakimoto/altax/badge.png?branch=master)](https://coveralls.io/r/kohkimakimoto/altax?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/kohkimakimoto/altax/v/stable.png)](https://packagist.org/packages/kohkimakimoto/altax)
+[![License](https://poser.pugx.org/kohkimakimoto/altax/license.png)](https://packagist.org/packages/kohkimakimoto/altax)
 
 Altax is a deployment tool for PHP.
 I designed it as a command-line tool for running tasks to remote servers 
