@@ -36,9 +36,14 @@ class Executor
     public function execute()
     {
         $nodes = $this->getNodes();
+
+        // If target nodes count <= 1, It dosen't need to fork processes.  
         if (count($nodes) === 0) {
             $this->doExecute(null);
             return;
+        } elseif (count($nodes) === 1) {
+            $this->doExecute(reset($nodes));
+            return;            
         }
 
         // Fork process
