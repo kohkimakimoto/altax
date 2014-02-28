@@ -13,6 +13,7 @@ class Executor
     protected $closure;
     protected $options;
     protected $childPids = array();
+    protected $isParallel;
 
     public function __construct($runtimeTask, $closure, $options)
     {
@@ -31,6 +32,11 @@ class Executor
                     ."".trim(implode(", ", array_keys($this->nodes))));
         }
 
+        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait')) {
+            $this->isParallel = false;
+        } else {
+            $this->isParallel = true;
+        }
     }
 
     public function execute()
@@ -44,6 +50,16 @@ class Executor
         } elseif (count($nodes) === 1) {
             $this->doExecute(reset($nodes));
             return;            
+        }
+
+        if (!$this->isParallel) {
+            if ($this->runtimeTask->getOutput()->isVeryVerbose()) {
+                $this->runtimeTask->getOutput()->writeln("<info>Running serial mode.</info>");
+            }
+            foreach ($nodes as $node) {
+                $this->doExecute($node);
+                return;
+            }
         }
 
         // Fork process
@@ -209,6 +225,16 @@ class Executor
             $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
             posix_kill($pid, SIGINT);
         }
+    }
+
+    public function setIsParallel($isParallel)
+    {
+        $this->isParallel = $isParallel;
+    }
+
+    public function getIsParallel()
+    {
+        return $this->isParallel;
     }
 
 }

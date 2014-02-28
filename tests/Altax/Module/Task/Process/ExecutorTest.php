@@ -182,7 +182,25 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
         $output = $this->output->fetch();
         $this->assertRegExp("/Found 1 nodes/", $output);
-
-
     }
+
+    public function testExecuteInSerial()
+    {
+        // nodes array
+        $this->output->setVerbosity(3);
+
+        $executor = new Executor($this->runtimeTask, 
+            function($process){
+
+            }, 
+            array("nodes" => array("127.0.0.1", "localhost")));
+        $executor->setIsParallel(false);
+        $this->assertEquals(false, $executor->getIsParallel());
+        $executor->execute();
+
+        // nodes string
+        $output = $this->output->fetch();
+        $this->assertRegExp("/Running serial mode/", $output);
+    }
+
 }
