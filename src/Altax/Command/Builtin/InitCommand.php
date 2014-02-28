@@ -63,12 +63,22 @@ EOL;
         $this
             ->setName('init')
             ->setDescription('Creates default configuration directory and files under the current directory')
+            ->addOption(
+                '--global',
+                '-g',
+                InputOption::VALUE_NONE,
+                "If specified, create user home configuration '~/.altax/config.php'"
+                )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configurationPath = getcwd()."/.altax/config.php";
+
+        if($input->getOption('global')) {
+            $configurationPath = getenv("HOME")."/.altax/config.php";
+        }
 
         if (!is_file($configurationPath)) {
             $this->generateConfig($configurationPath, $output);

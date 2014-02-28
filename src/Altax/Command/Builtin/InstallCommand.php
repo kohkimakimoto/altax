@@ -23,6 +23,12 @@ class InstallCommand extends \Composer\Command\InstallCommand
                 InputOption::VALUE_REQUIRED,
                 'If specified, use the given directory as working directory.'
                 )
+            ->addOption(
+                '--global',
+                '-g',
+                InputOption::VALUE_NONE,
+                "If specified, use user home configuration '~/.altax/composer.json'"
+                )
         ;
     }
 
@@ -52,6 +58,10 @@ class InstallCommand extends \Composer\Command\InstallCommand
      */
     private function getNewWorkingDir(InputInterface $input)
     {
+        if($input->getOption('global')) {
+            return  getenv("HOME")."/.altax";
+        }
+
         $workingDir = $input->getParameterOption(array('--working-dir', '-d'));
         if (false !== $workingDir && !is_dir($workingDir)) {
             throw new \RuntimeException('Invalid working directory specified.');
