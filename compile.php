@@ -1,6 +1,14 @@
 #!/usr/bin/env php
 <?php
 
+// Embed commit hash to altax source.
+$containerSourcePath = __DIR__."/src/Altax/Foundation/Container.php";
+$containerSourceBackupPath = __DIR__."/Container.bak.php";
+copy($containerSourcePath, $containerSourceBackupPath);
+$contents = file_get_contents($containerSourcePath);
+$hash = exec("git log --pretty=format:'%H' -n 1");
+$contents = str_replace("%commit%", $hash, $contents);
+file_put_contents($containerSourcePath, $contents);
 
 // Chenge vendor for production environment.
 system("rm -rf ".__DIR__."/vendor/");
@@ -52,4 +60,8 @@ chmod($pharFile, 0755);
 
 echo "File size is ".round(filesize($pharFile) / 1024 / 1024, 2)." MB.\n";
 echo "Complete!\n";
+
+// Revert to altax source.
+copy($containerSourceBackupPath, $containerSourcePath);
+unlink($containerSourceBackupPath);
 
