@@ -35,6 +35,10 @@ class UpdateCommand extends \Composer\Command\UpdateCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $newWorkDir = $this->getNewWorkingDir($input);
+        if (!is_dir($newWorkDir)) {
+            throw new \RuntimeException("Not found directory:".$newWorkDir);
+        }
+        
         $oldWorkingDir = getcwd();
         chdir($newWorkDir);
 
