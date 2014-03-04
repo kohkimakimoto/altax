@@ -159,6 +159,12 @@ EOL;
      */
     protected function loadConfiguration(InputInterface $input, OutputInterface $output)
     {
+        $command = $this->getCommandName($input);
+        if ($command == 'require' || $command == 'install' || $command == 'update') {
+            // These are composer task. so don't need to load configuration for altax.
+            return;
+        }
+
         foreach ($this->container->getConfigFiles() as $key => $file) {
             if ($file && is_file($file)) {
                 require $file;
