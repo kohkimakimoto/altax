@@ -16,30 +16,34 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDefault()
     {
-        /*
         $application = new Application($this->container);
         $application->setAutoExit(false);
         $application->add(new InstallCommand());
         $command = $application->find("install");
 
-        $tmpDir = __DIR__."/../../../tmp/Altax/Command/Builtin/InstallCommandTest";
-        @unlink($tmpDir);
-        @mkdir($tmpDir."/.altax/", 0777, true);
-        copy(__DIR__."/InstallCommandTest/.altax/composer.json", $tmpDir."/.altax/composer.json");
+        $testTmpConfigDir = __DIR__."/../../../tmp/Altax/Command/Builtin/InstallCommandTest/.altax";
+        @mkdir($testTmpConfigDir, 0777, true);
+        @copy(__DIR__."/InstallCommandTest/.altax/composer.json", $testTmpConfigDir."/composer.json");
 
-        $oldDir = getcwd();
-        chdir($tmpDir);
+        $orgDir = getcwd();
+        chdir(dirname($testTmpConfigDir));
+
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
+                "--dry-run" => true,
                 )
             );
 
-        echo $commandTester->getDisplay();
-        chdir($oldDir);
+        $expected = <<<EOL
+Loading composer repositories with package information
+Installing dependencies (including require-dev)
+Nothing to install or update
 
-        @unlink($tmpDir);
-        */
+EOL;
+        $this->assertSame($expected, $commandTester->getDisplay());
+        chdir($orgDir);
+        @unlink($testTmpConfigDir."/composer.json");
    }
 }

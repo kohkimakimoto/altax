@@ -30,7 +30,6 @@ class RequireCommandTest extends \PHPUnit_Framework_TestCase
 
         chdir(dirname($testTmpConfigDir));
 
-
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
@@ -50,8 +49,7 @@ class RequireCommandTest extends \PHPUnit_Framework_TestCase
 
 EOL;
         $this->assertSame($expected, $composerJson);
-
-        @unlink($testTmpConfigDir."/composer.json");
         chdir($orgDir);
+        @unlink($testTmpConfigDir."/composer.json");
     }
 }

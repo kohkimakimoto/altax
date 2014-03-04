@@ -16,21 +16,34 @@ class UpdateCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDefault()
     {
-        /*
         $application = new Application($this->container);
         $application->setAutoExit(false);
         $application->add(new UpdateCommand());
         $command = $application->find("update");
 
-        $commandTester = new CommandTester($command);
+        $testTmpConfigDir = __DIR__."/../../../tmp/Altax/Command/Builtin/UpdateCommandTest/.altax";
+        @mkdir($testTmpConfigDir, 0777, true);
+        @copy(__DIR__."/UpdateCommandTest/.altax/composer.json", $testTmpConfigDir."/composer.json");
 
+        $orgDir = getcwd();
+        chdir(dirname($testTmpConfigDir));
+
+        $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
+                "--dry-run" => true,
                 )
             );
 
-        // echo $commandTester->getDisplay();
-        */
+        $expected = <<<EOL
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Nothing to install or update
+
+EOL;
+        $this->assertSame($expected, $commandTester->getDisplay());
+        chdir($orgDir);
+        @unlink($testTmpConfigDir."/composer.json");
    }
 }
