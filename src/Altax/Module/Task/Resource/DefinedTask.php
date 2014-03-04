@@ -143,8 +143,20 @@ class DefinedTask
         if ($this->hasClosure()) {
             $command = new ClosureTaskCommand($this);
         } elseif ($this->hasCommandClass()) {
-            $r = new \ReflectionClass($this->getCommandClass());
-            $command = $r->newInstance($this);
+            try {
+                $r = new \ReflectionClass($this->getCommandClass());
+                $command = $r->newInstance($this);
+            } catch (\ReflectionException $e) {
+                // The task class is not defined.
+                // Replace closure task with alert description.
+                $class = $this->getCommandClass();
+                $this->setClosure(function($task) use ($class) {
+                    $task->writeln("<error>This task references unresolved class '$class'</error>");
+                });
+                $this->setDescription("<error>This task references unresolved class '$class'</error>".$this->getDescription());
+                $command = new ClosureTaskCommand($this);
+            }
+            
         } else {
             throw new \RuntimeException("Couldn't create command instance from a task named '".$this->name."'.");
         }
