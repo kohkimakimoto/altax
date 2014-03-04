@@ -8,7 +8,7 @@ if (PHP_SAPI !== 'cli') {
 
 error_reporting(-1);
 
-// This code is referenced from Composer.
+// This code references Composer.
 if (function_exists('ini_set')) {
     @ini_set('display_errors', 1);
 
