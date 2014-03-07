@@ -5,9 +5,11 @@
 [![Latest Stable Version](https://poser.pugx.org/kohkimakimoto/altax/v/stable.png)](https://packagist.org/packages/kohkimakimoto/altax)
 [![License](https://poser.pugx.org/kohkimakimoto/altax/license.png)](https://packagist.org/packages/kohkimakimoto/altax)
 
+
+
 Altax is a deployment tool for PHP.
 I designed it as a command-line tool for running tasks to remote servers 
-like the [Capistrano](https://github.com/capistrano/capistrano) and [Cinamon](https://github.com/kentaro/cinnamon).
+like the [Capistrano](https://github.com/capistrano/capistrano), [Fabric](http://fabric.readthedocs.org/) and [Cinamon](https://github.com/kentaro/cinnamon).
 It also has a plugin mechanism for managing and installing tasks easily. 
 
 This is a simple git deploy task definition. You can write any tasks in PHP.
