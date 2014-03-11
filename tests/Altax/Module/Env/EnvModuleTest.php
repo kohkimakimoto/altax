@@ -11,10 +11,12 @@ class ServerModuleTest extends \PHPUnit_Framework_TestCase
         $this->container = new Container();
     }
     
-    public function testSet()
+    public function testSetAndGet()
     {
         $module = new EnvModule($this->container);
         $module->set("aaa", "bbb");
+        $this->assertEquals("bbb", $module->get("aaa"));
+        $this->assertEquals(null, $module->get("aaab"));
     }
 
 }
