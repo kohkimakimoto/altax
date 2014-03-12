@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Altax\Module\Task\Resource\RuntimeTask;
 
 /**
- * Altax base command class for defining task. 
+ * Altax base command class for defining task.
  */
 abstract class Command extends \Symfony\Component\Console\Command\Command
 {
@@ -20,7 +20,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
     {
         return $this->getApplication()->getContainer();
     }
-    
+
     public function __construct($definedTask)
     {
         $this->definedTask = $definedTask;
@@ -38,12 +38,12 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $input, $output);        
-        
+        $runtimeTask = new RuntimeTask($this->definedTask, $input, $output);
+
         if ($output->isVerbose()) {
             $output->writeln("<info>Starting </info>".$this->definedTask->getName());
         }
-        
+
         $this->ancestry[] = $this->definedTask->getName();
 
         if ($output->isDebug()) {
@@ -55,7 +55,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
         if ($output->isVerbose()) {
             $output->writeln("<info>Running </info>".$this->definedTask->getName());
         }
-        
+
         $retVal = $this->fire($runtimeTask);
 
         $this->runAfterTask($output);
@@ -93,7 +93,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
             }
 
             if (in_array($task->getName(), $this->ancestry)) {
-                $output->writeln("<error>Skip a before task ".$task->getName()." to prevent infinit loop. Because of existing it in ancestry tasks.</error>");
+                $output->writeln("<error>Skip a before task ".$task->getName()." to prevent infinite loop. Because of existing it in ancestry tasks.</error>");
                 continue;
             }
 

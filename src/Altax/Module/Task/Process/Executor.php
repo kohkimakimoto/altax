@@ -43,13 +43,13 @@ class Executor
     {
         $nodes = $this->getNodes();
 
-        // If target nodes count <= 1, It dosen't need to fork processes.  
+        // If target nodes count <= 1, It doesn't need to fork processes.
         if (count($nodes) === 0) {
             $this->doExecute(null);
             return;
         } elseif (count($nodes) === 1) {
             $this->doExecute(reset($nodes));
-            return;            
+            return;
         }
 
         if (!$this->isParallel) {
@@ -64,8 +64,8 @@ class Executor
 
         // Fork process
         declare(ticks = 1);
-        pcntl_signal(SIGTERM, array($this, "signalHander"));
-        pcntl_signal(SIGINT, array($this, "signalHander"));
+        pcntl_signal(SIGTERM, array($this, "signalHandler"));
+        pcntl_signal(SIGINT, array($this, "signalHandler"));
 
         foreach ($nodes as $node) {
             $pid = pcntl_fork();
@@ -80,7 +80,7 @@ class Executor
                 if ($this->runtimeTask->getOutput()->isVeryVerbose()) {
                     $this->runtimeTask->getOutput()->writeln("<info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
                 }
-                
+
                 $this->doExecute($node);
                 exit(0);
             }
@@ -163,7 +163,7 @@ class Executor
         }
 
         foreach ($candidateNodeNames as $candidateNodeName) {
-            
+
             $node = null;
             $role = null;
 
@@ -174,13 +174,13 @@ class Executor
             if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "role") {
                 $role = Server::getRole($candidateNodeName["name"]);
             }
-            
+
             if ($node && $role) {
                 throw new \RuntimeException("The key '".$candidateNodeName["name"]."' was found in both nodes and roles. So It couldn't identify to unique node.");
             }
 
             if (!$node && !$role && ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node")) {
-                // Passed unregisterd node name. Create node instance.
+                // Passed unregistered node name. Create node instance.
                 $node = new Node();
                 $node->setName($candidateNodeName["name"]);
             }
@@ -204,7 +204,7 @@ class Executor
         return $this->nodes;
     }
 
-    public function signalHander($signo)
+    public function signalHandler($signo)
     {
         switch ($signo) {
             case SIGTERM:
