@@ -79,7 +79,7 @@ class Node
 
     public function getDefaultKey()
     {
-        return $this->defaultKey ? $this->defaultKey : getenv("HOME")."/.ssh/id_rsa";
+        return $this->defaultKey ? $this->defaultKey : Env::get("server.key", getenv("HOME")."/.ssh/id_rsa");
     }
 
     public function getKeyOrDefault()
@@ -104,7 +104,7 @@ class Node
     
     public function getDefaultUsername()
     {
-        return $this->defaultUsername ? $this->defaultUsername : getenv("USER");
+        return $this->defaultUsername ? $this->defaultUsername : Env::get("server.username", getenv("USER"));
     }
 
     public function getUsernameOrDefault()
