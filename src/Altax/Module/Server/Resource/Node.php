@@ -2,6 +2,7 @@
 namespace Altax\Module\Server\Resource;
 
 use Altax\Util\Arr;
+use Altax\Module\Env\Facade\Env;
 
 class Node
 {
@@ -58,7 +59,7 @@ class Node
 
     public function getPortOrDefault()
     {
-        return $this->port ? $this->port : 22;
+        return $this->port ? $this->port : Env::get("server.port", 22);
     }
 
     public function setKey($key)

@@ -11,7 +11,6 @@ Env::set("server.port", 22);
 Env::set("server.key", getenv("HOME")."/.ssh/id_rsa");
 Env::set("server.username", getenv("USER"));
 
-
 // Basic test task
 Task::register("testBasic", function($task){
 

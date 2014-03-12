@@ -5,6 +5,7 @@ use Altax\Foundation\Container;
 use Altax\Foundation\ModuleFacade;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
+use Altax\Module\Env\Facade\Env;
 
 class NodeTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +17,11 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         ModuleFacade::setContainer($this->container);
 
         $module = new \Altax\Module\Server\ServerModule($this->container);
-
         $this->container->addModule(Server::getModuleName(), $module);
+
+        $module = new \Altax\Module\Env\EnvModule($this->container);
+        $this->container->addModule(Env::getModuleName(), $module);
+
     }
 
     public function testAccessors()

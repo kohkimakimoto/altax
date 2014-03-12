@@ -112,10 +112,13 @@ class Process
         $ssh = new \Net_SSH2(
             $this->node->getHostOrDefault(),
             $this->node->getPortOrDefault());
+
         $key = new \Crypt_RSA();
         $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
         if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
-            throw new \RuntimeException('Unable to login '.$this->node->getName());
+            $err = error_get_last();
+            $emessage = isset($err['message']) ? $err['message'] : "";
+            throw new \RuntimeException('Unable to login '.$this->node->getName().". ".$emessage);
         }
 
         return $ssh;
