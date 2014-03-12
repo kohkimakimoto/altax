@@ -63,7 +63,7 @@ EOL;
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->configureContainer($input, $output);
-        $this->registerBuilinCommands();
+        $this->registerBuiltinCommands();
         $this->registerBaseModules();
         $this->loadConfiguration($input, $output);
         $this->registerTasksAsConsoleCommands();
@@ -91,11 +91,11 @@ EOL;
     }
 
     /**
-     * Configure container to use cli application. 
+     * Configure container to use cli application.
      */
     protected function configureContainer(InputInterface $input, OutputInterface $output)
     {
-        // Addtional specified configuration file.
+        // Additional specified configuration file.
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
             $this->container->setConfigFile("option", $input->getParameterOption(array('--file', '-f')));
         }
@@ -108,7 +108,7 @@ EOL;
     /**
      * Register base commands
      */
-    protected function registerBuilinCommands()
+    protected function registerBuiltinCommands()
     {
         $finder = new Finder();
         $finder->files()->name('*Command.php')->in(__DIR__."/../Command/Builtin");
@@ -139,7 +139,7 @@ EOL;
 
             $facadeClass = "\\Altax\\Module\\".$module."\\Facade\\".$module;
             $implClass = "\\Altax\\Module\\".$module."\\".$module."Module";
-            
+
             $moduleName = $facadeClass::getModuleName();
 
             $r = new \ReflectionClass($implClass);
@@ -211,7 +211,7 @@ EOL;
 
         return $definition;
     }
-    
+
     /**
      * {@inheritDoc}
      */

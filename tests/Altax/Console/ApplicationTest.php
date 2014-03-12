@@ -44,7 +44,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
 //        echo $output;
     }
-    
+
     public function testTestBeforeAndAfter1Command()
     {
         $application = new Application($this->container);
@@ -77,7 +77,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $applicationTester = new ApplicationTester($application);
         $applicationTester->run(array("command" => "testAncestry1", "--verbose" => 3));
         $output = $applicationTester->getDisplay();
-        $this->assertRegExp("/Skip a before task testAncestry1 to prevent infinit loop. Because of existing it in ancestry tasks./", $output);
+        $this->assertRegExp("/Skip a before task testAncestry1 to prevent infinite loop. Because of existing it in ancestry tasks./", $output);
 
 //        echo $output;
     }

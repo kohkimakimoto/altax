@@ -7,7 +7,7 @@ namespace Altax\Foundation;
 class Container implements \ArrayAccess, \Iterator, \Countable
 {
     /**
-     * Name of the applicaiton.
+     * Name of the application.
      */
     const NAME = "Altax";
 
@@ -17,7 +17,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     const VERSION = "3.0.3 hash:%commit%";
 
     /**
-     * Condfiguration file paths to load.
+     * Configuration file paths to load.
      */
     protected $configFiles = array();
 
@@ -27,17 +27,17 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     protected $modules = array();
 
     /**
-     * 
+     *
      */
     protected $input;
 
     /**
-     * 
+     *
      */
     protected $output;
 
     /**
-     * Container managed instaces
+     * Container managed instances
      */
     protected $instances = array();
 
@@ -151,7 +151,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     * @param unknown $value
     */
     public function set($key, $value, $delimiter = '/')
-    {   
+    {
         if (strpos($key, $delimiter) === false) {
             $this->instances[$key] = $value;
             return $this;
@@ -165,7 +165,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
         foreach (explode($delimiter, $key) as $i => $k) {
             array_shift($keys);
             if (isset($ref[$k])) {
-                
+
                 if ($i === $lastKeyIndex) {
                     // last key
                     $ref[$k] = $value;
@@ -175,7 +175,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
 
             } else {
                 if (is_array($ref)) {
-                    $ref[$k] = $this->convertMultidimentional($keys, $value);
+                    $ref[$k] = $this->convertMultidimensional($keys, $value);
                 } else {
                     throw new \RuntimeException("Couldn't set a value");
                 }
@@ -191,7 +191,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Convert one dimensional array into multidimensional array
      */
-    protected function convertMultidimentional($oneDimArray, $leafValue)
+    protected function convertMultidimensional($oneDimArray, $leafValue)
     {
         $multiDimArray = array();
         $ref = &$multiDimArray;
@@ -221,7 +221,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     public function offsetSet($offset, $value) {
         $this->instances[$offset] = $value;
     }
-    
+
     public function offsetExists($offset) {
         return isset($this->instances[$offset]);
     }
@@ -237,11 +237,11 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     public function current() {
         return current($this->instances);
     }
-    
+
     public function key() {
         return key($this->instances);
     }
-    
+
     public function next() {
         return next($this->instances);
     }
@@ -249,7 +249,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     public function rewind() {
         reset($this->instances);
     }
-    
+
     public function valid() {
         return ($this->current() !== false);
     }

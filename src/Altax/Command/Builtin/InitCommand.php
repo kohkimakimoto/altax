@@ -21,7 +21,7 @@ if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/a
 // Server definition.
 // ***************************************************************
 //
-// Examples: 
+// Examples:
 //
 //   Server::node("web1.example.com", array("web", "production"));
 //   Server::node("web2.example.com", array("web", "production"));
@@ -30,20 +30,20 @@ if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/a
 //
 
 // ***************************************************************
-// Task definision.
+// Task definition.
 // ***************************************************************
 //
-// Examples: 
+// Examples:
 //
 //   Task::register('hello', function(\$task){
-//   
+//
 //       \$task->writeln("Hello world!");
-// 
+//
 //   });
 //
 
 EOL;
-    
+
     const COMPOSER_TEMPLATE = <<<EOL
 {
     "require": {
@@ -90,16 +90,16 @@ EOL;
         if (!is_file($composerFile)) {
             $this->generateComposerFile($composerFile, $output);
         } else {
-            $output->writeln("<error>File '$composerFile' is already exists. Skiped creation process.</error>");
+            $output->writeln("<error>File '$composerFile' is already exists. Skipped creation process.</error>");
         }
 
         $gitignoreFile = dirname($configurationPath)."/.gitignore";
         if (!is_file($gitignoreFile)) {
             $this->generateGitignore($gitignoreFile, $output);
         } else {
-            $output->writeln("<error>File '$gitignoreFile' is already exists. Skiped creation process.</error>");
+            $output->writeln("<error>File '$gitignoreFile' is already exists. Skipped creation process.</error>");
         }
-        
+
      }
 
      protected function generateConfig($configurationPath, $output)
