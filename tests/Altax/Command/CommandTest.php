@@ -29,10 +29,30 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals("test message", $commandTester->getDisplay());
     }
+
+    public function testOverrideDescription()
+    {
+        $container = new Container();
+        $task = new DefinedTask();
+        $task->setName("test");
+        $task->setDescription("custom description");
+
+        $application = new Application($container);
+        $application->setAutoExit(false);
+        $application->add(new TestCommand($task));
+        $command = $application->find("test");
+
+        $this->assertEquals("custom description", $command->getDescription());
+    }
 }
 
 class TestCommand extends \Altax\Command\Command
 {
+    protected function configure()
+    {
+        $this->setDescription("default description");
+    }
+
     protected function fire($task)
     {
         $task->getOutput()->write("test message");

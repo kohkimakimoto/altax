@@ -26,14 +26,14 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
         $this->definedTask = $definedTask;
         $this->setName($this->definedTask->getName());
 
-        if ($this->definedTask->hasDescription()) {
-            $this->setDescription($this->definedTask->getDescription());
-        }
-
         parent::__construct();
 
         // Override the command name.
         $this->setName($this->definedTask->getName());
+        // Override the command description.
+        if ($this->definedTask->hasDescription()) {
+            $this->setDescription($this->definedTask->getDescription());
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
