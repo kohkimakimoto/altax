@@ -25,6 +25,8 @@ class ServerModuleTest extends \PHPUnit_Framework_TestCase
         $module->set("aaa", "bbb");
         $module->set("bbb", "ccc");
 
-        $this->assertSame(array("aaa" => "bbb", "bbb" => "ccc"), $module->getVars());
+        $vars = $module->getVars();
+
+        $this->assertSame("bbb", $vars["aaa"]);
     }
 }

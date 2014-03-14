@@ -59,7 +59,7 @@ class Node
 
     public function getPortOrDefault()
     {
-        return $this->port ? $this->port : Env::get("server.port", 22);
+        return $this->port ? $this->port : Env::get("server.port");
     }
 
     public function setKey($key)
@@ -79,7 +79,7 @@ class Node
 
     public function getDefaultKey()
     {
-        return $this->defaultKey ? $this->defaultKey : Env::get("server.key", getenv("HOME")."/.ssh/id_rsa");
+        return $this->defaultKey ? $this->defaultKey : Env::get("server.key");
     }
 
     public function getKeyOrDefault()
@@ -104,7 +104,7 @@ class Node
     
     public function getDefaultUsername()
     {
-        return $this->defaultUsername ? $this->defaultUsername : Env::get("server.username", getenv("USER"));
+        return $this->defaultUsername ? $this->defaultUsername : Env::get("server.username");
     }
 
     public function getUsernameOrDefault()
