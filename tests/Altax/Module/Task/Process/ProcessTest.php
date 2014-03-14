@@ -12,6 +12,8 @@ use Altax\Module\Task\Process\Process;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Task\Facade\Task;
+use Altax\Module\Env\Facade\Env;
+
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,6 +29,13 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);
+
+
+        $module = new \Altax\Module\Server\ServerModule($this->container);
+        $this->container->addModule(Server::getModuleName(), $module);
+
+        $module = new \Altax\Module\Env\EnvModule($this->container);
+        $this->container->addModule(Env::getModuleName(), $module);
     }
 
     public function testRun()
