@@ -1,7 +1,6 @@
 /vendor
 /tmp
 /composer.phar
-/composer.lock
 /.project
 /.altax
 /build
