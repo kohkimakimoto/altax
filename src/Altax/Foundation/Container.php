@@ -17,7 +17,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Version of the application.
      */
-    const VERSION = "3.0.3 hash:%commit%";
+    const VERSION = "3.0.4 hash:%commit%";
 
     /**
      * Configuration file paths to load.
