@@ -22,6 +22,10 @@ class EnvCommand extends \Symfony\Component\Console\Command\Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getApplication()->getContainer();
+        $table = $this->getHelperSet()->get('table');
+        
+        $table->setHeaders(array('key', 'value'));
+        
+        $table->render($output);
     }
-
 }
