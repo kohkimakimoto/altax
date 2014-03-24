@@ -6,6 +6,16 @@ namespace Altax\Util;
  */
 class SSHConfig
 {
+    public static function parseFromFiles($files = array())
+    {
+        $servers = array();
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                $servers = array_merge($servers, SSHConfig::parse(file_get_contents($file)));
+            }
+        }
+        return $servers;
+    }
 
     // Refering the following code.
     //   https://gist.github.com/geeksunny/3376694
@@ -49,8 +59,7 @@ class SSHConfig
                     $servers[$key] = array();
                 }
 
-                $servers[$key][$first] = $second;
-
+                $servers[$key][strtolower($first)] = $second;
             }
         }
 
