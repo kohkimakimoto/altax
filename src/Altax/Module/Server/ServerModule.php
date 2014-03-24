@@ -4,6 +4,7 @@ namespace Altax\Module\Server;
 use Altax\Foundation\Module;
 use Altax\Module\Server\Resource\Node;
 use Altax\Util\Arr;
+use Altax\Util\SSHConfig;
 
 /**
  * Server module 
@@ -79,6 +80,19 @@ class ServerModule extends Module
             }
 
             $nodeObject->mergeReferenceRoles($role);
+        }
+    }
+
+    public function nodesFromSSHConfigHosts()
+    {
+        $nodesOptions = SSHConfig::parseToNodeOptionsFormFiles(array(
+            "/etc/ssh_config",
+            "/etc/ssh/ssh_config",
+            getenv("HOME")."/.ssh/config",
+        ));
+
+        foreach ($nodesOptions as $key => $option) {
+            $this->node($key, $option);
         }
     }
 

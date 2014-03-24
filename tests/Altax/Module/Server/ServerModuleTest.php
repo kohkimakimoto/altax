@@ -52,4 +52,10 @@ class ServerModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame("node1", $module->getNode("node1")->getName());
 
     }
+
+    public function testNodesFromSSHConfigHosts()
+    {
+        $module = new ServerModule($this->container);
+        $module->nodesFromSSHConfigHosts();
+    }
 }

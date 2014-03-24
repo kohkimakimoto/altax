@@ -84,7 +84,13 @@ class Node
 
     public function getKeyOrDefault()
     {
-        return $this->key ? $this->key : $this->getDefaultKey();
+        $key = $this->key ? $this->key : $this->getDefaultKey();
+        if (strpos($key, "~") !== false) {
+            // replace ~ to home directory
+            $key = str_replace("~", getenv("HOME"), $key);
+        }
+
+        return $key;
     }
 
     public function setUsername($username)
