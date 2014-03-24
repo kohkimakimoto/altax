@@ -24,6 +24,19 @@ class SSHConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, count($config));
         $this->assertEquals("192.168.56.1", $config["test-server1"]["hostname"]);
         $this->assertEquals("192.168.56.2", $config["test-server2"]["hostname"]);
+    }
 
+    public function testParseToNodeOptionsFormFiles()
+    {
+        $config = SSHConfig::parseToNodeOptionsFormFiles(array(
+            __DIR__."/SSHConfigTest/ssh_config",
+            __DIR__."/SSHConfigTest/ssh_config2",
+            __DIR__."/SSHConfigTest/ssh_config3"
+        ));
+//        print_r($config);
+        $this->assertEquals("192.168.56.2", $config["test-server5"]["host"]);
+        $this->assertEquals("22", $config["test-server5"]["port"]);
+        $this->assertEquals("kohkimakimoto", $config["test-server5"]["username"]);
+        $this->assertEquals("~/.ssh/id_rsa", $config["test-server5"]["key"]);
     }
 }

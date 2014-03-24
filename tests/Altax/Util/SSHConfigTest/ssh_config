@@ -2,9 +2,6 @@
 # server1
 Host test-server1
     HostName 192.168.56.1
-    port 22
-    User kohkimakimoto
-    IdentityFile ~/.ssh/id_rsa
 
 # server1
 Host test-server2

@@ -85,20 +85,14 @@ class ServerModule extends Module
 
     public function nodesFromSSHConfigHosts()
     {
-        $config1 = array();
-        $configFile = "/etc/ssh/ssh_config";
-        if (is_file($configFile)) {
-            $config1 = SSHConfig::parse($configFile);
-        }
+        $nodesOptions = SSHConfig::parseToNodeOptionsFormFiles(array(
+            "/etc/ssh/ssh_config",
+            getenv("HOME")."/.ssh/config",
+        ));
 
-        $config2 = array();
-        $configFile = getenv("HOME")."/.ssh/config";
-        if (is_file($configFile)) {
-            $config2 = SSHConfig::parse($configFile);
+        foreach ($nodesOptions as $key => $option) {
+            $this->node($key, $option);
         }
-
-        $config = array_merge($config1, $config2);
-        print_r($config);
     }
 
     public function getNode($name)

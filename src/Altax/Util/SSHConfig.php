@@ -6,6 +6,38 @@ namespace Altax\Util;
  */
 class SSHConfig
 {
+
+    public static function parseToNodeOptionsFormFiles($files = array())
+    {
+        $nodesOptions = array();
+        $servers = self::parseFromFiles($files);
+        foreach ($servers as $key => $config) {
+            if (strpos($key, "*") !== false) {
+                continue;
+            }
+
+            $nodesOptions[$key] = array();
+
+            if (isset($config["hostname"])) {
+                $nodesOptions[$key]["host"] = $config["hostname"];
+            }
+
+            if (isset($config["port"])) {
+                $nodesOptions[$key]["port"] = $config["port"];
+            }
+
+            if (isset($config["user"])) {
+                $nodesOptions[$key]["username"] = $config["user"];
+            }
+
+            if (isset($config["identityfile"])) {
+                $nodesOptions[$key]["key"] = $config["identityfile"];
+            }
+
+        }
+        return $nodesOptions;
+    }
+
     public static function parseFromFiles($files = array())
     {
         $servers = array();
@@ -46,8 +78,6 @@ class SSHConfig
                 $isComment = ($matches[1] == "#");
                 $first = $matches[2];
                 $second = $matches[3];
-
-//                print_r($matches)."\n";
 
                 if ($isComment)  {
                     continue;
