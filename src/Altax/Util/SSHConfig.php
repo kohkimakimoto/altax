@@ -8,8 +8,8 @@ class SSHConfig
 {
 
     // Refering the following code.
-    // https://gist.github.com/geeksunny/3376694
-    // https://github.com/fitztrev/shuttle
+    //   https://gist.github.com/geeksunny/3376694
+    //   https://github.com/fitztrev/shuttle
     
     /**
      * parse ssh config
@@ -18,15 +18,14 @@ class SSHConfig
      */
     public static function parse($contents)
     {
-        $arr = array();
-
         $servers = array();
-
         $lines = explode("\n", $contents);
+        $key = null;
         foreach ($lines as $line) {
+            $line = trim($line);
 
             if (preg_match(
-                "/^([ \t#])[ \t]*([^ \t=]+)[ \t=]+(.*)$/", 
+                "/^(#?)[\s\t]*([^#\s\t=]+)[\s\t=]+(.*)$/", 
                 $line,
                 $matches)) {
 
@@ -40,10 +39,21 @@ class SSHConfig
 
 //                print_r($matches)."\n";
 
+                if ($isComment)  {
+                    continue;
+                }
+
+                if ($first == "Host") {
+                    // a new host section
+                    $key = $second;
+                    $servers[$key] = array();
+                }
+
+                $servers[$key][$first] = $second;
+
             }
-            
         }
 
-        return $arr;
+        return $servers;
     }
 }
