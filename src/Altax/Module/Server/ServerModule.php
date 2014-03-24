@@ -86,6 +86,7 @@ class ServerModule extends Module
     public function nodesFromSSHConfigHosts()
     {
         $nodesOptions = SSHConfig::parseToNodeOptionsFormFiles(array(
+            "/etc/ssh_config",
             "/etc/ssh/ssh_config",
             getenv("HOME")."/.ssh/config",
         ));
