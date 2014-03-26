@@ -101,7 +101,7 @@ class Process
             $realCommand .= 'cd '.$options["cwd"].' && ';
         }
 
-        $realCommand .= $commandline;
+        $realCommand .= str_replace('"', '\"', $commandline);
         $realCommand .= '"';
 
         return $realCommand;
