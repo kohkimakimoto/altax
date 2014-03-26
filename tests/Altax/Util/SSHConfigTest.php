@@ -42,7 +42,7 @@ class SSHConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testParseWithSpeceialComment() {
         $config = SSHConfig::parse(file_get_contents(__DIR__."/SSHConfigTest/ssh_config4"));
-        // print_r($config);
+//        print_r($config);
         $this->assertEquals("true", $config["test-server1"]["altax.ignore"]);
     }
 

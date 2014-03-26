@@ -38,6 +38,12 @@ class SSHConfig
                 $nodesOptions[$key]["key"] = $config["identityfile"];
             }
 
+            if (isset($config["altax.roles"])) {
+                $rolesStr = str_replace(array("\s","\t"), "", $config["altax.roles"]);
+                $roles = explode(",", $rolesStr);
+                $nodesOptions[$key]["roles"] = $roles;
+            }
+
         }
         return $nodesOptions;
     }
