@@ -79,10 +79,17 @@ class SSHConfig
                 $first = $matches[2];
                 $second = $matches[3];
 
+                // Check for special comment key/value pairs
+                if ($isComment && $key && strpos($first, "altax.")) {
+
+                }
+
+                // Ignore commented line.
                 if ($isComment)  {
                     continue;
                 }
 
+                
                 if ($first == "Host") {
                     // a new host section
                     $key = $second;
