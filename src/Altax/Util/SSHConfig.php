@@ -7,12 +7,16 @@ namespace Altax\Util;
 class SSHConfig
 {
 
-    public static function parseToNodeOptionsFormFiles($files = array())
+    public static function parseToNodeOptionsFromFiles($files = array())
     {
         $nodesOptions = array();
         $servers = self::parseFromFiles($files);
         foreach ($servers as $key => $config) {
             if (strpos($key, "*") !== false) {
+                continue;
+            }
+
+            if (isset($config["altax.ignore"]) && $config["altax.ignore"]) {
                 continue;
             }
 
@@ -80,8 +84,8 @@ class SSHConfig
                 $second = $matches[3];
 
                 // Check for special comment key/value pairs
-                if ($isComment && $key && strpos($first, "altax.")) {
-
+                if ($isComment && $key && strpos($first, "altax.") !== false) {
+                    $servers[$key][$first] = $second;
                 }
 
                 // Ignore commented line.
@@ -89,7 +93,6 @@ class SSHConfig
                     continue;
                 }
 
-                
                 if ($first == "Host") {
                     // a new host section
                     $key = $second;

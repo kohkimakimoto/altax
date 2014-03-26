@@ -28,7 +28,7 @@ class SSHConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testParseToNodeOptionsFormFiles()
     {
-        $config = SSHConfig::parseToNodeOptionsFormFiles(array(
+        $config = SSHConfig::parseToNodeOptionsFromFiles(array(
             __DIR__."/SSHConfigTest/ssh_config",
             __DIR__."/SSHConfigTest/ssh_config2",
             __DIR__."/SSHConfigTest/ssh_config3"
@@ -39,4 +39,11 @@ class SSHConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("kohkimakimoto", $config["test-server5"]["username"]);
         $this->assertEquals("~/.ssh/id_rsa", $config["test-server5"]["key"]);
     }
+
+    public function testParseWithSpeceialComment() {
+        $config = SSHConfig::parse(file_get_contents(__DIR__."/SSHConfigTest/ssh_config4"));
+        // print_r($config);
+        $this->assertEquals("true", $config["test-server1"]["altax.ignore"]);
+    }
+
 }
