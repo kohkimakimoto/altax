@@ -38,6 +38,8 @@ class SSHConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("22", $config["test-server5"]["port"]);
         $this->assertEquals("kohkimakimoto", $config["test-server5"]["username"]);
         $this->assertEquals("~/.ssh/id_rsa", $config["test-server5"]["key"]);
+        $this->assertEquals("web", $config["test-server5"]["roles"][0]);
+        $this->assertEquals("db", $config["test-server5"]["roles"][1]);
     }
 
     public function testParseWithSpeceialComment() {

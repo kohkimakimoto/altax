@@ -1,6 +1,7 @@
 # HostName 192.168.56.1
 # server1
 Host test-server4
+    # altax.roles web
     HostName 192.168.56.1
     port 22
     User kohkimakimoto
@@ -8,6 +9,7 @@ Host test-server4
 
 # server1
 Host test-server5
+    # altax.roles web, db
     HostName 192.168.56.2
     port 22
     User kohkimakimoto
