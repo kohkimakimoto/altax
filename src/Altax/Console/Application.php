@@ -194,7 +194,7 @@ EOL;
      */
     public function getLongVersion()
     {
-        return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
+        return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersionWithCommit());
     }
 
     public function getContainer()

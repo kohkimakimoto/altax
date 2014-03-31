@@ -66,12 +66,12 @@ class Container implements \ArrayAccess, \Iterator, \Countable
 
     public function getVersionWithCommit()
     {
-        return self::VERSION." ".self::COMMIT;
+        return self::VERSION." - ".self::COMMIT;
     }
 
     public function isPhar()
     {
-        return (self::COMMIT != "%commit%");
+        return !(preg_match("/commit/", self::COMMIT) === 1);
     }
 
     /**
