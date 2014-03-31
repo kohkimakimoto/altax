@@ -17,7 +17,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Version of the application.
      */
-    const VERSION = "3.0.4";
+    const VERSION = "3.0.6";
 
     /**
      * git commit hash.
