@@ -17,7 +17,12 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Version of the application.
      */
-    const VERSION = "3.0.5 hash:%commit%";
+    const VERSION = "3.0.5";
+
+    /**
+     * git commit hash.
+     */
+    const COMMIT = "%commit%";
 
     /**
      * Configuration file paths to load.
@@ -57,6 +62,11 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     public function getVersion()
     {
         return self::VERSION;
+    }
+
+    public function getVersionWithCommit()
+    {
+        return self::VERSION." ".self::COMMIT;
     }
 
     /**

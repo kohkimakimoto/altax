@@ -38,7 +38,7 @@ EOL;
 
     public function __construct(\Altax\Foundation\Container $container)
     {
-        parent::__construct($container->getName(), $container->getVersion());
+        parent::__construct($container->getName(), $container->getVersionWithCommit());
         $this->container = $container;
     }
 
