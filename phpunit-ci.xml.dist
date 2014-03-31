@@ -8,6 +8,7 @@
   <filter>
     <blacklist>
       <file>./src/Altax/Script/ScriptHandler.php</file>
+      <file>./src/Altax/Command/Builtin/SelfUpdateCommand.php</file>
     </blacklist>
     <whitelist>
       <directory suffix=".php">./src</directory>
