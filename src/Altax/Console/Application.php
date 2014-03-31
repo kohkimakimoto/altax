@@ -38,7 +38,7 @@ EOL;
 
     public function __construct(\Altax\Foundation\Container $container)
     {
-        parent::__construct($container->getName(), $container->getVersion());
+        parent::__construct($container->getName(), $container->getVersionWithCommit());
         $this->container = $container;
     }
 
@@ -194,7 +194,7 @@ EOL;
      */
     public function getLongVersion()
     {
-        return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersion());
+        return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersionWithCommit());
     }
 
     public function getContainer()

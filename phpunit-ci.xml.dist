@@ -6,11 +6,12 @@
     </testsuite>
   </testsuites>
   <filter>
-    <blacklist>
-      <file>./src/Altax/Script/ScriptHandler.php</file>
-    </blacklist>
     <whitelist>
       <directory suffix=".php">./src</directory>
+      <exclude>
+        <file>./src/Altax/Script/ScriptHandler.php</file>
+        <file>./src/Altax/Command/Builtin/SelfUpdateCommand.php</file>
+      </exclude>
     </whitelist>
   </filter>
   <logging>
