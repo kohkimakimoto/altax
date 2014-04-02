@@ -3,7 +3,7 @@
   "description": "Altax is an extensible deployment tool for PHP.",
   "keywords": ["deploy", "deployment", "ssh", "altax"],
   "homepage": "https://github.com/kohkimakimoto/altax",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Kohki Makimoto",
@@ -34,6 +34,11 @@
   },
   "autoload": {
     "psr-0": { "Altax\\": "src/"}
+  },
+  "extra": {
+      "branch-alias": {
+          "dev-master": "5.0.x-dev"
+      }
   },
   "bin": ["bin/altax"]
 }
