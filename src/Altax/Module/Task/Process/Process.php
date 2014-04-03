@@ -114,6 +114,8 @@ class Process
             $this->node->getPortOrDefault());
 
         $key = new \Crypt_RSA();
+        // TODO: support password
+        // $key->setPassword("password");
         $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
         if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
             $err = error_get_last();
