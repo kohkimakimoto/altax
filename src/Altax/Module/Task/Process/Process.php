@@ -7,6 +7,7 @@ use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\ProcessResult;
 use Altax\Util\Arr;
+use Altax\Util\SSHKey;
 
 class Process
 {
@@ -121,14 +122,28 @@ class Process
 
     protected function getSSH()
     {
+        $output = $this->runtimeTask->getOutput();
+        $input = $this->runtimeTask->getInput();
+
         $ssh = new \Net_SSH2(
             $this->node->getHostOrDefault(),
             $this->node->getPortOrDefault());
 
         $key = new \Crypt_RSA();
-        // TODO: support password
-        // $key->setPassword("password");
-        $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
+
+        $keyPath = $this->node->getKeyOrDefault();
+        $keyFile = file_get_contents($keyPath);
+        if (SSHKey::hasPassphrase($keyFile)) {
+
+            if ($output->isVerbose()) {
+                $output->writeln($this->getRemoteInfoPrefix()."<info>The SSH key file has passphrase: </info>".$keyPath);
+            }
+            
+            // TODO:ask password to user. 
+            // $key->setPassword("hogehoge");
+        }
+
+        $key->loadKey($keyFile);
         if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
             $err = error_get_last();
             $emessage = isset($err['message']) ? $err['message'] : "";
