@@ -19,6 +19,12 @@ class Process
         $this->node = $node;
     }
 
+    /**
+     * Runing a command on remote server.
+     * @param  string $commandline [description]
+     * @param  array  $options     [description]
+     * @return [type]              [description]
+     */
     public function run($commandline, $options = array())
     {
         if (!$this->node) {
@@ -56,6 +62,12 @@ class Process
         return new ProcessResult($returnCode, $resultContent);
     }
 
+    /**
+     * Running a command on local server.
+     * @param  string $commandline [description]
+     * @param  array  $options     [description]
+     * @return [type]              [description]
+     */
     public function runLocally($commandline, $options = array())
     {
         if (is_array($commandline)) {
