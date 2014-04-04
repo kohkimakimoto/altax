@@ -64,7 +64,7 @@ class Process
     }
 
     /**
-     * Running a command on local server.
+     * Running a command on local machine.
      * @param  string $commandline [description]
      * @param  array  $options     [description]
      * @return [type]              [description]
