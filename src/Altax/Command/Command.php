@@ -38,7 +38,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $input, $output);
+        $runtimeTask = new RuntimeTask($this, $this->definedTask, $input, $output);
 
         if ($output->isVerbose()) {
             $output->writeln("<info>Starting </info>".$this->definedTask->getName());

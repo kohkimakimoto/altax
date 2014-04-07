@@ -1,6 +1,7 @@
 <?php
 namespace Altax\Module\Task\Process;
 
+use Altax\Module\Env\Facade\Env;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\Process;
@@ -42,6 +43,22 @@ class Executor
     public function execute()
     {
         $nodes = $this->getNodes();
+
+        if (Env::get("server.passphrase") === null) {
+            // Check whether passphrase is required.
+            $hasPassphrase = false;
+            foreach ($nodes as $node) {
+                if ($node->isUsedWithPassphrase()) {
+                    $hasPassphrase = true;
+                }
+            }
+            // ask passphrase.
+            if ($hasPassphrase) {
+                $passphrase = $this->askPassphrase();
+                Env::set("server.passphrase", $passphrase);
+            }
+        }
+
 
         // If target nodes count <= 1, It doesn't need to fork processes.
         if (count($nodes) === 0) {
@@ -235,6 +252,21 @@ class Executor
     public function getIsParallel()
     {
         return $this->isParallel;
+    }
+
+    public function askPassphrase()
+    {
+        $output = $this->runtimeTask->getOutput();
+        $command = $this->runtimeTask->getCommand();
+        $dialog = $command->getHelperSet()->get('dialog');
+
+        $passphrase = $dialog->askHiddenResponse(
+            $output,
+            'Enter passphrase for SSH key:',
+            false
+        );
+
+        return $passphrase;
     }
 
 }

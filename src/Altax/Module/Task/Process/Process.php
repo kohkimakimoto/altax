@@ -131,18 +131,12 @@ class Process
 
         $key = new \Crypt_RSA();
 
-        $keyPath = $this->node->getKeyOrDefault();
-        $keyFile = file_get_contents($keyPath);
-        if (SSHKey::hasPassphrase($keyFile)) {
-
-            if ($output->isVerbose()) {
-                $output->writeln($this->getRemoteInfoPrefix()."<info>The SSH key file has passphrase: </info>".$keyPath);
-            }
-            
-            // TODO:ask password to user. 
-            // $key->setPassword("hogehoge");
+        if ($this->node->isUsedWithPassphrase()) {
+            $key->setPassword($this->node->getPassphrase());
         }
 
+        $keyPath = $this->node->getKeyOrDefault();
+        $keyFile = file_get_contents($keyPath);
         $key->loadKey($keyFile);
         if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
             $err = error_get_last();
