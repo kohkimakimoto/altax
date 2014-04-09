@@ -262,7 +262,7 @@ class Executor
 
         $passphrase = $dialog->askHiddenResponse(
             $output,
-            'Enter passphrase for SSH key:',
+            'Enter passphrase for SSH key: ',
             false
         );
 

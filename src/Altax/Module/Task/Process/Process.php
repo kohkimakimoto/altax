@@ -22,9 +22,9 @@ class Process
 
     /**
      * Runing a command on remote server.
-     * @param  string $commandline [description]
-     * @param  array  $options     [description]
-     * @return [type]              [description]
+     * @param  string $commandline
+     * @param  array  $options
+     * @return ProcessResult
      */
     public function run($commandline, $options = array())
     {
@@ -65,9 +65,9 @@ class Process
 
     /**
      * Running a command on local machine.
-     * @param  string $commandline [description]
-     * @param  array  $options     [description]
-     * @return [type]              [description]
+     * @param  string $commandline
+     * @param  array  $options
+     * @return ProcessResult
      */
     public function runLocally($commandline, $options = array())
     {
