@@ -49,7 +49,7 @@ class Executor
             $hasPassphrase = false;
             $validatingKey = null;
             foreach ($nodes as $node) {
-                if ($node->isUsedWithPassphrase() && !$node->useAgent()) {
+                if (!$node->useAgent() && $node->isUsedWithPassphrase()) {
                     $hasPassphrase = true;
                     $validatingKey = $node->getKeyOrDefault();
                 }
