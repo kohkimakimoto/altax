@@ -21,6 +21,8 @@ class Node
 
     protected $defaultUsername;
 
+    protected $useAgent = false;
+
     protected $referenceRoles = array();
 
     public function setName($name)
@@ -119,6 +121,11 @@ class Node
         return $this->username ? $this->username : $this->getDefaultUsername();
     }
 
+    public function useAgent()
+    {
+        return $this->useAgent;
+    }
+
     public function setOptions($options)
     {   
         if (!is_array($options)) {
@@ -139,6 +146,10 @@ class Node
 
         if (isset($options["username"])) {
             $this->username = $options["username"];
+        }
+
+        if (isset($options["agent"])) {
+            $this->useAgent = (bool)$options["agent"];
         }
     }
 

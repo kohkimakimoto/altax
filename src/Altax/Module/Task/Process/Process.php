@@ -129,19 +129,31 @@ class Process
             $this->node->getHostOrDefault(),
             $this->node->getPortOrDefault());
 
+        // set up key
         $key = new \Crypt_RSA();
 
-        if ($this->node->isUsedWithPassphrase()) {
-            $key->setPassword($this->node->getPassphrase());
+        if ($this->node->useAgent()) {
+            // use ssh-agent
+            if (class_exists('System_SSH_Agent', true) == false) {
+                require_once 'System/SSH_Agent.php';
+            }
+            $key = new \System_SSH_Agent();
+        } else {
+            // use ssh key file
+            if ($this->node->isUsedWithPassphrase()) {
+                // use passphrase
+                $key->setPassword($this->node->getPassphrase());
+            }
+
+            $keyPath = $this->node->getKeyOrDefault();
+            $keyFile = file_get_contents($keyPath);
+
+            if (!$key->loadKey($keyFile)) {
+                throw new \RuntimeException('Unable to load SSH key file: '.$keyPath);
+            }
         }
 
-        $keyPath = $this->node->getKeyOrDefault();
-        $keyFile = file_get_contents($keyPath);
-        
-        if (!$key->loadKey($keyFile)) {
-            throw new \RuntimeException('Unable to load SSH key file: '.$keyPath);
-        }
-
+        // login
         if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
             $err = error_get_last();
             $emessage = isset($err['message']) ? $err['message'] : "";
