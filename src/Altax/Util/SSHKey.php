@@ -11,8 +11,8 @@ class SSHKey
      * 
      * see http://superuser.com/questions/201003/checking-ssh-keys-have-passphrases
      * 
-     * @param  [type]  $keyFile [description]
-     * @return boolean          [description]
+     * @param  string  $keyFile SSH key file data
+     * @return boolean
      */
     public static function hasPassphrase($keyFile)
     {
