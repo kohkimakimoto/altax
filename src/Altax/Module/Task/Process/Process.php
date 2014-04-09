@@ -7,6 +7,7 @@ use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\ProcessResult;
 use Altax\Util\Arr;
+use Altax\Util\SSHKey;
 
 class Process
 {
@@ -19,6 +20,12 @@ class Process
         $this->node = $node;
     }
 
+    /**
+     * Runing a command on remote server.
+     * @param  string $commandline
+     * @param  array  $options
+     * @return ProcessResult
+     */
     public function run($commandline, $options = array())
     {
         if (!$this->node) {
@@ -56,6 +63,12 @@ class Process
         return new ProcessResult($returnCode, $resultContent);
     }
 
+    /**
+     * Running a command on local machine.
+     * @param  string $commandline
+     * @param  array  $options
+     * @return ProcessResult
+     */
     public function runLocally($commandline, $options = array())
     {
         if (is_array($commandline)) {
@@ -109,12 +122,38 @@ class Process
 
     protected function getSSH()
     {
+        $output = $this->runtimeTask->getOutput();
+        $input = $this->runtimeTask->getInput();
+
         $ssh = new \Net_SSH2(
             $this->node->getHostOrDefault(),
             $this->node->getPortOrDefault());
 
+        // set up key
         $key = new \Crypt_RSA();
-        $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
+
+        if ($this->node->useAgent()) {
+            // use ssh-agent
+            if (class_exists('System_SSH_Agent', true) == false) {
+                require_once 'System/SSH_Agent.php';
+            }
+            $key = new \System_SSH_Agent();
+        } else {
+            // use ssh key file
+            if ($this->node->isUsedWithPassphrase()) {
+                // use passphrase
+                $key->setPassword($this->node->getPassphrase());
+            }
+
+            $keyPath = $this->node->getKeyOrDefault();
+            $keyFile = file_get_contents($keyPath);
+
+            if (!$key->loadKey($keyFile)) {
+                throw new \RuntimeException('Unable to load SSH key file: '.$keyPath);
+            }
+        }
+
+        // login
         if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
             $err = error_get_last();
             $emessage = isset($err['message']) ? $err['message'] : "";

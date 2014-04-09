@@ -28,6 +28,10 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             \Altax\Module\Task\Facade\Task::getModuleName(),
             new \Altax\Module\Task\TaskModule($this->container)
             );
+        $this->container->addModule(
+            \Altax\Module\Env\Facade\Env::getModuleName(),
+            new \Altax\Module\Env\EnvModule($this->container)
+            );
 
         Server::node("127.0.0.1", "test");
         Server::node("localhost", "test");
@@ -37,7 +41,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->task->setName("test_process_run");
         $this->input = new ArgvInput();
         $this->output = new BufferedOutput();
-        $this->runtimeTask = new RuntimeTask($this->task, $this->input, $this->output);
+        $this->runtimeTask = new RuntimeTask(null, $this->task, $this->input, $this->output);
     }
 
     public function testExecute1()

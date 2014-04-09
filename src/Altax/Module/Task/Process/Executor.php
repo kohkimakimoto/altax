@@ -1,6 +1,7 @@
 <?php
 namespace Altax\Module\Task\Process;
 
+use Altax\Module\Env\Facade\Env;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\Process;
@@ -42,6 +43,23 @@ class Executor
     public function execute()
     {
         $nodes = $this->getNodes();
+
+        if (Env::get("server.passphrase") === null) {
+            // Check whether passphrase is required.
+            $hasPassphrase = false;
+            $validatingKey = null;
+            foreach ($nodes as $node) {
+                if (!$node->useAgent() && $node->isUsedWithPassphrase()) {
+                    $hasPassphrase = true;
+                    $validatingKey = $node->getKeyOrDefault();
+                }
+            }
+            // ask passphrase.
+            if ($hasPassphrase) {
+                $passphrase = $this->askPassphrase($validatingKey);
+                Env::set("server.passphrase", $passphrase);
+            }
+        }
 
         // If target nodes count <= 1, It doesn't need to fork processes.
         if (count($nodes) === 0) {
@@ -235,6 +253,38 @@ class Executor
     public function getIsParallel()
     {
         return $this->isParallel;
+    }
+
+    /**
+     * Ask SSH key passphrase.
+     * @return string passphrase
+     */
+    public function askPassphrase($validatingKey)
+    {
+        $output = $this->runtimeTask->getOutput();
+        $command = $this->runtimeTask->getCommand();
+        $dialog = $command->getHelperSet()->get('dialog');
+
+        $passphrase = $dialog->askHiddenResponseAndValidate(
+            $output,
+            '<info>Enter passphrase for SSH key: </info>',
+            function($answer) use ($validatingKey) {
+
+                $key = new \Crypt_RSA();
+                $key->setPassword($answer);
+
+                $keyFile = file_get_contents($validatingKey);
+                if (!$key->loadKey($keyFile)) {
+                    throw new \RuntimeException('wrong passphrase.');
+                }
+
+                return $answer;
+            },
+            3,
+            null
+        );
+
+        return $passphrase;
     }
 
 }

@@ -2,6 +2,7 @@
 namespace Altax\Module\Server\Resource;
 
 use Altax\Util\Arr;
+use Altax\Util\SSHKey;
 use Altax\Module\Env\Facade\Env;
 
 class Node
@@ -19,6 +20,8 @@ class Node
     protected $username;
 
     protected $defaultUsername;
+
+    protected $useAgent = false;
 
     protected $referenceRoles = array();
 
@@ -118,6 +121,11 @@ class Node
         return $this->username ? $this->username : $this->getDefaultUsername();
     }
 
+    public function useAgent()
+    {
+        return $this->useAgent;
+    }
+
     public function setOptions($options)
     {   
         if (!is_array($options)) {
@@ -138,6 +146,10 @@ class Node
 
         if (isset($options["username"])) {
             $this->username = $options["username"];
+        }
+
+        if (isset($options["agent"])) {
+            $this->useAgent = (bool)$options["agent"];
         }
     }
 
@@ -168,4 +180,17 @@ class Node
         }
         $this->referenceRoles = array_merge($this->referenceRoles, $roles);
     }
+
+    public function isUsedWithPassphrase()
+    {
+        $keyPath = $this->getKeyOrDefault();
+        $keyFile = file_get_contents($keyPath);
+        return SSHKey::hasPassphrase($keyFile);
+    }
+
+    public function getPassphrase()
+    {
+        return Env::get("server.passphrase");
+    }
+
 }

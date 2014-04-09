@@ -24,13 +24,13 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
         $this->assertEquals("Altax\Module\Task\Resource\RuntimeTask", get_class($runtimeTask));
     }
 
     public function testSetAndGetInput()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
 
         $this->assertSame($this->input, $runtimeTask->getInput());
         $input = new ArrayInput(array("command" => "test2"));
@@ -41,7 +41,7 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetOutput()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
 
         $this->assertSame($this->output, $runtimeTask->getOutput());
         $output = new BufferedOutput();
@@ -52,14 +52,14 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConfig()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
 
         $this->assertSame($this->definedTask->getConfig(), $runtimeTask->getConfig());
     }
 
     public function testWriteln()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
         $runtimeTask->writeln("Write log test");
         
         $this->assertEquals("Write log test\n", $this->output->fetch());
@@ -67,7 +67,7 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
 
     public function testWrite()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
         $runtimeTask->write("Write log test");
         
         $this->assertEquals("Write log test", $this->output->fetch());
@@ -75,19 +75,19 @@ class RuntimeTaskTest extends \PHPUnit_Framework_TestCase
     
     public function testGetArguments()
     {   
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
         $args = $runtimeTask->getArguments();
     }
 
     public function testGetArgument()
     {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
         $runtimeTask->getArgument(0);
     }
 
    public function testProcess()
    {
-        $runtimeTask = new RuntimeTask($this->definedTask, $this->input, $this->output);
+        $runtimeTask = new RuntimeTask(null, $this->definedTask, $this->input, $this->output);
         try {
 
 

@@ -10,8 +10,9 @@ class RuntimeTask
     protected $input;
     protected $output;
 
-    public function __construct($task, $input, $output)
+    public function __construct($command, $task, $input, $output)
     {
+        $this->command = $command;
         $this->task = $task;
         $this->input = $input;
         $this->output = $output;
@@ -40,6 +41,11 @@ class RuntimeTask
     public function getConfig()
     {
         return $this->task->getConfig();
+    }
+
+    public function getCommand()
+    {
+        return $this->command;
     }
 
     public function writeln($string)
