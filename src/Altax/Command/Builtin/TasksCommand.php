@@ -40,9 +40,10 @@ class TasksCommand extends Command
                 $table = $this->getHelperSet()->get('table');
                 $table->setHeaders(array('name', 'description', 'hidden'));
                 foreach ($tasks as $task) {
+                    $command = $task->createCommandInstance();
                     $table->addRow(array(
                         $task->getName(),
-                        $task->getDescription(),
+                        $command->getDescription(),
                         $task->isHidden()?'X':'',
                     ));
                 }
@@ -55,9 +56,10 @@ class TasksCommand extends Command
             $data = array();
             if ($tasks) {
                 foreach ($tasks as $task) {
+                    $command = $task->createCommandInstance();
                     $data[] = array(
                         'name' => $task->getName(),
-                        'description' => $task->getDescription(),
+                        'description' => $command->getDescription(),
                         'hidden' => $task->isHidden()
                     );
                 }
