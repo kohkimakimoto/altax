@@ -47,18 +47,19 @@ class Executor
         if (Env::get("server.passphrase") === null) {
             // Check whether passphrase is required.
             $hasPassphrase = false;
+            $validatingKey = null;
             foreach ($nodes as $node) {
                 if ($node->isUsedWithPassphrase()) {
                     $hasPassphrase = true;
+                    $validatingKey = $node->getKeyOrDefault();
                 }
             }
             // ask passphrase.
             if ($hasPassphrase) {
-                $passphrase = $this->askPassphrase();
+                $passphrase = $this->askPassphrase($validatingKey);
                 Env::set("server.passphrase", $passphrase);
             }
         }
-
 
         // If target nodes count <= 1, It doesn't need to fork processes.
         if (count($nodes) === 0) {
@@ -254,16 +255,33 @@ class Executor
         return $this->isParallel;
     }
 
-    public function askPassphrase()
+    /**
+     * Ask SSH key passphrase.
+     * @return string passphrase
+     */
+    public function askPassphrase($validatingKey)
     {
         $output = $this->runtimeTask->getOutput();
         $command = $this->runtimeTask->getCommand();
         $dialog = $command->getHelperSet()->get('dialog');
 
-        $passphrase = $dialog->askHiddenResponse(
+        $passphrase = $dialog->askHiddenResponseAndValidate(
             $output,
-            'Enter passphrase for SSH key: ',
-            false
+            '<info>Enter passphrase for SSH key: </info>',
+            function($answer) use ($validatingKey) {
+
+                $key = new \Crypt_RSA();
+                $key->setPassword($answer);
+
+                $keyFile = file_get_contents($validatingKey);
+                if (!$key->loadKey($keyFile)) {
+                    throw new \RuntimeException('wrong passphrase.');
+                }
+
+                return $answer;
+            },
+            3,
+            null
         );
 
         return $passphrase;
