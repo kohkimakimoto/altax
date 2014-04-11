@@ -56,8 +56,7 @@ class TasksCommand extends Command
             if ($tasks) {
                 foreach ($tasks as $task) {
                     $command = $task->createCommandInstance();
-                    $data[] = array(
-                        'name' => $task->getName(),
+                    $data[$task->getName()] = array(
                         'description' => $command->getDescription(),
                         'hidden' => $task->isHidden()
                     );
