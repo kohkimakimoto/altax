@@ -25,8 +25,7 @@ class TasksCommand extends Command
             ->setDefinition(new InputDefinition(array(
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'To output list in other formats', 'txt')
             )))
-            ->setDescription('Lists defined tasks')
-        ;
+            ->setDescription('Lists defined tasks');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -66,7 +65,7 @@ class TasksCommand extends Command
             }
             $output->writeln(json_encode($data));
         } else {
-            throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));
+            throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }
     }
 }
