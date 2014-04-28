@@ -28,7 +28,7 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
         $commandFile = realpath($_SERVER['SCRIPT_FILENAME']);
 
         $currentVersion = "v".$container->getVersion();
-        $updateVersion = trim(@file_get_contents('https://raw.github.com/kohkimakimoto/altax/master/version'));
+        $updateVersion = trim(@file_get_contents('https://raw.githubusercontent.com/kohkimakimoto/altax/master/version'));
 
         if (!$container->isPhar()) {
             $output->writeln('<error>You can not update altax. Because altax only supports self-update command on PHAR file version.</error>');
@@ -49,7 +49,7 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
 
         $tmpDir = "/tmp/".uniqid("altax.update.");
 
-        $process = new Process("mkdir $tmpDir && cd $tmpDir && curl -L https://raw.github.com/kohkimakimoto/altax/master/installer.sh | bash -s local $updateVersion");
+        $process = new Process("mkdir $tmpDir && cd $tmpDir && curl -L https://raw.githubusercontent.com/kohkimakimoto/altax/master/installer.sh | bash -s local $updateVersion");
         $process->setTimeout(null);
         if ($process->run() !== 0) {
             $output->writeln('<error>You can not update altax.');
