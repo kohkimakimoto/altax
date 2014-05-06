@@ -7,7 +7,9 @@ use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\Process;
 use Altax\Util\Arr;
 
-
+/**
+ * Executor
+ */
 class Executor
 {
     protected $runtimeTask;
@@ -44,6 +46,7 @@ class Executor
     {
         $nodes = $this->getNodes();
 
+        // TODO: support different keys for each node.
         if (Env::get("server.passphrase") === null) {
             // Check whether passphrase is required.
             $hasPassphrase = false;
