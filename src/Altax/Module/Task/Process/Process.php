@@ -278,11 +278,13 @@ class Process
     }
     public function getRemoteInfoPrefix()
     {
+        // TODO:support windows 
         return "<info>[</info><comment>".$this->getNodeName().":".posix_getpid()."</comment><info>]</info> ";
     }
 
     public function getLocalInfoPrefix()
     {
+        // TODO:support windows 
         return "<info>[</info><comment>localhost:".posix_getpid()."</comment><info>]</info> ";
     }
 

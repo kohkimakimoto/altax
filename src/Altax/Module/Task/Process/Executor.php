@@ -241,6 +241,7 @@ class Executor
     {
         foreach ($this->childPids as $pid => $host) {
             $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
+            // TODO:support windows 
             posix_kill($pid, SIGINT);
         }
     }
