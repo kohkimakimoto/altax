@@ -241,7 +241,7 @@ class Executor
     {
         foreach ($this->childPids as $pid => $host) {
             $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
-            posix_kill($pid, SIGINT);
+            $this->killProcess($pid);
         }
     }
 
@@ -253,6 +253,22 @@ class Executor
     public function getIsParallel()
     {
         return $this->isParallel;
+    }
+
+    protected function killProcess($pid)
+    {
+        if (!function_exists('posix_kill')) {
+            // For windows.
+            // See http://www.php.net/manual/ja/function.posix-kill.php
+            // I haven't tested the code. Sorry.
+            $wmi = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2"); 
+            $procs = $wmi->ExecQuery("SELECT * FROM Win32_Process WHERE ProcessId='".$pid."'"); 
+            foreach($procs as $proc) {
+                $proc->Terminate();
+            }
+        } else {
+            posix_kill($pid, SIGINT);
+        }
     }
 
     /**
