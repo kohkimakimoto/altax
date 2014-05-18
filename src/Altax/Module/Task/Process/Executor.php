@@ -76,8 +76,8 @@ class Executor
             }
             foreach ($nodes as $node) {
                 $this->doExecute($node);
-                return;
             }
+            return;
         }
 
         // Fork process
