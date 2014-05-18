@@ -9,6 +9,8 @@ use Altax\Module\Env\Facade\Env;
 
 class NodeTest extends \PHPUnit_Framework_TestCase
 {
+    private $originalHome;
+
     protected function setUp()
     {
         $this->container = new Container();
@@ -22,6 +24,15 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $module = new \Altax\Module\Env\EnvModule($this->container);
         $this->container->addModule(Env::getModuleName(), $module);
 
+        $this->originalHome = getenv('HOME');
+    }
+
+    protected function tearDown()
+    {
+        if ($this->originalHome !== false)
+        {
+            putenv("HOME=$this->originalHome");
+        }
     }
 
     public function testAccessors()
@@ -63,6 +74,33 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
+    }
+
+    public function testReplaceTilda()
+    {
+        $node = new Node();
+
+        putenv("HOME=/home/your");
+        $node->setKey("~/path/to/private_key");
+        $this->assertEquals("~/path/to/private_key", $node->getKey());
+        $this->assertEquals("/home/your/path/to/private_key", $node->getKeyOrDefault());
+
+        $node->setKey("~user/path/to/private_key");
+        $this->assertEquals("~user/path/to/private_key", $node->getKey());
+        $this->assertEquals("~user/path/to/private_key", $node->getKeyOrDefault());
+
+        $node->setKey("~");
+        $this->assertEquals("~", $node->getKey());
+        $this->assertEquals("/home/your", $node->getKeyOrDefault());
+
+        putenv("HOME=/home/your\\0");
+        $node->setKey("~/path/to/private_key");
+        $this->assertEquals("~/path/to/private_key", $node->getKey());
+        $this->assertEquals("/home/your\\0/path/to/private_key", $node->getKeyOrDefault());
+
+        $node->setKey("/path/to/private_key~");
+        $this->assertEquals("/path/to/private_key~", $node->getKey());
+        $this->assertEquals("/path/to/private_key~", $node->getKeyOrDefault());
     }
 
 }
