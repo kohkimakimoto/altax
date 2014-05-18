@@ -90,7 +90,10 @@ class Node
         $key = $this->key ? $this->key : $this->getDefaultKey();
         if (strpos($key, "~") !== false) {
             // replace ~ to home directory
-            $key = str_replace("~", getenv("HOME"), $key);
+            $key = preg_replace_callback('/^~(?:\/|$)/', function ($m) {
+                return str_replace('~', getenv("HOME"), $m[0]);
+            }, $key);
+
         }
 
         return $key;
