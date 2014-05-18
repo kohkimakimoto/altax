@@ -193,9 +193,11 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         // nodes array
         $this->output->setVerbosity(3);
 
-        $executor = new Executor($this->runtimeTask, 
-            function($process){
+        $executedNodes = array();
 
+        $executor = new Executor($this->runtimeTask, 
+            function($process) use (&$executedNodes) {
+                $executedNodes[] = $process->getNodeName();
             }, 
             array("nodes" => array("127.0.0.1", "localhost")));
         $executor->setIsParallel(false);
@@ -205,6 +207,10 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         // nodes string
         $output = $this->output->fetch();
         $this->assertRegExp("/Running serial mode/", $output);
+
+        $this->assertCount(2, $executedNodes);
+        $this->assertContains("127.0.0.1", $executedNodes);
+        $this->assertContains("localhost", $executedNodes);
     }
 
 }
