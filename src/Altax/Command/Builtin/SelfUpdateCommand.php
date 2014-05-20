@@ -35,7 +35,7 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
             return 1;
         }
 
-        if (!preg_match('/^v[0-9].[0-9].[0-9]$/', $updateVersion)) {
+        if (!preg_match('/^v[0-9].[0-9]+.[0-9]+$/', $updateVersion)) {
             $output->writeln('<error>You can not update altax. Because the latest version of altax are not available for download.</error>');
             return 1;
         }
