@@ -33,7 +33,7 @@ class Executor
                     ."".trim(implode(", ", array_keys($this->nodes))));
         }
 
-        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait')) {
+        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
             $this->isParallel = false;
         } else {
             $this->isParallel = true;
@@ -257,18 +257,7 @@ class Executor
 
     protected function killProcess($pid)
     {
-        if (!function_exists('posix_kill')) {
-            // For windows.
-            // See http://www.php.net/manual/ja/function.posix-kill.php
-            // I haven't tested the code. Sorry.
-            $wmi = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2"); 
-            $procs = $wmi->ExecQuery("SELECT * FROM Win32_Process WHERE ProcessId='".$pid."'"); 
-            foreach($procs as $proc) {
-                $proc->Terminate();
-            }
-        } else {
-            posix_kill($pid, SIGINT);
-        }
+        posix_kill($pid, SIGINT);
     }
 
     /**
