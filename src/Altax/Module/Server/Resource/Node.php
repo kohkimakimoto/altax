@@ -95,7 +95,10 @@ class Node
         $key = $this->key ? $this->key : $this->getDefaultKey();
         if (strpos($key, "~") !== false) {
             // replace ~ to home directory
-            $key = str_replace("~", getenv("HOME"), $key);
+            $key = preg_replace_callback('/^~(?:\/|$)/', function ($m) {
+                return str_replace('~', getenv("HOME"), $m[0]);
+            }, $key);
+
         }
 
         return $key;
@@ -203,4 +206,21 @@ class Node
         }
         $this->referenceRoles = array_merge($this->referenceRoles, $roles);
     }
+<<<<<<< HEAD
 }
+=======
+
+    public function isUsedWithPassphrase()
+    {
+        $keyPath = $this->getKeyOrDefault();
+        $keyFile = file_get_contents($keyPath);
+        return SSHKey::hasPassphrase($keyFile);
+    }
+
+    public function getPassphrase()
+    {
+        return Env::get("server.passphrase");
+    }
+
+}
+>>>>>>> master

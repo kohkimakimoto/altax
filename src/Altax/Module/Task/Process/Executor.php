@@ -35,7 +35,7 @@ class Executor
                     ."".trim(implode(", ", array_keys($this->nodes))));
         }
 
-        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait')) {
+        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
             $this->isParallel = false;
         } else {
             $this->isParallel = true;
@@ -79,8 +79,8 @@ class Executor
             }
             foreach ($nodes as $node) {
                 $this->doExecute($node);
-                return;
             }
+            return;
         }
 
         // Fork process
@@ -244,7 +244,7 @@ class Executor
     {
         foreach ($this->childPids as $pid => $host) {
             $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
-            posix_kill($pid, SIGINT);
+            $this->killProcess($pid);
         }
     }
 
@@ -256,6 +256,11 @@ class Executor
     public function getIsParallel()
     {
         return $this->isParallel;
+    }
+
+    protected function killProcess($pid)
+    {
+        posix_kill($pid, SIGINT);
     }
 
     /**

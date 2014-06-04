@@ -278,12 +278,23 @@ class Process
     }
     public function getRemoteInfoPrefix()
     {
-        return "<info>[</info><comment>".$this->getNodeName().":".posix_getpid()."</comment><info>]</info> ";
+        return "<info>[</info><comment>".$this->getNodeName().":".$this->getPid()."</comment><info>]</info> ";
     }
 
     public function getLocalInfoPrefix()
     {
-        return "<info>[</info><comment>localhost:".posix_getpid()."</comment><info>]</info> ";
+        return "<info>[</info><comment>localhost:".$this->getPid()."</comment><info>]</info> ";
+    }
+
+    protected function getPid()
+    {
+        $pid = null;
+        if (!function_exists('posix_getpid')) {
+            $pid = getmypid();
+        } else {
+            $pid = posix_getpid();
+        }
+        return $pid;
     }
 
     public function getRuntimeTask()
