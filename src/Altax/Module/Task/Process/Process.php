@@ -145,11 +145,8 @@ class Process
                 $key->setPassword($this->node->getPassphrase());
             }
 
-            $keyPath = $this->node->getKeyOrDefault();
-            $keyFile = file_get_contents($keyPath);
-
-            if (!$key->loadKey($keyFile)) {
-                throw new \RuntimeException('Unable to load SSH key file: '.$keyPath);
+            if (!$key->loadKey($this->node->getKeyContents())) {
+                throw new \RuntimeException('Unable to load SSH key file: '.$this->node->getKeyOrDefault());
             }
         }
 
@@ -252,7 +249,7 @@ class Process
             $this->node->getHostOrDefault(), 
             $this->node->getPortOrDefault());
         $key = new \Crypt_RSA();
-        $key->loadKey(file_get_contents($this->node->getKeyOrDefault()));
+        $key->loadKey($this->node->getKeyContents());
         if (!$sftp->login($this->node->getUsernameOrDefault(), $key)) {
             throw new \RuntimeException('Unable to login '.$this->node->getName());
         }

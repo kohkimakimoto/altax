@@ -4,6 +4,7 @@ namespace Altax\Module\Server\Resource;
 use Altax\Util\Arr;
 use Altax\Util\SSHKey;
 use Altax\Module\Env\Facade\Env;
+use Altax\Module\Server\Resource\KeyPassphraseMap;
 
 /**
  * Node represents a managed server.
@@ -25,8 +26,6 @@ class Node
     protected $defaultUsername;
 
     protected $useAgent = false;
-
-    protected $passphrase;
 
     protected $referenceRoles = array();
 
@@ -136,20 +135,17 @@ class Node
 
     public function getPassphrase()
     {
-        // return $this->passphrase;
-        return Env::get("server.passphrase");
-    }
-
-    public function setPassphrase($passphrase)
-    {
-        $this->passphrase = $passphrase;
+        return KeyPassphraseMap::getSharedInstance()->getPassphraseAtKey($this->getKeyOrDefault());
     }
 
     public function isUsedWithPassphrase()
     {
-        $keyPath = $this->getKeyOrDefault();
-        $keyFile = file_get_contents($keyPath);
-        return SSHKey::hasPassphrase($keyFile);
+        return SSHKey::hasPassphrase($this->getKeyContents());
+    }
+
+    public function getKeyContents()
+    {
+        return file_get_contents($this->getKeyOrDefault());
     }
 
     public function setOptions($options)
