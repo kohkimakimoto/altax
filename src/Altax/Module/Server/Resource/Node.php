@@ -207,15 +207,4 @@ class Node
         $this->referenceRoles = array_merge($this->referenceRoles, $roles);
     }
 
-    public function isUsedWithPassphrase()
-    {
-        $keyPath = $this->getKeyOrDefault();
-        $keyFile = file_get_contents($keyPath);
-        return SSHKey::hasPassphrase($keyFile);
-    }
-
-    public function getPassphrase()
-    {
-        return Env::get("server.passphrase");
-    }
 }
