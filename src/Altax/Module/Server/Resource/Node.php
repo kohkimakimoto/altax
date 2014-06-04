@@ -206,9 +206,6 @@ class Node
         }
         $this->referenceRoles = array_merge($this->referenceRoles, $roles);
     }
-<<<<<<< HEAD
-}
-=======
 
     public function isUsedWithPassphrase()
     {
@@ -221,6 +218,4 @@ class Node
     {
         return Env::get("server.passphrase");
     }
-
 }
->>>>>>> master
