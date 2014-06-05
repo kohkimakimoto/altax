@@ -61,5 +61,4 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
         $fs->remove($tmpDir);
         $output->writeln("Done.");
     }
-
 }

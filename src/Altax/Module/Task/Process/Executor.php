@@ -309,5 +309,4 @@ class Executor
 
         return $passphrase;
     }
-
 }

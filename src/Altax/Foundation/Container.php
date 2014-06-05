@@ -275,6 +275,4 @@ class Container implements \ArrayAccess, \Iterator, \Countable
      public function count() {
         return count($this->instances);
     }
-
 }
-

@@ -71,5 +71,4 @@ class Str
 
         return str_replace(' ', '', $value);
     }
-
 }

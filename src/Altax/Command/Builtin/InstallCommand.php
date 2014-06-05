@@ -81,5 +81,4 @@ class InstallCommand extends \Composer\Command\InstallCommand
 
         return $workingDir;
     }
-
 }

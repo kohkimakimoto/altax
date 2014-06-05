@@ -114,5 +114,4 @@ class RuntimeTask
         $input = new ArrayInput($arguments);
         return $command->run($this->input, $this->output);
     }
-
 }

@@ -106,5 +106,4 @@ class ServerModule extends Module
     {
         return $this->container->get("roles/".$name, null);
     }
-
 }

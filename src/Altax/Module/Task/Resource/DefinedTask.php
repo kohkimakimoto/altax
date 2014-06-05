@@ -215,6 +215,4 @@ class DefinedTask
     {
         return $this->setConfig($config);
     }
-
-
 }
