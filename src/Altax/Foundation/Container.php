@@ -22,7 +22,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * git commit hash.
      */
-    const COMMIT = "f5a7291b30b78f72417a57147500ce1ae9d756f1";
+    const COMMIT = "%commit%";
 
     /**
      * Configuration file paths to load.
