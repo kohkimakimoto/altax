@@ -17,7 +17,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Version of the application.
      */
-    const VERSION = "3.0.10";
+    const VERSION = "3.0.11";
 
     /**
      * git commit hash.
@@ -275,6 +275,4 @@ class Container implements \ArrayAccess, \Iterator, \Countable
      public function count() {
         return count($this->instances);
     }
-
 }
-

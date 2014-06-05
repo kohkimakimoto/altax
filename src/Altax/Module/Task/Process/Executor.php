@@ -6,8 +6,11 @@ use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
 use Altax\Module\Task\Process\Process;
 use Altax\Util\Arr;
+use Altax\Module\Server\Resource\KeyPassphraseMap;
 
-
+/**
+ * Executor
+ */
 class Executor
 {
     protected $runtimeTask;
@@ -44,6 +47,8 @@ class Executor
     {
         $nodes = $this->getNodes();
 
+        // TODO: support different keys for each node.
+        /*
         if (Env::get("server.passphrase") === null) {
             // Check whether passphrase is required.
             $hasPassphrase = false;
@@ -58,6 +63,19 @@ class Executor
             if ($hasPassphrase) {
                 $passphrase = $this->askPassphrase($validatingKey);
                 Env::set("server.passphrase", $passphrase);
+            }
+        }
+        */
+
+        foreach ($nodes as $node) {
+            if (!$node->useAgent() 
+                && $node->isUsedWithPassphrase()
+                && !KeyPassphraseMap::getSharedInstance()->hasPassphraseAtKey($node->getKeyOrDefault())
+                ) {
+                $passphrase = $this->askPassphrase($node->getKeyOrDefault());
+                KeyPassphraseMap::getSharedInstance()->setPassphraseAtKey(
+                    $node->getKeyOrDefault(),
+                    $passphrase);
             }
         }
 
@@ -272,7 +290,7 @@ class Executor
 
         $passphrase = $dialog->askHiddenResponseAndValidate(
             $output,
-            '<info>Enter passphrase for SSH key: </info>',
+            '<info>Enter passphrase for SSH key [<comment>'.$validatingKey.'</comment>]: </info>',
             function($answer) use ($validatingKey) {
 
                 $key = new \Crypt_RSA();
@@ -291,5 +309,4 @@ class Executor
 
         return $passphrase;
     }
-
 }

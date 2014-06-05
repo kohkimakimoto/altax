@@ -4,6 +4,9 @@ namespace Altax\Module\Task\Resource;
 use Symfony\Component\Console\Input\ArrayInput;
 use Altax\Module\Task\Process\Executor;
 
+/**
+ * Runtime task
+ */
 class RuntimeTask
 {
     protected $task;
@@ -111,5 +114,4 @@ class RuntimeTask
         $input = new ArrayInput($arguments);
         return $command->run($this->input, $this->output);
     }
-
 }

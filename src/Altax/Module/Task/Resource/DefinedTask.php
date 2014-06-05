@@ -1,10 +1,13 @@
 <?php
 namespace Altax\Module\Task\Resource;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Altax\Module\Task\Process\Process;
 use Altax\Command\ClosureTaskCommand;
-use Symfony\Component\Console\Input\ArrayInput;
 
+/**
+ * Defined Task
+ */
 class DefinedTask
 {
     protected $container;
@@ -212,6 +215,4 @@ class DefinedTask
     {
         return $this->setConfig($config);
     }
-
-
 }

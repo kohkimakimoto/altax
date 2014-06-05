@@ -80,5 +80,4 @@ class RequireCommand extends \Composer\Command\RequireCommand
 
         return $workingDir;
     }
-
 }

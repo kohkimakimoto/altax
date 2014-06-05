@@ -46,5 +46,4 @@ EOL;
             self::CONTENT_OF_AUTOLOAD_FILES
         );
     }
-
 }

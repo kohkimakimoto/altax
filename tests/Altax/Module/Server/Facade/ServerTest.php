@@ -31,5 +31,4 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         Server::node("web1.exsample.com");
         Server::node("web2.exsample.com");
     }
-
 }

@@ -25,5 +25,4 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("bbb", Env::get("aaa"));
 
     }
-
 }
