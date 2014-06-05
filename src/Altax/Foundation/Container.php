@@ -17,12 +17,12 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Version of the application.
      */
-    const VERSION = "3.0.10";
+    const VERSION = "3.0.11";
 
     /**
      * git commit hash.
      */
-    const COMMIT = "%commit%";
+    const COMMIT = "f5a7291b30b78f72417a57147500ce1ae9d756f1";
 
     /**
      * Configuration file paths to load.
