@@ -11,13 +11,17 @@
     }
   ],
   "require": {
-    "php": ">=5.3.0",
+    "php": ">=5.4.0",
     "composer/composer": "1.0.*@dev",
+    "symfony/process": "2.5.*",
     "symfony/console": "2.5.*",
     "symfony/filesystem": "2.5.*",
     "symfony/yaml": "2.5.*",
     "symfony/finder": "2.5.*",
-    "symfony/process": "2.5.*",
+    "illuminate/container": "4.*",
+    "illuminate/support": "4.*",
+    "illuminate/config": "4.*",
+    "illuminate/events": "4.*",
     "phpseclib/phpseclib": "0.3.*"
   },
   "scripts": {
@@ -29,7 +33,7 @@
     ]
   },
   "require-dev": {
-    "phpunit/phpunit": "3.*",
+    "phpunit/phpunit": "4.*",
     "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {
@@ -37,7 +41,7 @@
   },
   "extra": {
       "branch-alias": {
-          "dev-master": "3.0.x-dev"
+          "dev-master": "3.1.x-dev"
       }
   },
   "bin": ["bin/altax"]
