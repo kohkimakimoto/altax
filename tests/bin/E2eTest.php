@@ -21,16 +21,14 @@ class E2eTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testRunTaskTest002()
-    {   
-        // Just runs task.
-        
+    {
         $bin = realpath(__DIR__."/../../bin/altax");
         $currentDir = __DIR__;
         $process = new Process("cd $currentDir && php $bin test002");
         $process->run();
         $this->assertEquals(true, $process->isSuccessful());
 
-        // echo $process->getOutput();
+        $this->assertRegExp("/run locally!/", $process->getOutput());
     }
 
 }

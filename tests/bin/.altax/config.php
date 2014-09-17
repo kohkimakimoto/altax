@@ -10,5 +10,14 @@ Task::register("test001", function($task){
 
 Task::register("test002", function($task){
 
+    $task->exec(function($process){
+        $process->runLocally("echo run locally!");
+    });
 });
 
+Task::register("test003", function($task){
+
+    $task->exec(function($process){
+        $process->run("echo run!");
+    }, array("127.0.0.1"));
+});
