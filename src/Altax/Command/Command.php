@@ -12,7 +12,7 @@ use Altax\Task\RuntimeTask;
  */
 abstract class Command extends SymfonyCommand
 {
-    protected $definedTask;
+    protected $task;
 
     protected $ancestry = array();
 
@@ -21,30 +21,30 @@ abstract class Command extends SymfonyCommand
         return $this->getApplication()->getContainer();
     }
 
-    public function __construct($definedTask)
+    public function __construct($task)
     {
-        $this->definedTask = $definedTask;
-        $this->setName($this->definedTask->getName());
+        $this->task = $task;
+        $this->setName($this->task->getName());
 
         parent::__construct();
 
         // Override the command name.
-        $this->setName($this->definedTask->getName());
+        $this->setName($this->task->getName());
         // Override the command description.
-        if ($this->definedTask->hasDescription()) {
-            $this->setDescription($this->definedTask->getDescription());
+        if ($this->task->hasDescription()) {
+            $this->setDescription($this->task->getDescription());
         }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runtimeTask = new RuntimeTask($this, $this->definedTask, $input, $output);
+        $runtimeTask = new RuntimeTask($this, $this->task, $input, $output);
 
         if ($output->isVerbose()) {
-            $output->writeln("<info>Starting </info>".$this->definedTask->getName());
+            $output->writeln("<info>Starting </info>".$this->task->getName());
         }
 
-        $this->ancestry[] = $this->definedTask->getName();
+        $this->ancestry[] = $this->task->getName();
 
         if ($output->isDebug()) {
             $output->writeln("<info>Current ancestry is </info>".implode(" > ", $this->ancestry));
@@ -53,7 +53,7 @@ abstract class Command extends SymfonyCommand
         $this->runBeforeTask($output);
 
         if ($output->isVerbose()) {
-            $output->writeln("<info>Running </info>".$this->definedTask->getName());
+            $output->writeln("<info>Running </info>".$this->task->getName());
         }
 
         $retVal = $this->fire($runtimeTask);
@@ -61,7 +61,7 @@ abstract class Command extends SymfonyCommand
         $this->runAfterTask($output);
 
         if ($output->isVerbose()) {
-            $output->writeln("<info>Finished </info>".$this->definedTask->getName());
+            $output->writeln("<info>Finished </info>".$this->task->getName());
         }
 
         return $retVal;
@@ -72,19 +72,19 @@ abstract class Command extends SymfonyCommand
         throw new \RuntimeException("You need to override 'fire' method.");
     }
 
-    public function getDefinedTask()
+    public function getTask()
     {
-        return $this->definedTask;
+        return $this->task;
     }
 
     public function getTaskConfig()
     {
-        return $this->definedTask->getConfig();
+        return $this->task->getConfig();
     }
 
     protected function runBeforeTask($output)
     {
-        $tasks = $this->definedTask->getBeforeTasks();
+        $tasks = $this->task->getBeforeTasks();
         foreach ($tasks as $task) {
 
             if ($output->isVerbose()) {
@@ -113,7 +113,7 @@ abstract class Command extends SymfonyCommand
 
     protected function runAfterTask($output)
     {
-        $tasks = $this->definedTask->getAfterTasks();
+        $tasks = $this->task->getAfterTasks();
         foreach ($tasks as $task) {
 
             if ($output->isVerbose()) {

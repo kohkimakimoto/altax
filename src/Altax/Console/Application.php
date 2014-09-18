@@ -152,6 +152,24 @@ EOL;
         return $helperSet;
     }
 
+    public function all($namespace = null)
+    {
+        $commands = parent::all($namespace);
+
+        // Remove hidden command to prevent listing commands by ListCommand
+        foreach ($commands as $name => $command) {
+            if (method_exists($command, "getTask")) {
+                // Consider the command Altax\Command\Command instance
+                $task = $command->getTask();
+                if ($task->isHidden()) {
+                    unset($commands[$name]);
+                }
+            }
+        }
+
+        return $commands;
+    }
+
     /*
     public function doRun(InputInterface $input, OutputInterface $output)
     {

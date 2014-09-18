@@ -10,12 +10,12 @@ use Altax\Command\Command;
 class ClosureTaskCommand extends Command
 {
 
-    public function __construct($definedTask)
+    public function __construct($task)
     {
-        if (!$definedTask->hasClosure()) {
+        if (!$task->hasClosure()) {
             throw new \RuntimeException("The task don't have a closure");
         }
-        parent::__construct($definedTask);
+        parent::__construct($task);
     }
 
     protected function configure()
@@ -31,6 +31,6 @@ class ClosureTaskCommand extends Command
 
     protected function fire($task)
     {
-        return call_user_func($this->definedTask->getClosure(), $task);
+        return call_user_func($this->task->getClosure(), $task);
     }
 }
