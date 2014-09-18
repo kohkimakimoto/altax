@@ -4,7 +4,7 @@ namespace Altax\Module\Env;
 use Altax\Foundation\Module;
 
 /**
- * Env module 
+ * Env module
  */
 class EnvModule extends Module
 {
@@ -25,7 +25,7 @@ class EnvModule extends Module
     {
         $this->vars[$key] = $value;
     }
-    
+
     public function get($key, $default = null)
     {
         return isset($this->vars[$key]) ? $this->vars[$key] : $default;

@@ -1,8 +1,6 @@
 <?php
 namespace Altax\Module\Task\Resource;
 
-use Symfony\Component\Console\Input\ArrayInput;
-use Altax\Module\Task\Process\Process;
 use Altax\Command\ClosureTaskCommand;
 
 /**
@@ -42,6 +40,7 @@ class DefinedTask
     public function setContainer($container)
     {
         $this->container = $container;
+
         return $this;
     }
 
@@ -53,6 +52,7 @@ class DefinedTask
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -73,6 +73,7 @@ class DefinedTask
         }
 
         $this->closure = $closure;
+
         return $this;
     }
 
@@ -89,6 +90,7 @@ class DefinedTask
     public function setCommandClass($commandClass)
     {
         $this->commandClass = $commandClass;
+
         return $this;
     }
 
@@ -102,10 +104,10 @@ class DefinedTask
         return isset($this->commandClass);
     }
 
-
     public function setConfig($config)
     {
         $this->config = $config;
+
         return $this;
     }
 
@@ -124,6 +126,7 @@ class DefinedTask
             }
             $tasks[] = $task;
         }
+
         return $tasks;
     }
 
@@ -137,11 +140,12 @@ class DefinedTask
             }
             $tasks[] = $task;
         }
+
         return $tasks;
     }
 
     public function createCommandInstance()
-    {   
+    {
         $command = null;
         if ($this->hasClosure()) {
             $command = new ClosureTaskCommand($this);
@@ -153,13 +157,13 @@ class DefinedTask
                 // The task class is not defined.
                 // Replace closure task with alert description.
                 $class = $this->getCommandClass();
-                $this->setClosure(function($task) use ($class) {
+                $this->setClosure(function ($task) use ($class) {
                     $task->writeln("<error>This task references unresolved class '$class'</error>");
                 });
                 $this->setDescription("<error>This task references unresolved class '$class'</error>".$this->getDescription());
                 $command = new ClosureTaskCommand($this);
             }
-            
+
         } else {
             throw new \RuntimeException("Couldn't create command instance from a task named '".$this->name."'.");
         }
@@ -175,7 +179,7 @@ class DefinedTask
     public function before()
     {
         $args = func_get_args();
-        
+
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $this->beforeTaskNames[] = $arg;
@@ -183,13 +187,14 @@ class DefinedTask
                 $this->beforeTaskNames = array_merge($this->beforeTaskNames, $arg);
             }
         }
+
         return $this;
     }
 
     public function after()
     {
         $args = func_get_args();
-        
+
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $this->afterTaskNames[] = $arg;
@@ -197,12 +202,14 @@ class DefinedTask
                 $this->afterTaskNames = array_merge($this->afterTaskNames, $arg);
             }
         }
+
         return $this;
     }
 
     public function hidden()
     {
         $this->isHidden = true;
+
         return $this;
     }
 

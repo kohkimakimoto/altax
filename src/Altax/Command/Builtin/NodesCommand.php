@@ -1,11 +1,9 @@
 <?php
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputDefinition;
 
 /**
@@ -68,7 +66,7 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
             } else {
                 $output->writeln('There are not any nodes.');
             }
-        } else if ('json' === $format) {
+        } elseif ('json' === $format) {
             $data = array();
             if ($nodes) {
                 $isDetail = $input->getOption('detail');

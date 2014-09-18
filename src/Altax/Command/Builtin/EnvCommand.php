@@ -1,9 +1,7 @@
 <?php
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Altax\Module\Env\Facade\Env;
 
@@ -24,9 +22,9 @@ class EnvCommand extends \Symfony\Component\Console\Command\Command
     {
         $table = $this->getHelperSet()->get('table');
         $table->setHeaders(array('key', 'value'));
-        
+
         $vars = Env::getVars();
-        
+
         foreach ($vars as $key => $value) {
             $table->addRow(array(
                 $key,

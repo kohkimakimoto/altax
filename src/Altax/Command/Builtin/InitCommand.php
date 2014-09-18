@@ -1,7 +1,6 @@
 <?php
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,7 +34,7 @@ if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/a
 //
 // Examples:
 //
-//   Task::register('hello', function(\$task){
+//   Task::register('hello', function (\$task) {
 //
 //       \$task->writeln("Hello world!");
 //
@@ -76,7 +75,7 @@ EOL;
     {
         $configurationPath = getcwd()."/.altax/config.php";
 
-        if($input->getOption('global')) {
+        if ($input->getOption('global')) {
             $configurationPath = getenv("HOME")."/.altax/config.php";
         }
 

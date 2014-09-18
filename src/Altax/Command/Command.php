@@ -1,9 +1,7 @@
 <?php
 namespace Altax\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Altax\Module\Task\Resource\RuntimeTask;
@@ -59,7 +57,6 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
         $retVal = $this->fire($runtimeTask);
 
         $this->runAfterTask($output);
-
 
         if ($output->isVerbose()) {
             $output->writeln("<info>Finished </info>".$this->definedTask->getName());

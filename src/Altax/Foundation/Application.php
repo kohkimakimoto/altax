@@ -2,7 +2,6 @@
 namespace Altax\Foundation;
 
 use Illuminate\Container\Container;
-use Altax\Foundation\AliasLoader;
 
 /**
  * Altax Application
@@ -39,7 +38,8 @@ class Application extends Container
     public function registerBuiltinAliases()
     {
         $aliases = array(
-
+            'App'    => 'Altax\Facade\App',
+            'Server' => 'Altax\Facade\Server',
         );
         AliasLoader::getInstance($aliases)->register();
     }
@@ -47,7 +47,9 @@ class Application extends Container
     public function registerBuiltinProviders()
     {
         $providers = array(
-
+            'Illuminate\Events\EventServiceProvider',
+            'Illuminate\Filesystem\FilesystemServiceProvider',
+            'Altax\Server\ServerServiceProvider',
         );
         $this->registerProviders($providers);
     }

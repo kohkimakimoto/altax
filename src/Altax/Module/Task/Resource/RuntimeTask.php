@@ -63,7 +63,7 @@ class RuntimeTask
 
     public function getArguments()
     {
-        if ($this->input->hasArgument('args') 
+        if ($this->input->hasArgument('args')
             && $args = $this->input->getArgument('args')) {
             return $args;
         } else {
@@ -83,6 +83,7 @@ class RuntimeTask
         } else {
             $retVal = $default;
         }
+
         return $retVal;
     }
 
@@ -108,10 +109,11 @@ class RuntimeTask
         if (!$command) {
             throw new \RuntimeException("Not found a before task command '$taskName'.");
         }
-        
+
         $arguments['command'] = $taskName;
 
         $input = new ArrayInput($arguments);
+
         return $command->run($this->input, $this->output);
     }
 }

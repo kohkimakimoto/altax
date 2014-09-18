@@ -6,38 +6,41 @@ namespace Altax\Module\Server\Resource;
  */
 class KeyPassphraseMap
 {
-	private static $instance = null;
+    private static $instance = null;
 
-	protected $map = array();
+    protected $map = array();
 
-	public static function getSharedInstance()
-	{
-		if (!self::$instance) {
-			self::$instance = new KeyPassphraseMap();
-		}
-		return self::$instance;
-	}
+    public static function getSharedInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new KeyPassphraseMap();
+        }
 
-	public function setPassphraseAtKey($keyPath, $passphrase)
-	{
-		$this->map[realpath($keyPath)] = $passphrase;
-		return $this;
-	}
+        return self::$instance;
+    }
 
-	public function getPassphraseAtKey($keyPath)
-	{
-		if (!array_key_exists(realpath($keyPath), $this->map)) {
-			return null;
-		}
-		return $this->map[realpath($keyPath)];
-	}
+    public function setPassphraseAtKey($keyPath, $passphrase)
+    {
+        $this->map[realpath($keyPath)] = $passphrase;
 
-	public function hasPassphraseAtKey($keyPath)
-	{
-		if ($this->getPassphraseAtKey($keyPath) === null) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+        return $this;
+    }
+
+    public function getPassphraseAtKey($keyPath)
+    {
+        if (!array_key_exists(realpath($keyPath), $this->map)) {
+            return null;
+        }
+
+        return $this->map[realpath($keyPath)];
+    }
+
+    public function hasPassphraseAtKey($keyPath)
+    {
+        if ($this->getPassphraseAtKey($keyPath) === null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

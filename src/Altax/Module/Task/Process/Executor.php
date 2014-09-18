@@ -4,7 +4,6 @@ namespace Altax\Module\Task\Process;
 use Altax\Module\Env\Facade\Env;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
-use Altax\Module\Task\Process\Process;
 use Altax\Util\Arr;
 use Altax\Module\Server\Resource\KeyPassphraseMap;
 
@@ -68,7 +67,7 @@ class Executor
         */
 
         foreach ($nodes as $node) {
-            if (!$node->useAgent() 
+            if (!$node->useAgent()
                 && $node->isUsedWithPassphrase()
                 && !KeyPassphraseMap::getSharedInstance()->hasPassphraseAtKey($node->getKeyOrDefault())
                 ) {
@@ -82,9 +81,11 @@ class Executor
         // If target nodes count <= 1, It doesn't need to fork processes.
         if (count($nodes) === 0) {
             $this->doExecute(null);
+
             return;
         } elseif (count($nodes) === 1) {
             $this->doExecute(reset($nodes));
+
             return;
         }
 
@@ -95,6 +96,7 @@ class Executor
             foreach ($nodes as $node) {
                 $this->doExecute($node);
             }
+
             return;
         }
 
@@ -108,7 +110,7 @@ class Executor
             if ($pid === -1) {
                 // Error
                 throw new \RuntimeException("Fork Error.");
-            } else if ($pid) {
+            } elseif ($pid) {
                 // Parent process
                 $this->childPids[$pid] = $node;
             } else {
@@ -226,7 +228,7 @@ class Executor
             }
 
             if ($role) {
-                foreach($role as $nodeName) {
+                foreach ($role as $nodeName) {
                     $concreteNodes[$nodeName] = Server::getNode($nodeName);
                 }
             }
@@ -291,7 +293,7 @@ class Executor
         $passphrase = $dialog->askHiddenResponseAndValidate(
             $output,
             '<info>Enter passphrase for SSH key [<comment>'.$validatingKey.'</comment>]: </info>',
-            function($answer) use ($validatingKey) {
+            function ($answer) use ($validatingKey) {
 
                 $key = new \Crypt_RSA();
                 $key->setPassword($answer);

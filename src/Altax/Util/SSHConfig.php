@@ -45,6 +45,7 @@ class SSHConfig
             }
 
         }
+
         return $nodesOptions;
     }
 
@@ -56,17 +57,18 @@ class SSHConfig
                 $servers = array_merge($servers, SSHConfig::parse(file_get_contents($file)));
             }
         }
+
         return $servers;
     }
 
     // Refering the following code.
     //   https://gist.github.com/geeksunny/3376694
     //   https://github.com/fitztrev/shuttle
-    
+
     /**
      * parse ssh config
      * @param  [type] $contents [description]
-     * @return [type]           [description]
+     * @return [type] [description]
      */
     public static function parse($contents)
     {
@@ -77,7 +79,7 @@ class SSHConfig
             $line = trim($line);
 
             if (preg_match(
-                "/^(#?)[\s\t]*([^#\s\t=]+)[\s\t=]+(.*)$/", 
+                "/^(#?)[\s\t]*([^#\s\t=]+)[\s\t=]+(.*)$/",
                 $line,
                 $matches)) {
 
@@ -95,7 +97,7 @@ class SSHConfig
                 }
 
                 // Ignore commented line.
-                if ($isComment)  {
+                if ($isComment) {
                     continue;
                 }
 

@@ -3,20 +3,17 @@
 namespace Altax\Console;
 
 use Symfony\Component\Console\Application as SymfonyApplication;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Finder\Finder;
 
 use Altax\Foundation\Application as BaseApplication;
 use Altax\Foundation\ModuleFacade;
-use Altax\Util\Str;
 
 /**
  * Altax console application
@@ -134,6 +131,7 @@ EOL;
         $definition->addOptions(array(
             new InputOption('--file', '-f', InputOption::VALUE_REQUIRED, 'Specifies configuration file to load.')
         ));
+
         return $definition;
     }
 
@@ -141,6 +139,7 @@ EOL;
     {
         $helperSet = parent::getDefaultHelperSet();
         $helperSet->set(new \Composer\Command\Helper\DialogHelper());
+
         return $helperSet;
     }
 

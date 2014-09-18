@@ -7,10 +7,10 @@ namespace Altax\Util;
 class SSHKey
 {
     /**
-     * Checking if the keyfile has passphrase. 
-     * 
+     * Checking if the keyfile has passphrase.
+     *
      * see http://superuser.com/questions/201003/checking-ssh-keys-have-passphrases
-     * 
+     *
      * @param  string  $keyFile SSH key file data
      * @return boolean
      */

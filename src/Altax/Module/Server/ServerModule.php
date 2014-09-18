@@ -7,7 +7,7 @@ use Altax\Util\Arr;
 use Altax\Util\SSHConfig;
 
 /**
- * Server module 
+ * Server module
  */
 class ServerModule extends Module
 {
@@ -54,7 +54,7 @@ class ServerModule extends Module
         if ($roles) {
             if (is_string($roles)) {
                 $this->role($roles, $node->getName());
-            } else if (is_array($roles)) {
+            } elseif (is_array($roles)) {
                 foreach ($roles as $role) {
                     $this->role($role, $node->getName());
                 }
@@ -100,7 +100,6 @@ class ServerModule extends Module
     {
         return $this->container->get("nodes/".$name, null);
     }
-
 
     public function getRole($name)
     {

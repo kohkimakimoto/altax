@@ -8,7 +8,7 @@ class Str
 {
     /*
     This class is references `Illuminate\Support\Str` that is a part of laravel framework.
-      
+
     see https://github.com/laravel/framework
 
     The MIT License (MIT)
@@ -37,7 +37,7 @@ class Str
     /**
      * Convert a value to camel case.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return string
      */
     public static function camel($value)
@@ -48,8 +48,8 @@ class Str
     /**
      * Convert a string to snake case.
      *
-     * @param  string  $value
-     * @param  string  $delimiter
+     * @param  string $value
+     * @param  string $delimiter
      * @return string
      */
     public static function snake($value, $delimiter = '_')
@@ -62,7 +62,7 @@ class Str
     /**
      * Convert a value to studly caps case.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return string
      */
     public static function studly($value)

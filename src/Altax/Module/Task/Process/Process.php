@@ -5,9 +5,6 @@ use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
 use Altax\Module\Server\Facade\Server;
 use Altax\Module\Server\Resource\Node;
-use Altax\Module\Task\Process\ProcessResult;
-use Altax\Util\Arr;
-use Altax\Util\SSHKey;
 
 class Process
 {
@@ -22,8 +19,8 @@ class Process
 
     /**
      * Runing a command on remote server.
-     * @param  string $commandline
-     * @param  array  $options
+     * @param  string        $commandline
+     * @param  array         $options
      * @return ProcessResult
      */
     public function run($commandline, $options = array())
@@ -60,13 +57,14 @@ class Process
         });
 
         $returnCode = $ssh->getExitStatus();
+
         return new ProcessResult($returnCode, $resultContent);
     }
 
     /**
      * Running a command on local machine.
-     * @param  string $commandline
-     * @param  array  $options
+     * @param  string        $commandline
+     * @param  array         $options
      * @return ProcessResult
      */
     public function runLocally($commandline, $options = array())
@@ -96,6 +94,7 @@ class Process
             $self->getRuntimeTask()->getOutput()->write($buffer);
             $resultContent .= $buffer;
         });
+
         return new ProcessResult($returnCode, $resultContent);
     }
 
@@ -103,11 +102,11 @@ class Process
     {
 
         $realCommand = "";
-        
+
         if (isset($options["user"])) {
             $realCommand .= 'sudo -u'.$options["user"].' TERM=dumb ';
         }
-        
+
         $realCommand .= '/bin/bash -l -c "';
 
         if (isset($options["cwd"])) {
@@ -159,7 +158,6 @@ class Process
 
         return $ssh;
     }
-
 
     public function get($remote, $local)
     {
@@ -213,7 +211,7 @@ class Process
         $this->runtimeTask->getOutput()->writeln($this->getRemoteInfoPrefix()."<info>Put: </info>$local -> $remote");
 
         $sftp = $this->getSFTP();
-        
+
         if (!is_file($local)) {
            throw new \RuntimeException("Couldn't put: $local -> $remote");
         }
@@ -246,7 +244,7 @@ class Process
     protected function getSFTP()
     {
         $sftp = new \Net_SFTP(
-            $this->node->getHostOrDefault(), 
+            $this->node->getHostOrDefault(),
             $this->node->getPortOrDefault());
         $key = new \Crypt_RSA();
         $key->loadKey($this->node->getKeyContents());
@@ -291,6 +289,7 @@ class Process
         } else {
             $pid = posix_getpid();
         }
+
         return $pid;
     }
 

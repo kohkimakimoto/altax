@@ -4,7 +4,6 @@ namespace Altax\Module\Server\Resource;
 use Altax\Util\Arr;
 use Altax\Util\SSHKey;
 use Altax\Module\Env\Facade\Env;
-use Altax\Module\Server\Resource\KeyPassphraseMap;
 
 /**
  * Node represents a managed server.
@@ -117,7 +116,7 @@ class Node
     {
         $this->defaultUsername = $defaultUsername;
     }
-    
+
     public function getDefaultUsername()
     {
         return $this->defaultUsername ? $this->defaultUsername : Env::get("server.username");
@@ -149,7 +148,7 @@ class Node
     }
 
     public function setOptions($options)
-    {   
+    {
         if (!is_array($options)) {
             throw new \RuntimeException("You must pass option as Array");
         }
@@ -171,7 +170,7 @@ class Node
         }
 
         if (isset($options["agent"])) {
-            $this->useAgent = (bool)$options["agent"];
+            $this->useAgent = (bool) $options["agent"];
         }
     }
 

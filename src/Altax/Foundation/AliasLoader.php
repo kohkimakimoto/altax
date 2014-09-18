@@ -5,7 +5,7 @@ namespace Altax\Foundation;
 
 /**
  * AliasLoader
- * 
+ *
  */
 class AliasLoader
 {
