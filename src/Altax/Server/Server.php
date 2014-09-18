@@ -117,7 +117,7 @@ class Server
 
     public function nodesFromSSHConfigHosts()
     {
-        $nodesOptions = SSHConfig::parseToNodeOptionsFromFiles(array(
+        $nodesOptions = SSHConfigParser::parseToNodeOptionsFromFiles(array(
             "/etc/ssh_config",
             "/etc/ssh/ssh_config",
             getenv("HOME")."/.ssh/config",

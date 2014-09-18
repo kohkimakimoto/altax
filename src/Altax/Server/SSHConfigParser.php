@@ -1,12 +1,11 @@
 <?php
-namespace Altax\Util;
+namespace Altax\Server;
 
 /**
  * Utility class for ssh config.
  */
-class SSHConfig
+class SSHConfigParser
 {
-
     public static function parseToNodeOptionsFromFiles($files = array())
     {
         $nodesOptions = array();
@@ -54,7 +53,7 @@ class SSHConfig
         $servers = array();
         foreach ($files as $file) {
             if (is_file($file)) {
-                $servers = array_merge($servers, SSHConfig::parse(file_get_contents($file)));
+                $servers = array_merge($servers, self::parse(file_get_contents($file)));
             }
         }
 
