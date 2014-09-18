@@ -11,6 +11,12 @@ use Illuminate\Support\ClassLoader;
 use Altax\Foundation\AliasLoader;
 use Altax\Foundation\Application;
 
+/**
+ * Boot altax application.
+ * @param  array   $configs [description]
+ * @param  boolean $cli     [description]
+ * @return [type]           [description]
+ */
 function bootAltaxApplication(array $configs = array(), $cli = true)
 {
     if ($cli) {
@@ -71,35 +77,20 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
     return $app;
 }
 
-/*
-    if ($config !== null) {
-        $config = realpath($config);
-        $fs = new SymfonyFilesystem();
-        $config = $fs->makePathRelative($config, realpath(__DIR__."/../config"));
+// ------------------------------------------------------------
+// helper functions
+// ------------------------------------------------------------
+
+/**
+ * If it is vector array.
+ * @param  [type]  $array [description]
+ * @return boolean        [description]
+ */
+function is_vector($array)
+{
+    if (array_values($array) === $array) {
+      return true;
     } else {
-        $config = 'dummy';
+      return false;
     }
-
-    $app->instance('config', $repository = new Repository(
-        new FileLoader(new Filesystem(), realpath(__DIR__."/../config")), $config
-    ));
-
-    $classmapDirectories = $repository['app.classmap_directories'];
-    ClassLoader::addDirectories($classmapDirectories);
-    ClassLoader::register();
-
-    // Default input and output.
-    // Generally, these objects will be overrided by console application process.
-    $app->instance('input', new ArgvInput());
-    $app->instance('output', new ConsoleOutput());
-
-    $aliases = $repository['app.aliases'];
-
-    AliasLoader::getInstance($aliases)->register();
-
-    $app->registerBuiltinProviders();
-
-    $providers = $repository['app.providers'];
-
-    $app->registerProviders($providers);
-*/
+}

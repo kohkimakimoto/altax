@@ -1,9 +1,9 @@
 <?php
-namespace Altax\Server;
+namespace Altax\Env;
 
 use Illuminate\Support\ServiceProvider;
 
-class ServerServiceProvider extends ServiceProvider
+class EnvServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
@@ -12,8 +12,8 @@ class ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('server', function ($app) {
-            return new Server();
+        $this->app->bindShared('env', function ($app) {
+            return new Env();
         });
     }
 }
