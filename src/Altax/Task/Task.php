@@ -9,17 +9,27 @@ use Altax\Command\ClosureTaskCommand;
 class Task
 {
     protected $name;
+
+    protected $taskManager;
+
     protected $closure;
+
     protected $commandClass;
+
     protected $description;
+
     protected $beforeTaskNames = array();
+
     protected $afterTaskNames = array();
+
     protected $isHidden = false;
+
     protected $config = array();
 
-    public function __construct($name)
+    public function __construct($name, TaskManager $taskManager)
     {
         $this->name = $name;
+        $this->taskManager = $taskManager;
     }
 
     public function setName($name)
@@ -103,7 +113,7 @@ class Task
     {
         $tasks = array();
         foreach ($this->beforeTaskNames as $taskName) {
-            $task = $this->container->get("tasks/".$taskName, null);
+            $task = $this->taskManager->getTask($taskName);
             if (!$task) {
                 throw new \RuntimeException("Registered before task '$taskName' is not found.");
             }
@@ -117,7 +127,7 @@ class Task
     {
         $tasks = array();
         foreach ($this->afterTaskNames as $taskName) {
-            $task = $this->container->get("tasks/".$taskName, null);
+            $task = $this->taskManager->getTask($taskName);
             if (!$task) {
                 throw new \RuntimeException("Registered after task '$taskName' is not found.");
             }
@@ -166,7 +176,7 @@ class Task
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $this->beforeTaskNames[] = $arg;
-            } elseif (\Altax\Util\Arr::isVector($arg)) {
+            } elseif (is_vector($arg)) {
                 $this->beforeTaskNames = array_merge($this->beforeTaskNames, $arg);
             }
         }
@@ -181,7 +191,7 @@ class Task
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $this->afterTaskNames[] = $arg;
-            } elseif (\Altax\Util\Arr::isVector($arg)) {
+            } elseif (is_vector($arg)) {
                 $this->afterTaskNames = array_merge($this->afterTaskNames, $arg);
             }
         }

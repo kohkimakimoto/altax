@@ -2,9 +2,9 @@
 namespace Altax\Task;
 
 /**
- * TaskBuilder
+ * TaskManager
  */
-class TaskBuilder
+class TaskManager
 {
     protected $tasks = array();
 
@@ -16,7 +16,7 @@ class TaskBuilder
             throw new \InvalidArgumentException("Missing argument. Must 2 arguments at minimum.");
         }
 
-        $task = new Task($args[0]);
+        $task = new Task($args[0], $this);
 
         if ($args[1] instanceof \Closure) {
             // Task is a closure
