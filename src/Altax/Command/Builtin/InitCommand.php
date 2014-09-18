@@ -4,12 +4,14 @@ namespace Altax\Command\Builtin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Filesystem\Filesystem;
+
 
 /**
  * Init Command
  */
-class InitCommand extends \Symfony\Component\Console\Command\Command
+class InitCommand extends SymfonyCommand
 {
     const TEMPLATE = <<<EOL
 <?php

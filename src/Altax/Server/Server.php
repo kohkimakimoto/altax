@@ -9,6 +9,11 @@ class Server
     {
     }
 
+    public function nodes()
+    {
+        return $this->nodes;
+    }
+
     public function node()
     {
         $args = func_get_args();

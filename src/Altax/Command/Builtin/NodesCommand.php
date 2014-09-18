@@ -5,43 +5,61 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+
+use Server;
 
 /**
  * Nodes Command
  */
-class NodesCommand extends \Symfony\Component\Console\Command\Command
+class NodesCommand extends SymfonyCommand
 {
     protected function configure()
     {
         $this
             ->setName('nodes')
-            ->setDefinition(new InputDefinition(array(
-                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'To output list in other formats', 'txt')
-            )))
             ->setDescription('Displays nodes')
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'To output list in other formats (txt|txt-no-header|json)',
+                'txt'
+            )
             ->addOption(
                 'detail',
                 'd',
                 InputOption::VALUE_NONE,
                 'Shows detail infomation'
-            );
+            )
+            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getApplication()->getContainer();
-        $nodes = $container->get('nodes');
+        $nodes = Server::nodes();
 
         $format = $input->getOption('format');
-        if ('txt' === $format) {
+        if ('txt' === $format || 'txt-no-header' === $format) {
+            $table = new Table($output);
+            $style = new TableStyle();
+            $style->setHorizontalBorderChar('')
+                ->setVerticalBorderChar('')
+                ->setCrossingChar('')
+                ->setCellRowContentFormat("%s    ")
+                ;
+            $table->setStyle($style);
+
             if ($nodes) {
                 $isDetail = $input->getOption('detail');
-                $table = $this->getHelperSet()->get('table');
-
-                if ($isDetail) {
-                    $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
-                } else {
-                    $table->setHeaders(array('name', 'roles'));
+                if ('txt-no-header' !== $format ) {
+                    if ($isDetail) {
+                        $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
+                    } else {
+                        $table->setHeaders(array('name', 'roles'));
+                    }
                 }
 
                 foreach ($nodes as $node) {
@@ -61,7 +79,6 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
                         ));
                     }
                 }
-
                 $table->render($output);
             } else {
                 $output->writeln('There are not any nodes.');
