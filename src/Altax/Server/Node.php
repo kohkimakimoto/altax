@@ -6,13 +6,15 @@ namespace Altax\Server;
  */
 class Node
 {
-    protected $name;
+    public $name;
 
-    protected $host;
+    public $host;
 
-    protected $port;
+    public $port;
 
-    protected $key;
+    public $key;
+
+    public $roles = array();
 
     protected $defaultKey;
 
@@ -21,8 +23,6 @@ class Node
     protected $defaultUsername;
 
     protected $useAgent = false;
-
-    protected $referenceRoles = array();
 
     public function setName($name)
     {
@@ -143,12 +143,8 @@ class Node
         return file_get_contents($this->getKeyOrDefault());
     }
 
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
-        if (!is_array($options)) {
-            throw new \RuntimeException("You must pass option as Array");
-        }
-
         if (isset($options["host"])) {
             $this->host = $options["host"];
         }
@@ -170,11 +166,11 @@ class Node
         }
     }
 
-    public function setReferenceRoles($roles)
+    public function setRoles($roles)
     {
         if (is_string($roles)) {
             $roles = array($roles => $roles);
-        } elseif (Arr::isVector($roles)) {
+        } elseif (is_vector($roles)) {
             $vrs = $roles;
             $roles = array();
             foreach ($vrs as $r) {
@@ -182,12 +178,12 @@ class Node
             }
         }
 
-        $this->referenceRoles = $roles;
+        $this->roles = $roles;
     }
 
-    public function getReferenceRoles()
+    public function roles()
     {
-        return $this->referenceRoles;
+        return $this->roles;
     }
 
     public function mergeReferenceRoles($roles)
@@ -195,7 +191,7 @@ class Node
         if (is_string($roles)) {
             $roles = array($roles => $roles);
         }
-        $this->referenceRoles = array_merge($this->referenceRoles, $roles);
+        $this->roles = array_merge($this->roles, $roles);
     }
 
 }

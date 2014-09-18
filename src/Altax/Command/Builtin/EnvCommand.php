@@ -60,7 +60,5 @@ class EnvCommand extends SymfonyCommand
         } else {
             throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }
-
-
     }
 }

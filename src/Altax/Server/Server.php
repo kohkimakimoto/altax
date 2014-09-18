@@ -5,6 +5,8 @@ class Server
 {
     protected $nodes = array();
 
+    protected $roles = array();
+
     public function __construct()
     {
     }
@@ -30,10 +32,10 @@ class Server
             $node->setName($args[0]);
 
             if (is_string($args[1]) || is_vector($args[1])) {
-                $node->setReferenceRoles($args[1]);
+                $node->setRoles($args[1]);
             } else {
                 if (isset($args[1]['roles'])) {
-                    $node->setReferenceRoles($args[1]['roles']);
+                    $node->setRoles($args[1]['roles']);
                     unset($args[1]['roles']);
                 }
                 $node->setOptions($args[1]);
@@ -42,12 +44,12 @@ class Server
             // When it's passed more than 3 arguments, register node with roles and some options.
             $node->setName($args[0]);
             $node->setOptions($args[1]);
-            $node->setReferenceRoles($args[2]);
+            $node->setRoles($args[2]);
         }
 
         $this->nodes[$node->getName()] = $node;
 
-        $roles = $node->getReferenceRoles();
+        $roles = $node->roles();
         if ($roles) {
             if (is_string($roles)) {
                 $this->role($roles, $node->getName());
@@ -67,9 +69,10 @@ class Server
            $nodes = array($nodes);
         }
 
+/*
         foreach ($nodes as $node) {
-            $this->container->set("roles/".$role."/".$node, $node);
-
+            //$this->container->set("roles/".$role."/".$node, $node);
+            $this->roles[$role]
             $nodeObject = $this->getNode($node);
             if (!$nodeObject) {
                 $this->node($node);
@@ -78,6 +81,7 @@ class Server
 
             $nodeObject->mergeReferenceRoles($role);
         }
+*/
     }
 
     public function nodesFromSSHConfigHosts()

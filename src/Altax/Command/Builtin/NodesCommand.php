@@ -70,12 +70,12 @@ class NodesCommand extends SymfonyCommand
                             $node->getPort(),
                             $node->getUsername(),
                             $node->getKey(),
-                            trim(implode(', ', $node->getReferenceRoles())),
+                            trim(implode(',', $node->roles())),
                         ));
                     } else {
                         $table->addRow(array(
                             $node->getName(),
-                            trim(implode(', ', $node->getReferenceRoles())),
+                            trim(implode(',', $node->roles())),
                         ));
                     }
                 }
@@ -94,11 +94,11 @@ class NodesCommand extends SymfonyCommand
                             'port' => $node->getPort(),
                             'username' => $node->getUsername(),
                             'key' => $node->getKey(),
-                            'roles' => $node->getReferenceRoles()
+                            'roles' => $node->roles()
                         );
                     } else {
                         $data[$node->getName()] = array(
-                            'roles' => $node->getReferenceRoles()
+                            'roles' => $node->roles()
                         );
                     }
                 }
