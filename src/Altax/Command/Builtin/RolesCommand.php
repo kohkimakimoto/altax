@@ -22,7 +22,7 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
                 'format',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'To output list in other formats (txt|txt-no-header|json)',
+                'To output list in other formats (txt|txt-no-header|json|json-pretty)',
                 'txt'
             )
             ;
@@ -59,7 +59,7 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
             } else {
                 $output->writeln('There are not any roles.');
             }
-        } elseif ('json' === $format) {
+        } elseif ('json' === $format || 'json-pretty' === $format) {
             $data = array();
             if ($roles) {
                 foreach ($roles as $key => $role) {
@@ -72,7 +72,15 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
                     );
                 }
             }
-            $output->writeln(json_encode($data));
+
+            $json = null;
+            if ('json-pretty' === $format) {
+                $json = json_encode($data, JSON_PRETTY_PRINT);
+            } else {
+                $json = json_encode($data);
+            }
+
+            $output->writeln($json);
         } else {
             throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }

@@ -23,7 +23,7 @@ class EnvCommand extends SymfonyCommand
                 'format',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'To output list in other formats (txt|txt-no-header|json)',
+                'To output list in other formats (txt|txt-no-header|json|json-pretty)',
                 'txt'
             )
         ;
@@ -55,8 +55,14 @@ class EnvCommand extends SymfonyCommand
                 ));
             }
             $table->render($output);
-        } elseif ('json' === $format) {
-            $output->writeln(json_encode($parameters));
+        } elseif ('json' === $format || 'json-pretty' === $format) {
+            $json = null;
+            if ('json-pretty' === $format) {
+                $json = json_encode($parameters, JSON_PRETTY_PRINT);
+            } else {
+                $json = json_encode($parameters);
+            }
+            $output->writeln($json);
         } else {
             throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }

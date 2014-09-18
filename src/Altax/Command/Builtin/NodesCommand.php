@@ -23,7 +23,7 @@ class NodesCommand extends SymfonyCommand
                 'format',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'To output list in other formats (txt|txt-no-header|json)',
+                'To output list in other formats (txt|txt-no-header|json|json-pretty)',
                 'txt'
             )
             ->addOption(
@@ -81,7 +81,7 @@ class NodesCommand extends SymfonyCommand
             } else {
                 $output->writeln('There are not any nodes.');
             }
-        } elseif ('json' === $format) {
+        } elseif ('json' === $format || 'json-pretty' === $format) {
             $data = array();
             if ($nodes) {
                 $isDetail = $input->getOption('detail');
@@ -106,7 +106,15 @@ class NodesCommand extends SymfonyCommand
                     }
                 }
             }
-            $output->writeln(json_encode($data));
+
+            $json = null;
+            if ('json-pretty' === $format) {
+                $json = json_encode($data, JSON_PRETTY_PRINT);
+            } else {
+                $json = json_encode($data);
+            }
+
+            $output->writeln($json);
         } else {
             throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }

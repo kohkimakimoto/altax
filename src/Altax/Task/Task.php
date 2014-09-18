@@ -30,6 +30,11 @@ class Task
         return $task;
     }
 
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
     public function getTask($name, $default = null)
     {
         return isset($this->tasks[$name]) ? $this->tasks[$name] : $default;

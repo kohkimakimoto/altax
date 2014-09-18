@@ -2,39 +2,54 @@
 
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Task;
 
 /**
  * Tasks Command
  *
  * @author Damien Pitard <damien.pitard@gmail.com>
  */
-class TasksCommand extends Command
+class TasksCommand extends SymfonyCommand
 {
     protected function configure()
     {
         $this
             ->setName('tasks')
-            ->setDefinition(new InputDefinition(array(
-                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'To output list in other formats', 'txt')
-            )))
-            ->setDescription('Lists defined tasks');
+            ->setDescription('Lists defined tasks')
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'To output list in other formats (txt|txt-no-header|json|json-pretty)',
+                'txt'
+            )
+            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getApplication()->getContainer();
-        $tasks = $container->get('tasks');
+        $tasks = Task::getTasks();
 
         $format = $input->getOption('format');
-        if ('txt' === $format) {
+        if ('txt' === $format || 'txt-no-header' === $format) {
             if ($tasks) {
-                $table = $this->getHelperSet()->get('table');
-                $table->setHeaders(array('name', 'description', 'hidden'));
+                $table = new Table($output);
+                $style = new TableStyle();
+                $style->setHorizontalBorderChar('')
+                    ->setVerticalBorderChar('')
+                    ->setCrossingChar('')
+                    ->setCellRowContentFormat("%s    ")
+                    ;
+                $table->setStyle($style);
+                if ('txt-no-header' !== $format) {
+                    $table->setHeaders(array('name', 'description', 'hidden'));
+                }
                 foreach ($tasks as $task) {
                     $command = $task->createCommandInstance();
                     $table->addRow(array(
@@ -48,7 +63,7 @@ class TasksCommand extends Command
             } else {
                 $output->writeln('No tasks defined.');
             }
-        } elseif ('json' === $format) {
+        } elseif ('json' === $format || 'json-pretty' === $format) {
             $data = array();
             if ($tasks) {
                 foreach ($tasks as $task) {
@@ -59,7 +74,15 @@ class TasksCommand extends Command
                     );
                 }
             }
-            $output->writeln(json_encode($data));
+
+            $json = null;
+            if ('json-pretty' === $format) {
+                $json = json_encode($data, JSON_PRETTY_PRINT);
+            } else {
+                $json = json_encode($data);
+            }
+
+            $output->writeln($json);
         } else {
             throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }
