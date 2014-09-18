@@ -13,6 +13,7 @@ use Altax\Module\Task\Resource\RuntimeTask;
 abstract class Command extends SymfonyCommand
 {
     protected $definedTask;
+
     protected $ancestry = array();
 
     protected function getContainer()

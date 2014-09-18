@@ -3,12 +3,10 @@ namespace Altax\Env;
 
 class Env
 {
-    protected $vars = array();
+    protected $parameters = array();
 
-    public function __construct($container)
+    public function __construct()
     {
-        parent::__construct($container);
-
         // Default values.
         $this->set("server.port", 22);
         $this->set("server.key", getenv("HOME")."/.ssh/id_rsa");
@@ -17,16 +15,16 @@ class Env
 
     public function set($key, $value)
     {
-        $this->vars[$key] = $value;
+        $this->parameters[$key] = $value;
     }
 
     public function get($key, $default = null)
     {
-        return isset($this->vars[$key]) ? $this->vars[$key] : $default;
+        return isset($this->parameters[$key]) ? $this->parameters[$key] : $default;
     }
 
-    public function getVars()
+    public function parameters()
     {
-        return $this->vars;
+        return $this->parameters;
     }
 }
