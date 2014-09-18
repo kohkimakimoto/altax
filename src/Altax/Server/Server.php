@@ -11,9 +11,24 @@ class Server
     {
     }
 
-    public function nodes()
+    public function getNodes()
     {
         return $this->nodes;
+    }
+
+    public function getNode($name, $default = null)
+    {
+        return isset($this->nodes[$name]) ? $this->nodes[$name] : $default;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function getRole($name, $default = null)
+    {
+        return isset($this->roles[$name]) ? $this->roles[$name] : $default;
     }
 
     public function node()
@@ -22,66 +37,82 @@ class Server
         if (count($args) < 1) {
             throw new \InvalidArgumentException("Missing argument. Must 1 arguments at minimum.");
         }
-        $node = new Node();
+        $node = new Node($args[0]);
         if (count($args) === 1) {
             // When it's passed 1 argument, register node with name only.
-            $node->setName($args[0]);
 
         } elseif (count($args) === 2) {
             // When it's passed 2 arguments, register node with roles and some options.
-            $node->setName($args[0]);
-
             if (is_string($args[1]) || is_vector($args[1])) {
-                $node->setRoles($args[1]);
+                $roleNames = $args[1];
+                if (is_string($roleNames)) {
+                    $roleNames = array($roleNames);
+                }
+
+                foreach ($roleNames as $roleName) {
+                    $role = $this->getRole($roleName, new Role($roleName));
+                    $role->setNode($node);
+                    $node->setRole($role);
+                }
             } else {
                 if (isset($args[1]['roles'])) {
-                    $node->setRoles($args[1]['roles']);
+                    $roleNames = $args[1]['roles'];
+                    if (is_string($roleNames)) {
+                        $roleNames = array($roleNames);
+                    }
+
+                    foreach ($roleNames as $roleName) {
+                        $role = $this->getRole($roleName, new Role($roleName));
+                        $role->setNode($node);
+                        $node->setRole($role);
+                    }
+
                     unset($args[1]['roles']);
                 }
                 $node->setOptions($args[1]);
             }
         } else {
             // When it's passed more than 3 arguments, register node with roles and some options.
-            $node->setName($args[0]);
             $node->setOptions($args[1]);
-            $node->setRoles($args[2]);
+
+            $roleNames = $args[2];
+            if (is_string($roleNames)) {
+                $roleNames = array($roleNames);
+            }
+
+            foreach ($roleNames as $roleName) {
+                $role = $this->getRole($roleName, new Role($roleName));
+                $role->setNode($node);
+                $node->setRole($role);
+            }
         }
 
         $this->nodes[$node->getName()] = $node;
 
-        $roles = $node->roles();
-        if ($roles) {
-            if (is_string($roles)) {
-                $this->role($roles, $node->getName());
-            } elseif (is_array($roles)) {
-                foreach ($roles as $role) {
-                    $this->role($role, $node->getName());
-                }
-            }
+        // Overide roles
+        $roles = $node->getRoles();
+        foreach ($roles as $role) {
+            $this->roles[$role->getName()] = $role;
         }
 
         return $node;
     }
 
-    public function role($role, $nodes)
+    public function role($roleName, $nodeNames)
     {
-        if (is_string($nodes)) {
-           $nodes = array($nodes);
+        if (is_string($nodeNames)) {
+           $nodeNames = array($nodeNames);
         }
 
-/*
-        foreach ($nodes as $node) {
-            //$this->container->set("roles/".$role."/".$node, $node);
-            $this->roles[$role]
-            $nodeObject = $this->getNode($node);
-            if (!$nodeObject) {
-                $this->node($node);
-                $nodeObject = $this->getNode($node);
-            }
+        $role = $this->getRole($roleName, new Role($roleName));
+        foreach ($nodeNames as $nodeName) {
+            $node = $this->getNode($nodeName, new Node($nodeName));
+            $node->setRole($role);
+            $role->setNode($node);
 
-            $nodeObject->mergeReferenceRoles($role);
+            $this->nodes[$node->getName()] = $node;
         }
-*/
+        $this->roles[$role->getName()] = $role;
     }
 
     public function nodesFromSSHConfigHosts()
@@ -95,15 +126,5 @@ class Server
         foreach ($nodesOptions as $key => $option) {
             $this->node($key, $option);
         }
-    }
-
-    public function getNode($name)
-    {
-        return $this->container->get("nodes/".$name, null);
-    }
-
-    public function getRole($name)
-    {
-        return $this->container->get("roles/".$name, null);
     }
 }

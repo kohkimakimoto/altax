@@ -39,7 +39,7 @@ class NodesCommand extends SymfonyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $nodes = Server::nodes();
+        $nodes = Server::getNodes();
 
         $format = $input->getOption('format');
         if ('txt' === $format || 'txt-no-header' === $format) {

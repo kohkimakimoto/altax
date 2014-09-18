@@ -24,6 +24,16 @@ class Node
 
     protected $useAgent = false;
 
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
@@ -166,19 +176,19 @@ class Node
         }
     }
 
-    public function setRoles($roles)
+    public function setRole(Role $role)
     {
-        if (is_string($roles)) {
-            $roles = array($roles => $roles);
-        } elseif (is_vector($roles)) {
-            $vrs = $roles;
-            $roles = array();
-            foreach ($vrs as $r) {
-                $roles[$r] = $r;
-            }
-        }
+        $this->roles[$role->name] = $role;
+    }
 
-        $this->roles = $roles;
+    public function getRole($name)
+    {
+        return $this->roles[$name];
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
     }
 
     public function roles()
@@ -186,12 +196,13 @@ class Node
         return $this->roles;
     }
 
-    public function mergeReferenceRoles($roles)
+/*
+    public function mergeRoles($roles)
     {
         if (is_string($roles)) {
             $roles = array($roles => $roles);
         }
         $this->roles = array_merge($this->roles, $roles);
     }
-
+*/
 }
