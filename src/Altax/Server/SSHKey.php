@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Util;
+namespace Altax\Server;
 
 /**
  * Utility class for ssh key file.

@@ -1,14 +1,9 @@
 <?php
 
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArgvInput;
-use Illuminate\Config\FileLoader;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\ClassLoader;
 
-use Altax\Foundation\AliasLoader;
 use Altax\Foundation\Application;
 
 /**

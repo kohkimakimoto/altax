@@ -4,10 +4,8 @@ namespace Altax\Command\Builtin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableStyle;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Server;
 
 /**
@@ -46,7 +44,7 @@ class RolesCommand extends \Symfony\Component\Console\Command\Command
             $table->setStyle($style);
 
             if ($roles) {
-                if ('txt-no-header' !== $format ) {
+                if ('txt-no-header' !== $format) {
                     $table->setHeaders(array('name', 'nodes'));
                 }
 

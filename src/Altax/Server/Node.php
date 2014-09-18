@@ -195,14 +195,4 @@ class Node
     {
         return $this->roles;
     }
-
-/*
-    public function mergeRoles($roles)
-    {
-        if (is_string($roles)) {
-            $roles = array($roles => $roles);
-        }
-        $this->roles = array_merge($this->roles, $roles);
-    }
-*/
 }

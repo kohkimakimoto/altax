@@ -7,7 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Filesystem\Filesystem;
 
-
 /**
  * Init Command
  */

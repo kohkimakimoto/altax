@@ -1,8 +1,6 @@
 <?php
 namespace Altax\Module\Task\Process;
 
-use Altax\Module\Server\Facade\Server;
-
 class ProcessResult
 {
     protected $returnCode;
