@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Finder\Finder;
 
+use Altax\Foundation\Application as BaseApplication;
 use Altax\Foundation\ModuleFacade;
 use Altax\Util\Str;
 
@@ -22,11 +23,11 @@ use Altax\Util\Str;
  */
 class Application extends SymfonyApplication
 {
-
     const HELP_MESSAGES =<<<EOL
 <info>%s</info> version <comment>%s</comment>
 
 Altax is an extensible deployment tool for PHP.
+
 Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
 EOL;
@@ -36,15 +37,20 @@ EOL;
      */
     protected $container;
 
-    public function __construct(\Altax\Foundation\Container $container)
+    public function __construct(BaseApplication $container)
     {
-        parent::__construct($container->getName(), $container->getVersionWithCommit());
+        parent::__construct(
+            $container->getName(),
+            $container->getVersionWithCommit());
         $this->container = $container;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    public function getLongVersion()
+    {
+        return sprintf(self::HELP_MESSAGES, $this->getName(), $this->getVersion());
+    }
+
+    /*
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         // Add output formatter style used by embedded composer.
@@ -57,9 +63,6 @@ EOL;
         return parent::run($input, $output);
     }
 
-    /**
-     * This cli application main process.
-     */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->configureContainer($input, $output);
@@ -90,9 +93,6 @@ EOL;
         return $commands;
     }
 
-    /**
-     * Configure container to use cli application.
-     */
     protected function configureContainer(InputInterface $input, OutputInterface $output)
     {
         // Additional specified configuration file.
@@ -105,9 +105,7 @@ EOL;
         $this->container->setOutput($output);
     }
 
-    /**
-     * Register base commands
-     */
+
     protected function registerBuiltinCommands()
     {
         $finder = new Finder();
@@ -124,9 +122,6 @@ EOL;
         }
     }
 
-    /**
-     * Register Modules.
-     */
     protected function registerBaseModules()
     {
         ModuleFacade::clearResolvedInstances();
@@ -154,9 +149,6 @@ EOL;
         }
     }
 
-    /**
-     * Load configuration.
-     */
     protected function loadConfiguration(InputInterface $input, OutputInterface $output)
     {
         $command = $this->getCommandName($input);
@@ -172,10 +164,6 @@ EOL;
         }
     }
 
-    /**
-     * [registerTasksAsConsoleCommands description]
-     * @return [type] [description]
-     */
     protected function registerTasksAsConsoleCommands()
     {
         $tasks = $this->container->get("tasks");
@@ -188,10 +176,6 @@ EOL;
         }
     }
 
-    /**
-     * [getLongVersion description]
-     * @return [type] [description]
-     */
     public function getLongVersion()
     {
         return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersionWithCommit());
@@ -212,9 +196,6 @@ EOL;
         return $definition;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getDefaultHelperSet()
     {
         $helperSet = parent::getDefaultHelperSet();
@@ -222,4 +203,5 @@ EOL;
         $helperSet->set(new \Composer\Command\Helper\DialogHelper());
         return $helperSet;
     }
+    */
 }

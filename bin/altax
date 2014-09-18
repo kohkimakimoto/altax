@@ -1,7 +1,16 @@
 #!/usr/bin/env php
 <?php
 
+require_once __DIR__.'/../vendor/autoload.php';
 
+$app = bootAltaxApplication(__DIR__."/../config");
+$cli = new \Altax\Console\Application($app);
+$cli->run();
+
+
+
+
+/*
 if (PHP_SAPI !== 'cli') {
     echo 'Warning: Altax should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
 }
@@ -56,3 +65,4 @@ $container = require_once __DIR__.'/../src/Altax/Foundation/boot.php';
 
 $app = new \Altax\Console\Application($container);
 $app->run();
+*/

@@ -37,6 +37,9 @@
     "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {
+    "files": [
+        "src/Altax/Foundation/functions.php"
+    ],
     "psr-0": { "Altax\\": "src/"}
   },
   "extra": {

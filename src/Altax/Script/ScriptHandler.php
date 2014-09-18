@@ -15,6 +15,9 @@ class ScriptHandler
 \$baseDir = dirname(\$vendorDir);
 
 return array(
+    \$vendorDir . '/illuminate/support/Illuminate/Support/helpers.php',
+//    \$vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Random.php',
+    \$baseDir . '/src/Altax/Foundation/functions.php',
 );
 
 EOL;
