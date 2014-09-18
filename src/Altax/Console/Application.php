@@ -66,6 +66,7 @@ EOL;
 
         $this->registerBuiltinCommands();
         $this->loadConfiguration();
+        $this->registerTasksAsConsoleCommands();
 
         // Runs specified command under the symfony console.
         return parent::doRun($input, $output);
@@ -117,6 +118,14 @@ EOL;
                     $output->writeln(" (Not found)");
                 }
             }
+        }
+    }
+
+    protected function registerTasksAsConsoleCommands()
+    {
+        $tasks = $this->container["task"]->getTasks();
+        foreach ($tasks as $task) {
+            $this->add($task->makeCommand());
         }
     }
 

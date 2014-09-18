@@ -42,6 +42,8 @@ class Application extends Container
             'Server' => 'Altax\Facade\Server',
             'Env'    => 'Altax\Facade\Env',
             'Task'   => 'Altax\Facade\Task',
+            'Input'   => 'Altax\Facade\Input',
+            'Output'   => 'Altax\Facade\Output',
         );
         AliasLoader::getInstance($aliases)->register();
     }

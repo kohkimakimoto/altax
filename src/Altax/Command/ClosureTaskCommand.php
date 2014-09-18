@@ -2,11 +2,12 @@
 namespace Altax\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Altax\Command\Command;
 
 /**
  * Altax closure task command.
  */
-class ClosureTaskCommand extends \Altax\Command\Command
+class ClosureTaskCommand extends Command
 {
 
     public function __construct($definedTask)
