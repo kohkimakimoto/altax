@@ -68,6 +68,9 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
     $app->registerBuiltinAliases();
     $app->registerBuiltinProviders();
 
+    return $app;
+}
+
 /*
     if ($config !== null) {
         $config = realpath($config);
@@ -100,6 +103,3 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
 
     $app->registerProviders($providers);
 */
-
-    return $app;
-}

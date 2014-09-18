@@ -64,9 +64,72 @@ EOL;
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $this->container->instance('input', $input);
+        $this->container->instance('output', $output);
+
+        $this->registerBuiltinCommands();
+        $this->loadConfiguration();
+
         // Runs specified command under the symfony console.
         return parent::doRun($input, $output);
     }
+
+    protected function registerBuiltinCommands()
+    {
+        $finder = new Finder();
+        $finder->files()->name('*Command.php')->in(__DIR__."/../Command/Builtin");
+        foreach ($finder as $file) {
+            $class = "Altax\Command\Builtin\\".$file->getBasename('.php');
+            $r = new \ReflectionClass($class);
+            $command = $r->newInstance();
+            $this->add($command);
+        }
+    }
+
+    protected function loadConfiguration()
+    {
+        $input = $this->container["input"];
+        $output = $this->container["output"];
+
+        $command = $this->getCommandName($input);
+        if ($command == 'require' || $command == 'install' || $command == 'update') {
+            // These are composer task. so don't need to load configuration for altax.
+            return;
+        }
+
+        $i = 1;
+        foreach ($this->container["config_files"] as $file) {
+            if ($file && is_file($file)) {
+                if ($output->isDebug()) {
+                    $output->writeln("<comment>[debug]</comment> Load config $i: $file");
+                }
+                require $file;
+                $i++;
+            }
+        }
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    protected function getDefaultInputDefinition()
+    {
+        $definition = parent::getDefaultInputDefinition();
+        $definition->addOptions(array(
+            new InputOption('--file', '-f', InputOption::VALUE_REQUIRED, 'Specifies configuration file to load.')
+        ));
+        return $definition;
+    }
+
+    protected function getDefaultHelperSet()
+    {
+        $helperSet = parent::getDefaultHelperSet();
+        $helperSet->set(new \Composer\Command\Helper\DialogHelper());
+        return $helperSet;
+    }
+
 
     /*
     public function run(InputInterface $input = null, OutputInterface $output = null)
@@ -123,23 +186,6 @@ EOL;
         $this->container->setOutput($output);
     }
 
-
-    protected function registerBuiltinCommands()
-    {
-        $finder = new Finder();
-        $finder->files()->name('*Command.php')->in(__DIR__."/../Command/Builtin");
-        foreach ($finder as $file) {
-            if ($file->getFilename() === 'Command.php') {
-                continue;
-            }
-
-            $class = "Altax\Command\Builtin\\".$file->getBasename('.php');
-            $r = new \ReflectionClass($class);
-            $command = $r->newInstance();
-            $this->add($command);
-        }
-    }
-
     protected function registerBaseModules()
     {
         ModuleFacade::clearResolvedInstances();
@@ -194,32 +240,5 @@ EOL;
         }
     }
 
-    public function getLongVersion()
-    {
-        return sprintf(self::HELP_MESSAGES, $this->container->getName(), $this->container->getVersionWithCommit());
-    }
-
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    protected function getDefaultInputDefinition()
-    {
-        $definition = parent::getDefaultInputDefinition();
-        $definition->addOptions(array(
-            new InputOption('--file', '-f', InputOption::VALUE_REQUIRED, 'Specifies configuration file to load.')
-        ));
-
-        return $definition;
-    }
-
-    protected function getDefaultHelperSet()
-    {
-        $helperSet = parent::getDefaultHelperSet();
-
-        $helperSet->set(new \Composer\Command\Helper\DialogHelper());
-        return $helperSet;
-    }
     */
 }
