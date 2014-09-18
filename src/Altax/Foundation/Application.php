@@ -40,6 +40,8 @@ class Application extends Container
         $aliases = array(
             'App'    => 'Altax\Facade\App',
             'Server' => 'Altax\Facade\Server',
+            'Env'    => 'Altax\Facade\Env',
+            'Task'   => 'Altax\Facade\Task',
         );
         AliasLoader::getInstance($aliases)->register();
     }
@@ -50,6 +52,8 @@ class Application extends Container
             'Illuminate\Events\EventServiceProvider',
             'Illuminate\Filesystem\FilesystemServiceProvider',
             'Altax\Server\ServerServiceProvider',
+            'Altax\Env\EnvServiceProvider',
+            'Altax\Task\TaskServiceProvider',
         );
         $this->registerProviders($providers);
     }
