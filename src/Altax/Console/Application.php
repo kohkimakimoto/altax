@@ -50,6 +50,24 @@ EOL;
         return sprintf(self::HELP_MESSAGES, $this->getName(), $this->getVersion());
     }
 
+    public function run(InputInterface $input = null, OutputInterface $output = null)
+    {
+        // Add output formatter style used by embedded composer.
+        if (null === $output) {
+            $styles = \Composer\Factory::createAdditionalStyles();
+            $formatter = new OutputFormatter(null, $styles);
+            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+        }
+
+        return parent::run($input, $output);
+    }
+
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        // Runs specified command under the symfony console.
+        return parent::doRun($input, $output);
+    }
+
     /*
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {

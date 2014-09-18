@@ -1,15 +1,17 @@
 <?php
 
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Input\ArgvInput;
 use Illuminate\Config\FileLoader;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ClassLoader;
+
 use Altax\Foundation\AliasLoader;
 use Altax\Foundation\Application;
 
-function bootAltaxApplication($config = null, $cli = true)
+function bootAltaxApplication(array $configs = array(), $cli = true)
 {
     if ($cli) {
 
@@ -55,6 +57,16 @@ function bootAltaxApplication($config = null, $cli = true)
 
     Facade::clearResolvedInstances();
     Facade::setFacadeApplication($app);
+
+    // Default input and output.
+    // Generally, these objects will be overrided by console application process.
+    $app->instance('input', new ArgvInput());
+    $app->instance('output', new ConsoleOutput());
+
+    $app->instance('config_files', $configs);
+
+    $app->registerBuiltinAliases();
+    $app->registerBuiltinProviders();
 
 /*
     if ($config !== null) {

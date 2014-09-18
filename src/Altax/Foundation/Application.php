@@ -2,6 +2,7 @@
 namespace Altax\Foundation;
 
 use Illuminate\Container\Container;
+use Altax\Foundation\AliasLoader;
 
 /**
  * Altax Application
@@ -35,9 +36,18 @@ class Application extends Container
         return static::VERSION." - ".static::COMMIT;
     }
 
+    public function registerBuiltinAliases()
+    {
+        $aliases = array(
+
+        );
+        AliasLoader::getInstance($aliases)->register();
+    }
+
     public function registerBuiltinProviders()
     {
         $providers = array(
+
         );
         $this->registerProviders($providers);
     }
