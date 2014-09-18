@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-
 use Server;
 
 /**
@@ -88,17 +87,22 @@ class NodesCommand extends SymfonyCommand
             if ($nodes) {
                 $isDetail = $input->getOption('detail');
                 foreach ($nodes as $node) {
+                    $roleNames = array();
+                    foreach ($node->roles() as $roleName => $role) {
+                        $roleNames[] = $roleName;
+                    }
+
                     if ($isDetail) {
                         $data[$node->getName()] = array(
                             'host' => $node->getHost(),
                             'port' => $node->getPort(),
                             'username' => $node->getUsername(),
                             'key' => $node->getKey(),
-                            'roles' => $node->roles()
+                            'roles' => $roleNames
                         );
                     } else {
                         $data[$node->getName()] = array(
-                            'roles' => $node->roles()
+                            'roles' => $roleNames
                         );
                     }
                 }
