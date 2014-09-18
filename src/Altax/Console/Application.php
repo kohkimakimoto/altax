@@ -91,6 +91,13 @@ EOL;
         $input = $this->container["input"];
         $output = $this->container["output"];
 
+        // Additional configuration file by the cli option.
+        if (true === $input->hasParameterOption(array('--file', '-f'))) {
+            $configs = $this->container["config_files"];
+            $configs[] = $input->getParameterOption(array('--file', '-f'));
+            $this->container->instance("config_files", $configs);
+        }
+
         $command = $this->getCommandName($input);
         if ($command == 'require' || $command == 'install' || $command == 'update') {
             // These are composer task. so don't need to load configuration for altax.
@@ -99,12 +106,19 @@ EOL;
 
         $i = 1;
         foreach ($this->container["config_files"] as $file) {
+            if ($output->isDebug()) {
+                $output->write("<comment>[debug]</comment> Load config $i: $file");
+            }
             if ($file && is_file($file)) {
-                if ($output->isDebug()) {
-                    $output->writeln("<comment>[debug]</comment> Load config $i: $file");
-                }
                 require $file;
+                if ($output->isDebug()) {
+                    $output->writeln(" (OK)");
+                }
                 $i++;
+            } else {
+                if ($output->isDebug()) {
+                    $output->writeln(" (Not found)");
+                }
             }
         }
     }
@@ -130,20 +144,7 @@ EOL;
         return $helperSet;
     }
 
-
     /*
-    public function run(InputInterface $input = null, OutputInterface $output = null)
-    {
-        // Add output formatter style used by embedded composer.
-        if (null === $output) {
-            $styles = \Composer\Factory::createAdditionalStyles();
-            $formatter = new OutputFormatter(null, $styles);
-            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
-        }
-
-        return parent::run($input, $output);
-    }
-
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->configureContainer($input, $output);
@@ -209,21 +210,6 @@ EOL;
 
             if (!class_exists($moduleName)) {
                 class_alias($facadeClass, $moduleName);
-            }
-        }
-    }
-
-    protected function loadConfiguration(InputInterface $input, OutputInterface $output)
-    {
-        $command = $this->getCommandName($input);
-        if ($command == 'require' || $command == 'install' || $command == 'update') {
-            // These are composer task. so don't need to load configuration for altax.
-            return;
-        }
-
-        foreach ($this->container->getConfigFiles() as $key => $file) {
-            if ($file && is_file($file)) {
-                require $file;
             }
         }
     }
