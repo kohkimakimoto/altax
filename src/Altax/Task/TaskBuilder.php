@@ -27,6 +27,7 @@ class TaskBuilder
         }
 
         $this->tasks[$task->getName()] = $task;
+
         return $task;
     }
 
@@ -45,5 +46,3 @@ class TaskBuilder
         return $this->getTask($name);
     }
 }
-
-

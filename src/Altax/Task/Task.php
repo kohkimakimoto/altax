@@ -192,6 +192,7 @@ class Task
     public function hidden()
     {
         $this->isHidden = true;
+
         return $this;
     }
 

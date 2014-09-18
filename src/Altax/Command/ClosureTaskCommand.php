@@ -2,7 +2,6 @@
 namespace Altax\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Altax\Command\Command;
 
 /**
  * Altax closure task command.

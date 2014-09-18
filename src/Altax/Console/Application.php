@@ -13,7 +13,6 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Finder\Finder;
 
 use Altax\Foundation\Application as BaseApplication;
-use Altax\Foundation\ModuleFacade;
 
 /**
  * Altax console application
@@ -169,88 +168,4 @@ EOL;
 
         return $commands;
     }
-
-    /*
-    public function doRun(InputInterface $input, OutputInterface $output)
-    {
-        $this->configureContainer($input, $output);
-        $this->registerBuiltinCommands();
-        $this->registerBaseModules();
-        $this->loadConfiguration($input, $output);
-        $this->registerTasksAsConsoleCommands();
-
-        // Runs specified command under the symfony console.
-        return parent::doRun($input, $output);
-    }
-
-    public function all($namespace = null)
-    {
-        $commands = parent::all($namespace);
-
-        // Remove hidden command to prevent listing commands by ListCommand
-        foreach ($commands as $name => $command) {
-            if (method_exists($command, "getDefinedTask")) {
-                // Consider the command Altax\Command\Command instance
-                $definedTask = $command->getDefinedTask();
-                if ($definedTask->isHidden()) {
-                    unset($commands[$name]);
-                }
-            }
-        }
-
-        return $commands;
-    }
-
-    protected function configureContainer(InputInterface $input, OutputInterface $output)
-    {
-        // Additional specified configuration file.
-        if (true === $input->hasParameterOption(array('--file', '-f'))) {
-            $this->container->setConfigFile("option", $input->getParameterOption(array('--file', '-f')));
-        }
-
-        $this->container->setApp($this);
-        $this->container->setInput($input);
-        $this->container->setOutput($output);
-    }
-
-    protected function registerBaseModules()
-    {
-        ModuleFacade::clearResolvedInstances();
-        ModuleFacade::setContainer($this->container);
-
-        $finder = new Finder();
-        $finder->directories()->depth('== 0')->in(__DIR__."/../Module");
-        foreach ($finder as $dir) {
-            $module =  $dir->getBasename();
-
-            $facadeClass = "\\Altax\\Module\\".$module."\\Facade\\".$module;
-            $implClass = "\\Altax\\Module\\".$module."\\".$module."Module";
-
-            $moduleName = $facadeClass::getModuleName();
-
-            $r = new \ReflectionClass($implClass);
-            $instance = $r->newInstance($this->container);
-
-            // register module into container
-            $this->container->addModule($moduleName, $instance);
-
-            if (!class_exists($moduleName)) {
-                class_alias($facadeClass, $moduleName);
-            }
-        }
-    }
-
-    protected function registerTasksAsConsoleCommands()
-    {
-        $tasks = $this->container->get("tasks");
-
-        if ($tasks && is_array($tasks)) {
-            foreach ($tasks as $task) {
-                $this->add($task->createCommandInstance());
-
-            }
-        }
-    }
-
-    */
 }
