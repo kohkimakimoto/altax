@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Module\Task\Process;
+namespace Altax\Task;
 
 class ProcessResult
 {

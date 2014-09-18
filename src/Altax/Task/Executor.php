@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Module\Task\Process;
+namespace Altax\Task;
 
 use Altax\Module\Env\Facade\Env;
 use Altax\Module\Server\Facade\Server;

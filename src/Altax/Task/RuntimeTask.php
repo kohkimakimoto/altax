@@ -1,8 +1,7 @@
 <?php
-namespace Altax\Module\Task\Resource;
+namespace Altax\Task;
 
 use Symfony\Component\Console\Input\ArrayInput;
-use Altax\Module\Task\Process\Executor;
 
 /**
  * Runtime task
