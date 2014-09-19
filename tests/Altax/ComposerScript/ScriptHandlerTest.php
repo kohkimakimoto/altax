@@ -1,7 +1,7 @@
 <?php
-namespace Test\Altax\Script;
+namespace Test\Altax\ComposerScript;
 
-use Altax\Script\ScriptHandler;
+use Altax\ComposerScript\ScriptHandler;
 
 class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
 {
