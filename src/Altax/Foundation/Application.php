@@ -38,12 +38,13 @@ class Application extends Container
     public function registerBuiltinAliases()
     {
         $aliases = array(
-            'App'    => 'Altax\Facade\App',
-            'Server' => 'Altax\Facade\Server',
-            'Env'    => 'Altax\Facade\Env',
-            'Task'   => 'Altax\Facade\Task',
-            'Input'   => 'Altax\Facade\Input',
-            'Output'   => 'Altax\Facade\Output',
+            'App'              => 'Altax\Facade\App',
+            'Server'           => 'Altax\Facade\Server',
+            'Env'              => 'Altax\Facade\Env',
+            'Task'             => 'Altax\Facade\Task',
+            'Input'            => 'Altax\Facade\Input',
+            'Output'           => 'Altax\Facade\Output',
+            'KeyPassphraseMap' => 'Altax\Facade\KeyPassphraseMap',
         );
         AliasLoader::getInstance($aliases)->register();
     }

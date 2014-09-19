@@ -26,9 +26,12 @@ class Node
 
     protected $useAgent = false;
 
-    public function __construct($name)
+    protected $keyPassphraseMap;
+
+    public function __construct($name, $keyPassphraseMap)
     {
         $this->name = $name;
+        $this->keyPassphraseMap = $keyPassphraseMap;
     }
 
     public function __toString()
@@ -142,7 +145,7 @@ class Node
 
     public function getPassphrase()
     {
-        return KeyPassphraseMap::getSharedInstance()->getPassphraseAtKey($this->getKeyOrDefault());
+        return $this->keyPassphraseMap->getPassphraseAtKey($this->getKeyOrDefault());
     }
 
     public function isUsedWithPassphrase()

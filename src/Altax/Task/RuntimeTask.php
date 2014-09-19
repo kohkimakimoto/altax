@@ -12,6 +12,7 @@ class RuntimeTask
     protected $input;
     protected $output;
     protected $command;
+    protected $keyPassphraseMap;
 
     public function __construct($command, $task, $input, $output)
     {

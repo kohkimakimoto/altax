@@ -12,8 +12,13 @@ class ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('server', function ($app) {
-            return new Server();
+        $this->app->bindShared('key_passphrase_map', function ($app) {
+            return new KeyPassphraseMap();
         });
+
+        $this->app->bindShared('server', function ($app) {
+            return new Server($app['key_passphrase_map']);
+        });
+
     }
 }

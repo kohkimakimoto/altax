@@ -1,8 +1,7 @@
 <?php
 namespace Altax\Task;
 
-use Server, Env;
-use Altax\Server\KeyPassphraseMap;
+use Server, Env, KeyPassphraseMap;
 
 /**
  * Executor
@@ -14,6 +13,7 @@ class Executor
     protected $options;
     protected $childPids = array();
     protected $isParallel;
+    protected $keyPassphraseMap;
 
     public function __construct($runtimeTask, $closure, $options)
     {
@@ -66,10 +66,10 @@ class Executor
         foreach ($nodes as $node) {
             if (!$node->useAgent()
                 && $node->isUsedWithPassphrase()
-                && !KeyPassphraseMap::getSharedInstance()->hasPassphraseAtKey($node->getKeyOrDefault())
+                && !KeyPassphraseMap::hasPassphraseAtKey($node->getKeyOrDefault())
                 ) {
                 $passphrase = $this->askPassphrase($node->getKeyOrDefault());
-                KeyPassphraseMap::getSharedInstance()->setPassphraseAtKey(
+                KeyPassphraseMap::setPassphraseAtKey(
                     $node->getKeyOrDefault(),
                     $passphrase);
             }

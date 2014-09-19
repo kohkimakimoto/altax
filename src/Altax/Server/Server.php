@@ -7,8 +7,11 @@ class Server
 
     protected $roles = array();
 
-    public function __construct()
+    protected $keyPassphraseMap;
+
+    public function __construct($keyPassphraseMap)
     {
+        $this->keyPassphraseMap = $keyPassphraseMap;
     }
 
     public function getNodes()
@@ -37,7 +40,7 @@ class Server
         if (count($args) < 1) {
             throw new \InvalidArgumentException("Missing argument. Must 1 arguments at minimum.");
         }
-        $node = new Node($args[0]);
+        $node = new Node($args[0], $this->keyPassphraseMap);
         if (count($args) === 1) {
             // When it's passed 1 argument, register node with name only.
 
@@ -106,7 +109,7 @@ class Server
 
         $role = $this->getRole($roleName, new Role($roleName));
         foreach ($nodeNames as $nodeName) {
-            $node = $this->getNode($nodeName, new Node($nodeName));
+            $node = $this->getNode($nodeName, new Node($nodeName, $this->keyPassphraseMap));
             $node->setRole($role);
             $role->setNode($node);
 

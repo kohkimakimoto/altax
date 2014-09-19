@@ -6,18 +6,7 @@ namespace Altax\Server;
  */
 class KeyPassphraseMap
 {
-    private static $instance = null;
-
     protected $map = array();
-
-    public static function getSharedInstance()
-    {
-        if (!self::$instance) {
-            self::$instance = new KeyPassphraseMap();
-        }
-
-        return self::$instance;
-    }
 
     public function setPassphraseAtKey($keyPath, $passphrase)
     {
