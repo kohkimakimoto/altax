@@ -27,7 +27,6 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $role2Nodes = $server->getRole("role2")->getNodes();
         $this->assertEquals("node3", $role2Nodes["node3"]->getName());
 
-
         $server->node("node4", ["roles" => "role3"]);
         $this->assertEquals("node4", $server->getNode("node4")->getName());
         $role3Nodes = $server->getRole("role3")->getNodes();

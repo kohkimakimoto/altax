@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 class E2eTest extends \PHPUnit_Framework_TestCase
 {
     public function testRunTaskTest001()
-    {   
+    {
         $bin = realpath(__DIR__."/../../bin/altax");
         $currentDir = __DIR__;
         $process = new Process("cd $currentDir && php $bin test001");

@@ -2,7 +2,6 @@
 namespace Test\Altax\Command\Builtin;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use Altax\Command\Builtin\EnvCommand;
 use Altax\Console\Application;
 

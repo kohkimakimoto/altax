@@ -1,7 +1,6 @@
 <?php
 namespace Test\Altax\Task;
 
-use Altax\Task\TaskServiceProvider;
 use Altax\Task\TaskManager;
 
 class TaskServiceProviderTest extends \PHPUnit_Framework_TestCase
@@ -17,4 +16,3 @@ class TaskServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($taskManager instanceof TaskManager);
     }
 }
-

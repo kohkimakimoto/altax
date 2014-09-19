@@ -1,7 +1,6 @@
 <?php
 namespace Test\Altax\Server;
 
-use Altax\Server\ServerServiceProvider;
 use Altax\Server\Server;
 use Altax\Server\KeyPassphraseMap;
 
@@ -24,4 +23,3 @@ class ServerServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($server instanceof KeyPassphraseMap);
     }
 }
-
