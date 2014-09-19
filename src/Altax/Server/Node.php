@@ -28,10 +28,13 @@ class Node
 
     protected $keyPassphraseMap;
 
-    public function __construct($name, $keyPassphraseMap)
+    protected $env;
+
+    public function __construct($name, $keyPassphraseMap, $env)
     {
         $this->name = $name;
         $this->keyPassphraseMap = $keyPassphraseMap;
+        $this->env = $env;
     }
 
     public function __toString()
@@ -76,7 +79,7 @@ class Node
 
     public function getPortOrDefault()
     {
-        return $this->port ? $this->port : Env::get("server.port");
+        return $this->port ? $this->port : $this->env->get("server.port");
     }
 
     public function setKey($key)
@@ -96,7 +99,7 @@ class Node
 
     public function getDefaultKey()
     {
-        return $this->defaultKey ? $this->defaultKey : Env::get("server.key");
+        return $this->defaultKey ? $this->defaultKey : $this->env->get("server.key");
     }
 
     public function getKeyOrDefault()
@@ -130,7 +133,7 @@ class Node
 
     public function getDefaultUsername()
     {
-        return $this->defaultUsername ? $this->defaultUsername : Env::get("server.username");
+        return $this->defaultUsername ? $this->defaultUsername : $this->env->get("server.username");
     }
 
     public function getUsernameOrDefault()
@@ -183,7 +186,7 @@ class Node
 
     public function setRole(Role $role)
     {
-        $this->roles[$role->name] = $role;
+        $this->roles[$role->getName()] = $role;
     }
 
     public function getRole($name)

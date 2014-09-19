@@ -9,38 +9,23 @@ class Server
 
     protected $keyPassphraseMap;
 
-    public function __construct($keyPassphraseMap)
+    protected $env;
+
+    public function __construct($keyPassphraseMap, $env)
     {
         $this->keyPassphraseMap = $keyPassphraseMap;
-    }
-
-    public function getNodes()
-    {
-        return $this->nodes;
-    }
-
-    public function getNode($name, $default = null)
-    {
-        return isset($this->nodes[$name]) ? $this->nodes[$name] : $default;
-    }
-
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    public function getRole($name, $default = null)
-    {
-        return isset($this->roles[$name]) ? $this->roles[$name] : $default;
+        $this->env = $env;
     }
 
     public function node()
     {
         $args = func_get_args();
-        if (count($args) < 1) {
+        if (count($args) == 0) {
             throw new \InvalidArgumentException("Missing argument. Must 1 arguments at minimum.");
         }
-        $node = new Node($args[0], $this->keyPassphraseMap);
+
+        $node = new Node($args[0], $this->keyPassphraseMap, $this->env);
+
         if (count($args) === 1) {
             // When it's passed 1 argument, register node with name only.
 
@@ -109,7 +94,7 @@ class Server
 
         $role = $this->getRole($roleName, new Role($roleName));
         foreach ($nodeNames as $nodeName) {
-            $node = $this->getNode($nodeName, new Node($nodeName, $this->keyPassphraseMap));
+            $node = $this->getNode($nodeName, new Node($nodeName, $this->keyPassphraseMap, $this->env));
             $node->setRole($role);
             $role->setNode($node);
 
@@ -129,5 +114,25 @@ class Server
         foreach ($nodesOptions as $key => $option) {
             $this->node($key, $option);
         }
+    }
+
+    public function getNodes()
+    {
+        return $this->nodes;
+    }
+
+    public function getNode($name, $default = null)
+    {
+        return isset($this->nodes[$name]) ? $this->nodes[$name] : $default;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function getRole($name, $default = null)
+    {
+        return isset($this->roles[$name]) ? $this->roles[$name] : $default;
     }
 }
