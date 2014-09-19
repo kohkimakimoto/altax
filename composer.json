@@ -32,10 +32,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "Altax\\Script\\ScriptHandler::removeAutoloadFiles"
+      "Altax\\ComposerScript\\ScriptHandler::removeAutoloadFiles"
     ],
     "post-update-cmd": [
-      "Altax\\Script\\ScriptHandler::removeAutoloadFiles"
+      "Altax\\ComposerScript\\ScriptHandler::removeAutoloadFiles"
     ]
   },
   "autoload": {

@@ -1,11 +1,7 @@
 <?php
 namespace Altax\Task;
 
-use Altax\Module\Env\Facade\Env;
-use Altax\Module\Server\Facade\Server;
-use Altax\Module\Server\Resource\Node;
-use Altax\Util\Arr;
-use Altax\Module\Server\Resource\KeyPassphraseMap;
+use Server, Env;
 
 /**
  * Executor
@@ -157,7 +153,7 @@ class Executor
         $candidateNodeNames = array();
         $concreteNodes = array();
 
-        if (Arr::isVector($args)) {
+        if (is_vector($args)) {
             foreach ($args as $arg) {
                 if (is_string($arg)) {
                     $candidateNodeNames[] = array(

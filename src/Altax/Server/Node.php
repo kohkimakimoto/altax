@@ -1,6 +1,8 @@
 <?php
 namespace Altax\Server;
 
+use Env;
+
 /**
  * Node represents a managed server.
  */

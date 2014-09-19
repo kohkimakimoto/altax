@@ -1,5 +1,5 @@
 <?php
-namespace Altax\Script;
+namespace Altax\ComposerScript;
 
 /**
  * ScriptHandler

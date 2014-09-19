@@ -11,6 +11,7 @@ class RuntimeTask
     protected $task;
     protected $input;
     protected $output;
+    protected $command;
 
     public function __construct($command, $task, $input, $output)
     {
