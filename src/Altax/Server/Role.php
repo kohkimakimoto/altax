@@ -40,6 +40,11 @@ class Role
         return $this->nodes[$node->name];
     }
 
+    public function getNodes()
+    {
+        return $this->nodes;
+    }
+
     public function nodes()
     {
         return $this->nodes;

@@ -225,8 +225,8 @@ class Executor
             }
 
             if ($role) {
-                foreach ($role as $nodeName) {
-                    $concreteNodes[$nodeName] = Server::getNode($nodeName);
+                foreach ($role->getNodes() as $nodeName => $node) {
+                    $concreteNodes[$nodeName] = $node;
                 }
             }
         }
