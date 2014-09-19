@@ -2,6 +2,7 @@
 namespace Altax\Task;
 
 use Server, Env;
+use Altax\Server\KeyPassphraseMap;
 
 /**
  * Executor
