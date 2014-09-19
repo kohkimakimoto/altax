@@ -6,8 +6,6 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
     public function testBootAltaxApplication()
     {
         $app = bootAltaxApplication();
-
-
     }
 
     public function testBootAltaxApplicationNotCli()

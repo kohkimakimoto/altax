@@ -10,6 +10,10 @@ class KeyPassphraseMap
 
     public function setPassphraseAtKey($keyPath, $passphrase)
     {
+        if (!is_file($keyPath)) {
+            throw new \InvalidArgumentException("file is not found: $keyPath");
+        }
+
         $this->map[realpath($keyPath)] = $passphrase;
 
         return $this;
@@ -17,6 +21,10 @@ class KeyPassphraseMap
 
     public function getPassphraseAtKey($keyPath)
     {
+        if (!is_file($keyPath)) {
+            throw new \InvalidArgumentException("file is not found: $keyPath");
+        }
+
         if (!array_key_exists(realpath($keyPath), $this->map)) {
             return null;
         }
