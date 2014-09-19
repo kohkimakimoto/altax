@@ -8,15 +8,15 @@ use Env;
  */
 class Node
 {
-    public $name;
+    protected $name;
 
-    public $host;
+    protected $host;
 
-    public $port;
+    protected $port;
 
-    public $key;
+    protected $key;
 
-    public $roles = array();
+    protected $roles = array();
 
     protected $defaultKey;
 

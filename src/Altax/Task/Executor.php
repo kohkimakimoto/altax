@@ -43,26 +43,6 @@ class Executor
     {
         $nodes = $this->getNodes();
 
-        // TODO: support different keys for each node.
-        /*
-        if (Env::get("server.passphrase") === null) {
-            // Check whether passphrase is required.
-            $hasPassphrase = false;
-            $validatingKey = null;
-            foreach ($nodes as $node) {
-                if (!$node->useAgent() && $node->isUsedWithPassphrase()) {
-                    $hasPassphrase = true;
-                    $validatingKey = $node->getKeyOrDefault();
-                }
-            }
-            // ask passphrase.
-            if ($hasPassphrase) {
-                $passphrase = $this->askPassphrase($validatingKey);
-                Env::set("server.passphrase", $passphrase);
-            }
-        }
-        */
-
         foreach ($nodes as $node) {
             if (!$node->useAgent()
                 && $node->isUsedWithPassphrase()

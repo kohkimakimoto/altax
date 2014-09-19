@@ -3,8 +3,6 @@ namespace Altax\Task;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
-use Altax\Module\Server\Facade\Server;
-use Altax\Module\Server\Resource\Node;
 
 class Process
 {

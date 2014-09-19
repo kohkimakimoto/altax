@@ -32,12 +32,12 @@ class Role
 
     public function setNode(Node $node)
     {
-        $this->nodes[$node->name] = $node;
+        $this->nodes[$node->getName()] = $node;
     }
 
     public function getNode($name)
     {
-        return $this->nodes[$node->name];
+        return $this->nodes[$node->getName()];
     }
 
     public function getNodes()
