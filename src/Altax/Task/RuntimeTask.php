@@ -52,6 +52,11 @@ class RuntimeTask
         return $this->command;
     }
 
+    public function getTask()
+    {
+        return $this->task;
+    }
+
     public function writeln($string)
     {
         $this->output->writeln($string);
@@ -101,9 +106,8 @@ class RuntimeTask
         }
 
         $command = $this
-            ->task
-            ->getContainer()
-            ->getApp()
+            ->command
+            ->getApplication()
             ->find($taskName)
             ;
 

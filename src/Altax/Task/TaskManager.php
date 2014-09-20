@@ -8,6 +8,13 @@ class TaskManager
 {
     protected $tasks = array();
 
+    protected $server;
+
+    public function __construct($server)
+    {
+        $this->server = $server;
+    }
+
     public function register()
     {
         $args = func_get_args();
@@ -16,7 +23,7 @@ class TaskManager
             throw new \InvalidArgumentException("Missing argument. Must 2 arguments at minimum.");
         }
 
-        $task = new Task($args[0], $this);
+        $task = new Task($args[0], $this, $this->server);
 
         if ($args[1] instanceof \Closure) {
             // Task is a closure

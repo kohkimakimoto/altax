@@ -13,7 +13,7 @@ class TaskServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bindShared('task', function ($app) {
-            return new TaskManager();
+            return new TaskManager($app['server']);
         });
     }
 }

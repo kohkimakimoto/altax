@@ -18,7 +18,7 @@ class Application extends Container
     /**
      * Version of the application.
      */
-    const VERSION = "3.1.0";
+    const VERSION = "4.0.0";
 
     /**
      * git commit hash.
