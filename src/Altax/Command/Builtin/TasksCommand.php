@@ -51,7 +51,7 @@ class TasksCommand extends SymfonyCommand
                     $table->setHeaders(array('name', 'description', 'hidden'));
                 }
                 foreach ($tasks as $task) {
-                    $command = $task->createCommandInstance();
+                    $command = $task->makeCommand();
                     $table->addRow(array(
                         $task->getName(),
                         $command->getDescription(),
@@ -67,7 +67,7 @@ class TasksCommand extends SymfonyCommand
             $data = array();
             if ($tasks) {
                 foreach ($tasks as $task) {
-                    $command = $task->createCommandInstance();
+                    $command = $task->makeCommand();
                     $data[$task->getName()] = array(
                         'description' => $command->getDescription(),
                         'hidden' => $task->isHidden()
