@@ -3,7 +3,7 @@ namespace Test\Altax\Server;
 
 use Altax\Server\ServerManager;
 
-class ServerTest extends \PHPUnit_Framework_TestCase
+class ServerManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function setup()
     {
