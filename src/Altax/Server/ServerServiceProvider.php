@@ -16,8 +16,8 @@ class ServerServiceProvider extends ServiceProvider
             return new KeyPassphraseMap();
         });
 
-        $this->app->bindShared('server', function ($app) {
-            return new Server($app['key_passphrase_map'], $app['env']);
+        $this->app->bindShared('servers', function ($app) {
+            return new ServerManager($app['key_passphrase_map'], $app['env']);
         });
 
     }

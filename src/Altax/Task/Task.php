@@ -12,7 +12,7 @@ class Task
 
     protected $taskManager;
 
-    protected $server;
+    protected $servers;
 
     protected $closure;
 
@@ -28,11 +28,11 @@ class Task
 
     protected $config = array();
 
-    public function __construct($name, $taskManager, $server)
+    public function __construct($name, $taskManager, $servers)
     {
         $this->name = $name;
         $this->taskManager = $taskManager;
-        $this->server = $server;
+        $this->servers = $servers;
     }
 
     public function setName($name)
@@ -45,9 +45,9 @@ class Task
         return $this->name;
     }
 
-    public function getServer()
+    public function getServers()
     {
-        return $this->server;
+        return $this->servers;
     }
 
     public function setDescription($description)

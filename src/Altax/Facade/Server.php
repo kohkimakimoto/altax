@@ -8,5 +8,5 @@ class Server extends \Illuminate\Support\Facades\Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'server'; }
+    protected static function getFacadeAccessor() { return 'servers'; }
 }
