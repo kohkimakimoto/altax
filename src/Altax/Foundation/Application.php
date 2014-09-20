@@ -25,11 +25,19 @@ class Application extends Container
      */
     const COMMIT = "%commit%";
 
+    /**
+     * Get a application name
+     * @return string name
+     */
     public function getName()
     {
         return static::NAME;
     }
 
+    /**
+     * Get a version with commit
+     * @return string a version with commit
+     */
     public function getVersionWithCommit()
     {
         return static::VERSION." - ".static::COMMIT;
@@ -45,6 +53,7 @@ class Application extends Container
             'Input'            => 'Altax\Facade\Input',
             'Output'           => 'Altax\Facade\Output',
             'KeyPassphraseMap' => 'Altax\Facade\KeyPassphraseMap',
+            'Process'          => 'Altax\Facade\Process',
         );
         AliasLoader::getInstance($aliases)->register();
     }
@@ -57,6 +66,7 @@ class Application extends Container
             'Altax\Server\ServerServiceProvider',
             'Altax\Env\EnvServiceProvider',
             'Altax\Task\TaskServiceProvider',
+            'Altax\Process\ProcessServiceProvider',
         );
         $this->registerProviders($providers);
     }
