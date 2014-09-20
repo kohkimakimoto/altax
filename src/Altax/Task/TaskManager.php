@@ -47,9 +47,4 @@ class TaskManager
     {
         return isset($this->tasks[$name]) ? $this->tasks[$name] : $default;
     }
-
-    public function get($name)
-    {
-        return $this->getTask($name);
-    }
 }
