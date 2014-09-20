@@ -1,0 +1,30 @@
+# HostName 192.168.56.1
+# server1
+
+Host test-server1
+    # altax.ignore true
+    HostName 192.168.56.1
+    port 22
+    User kohkimakimoto
+    IdentityFile ~/.ssh/id_rsa
+
+Host test-server2
+    # altax.roles web, db
+    HostName 192.168.56.2
+    port 22
+    User kohkimakimoto
+    IdentityFile ~/.ssh/id_rsa
+
+Host test-server3
+    # altax.roles web
+    HostName 192.168.56.3
+    port 22
+    User kohkimakimoto
+    IdentityFile ~/.ssh/id_rsa
+
+Host test-server4
+    # altax.roles web
+    HostName 192.168.56.4
+    port 22
+    User kohkimakimoto
+    IdentityFile ~/.ssh/id_rsa
