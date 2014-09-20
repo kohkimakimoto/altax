@@ -1,8 +1,6 @@
 <?php
 namespace Altax\Task;
 
-use Server, Env, KeyPassphraseMap;
-
 /**
  * Executor
  */
@@ -11,6 +9,7 @@ class Executor
     protected $runtimeTask;
     protected $closure;
     protected $options;
+    protected $server;
     protected $childPids = array();
     protected $isParallel;
     protected $keyPassphraseMap;
@@ -20,6 +19,7 @@ class Executor
         $this->runtimeTask = $runtimeTask;
         $this->closure = $closure;
         $this->options = $options;
+        $this->server = $runtimeTask->getTask()->getServer();
         $this->nodes   = $this->loadNodes($options);
 
         // Output info
@@ -46,10 +46,10 @@ class Executor
         foreach ($nodes as $node) {
             if (!$node->useAgent()
                 && $node->isUsedWithPassphrase()
-                && !KeyPassphraseMap::hasPassphraseAtKey($node->getKeyOrDefault())
+                && !$this->getKeyPassphraseMap()->hasPassphraseAtKey($node->getKeyOrDefault())
                 ) {
                 $passphrase = $this->askPassphrase($node->getKeyOrDefault());
-                KeyPassphraseMap::setPassphraseAtKey(
+                $this->getKeyPassphraseMap()->setPassphraseAtKey(
                     $node->getKeyOrDefault(),
                     $passphrase);
             }
@@ -183,11 +183,11 @@ class Executor
             $role = null;
 
             if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node") {
-                $node = Server::getNode($candidateNodeName["name"]);
+                $node = $this->server->getNode($candidateNodeName["name"]);
             }
 
             if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "role") {
-                $role = Server::getRole($candidateNodeName["name"]);
+                $role = $this->server->getRole($candidateNodeName["name"]);
             }
 
             if ($node && $role) {
@@ -196,8 +196,7 @@ class Executor
 
             if (!$node && !$role && ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node")) {
                 // Passed unregistered node name. Create node instance.
-                $node = new Node();
-                $node->setName($candidateNodeName["name"]);
+                $node = $this->server->makeNode($candidateNodeName["name"]);
             }
 
             if ($node) {

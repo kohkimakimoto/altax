@@ -116,6 +116,11 @@ class Server
         }
     }
 
+    public function makeNode($name)
+    {
+        return new Node($name, $this->keyPassphraseMap, $this->env);
+    }
+
     public function getNodes()
     {
         return $this->nodes;
@@ -134,5 +139,10 @@ class Server
     public function getRole($name, $default = null)
     {
         return isset($this->roles[$name]) ? $this->roles[$name] : $default;
+    }
+
+    public function getKeyPassphraseMap()
+    {
+        return $this->keyPassphraseMap;
     }
 }
