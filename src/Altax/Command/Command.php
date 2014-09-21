@@ -47,28 +47,28 @@ abstract class Command extends SymfonyCommand
     {
         $runtimeTask = new RuntimeTask($this, $this->task, $input, $output);
 
-        if ($output->isVerbose()) {
-            $output->writeln("<info>Starting </info>".$this->task->getName());
+        if ($output->isDebug()) {
+            $output->writeln("<comment>[debug]</comment> <info>Starting </info>".$this->task->getName());
         }
 
         $this->ancestry[] = $this->task->getName();
 
         if ($output->isDebug()) {
-            $output->writeln("<info>Current ancestry is </info>".implode(" > ", $this->ancestry));
+            $output->writeln("<comment>[debug]</comment> <info>Current ancestry is </info>".implode(" > ", $this->ancestry));
         }
 
         $this->runBeforeTask($output);
 
-        if ($output->isVerbose()) {
-            $output->writeln("<info>Running </info>".$this->task->getName());
+        if ($output->isDebug()) {
+            $output->writeln("<comment>[debug]</comment> <info>Running </info>".$this->task->getName());
         }
 
         $retVal = $this->fire($runtimeTask);
 
         $this->runAfterTask($output);
 
-        if ($output->isVerbose()) {
-            $output->writeln("<info>Finished </info>".$this->task->getName());
+        if ($output->isDebug()) {
+            $output->writeln("<comment>[debug]</comment> <info>Finished </info>".$this->task->getName());
         }
 
         return $retVal;
