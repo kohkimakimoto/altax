@@ -12,7 +12,7 @@ class ProcessServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('process', function ($app) {
+        $this->app->bind('process', function ($app) {
             return new ProcessExecutor($app['servers'], $app['output']);
         });
     }

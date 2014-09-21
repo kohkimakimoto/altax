@@ -12,7 +12,6 @@ class Executor
     protected $servers;
     protected $childPids = array();
     protected $isParallel;
-    protected $keyPassphraseMap;
 
     public function __construct($runtimeTask, $closure, $options)
     {
@@ -46,10 +45,10 @@ class Executor
         foreach ($nodes as $node) {
             if (!$node->useAgent()
                 && $node->isUsedWithPassphrase()
-                && !$this->getKeyPassphraseMap()->hasPassphraseAtKey($node->getKeyOrDefault())
+                && !$this->servers->getKeyPassphraseMap()->hasPassphraseAtKey($node->getKeyOrDefault())
                 ) {
                 $passphrase = $this->askPassphrase($node->getKeyOrDefault());
-                $this->getKeyPassphraseMap()->setPassphraseAtKey(
+                $this->servers->getKeyPassphraseMap()->setPassphraseAtKey(
                     $node->getKeyOrDefault(),
                     $passphrase);
             }
