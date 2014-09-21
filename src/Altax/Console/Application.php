@@ -62,6 +62,7 @@ EOL;
     {
         $this->container->instance('input', $input);
         $this->container->instance('output', $output);
+        $this->container->instance('console', $this);
 
         $this->registerBuiltinCommands();
         $this->loadConfiguration();

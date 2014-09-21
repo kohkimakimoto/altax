@@ -36,6 +36,13 @@ abstract class Command extends SymfonyCommand
         }
     }
 
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->getContainer()->instance('command', $this);
+
+        return parent::run($input, $output);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $runtimeTask = new RuntimeTask($this, $this->task, $input, $output);
