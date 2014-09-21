@@ -20,7 +20,7 @@ class ServerManager
     public function node()
     {
         $args = func_get_args();
-        if (count($args) == 0) {
+        if (count($args) === 0) {
             throw new \InvalidArgumentException("Missing argument. Must 1 arguments at minimum.");
         }
 
@@ -119,6 +119,94 @@ class ServerManager
     public function makeNode($name)
     {
         return new Node($name, $this->keyPassphraseMap, $this->env);
+    }
+
+    /**
+     * Load nodes by the conditions.
+     * @param  array $conditions
+     * @return array
+     */
+    public function findNodes(array $conditions)
+    {
+        $candidateNodeNames = array();
+        $concreteNodes = array();
+
+        if (is_vector($conditions)) {
+            foreach ($conditions as $condition) {
+                if (is_string($condition)) {
+                    $candidateNodeNames[] = array(
+                        "type" => null, // Means both node and role.
+                        "name" => $condition,
+                        );
+                }
+            }
+        } else {
+            foreach ($conditions as $key => $value) {
+                if ($key == "nodes" || $key == "node") {
+                    $nodes = array();
+                    if (is_string($value)) {
+                        $nodes[] = $value;
+                    } elseif (is_array($value)) {
+                        $nodes = $value;
+                    }
+                    foreach ($nodes as $node) {
+                        $candidateNodeNames[] = array(
+                            "type" => "node",
+                            "name" => $node,
+                        );
+                    }
+                }
+                if ($key == "roles" || $key == "role") {
+                    $roles = array();
+                    if (is_string($value)) {
+                        $roles[] = $value;
+                    } elseif (is_array($value)) {
+                        $roles = $value;
+                    }
+                    foreach ($roles as $role) {
+                        $candidateNodeNames[] = array(
+                            "type" => "role",
+                            "name" => $role,
+                        );
+                    }
+                }
+            }
+        }
+
+        foreach ($candidateNodeNames as $candidateNodeName) {
+
+            $node = null;
+            $role = null;
+
+            if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node") {
+                $node = $this->getNode($candidateNodeName["name"]);
+            }
+
+            if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "role") {
+                $role = $this->getRole($candidateNodeName["name"]);
+            }
+
+            if ($node && $role) {
+                throw new \RuntimeException("The key '".$candidateNodeName["name"]."' was found in both nodes and roles. So It couldn't identify to unique node.");
+            }
+
+            if (!$node && !$role && ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node")) {
+                // Passed unregistered node name. Create node instance.
+                $node = $this->makeNode($candidateNodeName["name"]);
+            }
+
+            if ($node) {
+                $concreteNodes[$node->getName()] = $node;
+            }
+
+            if ($role) {
+                foreach ($role->getNodes() as $nodeName => $node) {
+                    $concreteNodes[$nodeName] = $node;
+                }
+            }
+        }
+
+        return $concreteNodes;
     }
 
     public function getNodes()

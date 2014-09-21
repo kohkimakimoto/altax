@@ -20,7 +20,7 @@ class Executor
         $this->closure = $closure;
         $this->options = $options;
         $this->servers = $runtimeTask->getTask()->getServers();
-        $this->nodes   = $this->loadNodes($options);
+        $this->nodes   = $this->servers->findNodes($options);
 
         // Output info
         if ($this->runtimeTask->getOutput()->isVerbose()) {
@@ -123,94 +123,6 @@ class Executor
     protected function doExecute($node)
     {
         call_user_func($this->closure, new Process($this->runtimeTask, $node));
-    }
-
-    /**
-     * Load nods from variable length argument lists same 'on' and 'for' method.
-     * @return array Array of Altax\Module\Server\Resource\Node
-     */
-    protected function loadNodes(array $args)
-    {
-        $candidateNodeNames = array();
-        $concreteNodes = array();
-
-        if (is_vector($args)) {
-            foreach ($args as $arg) {
-                if (is_string($arg)) {
-                    $candidateNodeNames[] = array(
-                        "type" => null, // Means both node and role.
-                        "name" => $arg,
-                        );
-                }
-            }
-        } else {
-            foreach ($args as $key => $value) {
-                if ($key == "nodes" || $key == "node") {
-                    $nodes = array();
-                    if (is_string($value)) {
-                        $nodes[] = $value;
-                    } elseif (is_array($value)) {
-                        $nodes = $value;
-                    }
-                    foreach ($nodes as $node) {
-                        $candidateNodeNames[] = array(
-                            "type" => "node",
-                            "name" => $node,
-                        );
-                    }
-                }
-                if ($key == "roles" || $key == "role") {
-                    $roles = array();
-                    if (is_string($value)) {
-                        $roles[] = $value;
-                    } elseif (is_array($value)) {
-                        $roles = $value;
-                    }
-                    foreach ($roles as $role) {
-                        $candidateNodeNames[] = array(
-                            "type" => "role",
-                            "name" => $role,
-                        );
-                    }
-                }
-            }
-
-        }
-
-        foreach ($candidateNodeNames as $candidateNodeName) {
-
-            $node = null;
-            $role = null;
-
-            if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node") {
-                $node = $this->servers->getNode($candidateNodeName["name"]);
-            }
-
-            if ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "role") {
-                $role = $this->servers->getRole($candidateNodeName["name"]);
-            }
-
-            if ($node && $role) {
-                throw new \RuntimeException("The key '".$candidateNodeName["name"]."' was found in both nodes and roles. So It couldn't identify to unique node.");
-            }
-
-            if (!$node && !$role && ($candidateNodeName["type"] === null || $candidateNodeName["type"] == "node")) {
-                // Passed unregistered node name. Create node instance.
-                $node = $this->servers->makeNode($candidateNodeName["name"]);
-            }
-
-            if ($node) {
-                $concreteNodes[$node->getName()] = $node;
-            }
-
-            if ($role) {
-                foreach ($role->getNodes() as $nodeName => $node) {
-                    $concreteNodes[$nodeName] = $node;
-                }
-            }
-        }
-
-        return $concreteNodes;
     }
 
     public function getNodes()

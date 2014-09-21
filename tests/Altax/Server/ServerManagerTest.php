@@ -62,4 +62,34 @@ class ServerManagerTest extends \PHPUnit_Framework_TestCase
         $servers = $this->app["servers"];
         $servers->nodesFromSSHConfigHosts();
     }
+
+    public function testLoadNodes()
+    {
+        $servers = $this->app["servers"];
+
+        $servers->node("node1", "web");
+        $servers->node("node2", "web");
+        $servers->node("node3", "db");
+
+        $nodes = $servers->findNodes(["node1", "node2"]);
+        $this->assertEquals(2, count($nodes));
+        $this->assertEquals("node1", $nodes["node1"]->getName());
+        $this->assertEquals("node2", $nodes["node2"]->getName());
+
+        $nodes = $servers->findNodes(["role" => "web"]);
+        $this->assertEquals(2, count($nodes));
+
+        $nodes = $servers->findNodes(["roles" => ["web"]]);
+        $this->assertEquals(2, count($nodes));
+
+        $nodes = $servers->findNodes(["roles" => ["web", "db"]]);
+        $this->assertEquals(3, count($nodes));
+
+        $nodes = $servers->findNodes(["node" => "node1"]);
+        $this->assertEquals(1, count($nodes));
+
+        $nodes = $servers->findNodes(["nodes" => ["node1", "node2"]]);
+        $this->assertEquals(2, count($nodes));
+
+    }
 }
