@@ -7,14 +7,17 @@ class Executor
 
     protected $output;
 
+    protected $command;
+
     protected $isParallel;
 
     protected $childPids = array();
 
-    public function __construct($servers, $output)
+    public function __construct($servers, $output, $command)
     {
         $this->servers = $servers;
         $this->output = $output;
+        $this->command = $command;
 
         if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
             $this->isParallel = false;
@@ -25,37 +28,34 @@ class Executor
 
     public function exec()
     {
-/*
-            if ($args[0] instanceof \Closure) {
-                $command = $args[0];
-            } elseif (is_string($args[0])) {
-                $command = $args[0];
-            } else {
-                throw new \InvalidArgumentException("You must pass a closure or string.");
-            }
-*/
-
         $args = func_get_args();
         if (count($args) === 0) {
             throw new \InvalidArgumentException("Missing argument. Must 1 arguments at minimum.");
         }
 
-        $command = null;
+        $closure = null;
         $nodes = array();
 
         // load nodes
         if (count($args) === 1) {
-            // Passed only a closure or a command line stirng.
-            $command = $args[0];
+            // Passed only a closure.
+            $closure = $args[0];
         } elseif (count($args) === 2) {
             // Passed with target nodes or roles.
+            if (is_string($args[0])) {
+                $args[0] = array($args[0]);
+            }
             $nodes = $this->servers->findNodes($args[0]);
-            $command = $args[1];
+            $closure = $args[1];
         }
 
         if ($this->output->isDebug()) {
             $this->output->writeln("<comment>[debug]</comment> Found ".count($nodes)." nodes: "
                 ."".trim(implode(", ", array_keys($nodes))));
+        }
+
+        if (!($closure instanceof \Closure)) {
+            throw new \InvalidArgumentException("You must pass a closure.");
         }
 
         // check ssh keys
@@ -72,22 +72,18 @@ class Executor
         }
 
         // If target nodes count <= 1, It doesn't need to fork processes.
-        if (count($nodes) === 0) {
-            $this->doExecute(null);
-
-            return;
-        } elseif (count($nodes) === 1) {
-            $this->doExecute(reset($nodes));
+        if (count($nodes) <= 1) {
+            $this->doExecute($closure, null);
 
             return;
         }
 
         if (!$this->isParallel) {
             if ($this->output->isDebug()) {
-                $this->output->writeln("<info>Running serial mode.</info>");
+                $this->output->writeln("<comment>[debug]</comment> <info>Running serial mode.</info>");
             }
             foreach ($nodes as $node) {
-                $this->doExecute($node);
+                $this->doExecute($closure, $node);
             }
 
             return;
@@ -109,10 +105,10 @@ class Executor
             } else {
                 // Child process
                 if ($this->output->isDebug()) {
-                    $this->output->writeln("<info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
+                    $this->output->writeln("<comment>[debug]</comment> <info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
                 }
 
-                $this->doExecute($node);
+                $this->doExecute($closure, $node);
                 exit(0);
             }
         }
@@ -137,21 +133,21 @@ class Executor
 
     }
 
-    protected function doExecute($node)
+    protected function doExecute($closure, $node)
     {
-//        call_user_func($this->closure, new Process($this->runtimeTask, $node));
+        call_user_func($closure, new Process($this->output, $this, $node));
     }
 
     public function signalHandler($signo)
     {
         switch ($signo) {
             case SIGTERM:
-                $this->runtimeTask->getOutput()->writeln("<fg=red>Got SIGTERM.</fg=red>");
+                $this->output->writeln("<fg=red>Got SIGTERM.</fg=red>");
                 $this->killAllChildren();
                 exit;
 
             case SIGINT:
-                $this->runtimeTask->getOutput()->writeln("<fg=red>Got SIGINT.</fg=red>");
+                $this->output->writeln("<fg=red>Got SIGINT.</fg=red>");
                 $this->killAllChildren();
                 exit;
         }
@@ -160,7 +156,7 @@ class Executor
     public function killAllChildren()
     {
         foreach ($this->childPids as $pid => $host) {
-            $this->runtimeTask->getOutput()->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
+            $this->output->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
             $this->killProcess($pid);
         }
     }
@@ -186,12 +182,9 @@ class Executor
      */
     public function askPassphrase($validatingKey)
     {
-        $output = $this->runtimeTask->getOutput();
-        $command = $this->runtimeTask->getCommand();
-        $dialog = $command->getHelperSet()->get('dialog');
-
+        $dialog = $this->command->getHelperSet()->get('dialog');
         $passphrase = $dialog->askHiddenResponseAndValidate(
-            $output,
+            $this->output,
             '<info>Enter passphrase for SSH key [<comment>'.$validatingKey.'</comment>]: </info>',
             function ($answer) use ($validatingKey) {
 
