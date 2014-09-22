@@ -5,6 +5,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Illuminate\Support\Facades\Facade;
 
 use Altax\Foundation\Application;
+use Altax\Process\Process;
 
 /**
  * Boot altax application.
@@ -68,6 +69,8 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
 
     $app->registerBuiltinAliases();
     $app->registerBuiltinProviders();
+
+    $app->instance('process', Process::createMainProcess());
 
     return $app;
 }

@@ -3,6 +3,7 @@ namespace Altax\Task;
 
 /**
  * Executor
+ * @deprecated
  */
 class Executor
 {

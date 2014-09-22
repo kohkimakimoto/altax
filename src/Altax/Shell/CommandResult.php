@@ -1,10 +1,7 @@
 <?php
-namespace Altax\Task;
+namespace Altax\Shell;
 
-/**
- * @deprecated
- */
-class ProcessResult
+class CommandResult
 {
     protected $returnCode;
     protected $contents;

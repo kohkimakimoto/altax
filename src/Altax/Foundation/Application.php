@@ -54,6 +54,7 @@ class Application extends Container
             'Output'           => 'Altax\Facade\Output',
             'KeyPassphraseMap' => 'Altax\Facade\KeyPassphraseMap',
             'Process'          => 'Altax\Facade\Process',
+            'Command'          => 'Altax\Facade\Command',
         );
         AliasLoader::getInstance($aliases)->register();
     }
@@ -67,6 +68,7 @@ class Application extends Container
             'Altax\Env\EnvServiceProvider',
             'Altax\Task\TaskServiceProvider',
             'Altax\Process\ProcessServiceProvider',
+            'Altax\Shell\ShellServiceProvider',
         );
         $this->registerProviders($providers);
     }

@@ -197,6 +197,43 @@ class Node
         return $this->roles;
     }
 
+    public function getSSHConnection()
+    {
+        $ssh = new \Net_SSH2(
+            $this->getHostOrDefault(),
+            $this->getPortOrDefault());
+
+        // set up key
+        $key = new \Crypt_RSA();
+
+        if ($this->useAgent()) {
+            // use ssh-agent
+            if (class_exists('System_SSH_Agent', true) == false) {
+                require_once 'System/SSH_Agent.php';
+            }
+            $key = new \System_SSH_Agent();
+        } else {
+            // use ssh key file
+            if ($this->isUsedWithPassphrase()) {
+                // use passphrase
+                $key->setPassword($this->getPassphrase());
+            }
+
+            if (!$key->loadKey($this->getKeyContents())) {
+                throw new \RuntimeException('Unable to load SSH key file: '.$this->getKeyOrDefault());
+            }
+        }
+
+        // login
+        if (!$ssh->login($this->getUsernameOrDefault(), $key)) {
+            $err = error_get_last();
+            $emessage = isset($err['message']) ? $err['message'] : "";
+            throw new \RuntimeException('Unable to login '.$this->getName().". ".$emessage);
+        }
+
+        return $ssh;
+    }
+
     public function roles()
     {
         return $this->roles;

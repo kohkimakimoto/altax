@@ -4,6 +4,9 @@ namespace Altax\Task;
 use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @deprecated
+ */
 class Process
 {
     protected $node;

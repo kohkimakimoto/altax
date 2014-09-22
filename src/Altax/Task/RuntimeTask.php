@@ -4,7 +4,7 @@ namespace Altax\Task;
 use Symfony\Component\Console\Input\ArrayInput;
 
 /**
- * Runtime task
+ * @deprecated
  */
 class RuntimeTask
 {

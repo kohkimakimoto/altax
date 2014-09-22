@@ -8,5 +8,5 @@ class Process extends \Illuminate\Support\Facades\Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'process'; }
+    protected static function getFacadeAccessor() { return 'process.executor'; }
 }

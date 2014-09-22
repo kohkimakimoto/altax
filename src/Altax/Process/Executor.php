@@ -3,6 +3,8 @@ namespace Altax\Process;
 
 class Executor
 {
+    protected $app;
+
     protected $servers;
 
     protected $output;
@@ -13,8 +15,9 @@ class Executor
 
     protected $childPids = array();
 
-    public function __construct($servers, $output, $command)
+    public function __construct($app, $servers, $output, $command)
     {
+        $this->app = $app;
         $this->servers = $servers;
         $this->output = $output;
         $this->command = $command;
@@ -50,7 +53,7 @@ class Executor
         }
 
         if ($this->output->isDebug()) {
-            $this->output->writeln("<comment>[debug]</comment> Found ".count($nodes)." nodes: "
+            $this->output->writeln("<comment>[debug]</comment> <info>Found <comment>".count($nodes)."</comment> nodes:</info> "
                 ."".trim(implode(", ", array_keys($nodes))));
         }
 
@@ -135,7 +138,9 @@ class Executor
 
     protected function doExecute($closure, $node)
     {
-        call_user_func($closure, new Process($this->output, $this, $node));
+        $process = new Process($node);
+        $this->app->instance("process", $process);
+        call_user_func($closure, $process);
     }
 
     public function signalHandler($signo)

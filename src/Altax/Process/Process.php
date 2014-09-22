@@ -1,144 +1,48 @@
 <?php
 namespace Altax\Process;
 
-use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Process
 {
-    public function __construct($output, $executor, $node)
+    protected $node;
+
+    protected $main = false;
+
+    public static function createMainProcess()
     {
-        $this->output = $output;
-        $this->executor = $executor;
+        $process = new static(null);
+        $process->main = true;
+        return $process;
+    }
+
+    public function __construct($node)
+    {
         $this->node = $node;
     }
 
-    public function run($commandline, $options = array())
+    public function getNodeInfo()
     {
-        if (!$this->node) {
-            throw new \RuntimeException("Node is not defined to run the command.");
-        }
+        return "<info>[".$this->getNode()->getName()."]</info> ";
+    }
 
-        if (is_array($commandline)) {
-            $commandline = implode(" && ", $commandline);
-        }
+    public function getNode()
+    {
+        return $this->node;
+    }
 
-        $this->output->writeln($this->getRemoteInfoPrefix()."<info>Run: </info>$commandline");
-
-        $realCommand = $this->compileRealCommand($commandline, $options);
-
-        if ($this->output->isDebug()) {
-            $this->output->writeln($this->getRemoteInfoPrefix()."<info>Real command: </info>$realCommand");
-        }
-
-        $ssh = $this->getSSH();
-
-        if (isset($options["timeout"])) {
-            $ssh->setTimeout($options["timeout"]);
+    protected function getPid()
+    {
+        $pid = null;
+        if (!function_exists('posix_getpid')) {
+            $pid = getmypid();
         } else {
-            $ssh->setTimeout(null);
+            $pid = posix_getpid();
         }
 
-        $output = $this->output;
-        $resultContent = null;
-        $ssh->exec($realCommand, function ($buffer) use ($output, &$resultContent) {
-            $output->write($buffer);
-            $resultContent .= $buffer;
-        });
-
-        $returnCode = $ssh->getExitStatus();
-
-        return new ProcessResult($returnCode, $resultContent);
+        return $pid;
     }
 
-    public function runLocally($commandline, $options = array())
-    {
-        if (is_array($commandline)) {
-            $commandline = implode(" && ", $commandline);
-        }
-
-        $this->output->writeln($this->getLocalInfoPrefix()."<info>Run: </info>$commandline");
-
-        $realCommand = $this->compileRealCommand($commandline, $options);
-
-        if ($this->output->isDebug()) {
-            $this->output->writeln($this->getLocalInfoPrefix()."<info>Real command: </info>$realCommand");
-        }
-
-        $symfonyProcess = new SymfonyProcess($realCommand);
-        if (isset($options["timeout"])) {
-            $symfonyProcess->setTimeout($options["timeout"]);
-        } else {
-            $symfonyProcess->setTimeout(null);
-        }
-
-        $output = $this->output;
-        $resultContent = null;
-        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, &$resultContent) {
-            $output->write($buffer);
-            $resultContent .= $buffer;
-        });
-
-        return new ProcessResult($returnCode, $resultContent);
-    }
-
-    protected function compileRealCommand($commandline, $options)
-    {
-
-        $realCommand = "";
-
-        if (isset($options["user"])) {
-            $realCommand .= 'sudo -u'.$options["user"].' TERM=dumb ';
-        }
-
-        $realCommand .= '/bin/bash -l -c "';
-
-        if (isset($options["cwd"])) {
-            $realCommand .= 'cd '.$options["cwd"].' && ';
-        }
-
-        $realCommand .= str_replace('"', '\"', $commandline);
-        $realCommand .= '"';
-
-        return $realCommand;
-    }
-
-    protected function getSSH()
-    {
-        $ssh = new \Net_SSH2(
-            $this->node->getHostOrDefault(),
-            $this->node->getPortOrDefault());
-
-        // set up key
-        $key = new \Crypt_RSA();
-
-        if ($this->node->useAgent()) {
-            // use ssh-agent
-            if (class_exists('System_SSH_Agent', true) == false) {
-                require_once 'System/SSH_Agent.php';
-            }
-            $key = new \System_SSH_Agent();
-        } else {
-            // use ssh key file
-            if ($this->node->isUsedWithPassphrase()) {
-                // use passphrase
-                $key->setPassword($this->node->getPassphrase());
-            }
-
-            if (!$key->loadKey($this->node->getKeyContents())) {
-                throw new \RuntimeException('Unable to load SSH key file: '.$this->node->getKeyOrDefault());
-            }
-        }
-
-        // login
-        if (!$ssh->login($this->node->getUsernameOrDefault(), $key)) {
-            $err = error_get_last();
-            $emessage = isset($err['message']) ? $err['message'] : "";
-            throw new \RuntimeException('Unable to login '.$this->node->getName().". ".$emessage);
-        }
-
-        return $ssh;
-    }
 
     public function get($remote, $local)
     {
@@ -248,30 +152,15 @@ class Process
         return $name;
     }
 
-    public function getNode()
-    {
-        return $this->node;
-    }
-    public function getRemoteInfoPrefix()
-    {
-        return "<info>[</info><comment>".$this->getNodeName().":".$this->getPid()."</comment><info>]</info> ";
-    }
 
     public function getLocalInfoPrefix()
     {
         return "<info>[</info><comment>localhost:".$this->getPid()."</comment><info>]</info> ";
     }
 
-    protected function getPid()
+    public function isMain()
     {
-        $pid = null;
-        if (!function_exists('posix_getpid')) {
-            $pid = getmypid();
-        } else {
-            $pid = posix_getpid();
-        }
-
-        return $pid;
+        return $this->main;
     }
 
 }
