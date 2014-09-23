@@ -1,6 +1,8 @@
 <?php
 namespace Altax\Task;
 
+use Symfony\Component\Console\Input\ArrayInput;
+
 /**
  * TaskManager
  */
@@ -10,9 +12,18 @@ class TaskManager
 
     protected $servers;
 
-    public function __construct($servers)
+    protected $input;
+
+    protected $output;
+
+    protected $console;
+
+    public function __construct($servers, $input, $output, $console)
     {
         $this->servers = $servers;
+        $this->console = $console;
+        $this->input = $input;
+        $this->output = $output;
     }
 
     public function register()
@@ -46,5 +57,17 @@ class TaskManager
     public function getTask($name, $default = null)
     {
         return isset($this->tasks[$name]) ? $this->tasks[$name] : $default;
+    }
+
+    public function call($name)
+    {
+        if ($this->output->isDebug()) {
+            $this->output->writeln("Calling task: ".$name);
+        }
+
+        $command = $this->console->find($name);
+        $arguments['command'] = $name;
+        $input = new ArrayInput($arguments);
+        return $command->run($input, $this->output);
     }
 }

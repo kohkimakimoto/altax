@@ -15,5 +15,11 @@ class ProcessServiceProvider extends ServiceProvider
         $this->app->bind('process.executor', function ($app) {
             return new Executor($app, $app['servers'], $app['output'], $app['command']);
         });
+
+        $this->app->bindShared('process.main_process', function ($app) {
+            return Process::createMainProcess();
+        });
+
+        $this->app->instance('process.current_process', $this->app['process.main_process']);
     }
 }

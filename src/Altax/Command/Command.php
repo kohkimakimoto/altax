@@ -48,19 +48,19 @@ abstract class Command extends SymfonyCommand
         $runtimeTask = new RuntimeTask($this, $this->task, $input, $output);
 
         if ($output->isDebug()) {
-            $output->writeln("<comment>[debug]</comment> <info>Starting </info>".$this->task->getName());
+            $output->writeln("Starting ".$this->task->getName());
         }
 
         $this->ancestry[] = $this->task->getName();
 
         if ($output->isDebug()) {
-            $output->writeln("<comment>[debug]</comment> <info>Current ancestry is </info>".implode(" > ", $this->ancestry));
+            $output->writeln("Current ancestry is ".implode(" > ", $this->ancestry));
         }
 
         $this->runBeforeTask($output);
 
         if ($output->isDebug()) {
-            $output->writeln("<comment>[debug]</comment> <info>Running </info>".$this->task->getName());
+            $output->writeln("Running ".$this->task->getName());
         }
 
         $retVal = $this->fire($runtimeTask);
@@ -68,7 +68,7 @@ abstract class Command extends SymfonyCommand
         $this->runAfterTask($output);
 
         if ($output->isDebug()) {
-            $output->writeln("<comment>[debug]</comment> <info>Finished </info>".$this->task->getName());
+            $output->writeln("Finished ".$this->task->getName());
         }
 
         return $retVal;
@@ -94,8 +94,8 @@ abstract class Command extends SymfonyCommand
         $tasks = $this->task->getBeforeTasks();
         foreach ($tasks as $task) {
 
-            if ($output->isVerbose()) {
-                $output->writeln("<info>Found a before task need to run: </info>".$task->getName());
+            if ($output->isDebug()) {
+                $output->writeln("Found a before task need to run: ".$task->getName());
             }
 
             if (in_array($task->getName(), $this->ancestry)) {
@@ -123,8 +123,8 @@ abstract class Command extends SymfonyCommand
         $tasks = $this->task->getAfterTasks();
         foreach ($tasks as $task) {
 
-            if ($output->isVerbose()) {
-                $output->writeln("<info>Found a after task need to run: </info>".$task->getName());
+            if ($output->isDebug()) {
+                $output->writeln("Found a after task need to run: ".$task->getName());
             }
 
             if (in_array($task->getName(), $this->ancestry)) {

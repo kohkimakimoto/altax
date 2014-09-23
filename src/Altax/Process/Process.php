@@ -23,7 +23,7 @@ class Process
 
     public function getNodeInfo()
     {
-        return "<info>[".$this->getNode()->getName()."]</info> ";
+        return "<fg=yellow> on </fg=yellow><fg=yellow;options=bold>".$this->getNode()->getName()."</fg=yellow;options=bold> ";
     }
 
     public function getNode()
@@ -150,12 +150,6 @@ class Process
         }
 
         return $name;
-    }
-
-
-    public function getLocalInfoPrefix()
-    {
-        return "<info>[</info><comment>localhost:".$this->getPid()."</comment><info>]</info> ";
     }
 
     public function isMain()

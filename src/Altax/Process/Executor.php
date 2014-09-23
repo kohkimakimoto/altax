@@ -53,7 +53,7 @@ class Executor
         }
 
         if ($this->output->isDebug()) {
-            $this->output->writeln("<comment>[debug]</comment> <info>Found <comment>".count($nodes)."</comment> nodes:</info> "
+            $this->output->writeln("Found ".count($nodes)."nodes: "
                 ."".trim(implode(", ", array_keys($nodes))));
         }
 
@@ -74,8 +74,8 @@ class Executor
             }
         }
 
-        // If target nodes count <= 1, It doesn't need to fork processes.
-        if (count($nodes) <= 1) {
+        // If target nodes count === 0, It doesn't need to fork processes.
+        if (count($nodes) === 0) {
             $this->doExecute($closure, null);
 
             return;
@@ -83,7 +83,7 @@ class Executor
 
         if (!$this->isParallel) {
             if ($this->output->isDebug()) {
-                $this->output->writeln("<comment>[debug]</comment> <info>Running serial mode.</info>");
+                $this->output->writeln("Running serial mode.");
             }
             foreach ($nodes as $node) {
                 $this->doExecute($closure, $node);
@@ -108,7 +108,7 @@ class Executor
             } else {
                 // Child process
                 if ($this->output->isDebug()) {
-                    $this->output->writeln("<comment>[debug]</comment> <info>Forked process for node: </info>".$node->getName()." (pid:<comment>".posix_getpid()."</comment>)");
+                    $this->output->writeln("Forked process for node: ".$node->getName()." (pid:".posix_getpid().")");
                 }
 
                 $this->doExecute($closure, $node);
@@ -139,8 +139,9 @@ class Executor
     protected function doExecute($closure, $node)
     {
         $process = new Process($node);
-        $this->app->instance("process", $process);
+        $this->app->instance("process.current_process", $process);
         call_user_func($closure, $process);
+        $this->app->instance("process.current_process", $this->app['process.main_process']);
     }
 
     public function signalHandler($signo)

@@ -21,6 +21,10 @@ class Command
 
     public function run()
     {
+        if ($this->process->isMain()) {
+            return $this->runLocally();
+        }
+
         if (!$this->node) {
             throw new \RuntimeException("Node is not defined to run the command.");
         }
@@ -42,12 +46,12 @@ class Command
 
         if ($this->output->isDebug()) {
             $this->output->writeln(
-                $this->process->getNodeInfo().
-                "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)");
+                "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)"
+                .$this->process->getNodeInfo());
         } else {
             $this->output->writeln(
-                $this->process->getNodeInfo().
-                "<info>Run command: </info>$commandline");
+                "<info>Run command: </info>$commandline"
+                .$this->process->getNodeInfo());
         }
 
         $output = $this->output;

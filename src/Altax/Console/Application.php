@@ -105,17 +105,17 @@ EOL;
         $i = 1;
         foreach ($this->container["config_files"] as $file) {
             if ($output->isDebug()) {
-                $output->write("<comment>[debug]</comment> <info>Load config $i:</info> $file");
+                $output->write("Load config $i: $file");
             }
             if ($file && is_file($file)) {
                 require $file;
                 if ($output->isDebug()) {
-                    $output->writeln(" (<comment>OK</comment>)");
+                    $output->writeln(" (OK)");
                 }
                 $i++;
             } else {
                 if ($output->isDebug()) {
-                    $output->writeln(" (<comment>Not found</comment>)");
+                    $output->writeln(" (Not found)");
                 }
             }
         }
