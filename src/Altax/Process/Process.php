@@ -23,7 +23,7 @@ class Process
 
     public function getNodeInfo()
     {
-        return "<fg=yellow> on </fg=yellow><fg=yellow;options=bold>".$this->getNode()->getName()."</fg=yellow;options=bold> ";
+        return "<fg=yellow> on </fg=yellow><fg=yellow;options=bold>".$this->getNode()->getName()."</fg=yellow;options=bold>";
     }
 
     public function getNode()
