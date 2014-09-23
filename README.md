@@ -21,24 +21,24 @@ Server::node("web2.example.com", "web");
 Server::node("db1.example.com",  "db");
 
 // Register a task.
-Task::register("deploy", function($task){
+Task::register("deploy", function(){
 
     $appDir = "/path/to/app";
 
     // Execute parallel processes for each nodes.
-    $task->exec(function($process) use ($appDir){
+    Process::exec(["web", "db"], function() use ($appDir){
 
         // Run a command remotely and get a return code.
-        if ($process->run("test -d $appDir")->isFailed()) {
-            $process->run("git clone git@github.com:path/to/app.git $appDir");
+        if (Command::run("test -d $appDir")->isFailed()) {
+            Command::run("git clone git@github.com:path/to/app.git $appDir");
         } else {
-            $process->run(array(
+            Command::run(array(
                 "cd $appDir",
                 "git pull",
                 ));
         }
 
-    }, array("web"));
+    });
 
 });
 
@@ -48,11 +48,14 @@ You can run it like below
 
 ```Shell
 $ altax deploy
-[web1.example.com:8550] Run: test -d /var/tmp/altax
-[web1.example.com:8550] Run: git clone git@github.com:kpath/to/app.git /path/to/app
+Run command: test -d /path/to/app on web1.example.com
+Run command: git clone git@github.com:path/to/app.git /path/to/app on web1.example.com
 Initialized empty Git repository in /path/to/app/.git/
-[web2.example.com:8551] Run: test -d /var/tmp/altax
-[web3.example.com:8551] Run: git clone git@github.com:kpath/to/app.git /path/to/app
+Run command: test -d /path/to/app on web2.example.com
+Run command: git clone git@github.com:path/to/app.git /path/to/app on web2.example.com
+Initialized empty Git repository in /path/to/app/.git/
+Run command: test -d /path/to/app on db1.example.com
+Run command: git clone git@github.com:path/to/app.git /path/to/app on db1.example.com
 Initialized empty Git repository in /path/to/app/.git/
 ```
 
@@ -78,7 +81,7 @@ execute just `altax` command.
 
 ```Shell
 $ altax
-Altax version 3.0.0
+Altax version 4.0.0
 
 Altax is a extensible deployment tool for PHP.
 Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
