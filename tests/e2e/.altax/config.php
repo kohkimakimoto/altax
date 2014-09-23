@@ -2,22 +2,24 @@
 Server::node("127.0.0.1", array("web", "db"));
 
 
-Task::register("test001", function($task){
+Task::register("test001", function(){
 
-    $task->writeln("This is a test001");
-    
+    Output::writeln("This is a test001");
+
 });
 
-Task::register("test002", function($task){
+Task::register("test002", function(){
 
-    $task->exec(function($process){
-        $process->runLocally("echo run locally!");
+    Command::run("echo run locally!");
+
+});
+
+Task::register("test003", function(){
+
+    Process::exec(["127.0.0.1"], function($process){
+
+        Command::run("echo run!");
+
     });
-});
 
-Task::register("test003", function($task){
-
-    $task->exec(function($process){
-        $process->run("echo run!");
-    }, array("127.0.0.1"));
 });
