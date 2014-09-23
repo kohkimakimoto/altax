@@ -2,22 +2,19 @@
 namespace Test\Altax\Command\Builtin;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use Altax\Command\Builtin\InitCommand;
 use Altax\Console\Application;
-use Altax\Foundation\Container;
-use Altax\Module\Task\Resource\DefinedTask;
 
 class InitCommandTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
+    public function setup()
     {
-        $this->container = new Container();
+        $this->app = bootAltaxApplication();
     }
 
-    public function testDefault()
+    public function testCommand()
     {
-        $application = new Application($this->container);
+        $application = new Application($this->app);
         $application->setAutoExit(false);
         $application->add(new InitCommand());
         $command = $application->find("init");
@@ -39,7 +36,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        // Only checks to exist files. Don't inspect content of files.
+        // Only checks to exist files. Doesn't inspect content of files.
         $this->assertEquals(true, is_file($testTmpConfigPath));
         $this->assertEquals(true, is_file(dirname($testTmpConfigPath)."/composer.json"));
 

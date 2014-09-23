@@ -1,9 +1,7 @@
 <?php
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Filesystem\Filesystem;
@@ -32,16 +30,19 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
 
         if (!$container->isPhar()) {
             $output->writeln('<error>You can not update altax. Because altax only supports self-update command on PHAR file version.</error>');
+
             return 1;
         }
 
         if (!preg_match('/^v[0-9].[0-9]+.[0-9]+$/', $updateVersion)) {
             $output->writeln('<error>You can not update altax. Because the latest version of altax are not available for download.</error>');
+
             return 1;
         }
 
         if ($currentVersion === $updateVersion) {
             $output->writeln('<info>You are already using altax version <comment>'.$updateVersion.'</comment>.</info>');
+
             return 0;
         }
 
@@ -53,6 +54,7 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
         $process->setTimeout(null);
         if ($process->run() !== 0) {
             $output->writeln('<error>You can not update altax.');
+
             return 1;
         }
 
