@@ -53,7 +53,7 @@ class Executor
         }
 
         if ($this->output->isDebug()) {
-            $this->output->writeln("Found ".count($nodes)."nodes: "
+            $this->output->writeln("Found ".count($nodes)." nodes: "
                 ."".trim(implode(", ", array_keys($nodes))));
         }
 

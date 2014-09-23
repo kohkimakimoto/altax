@@ -2,8 +2,8 @@
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Application as SymfonyApplication;
 use Illuminate\Support\Facades\Facade;
-
 use Altax\Foundation\Application;
 
 /**
@@ -59,10 +59,11 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
     Facade::clearResolvedInstances();
     Facade::setFacadeApplication($app);
 
-    // Default input and output.
+    // Default input, output and console.
     // Generally, these objects will be overrided by console application process.
-    $app->instance('input', new ArgvInput());
-    $app->instance('output', new ConsoleOutput());
+    $app->instance('input', new ArgvInput);
+    $app->instance('output', new ConsoleOutput);
+    $app->instance('console', new SymfonyApplication);
 
     $app->instance('config_files', $configs);
 
