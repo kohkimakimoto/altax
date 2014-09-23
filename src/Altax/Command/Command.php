@@ -45,8 +45,6 @@ abstract class Command extends SymfonyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runtimeTask = new RuntimeTask($this, $this->task, $input, $output);
-
         if ($output->isDebug()) {
             $output->writeln("Starting ".$this->task->getName());
         }
@@ -63,7 +61,7 @@ abstract class Command extends SymfonyCommand
             $output->writeln("Running ".$this->task->getName());
         }
 
-        $retVal = $this->fire($runtimeTask);
+        $retVal = $this->fire();
 
         $this->runAfterTask($output);
 
@@ -74,7 +72,7 @@ abstract class Command extends SymfonyCommand
         return $retVal;
     }
 
-    protected function fire($task)
+    protected function fire()
     {
         throw new \RuntimeException("You need to override 'fire' method.");
     }

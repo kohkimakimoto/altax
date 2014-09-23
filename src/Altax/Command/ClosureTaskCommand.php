@@ -28,8 +28,8 @@ class ClosureTaskCommand extends Command
             ;
     }
 
-    protected function fire($task)
+    protected function fire()
     {
-        return call_user_func($this->task->getClosure(), $task);
+        return call_user_func($this->task->getClosure());
     }
 }
