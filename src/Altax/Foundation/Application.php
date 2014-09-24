@@ -23,7 +23,7 @@ class Application extends Container
     /**
      * git commit hash.
      */
-    const COMMIT = "%commit%";
+    const COMMIT = "f04f9ce6854494423c3d5c41bac40f50b75c59a5";
 
     /**
      * Get a application name
