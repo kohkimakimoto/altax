@@ -33,6 +33,6 @@ class EnvCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(["command" => $command->getName(), "--format" => "json"]);
 
-        $this->assertRegExp("/^{\"server\.port\".*}/", $commandTester->getDisplay());
+        $this->assertRegExp("/^{.*}/", $commandTester->getDisplay());
     }
 }
