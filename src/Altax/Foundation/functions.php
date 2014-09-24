@@ -61,9 +61,9 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
 
     // Default input, output and console.
     // Generally, these objects will be overrided by console application process.
-    $app->instance('input', new ArgvInput);
-    $app->instance('output', new ConsoleOutput);
-    $app->instance('console', new SymfonyApplication);
+    $app->instance('input', new ArgvInput());
+    $app->instance('output', new ConsoleOutput());
+    $app->instance('console', new SymfonyApplication());
 
     $app->instance('config_files', $configs);
 

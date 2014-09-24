@@ -170,6 +170,7 @@ class Command
         if ($value !== "stdout" && $value !== "quiet" && $value !== "progress") {
             throw new \InvalidArgumentException("unsupported output option '$value'");
         }
+
         return $this->setOption("output", $value);
     }
     public function setOption($key, $value)

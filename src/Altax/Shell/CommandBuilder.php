@@ -37,6 +37,7 @@ class CommandBuilder
         if (isset($options["output"])) {
             $command->output($options["output"]);
         }
+
         return $command->run();
     }
 
@@ -56,6 +57,7 @@ class CommandBuilder
         if (isset($options["output"])) {
             $command->output($options["output"]);
         }
+
         return $command->runLocally();
     }
 }

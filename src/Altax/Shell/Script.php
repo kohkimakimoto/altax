@@ -1,8 +1,6 @@
 <?php
 namespace Altax\Shell;
 
-use Symfony\Component\Process\Process as SymfonyProcess;
-
 class Script
 {
     protected $path;

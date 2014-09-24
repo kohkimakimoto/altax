@@ -68,6 +68,7 @@ class TaskManager
         $command = $this->console->find($name);
         $arguments['command'] = $name;
         $input = new ArrayInput($arguments);
+
         return $command->run($input, $this->output);
     }
 }

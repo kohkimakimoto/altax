@@ -13,6 +13,7 @@ class Process
     {
         $process = new static(null);
         $process->main = true;
+
         return $process;
     }
 
@@ -42,7 +43,6 @@ class Process
 
         return $pid;
     }
-
 
     public function get($remote, $local)
     {
