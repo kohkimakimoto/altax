@@ -13,7 +13,7 @@ class EnvServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bindShared('env', function ($app) {
-            return new Env($app['config_files']);
+            return new Env();
         });
     }
 }

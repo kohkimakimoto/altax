@@ -55,9 +55,10 @@ function bootAltaxApplication(array $bootstraps = array(), $cli = true)
     }
 
     $env = array();
+    // Configure default environment of Altax.
     require __DIR__."/bootstrap.php";
 
-    // Configure environemnt of Altax.
+    // Configure custom environemnt of Altax.
     foreach ($bootstraps as $bootstrap) {
         if (is_file($bootstrap)) {
             require $bootstrap;
@@ -80,6 +81,8 @@ function bootAltaxApplication(array $bootstraps = array(), $cli = true)
 
     AliasLoader::getInstance($env['aliases'])->register();
     $app->registerProviders($env['providers']);
+
+    $app['env']->updateFromArray($env);
 
     return $app;
 }

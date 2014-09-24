@@ -5,6 +5,17 @@ $env['config_files'] = [
     getcwd()."/.altax/config.php",
 ];
 
+$env['server.port'] = 22;
+$env['server.key'] = getenv("HOME")."/.ssh/id_rsa";
+$env['server.username'] = getenv("USER");
+
+$env['command.shell'] = '/bin/bash -l -c';
+
+$env['script.paths'] = [
+    getenv("HOME")."/.altax/scripts",
+    getcwd()."/.altax/scripts",
+];
+
 $env['aliases'] = [
     'App'              => 'Altax\Facade\App',
     'Server'           => 'Altax\Facade\Server',

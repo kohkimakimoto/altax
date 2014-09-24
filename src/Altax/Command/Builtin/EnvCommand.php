@@ -49,8 +49,14 @@ class EnvCommand extends SymfonyCommand
             }
 
             foreach ($parameters as $key => $value) {
-                if (is_array($value)) {
-                    $value = implode(",", $value);
+                if (is_array($value) && is_vector($value)) {
+                    $value = implode("\n", $value);
+                } elseif (is_array($value)) {
+                    $str = "";
+                    foreach ($value as $k => $v) {
+                        $str .= $k." => ".$v."\n";
+                    }
+                    $value = trim($str);
                 }
                 $table->addRow(array(
                     $key,
