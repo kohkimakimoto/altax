@@ -4,8 +4,8 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 $app = bootAltaxApplication(array(
-    getenv("HOME")."/.altax/config.php",
-    getcwd()."/.altax/config.php",
+    getenv("HOME")."/.altax/bootstrap.php",
+    getcwd()."/.altax/bootstrap.php",
     ));
 $cli = new \Altax\Console\Application($app);
 $cli->run();

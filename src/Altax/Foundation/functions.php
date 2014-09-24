@@ -5,6 +5,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Illuminate\Support\Facades\Facade;
 use Altax\Foundation\Application;
+use Altax\Foundation\AliasLoader;
 
 /**
  * Boot altax application.
@@ -12,7 +13,7 @@ use Altax\Foundation\Application;
  * @param  boolean $cli     [description]
  * @return [type]           [description]
  */
-function bootAltaxApplication(array $configs = array(), $cli = true)
+function bootAltaxApplication(array $bootstraps = array(), $cli = true)
 {
     if ($cli) {
 
@@ -53,6 +54,16 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
 
     }
 
+    $env = array();
+    require __DIR__."/bootstrap.php";
+
+    // Configure environemnt of Altax.
+    foreach ($bootstraps as $bootstrap) {
+        if (is_file($bootstrap)) {
+            require $bootstrap;
+        }
+    }
+
     $app = new Application();
     $app->instance('app', $app);
 
@@ -65,10 +76,10 @@ function bootAltaxApplication(array $configs = array(), $cli = true)
     $app->instance('output', new ConsoleOutput());
     $app->instance('console', new SymfonyApplication());
 
-    $app->instance('config_files', $configs);
+    $app->instance('config_files', $env['config_files']);
 
-    $app->registerBuiltinAliases();
-    $app->registerBuiltinProviders();
+    AliasLoader::getInstance($env['aliases'])->register();
+    $app->registerProviders($env['providers']);
 
     return $app;
 }

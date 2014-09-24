@@ -17,15 +17,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("4.0.0 - %commit%", $app->getVersionWithCommit());
     }
 
-    public function testRegisterBuiltinAliases()
+    public function testRegisterProviders()
     {
         $app = new Application();
-        $app->registerBuiltinAliases();
-    }
-
-    public function testRegisterBuiltinProviders()
-    {
-        $app = new Application();
-        $app->registerBuiltinProviders();
+        $app->registerProviders([
+            'Illuminate\Events\EventServiceProvider',
+            'Illuminate\Filesystem\FilesystemServiceProvider',
+        ]);
     }
 }

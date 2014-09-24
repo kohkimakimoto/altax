@@ -43,39 +43,6 @@ class Application extends Container
         return static::VERSION." - ".static::COMMIT;
     }
 
-    public function registerBuiltinAliases()
-    {
-        $aliases = array(
-            'App'              => 'Altax\Facade\App',
-            'Server'           => 'Altax\Facade\Server',
-            'Env'              => 'Altax\Facade\Env',
-            'Task'             => 'Altax\Facade\Task',
-            'Input'            => 'Altax\Facade\Input',
-            'Output'           => 'Altax\Facade\Output',
-            'KeyPassphraseMap' => 'Altax\Facade\KeyPassphraseMap',
-            'Process'          => 'Altax\Facade\Process',
-            'Command'          => 'Altax\Facade\Command',
-            'RemoteFile'       => 'Altax\Facade\RemoteFile',
-            'Script'           => 'Altax\Facade\Script',
-        );
-        AliasLoader::getInstance($aliases)->register();
-    }
-
-    public function registerBuiltinProviders()
-    {
-        $providers = array(
-            'Illuminate\Events\EventServiceProvider',
-            'Illuminate\Filesystem\FilesystemServiceProvider',
-            'Altax\Server\ServerServiceProvider',
-            'Altax\Env\EnvServiceProvider',
-            'Altax\Task\TaskServiceProvider',
-            'Altax\Process\ProcessServiceProvider',
-            'Altax\Shell\ShellServiceProvider',
-            'Altax\RemoteFile\RemoteFileServiceProvider',
-        );
-        $this->registerProviders($providers);
-    }
-
     public function registerProviders($providers)
     {
         foreach ($providers as $provider) {
