@@ -3,6 +3,8 @@ namespace Altax\Shell;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
+use Altax\Facade\Command;
+use Altax\Facade\RemoteFile;
 
 class Script
 {
@@ -50,6 +52,84 @@ class Script
         if ($this->process->isMain()) {
             return $this->runLocally();
         }
+
+        // copy script
+        $v = $this->output->getVerbosity();
+        $this->output->setVerbosity(0);
+        if (Command::run("test -d ".$this->working)->isFailed()) {
+
+            $this->output->setVerbosity($v);
+            if ($this->output->isDebug()) {
+                $this->output->writeln(
+                    "Created working directory: ".$this->working
+                    .$this->process->getNodeInfo());
+            }
+            $this->output->setVerbosity(0);
+
+            Command::run("mkdir -p ".$this->working);
+        }
+
+        RemoteFile::put($this->source, $this->dest);
+        $this->output->setVerbosity($v);
+        if ($this->output->isDebug()) {
+            $this->output->writeln(
+                "Put script: ".$this->dest." (from ".$this->source.")"
+                .$this->process->getNodeInfo());
+        }
+        $this->output->setVerbosity(0);
+
+        $realCommand = $this->compileExecutedCommand($this->dest);
+
+        $ssh = $this->node->getSSHConnection();
+        if (isset($this->options["timeout"])) {
+            $ssh->setTimeout($this->options["timeout"]);
+        } else {
+            $ssh->setTimeout(null);
+        }
+
+        $outputType = "quiet";
+        if (isset($this->options["output"])) {
+            $outputType = $this->options["output"];
+        }
+
+        $this->output->setVerbosity($v);
+        if ($this->output->isDebug()) {
+            $this->output->writeln(
+                "<info>Run script: </info>".$this->path." (actually: <comment>$realCommand</comment>)"
+                .$this->process->getNodeInfo());
+        } else {
+            $this->output->writeln(
+                "<info>Run script: </info>".$this->path
+                .$this->process->getNodeInfo());
+        }
+
+        $output = $this->output;
+        $resultContent = null;
+
+        $ssh->exec($realCommand, function ($buffer) use ($output, $outputType, &$resultContent) {
+            if ($outputType == "stdout" || $output->isDebug()) {
+                $output->write($buffer);
+            }
+            $resultContent .= $buffer;
+        });
+
+        $returnCode = $ssh->getExitStatus();
+
+        $result = new CommandResult($returnCode, $resultContent);
+        if ($result->isFailed() && $outputType === 'quiet') {
+            $output->writeln($result->getContents());
+        }
+
+        // remove script
+        $this->output->setVerbosity(0);
+        Command::run("rm -rf ".$this->working);
+        $this->output->setVerbosity($v);
+
+        if ($this->output->isDebug()) {
+            $this->output->writeln("Removed working directory: ".$this->working);
+        }
+
+        return $result;
     }
 
     public function runLocally()
@@ -84,10 +164,10 @@ class Script
 
         if ($this->output->isDebug()) {
             $this->output->writeln(
-                "<info>Run script: </info>".$this->source." (actually: <comment>$realCommand</comment>)");
+                "<info>Run script: </info>".$this->path." (actually: <comment>$realCommand</comment>)");
         } else {
             $this->output->writeln(
-                "<info>Run script: </info>".$this->source);
+                "<info>Run script: </info>".$this->path);
         }
 
         $output = $this->output;
@@ -126,12 +206,11 @@ class Script
             $interpreter = $this->options["interpreter"];
         }
 
-        $realCommand .= $interpreter." ";
-
         if (isset($this->options["cwd"])) {
             $realCommand .= 'cd '.$this->options["cwd"].' && ';
         }
 
+        $realCommand .= $interpreter." ";
         $realCommand .= str_replace('"', '\"', $dest);
 
         return $realCommand;
