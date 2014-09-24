@@ -45,19 +45,19 @@ abstract class Command extends SymfonyCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($output->isDebug()) {
-            $output->writeln("Starting ".$this->task->getName());
+            $output->writeln("Starting task: ".$this->task->getName());
         }
 
         $this->ancestry[] = $this->task->getName();
 
         if ($output->isDebug()) {
-            $output->writeln("Current ancestry is ".implode(" > ", $this->ancestry));
+            $output->writeln("Current ancestry task: ".implode(" > ", $this->ancestry));
         }
 
         $this->runBeforeTask($output);
 
         if ($output->isDebug()) {
-            $output->writeln("Running ".$this->task->getName());
+            $output->writeln("Running task: ".$this->task->getName());
         }
 
         $retVal = $this->fire();
@@ -65,7 +65,7 @@ abstract class Command extends SymfonyCommand
         $this->runAfterTask($output);
 
         if ($output->isDebug()) {
-            $output->writeln("Finished ".$this->task->getName());
+            $output->writeln("Finished task: ".$this->task->getName());
         }
 
         return $retVal;

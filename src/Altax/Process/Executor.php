@@ -132,6 +132,11 @@ class Executor
             // When a child process is done, removes managed child pid.
             $node = $this->childPids[$pid];
             unset($this->childPids[$pid]);
+
+            if ($this->output->isDebug()) {
+                $this->output->writeln("Finished process for node: ".$node->getName()." (pid:".$pid.")");
+            }
+
         }
 
     }

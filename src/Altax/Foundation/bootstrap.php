@@ -1,6 +1,6 @@
 <?php
 
-$env['config_files'] = [
+$env['config.paths'] = [
     getenv("HOME")."/.altax/config.php",
     getcwd()."/.altax/config.php",
 ];
@@ -15,6 +15,7 @@ $env['script.paths'] = [
     getenv("HOME")."/.altax/scripts",
     getcwd()."/.altax/scripts",
 ];
+$env['script.working'] = sys_get_temp_dir()."/altax";
 
 $env['aliases'] = [
     'App'              => 'Altax\Facade\App',

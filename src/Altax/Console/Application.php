@@ -91,9 +91,9 @@ EOL;
 
         // Additional configuration file by the cli option.
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
-            $configs = $this->container["config_files"];
+            $configs = $this->container["config.paths"];
             $configs[] = $input->getParameterOption(array('--file', '-f'));
-            $this->container->instance("config_files", $configs);
+            $this->container->instance("config.paths", $configs);
         }
 
         $command = $this->getCommandName($input);
@@ -103,7 +103,7 @@ EOL;
         }
 
         $i = 1;
-        foreach ($this->container["config_files"] as $file) {
+        foreach ($this->container["config.paths"] as $file) {
             if ($output->isDebug()) {
                 $output->write("Load config $i: $file");
             }
