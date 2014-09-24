@@ -11,12 +11,13 @@ class Command
     protected $output;
     protected $options = array();
 
-    public function __construct($commandline, $process, $output)
+    public function __construct($commandline, $process, $output, $env)
     {
         $this->commandline = $commandline;
         $this->process = $process;
         $this->node = $process->getNode();
         $this->output = $output;
+        $this->env = $env;
     }
 
     public function run()
@@ -44,6 +45,11 @@ class Command
             $ssh->setTimeout(null);
         }
 
+        $outputType = "quiet";
+        if (isset($this->options["output"])) {
+            $outputType = $this->options["output"];
+        }
+
         if ($this->output->isDebug()) {
             $this->output->writeln(
                 "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)"
@@ -56,15 +62,22 @@ class Command
 
         $output = $this->output;
         $resultContent = null;
-        $ssh->exec($realCommand, function ($buffer) use ($output, &$resultContent) {
-            $output->write($buffer);
+
+        $ssh->exec($realCommand, function ($buffer) use ($output, $outputType, &$resultContent) {
+            if ($outputType == "stdout" || $output->isDebug()) {
+                $output->write($buffer);
+            }
             $resultContent .= $buffer;
         });
 
         $returnCode = $ssh->getExitStatus();
 
-        return new CommandResult($returnCode, $resultContent);
+        $result = new CommandResult($returnCode, $resultContent);
+        if ($result->isFailed() && $outputType === 'quiet') {
+            $output->writeln($result->getContents());
+        }
 
+        return $result;
     }
 
     public function runLocally()
@@ -84,6 +97,11 @@ class Command
             $symfonyProcess->setTimeout(null);
         }
 
+        $outputType = "quiet";
+        if (isset($this->options["output"])) {
+            $outputType = $this->options["output"];
+        }
+
         if ($this->output->isDebug()) {
             $this->output->writeln(
                 "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)");
@@ -94,12 +112,40 @@ class Command
 
         $output = $this->output;
         $resultContent = null;
-        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, &$resultContent) {
-            $output->write($buffer);
+        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, $outputType, &$resultContent) {
+            if ($outputType == "stdout" || $output->isDebug()) {
+                $output->write($buffer);
+            }
             $resultContent .= $buffer;
         });
 
-        return new CommandResult($returnCode, $resultContent);
+        $result = new CommandResult($returnCode, $resultContent);
+        if ($result->isFailed() && $outputType === 'quiet') {
+            $output->writeln($result->getContents());
+        }
+
+        return $result;
+    }
+
+    protected function compileRealCommand($commandline)
+    {
+        $realCommand = "";
+
+        if (isset($this->options["user"])) {
+            $realCommand .= 'sudo -u'.$this->options["user"].' TERM=dumb ';
+        }
+
+        $sh = $this->env->get("command.shell", "/bin/bash -l -c");
+        $realCommand .= $sh.' "';
+
+        if (isset($this->options["cwd"])) {
+            $realCommand .= 'cd '.$this->options["cwd"].' && ';
+        }
+
+        $realCommand .= str_replace('"', '\"', $commandline);
+        $realCommand .= '"';
+
+        return $realCommand;
     }
 
     public function cwd($value)
@@ -118,30 +164,17 @@ class Command
         return $this->setOption("timeout", $value);
     }
 
+    public function output($value)
+    {
+        if ($value !== "stdout" && $value !== "quiet" && $value !== "progress") {
+            throw new \InvalidArgumentException("unsupported output option '$value'");
+        }
+        return $this->setOption("output", $value);
+    }
     public function setOption($key, $value)
     {
         $this->options[$key] = $value;
 
         return $this;
-    }
-
-    protected function compileRealCommand($commandline)
-    {
-        $realCommand = "";
-
-        if (isset($this->options["user"])) {
-            $realCommand .= 'sudo -u'.$this->options["user"].' TERM=dumb ';
-        }
-
-        $realCommand .= '/bin/bash -l -c "';
-
-        if (isset($this->options["cwd"])) {
-            $realCommand .= 'cd '.$this->options["cwd"].' && ';
-        }
-
-        $realCommand .= str_replace('"', '\"', $commandline);
-        $realCommand .= '"';
-
-        return $realCommand;
     }
 }

@@ -13,7 +13,10 @@ class ShellServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('shell.command', function ($app) {
-            return new CommandBuilder($app['process.current_process'], $app['output']);
+            return new CommandBuilder(
+                $app['process.current_process'],
+                $app['output'],
+                $app['env']);
         });
     }
 }

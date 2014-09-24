@@ -11,6 +11,7 @@ class Env
         $this->set("server.port", 22);
         $this->set("server.key", getenv("HOME")."/.ssh/id_rsa");
         $this->set("server.username", getenv("USER"));
+        $this->set("command.shell", "/bin/bash -l -c");
     }
 
     public function set($key, $value)

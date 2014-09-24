@@ -7,16 +7,17 @@ class CommandBuilder
     protected $node;
     protected $output;
 
-    public function __construct($process, $output)
+    public function __construct($process, $output, $env)
     {
         $this->process = $process;
         $this->node = $process->getNode();
         $this->output = $output;
+        $this->env = $env;
     }
 
     public function make($commandline)
     {
-        return new Command($commandline, $this->process, $this->output);
+        return new Command($commandline, $this->process, $this->output, $this->env);
     }
 
     public function run($commandline, $options = array())
@@ -31,6 +32,9 @@ class CommandBuilder
         }
         if (isset($options["timeout"])) {
             $command->timeout($options["timeout"]);
+        }
+        if (isset($options["output"])) {
+            $command->output($options["output"]);
         }
         return $command->run();
     }
@@ -47,6 +51,9 @@ class CommandBuilder
         }
         if (isset($options["timeout"])) {
             $command->timeout($options["timeout"]);
+        }
+        if (isset($options["output"])) {
+            $command->output($options["output"]);
         }
         return $command->runLocally();
     }

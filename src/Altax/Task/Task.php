@@ -26,8 +26,6 @@ class Task
 
     protected $isHidden = false;
 
-    protected $config = array();
-
     public function __construct($name, $taskManager, $servers)
     {
         $this->name = $name;
@@ -103,18 +101,6 @@ class Task
     public function hasCommandClass()
     {
         return isset($this->commandClass);
-    }
-
-    public function setConfig($config)
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    public function getConfig()
-    {
-        return $this->config;
     }
 
     public function getBeforeTasks()
@@ -219,8 +205,4 @@ class Task
         return $this->isHidden;
     }
 
-    public function config($config)
-    {
-        return $this->setConfig($config);
-    }
 }
