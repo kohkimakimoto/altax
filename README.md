@@ -61,8 +61,6 @@ You can get more information at [http://kohkimakimoto.github.io/altax/](http://k
 
 PHP5.4 or later.
 
-(Altax version 3.x requires PHP5.3 later)
-
 ## Installation
 
 

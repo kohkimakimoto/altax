@@ -49,6 +49,9 @@ class EnvCommand extends SymfonyCommand
             }
 
             foreach ($parameters as $key => $value) {
+                if (is_array($value)) {
+                    $value = implode(",", $value);
+                }
                 $table->addRow(array(
                     $key,
                     $value
