@@ -152,7 +152,6 @@ class Command
     public function cwd($value)
     {
         return $this->setOption("cwd", $value);
-
     }
 
     public function user($value)
@@ -173,6 +172,7 @@ class Command
 
         return $this->setOption("output", $value);
     }
+
     public function setOption($key, $value)
     {
         $this->options[$key] = $value;
