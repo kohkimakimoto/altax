@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "62b506214640ae66ad88a07240a0bbb0201bd1e3"
+                "reference": "e6165e649524f2d8edec6101fd740dd4dfeef7cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/62b506214640ae66ad88a07240a0bbb0201bd1e3",
-                "reference": "62b506214640ae66ad88a07240a0bbb0201bd1e3",
+                "url": "https://api.github.com/repos/composer/composer/zipball/e6165e649524f2d8edec6101fd740dd4dfeef7cc",
+                "reference": "e6165e649524f2d8edec6101fd740dd4dfeef7cc",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2014-09-22 16:04:58"
+            "time": "2014-09-23 14:19:23"
         },
         {
             "name": "illuminate/config",
