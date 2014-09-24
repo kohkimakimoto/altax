@@ -56,6 +56,7 @@ class Application extends Container
             'Process'          => 'Altax\Facade\Process',
             'Command'          => 'Altax\Facade\Command',
             'RemoteFile'       => 'Altax\Facade\RemoteFile',
+            'Script'           => 'Altax\Facade\Script',
         );
         AliasLoader::getInstance($aliases)->register();
     }

@@ -18,5 +18,11 @@ class ShellServiceProvider extends ServiceProvider
                 $app['output'],
                 $app['env']);
         });
+        $this->app->bind('shell.script', function ($app) {
+            return new ScriptBuilder(
+                $app['process.current_process'],
+                $app['output'],
+                $app['env']);
+        });
     }
 }

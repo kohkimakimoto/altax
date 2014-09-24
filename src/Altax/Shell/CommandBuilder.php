@@ -6,6 +6,7 @@ class CommandBuilder
     protected $process;
     protected $node;
     protected $output;
+    protected $env;
 
     public function __construct($process, $output, $env)
     {

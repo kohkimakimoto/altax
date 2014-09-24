@@ -10,6 +10,7 @@ class Command
     protected $node;
     protected $output;
     protected $options = array();
+    protected $env;
 
     public function __construct($commandline, $process, $output, $env)
     {
