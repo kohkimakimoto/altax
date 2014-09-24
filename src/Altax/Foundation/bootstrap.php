@@ -1,7 +1,7 @@
 <?php
 
 $c1 = getenv("HOME")."/.altax/config.php";
-$c2 = getcwd()."/.altax/config.php",
+$c2 = getcwd()."/.altax/config.php";
 
 if ($c1 === $c2) {
     $env['config.paths'] = [
