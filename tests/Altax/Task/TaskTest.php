@@ -39,8 +39,5 @@ class TaskTest extends \PHPUnit_Framework_TestCase
         $task->setCommandClass("FooCommand");
         $this->assertEquals("FooCommand", $task->getCommandClass());
         $this->assertEquals(true, $task->hasCommandClass());
-
-        $task->setConfig(array("key" => "value"));
-        $this->assertSame(array("key" => "value"), $task->getConfig());
     }
 }
