@@ -46,7 +46,7 @@ Task::register("deploy", function(){
 
 You can run it like below
 
-```bash
+```
 $ altax deploy
 Run command: test -d /path/to/app on web1.example.com
 Run command: git clone git@github.com:path/to/app.git /path/to/app on web1.example.com
