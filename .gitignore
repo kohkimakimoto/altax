@@ -5,6 +5,7 @@
 /.altax
 /build
 /tests/tmp/*
+/altax.phar
 .DS_Store
 Thumbs.db
 .tags
