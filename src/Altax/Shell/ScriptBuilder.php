@@ -3,15 +3,13 @@ namespace Altax\Shell;
 
 class ScriptBuilder
 {
-    protected $process;
-    protected $node;
+    protected $runtime;
     protected $output;
     protected $env;
 
-    public function __construct($process, $output, $env)
+    public function __construct($runtime, $output, $env)
     {
-        $this->process = $process;
-        $this->node = $process->getNode();
+        $this->runtime = $runtime;
         $this->output = $output;
         $this->env = $env;
     }
