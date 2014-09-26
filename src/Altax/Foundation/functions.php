@@ -77,12 +77,11 @@ function bootAltaxApplication(array $bootstraps = array(), $cli = true)
     $app->instance('output', new ConsoleOutput());
     $app->instance('console', new SymfonyApplication());
 
-    $app->instance('config.paths', $env['config.paths']);
-
-    AliasLoader::getInstance($env['aliases'])->register();
     $app->registerProviders($env['providers']);
 
     $app['env']->updateFromArray($env);
+
+    AliasLoader::getInstance($env['aliases'])->register();
 
     return $app;
 }

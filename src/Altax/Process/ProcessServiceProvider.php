@@ -12,8 +12,8 @@ class ProcessServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('process.executor', function ($app) {
-            return new Executor($app, $app['servers'], $app['output'], $app['command']);
+        $this->app->bindShared('process.executor', function ($app) {
+            return new Executor($app, $app['servers'], $app['output'], $app['console']);
         });
 
         $this->app->bindShared('process.main_process', function ($app) {

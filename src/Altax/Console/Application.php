@@ -88,12 +88,13 @@ EOL;
     {
         $input = $this->container["input"];
         $output = $this->container["output"];
+        $env = $this->container["env"];
 
         // Additional configuration file by the cli option.
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
-            $configs = $this->container["config.paths"];
+            $configs = $env->get("config.paths");
             $configs[] = $input->getParameterOption(array('--file', '-f'));
-            $this->container->instance("config.paths", $configs);
+            $env->set("config.paths", $configs);
         }
 
         $command = $this->getCommandName($input);
@@ -103,7 +104,7 @@ EOL;
         }
 
         $i = 1;
-        foreach ($this->container["config.paths"] as $file) {
+        foreach ($env->get("config.paths") as $file) {
             if ($output->isDebug()) {
                 $output->write("Load config $i: $file");
             }

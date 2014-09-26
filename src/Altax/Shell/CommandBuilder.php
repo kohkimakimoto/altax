@@ -3,22 +3,24 @@ namespace Altax\Shell;
 
 class CommandBuilder
 {
-    protected $process;
-    protected $node;
+    protected $app;
     protected $output;
     protected $env;
 
-    public function __construct($process, $output, $env)
+    public function __construct($app, $output, $env)
     {
-        $this->process = $process;
-        $this->node = $process->getNode();
+        $this->app = $app;
         $this->output = $output;
         $this->env = $env;
     }
 
     public function make($commandline)
     {
-        return new Command($commandline, $this->process, $this->output, $this->env);
+        return new Command(
+            $commandline,
+            $this->app['process.current_process'],
+            $this->output,
+            $this->env);
     }
 
     public function run($commandline, $options = array())

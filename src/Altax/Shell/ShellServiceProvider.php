@@ -12,15 +12,15 @@ class ShellServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('shell.command', function ($app) {
+        $this->app->bindShared('shell.command', function ($app) {
             return new CommandBuilder(
-                $app['process.current_process'],
+                $app,
                 $app['output'],
                 $app['env']);
         });
-        $this->app->bind('shell.script', function ($app) {
+        $this->app->bindShared('shell.script', function ($app) {
             return new ScriptBuilder(
-                $app['process.current_process'],
+                $app,
                 $app['output'],
                 $app['env']);
         });

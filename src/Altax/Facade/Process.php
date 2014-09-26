@@ -8,9 +8,5 @@ class Process extends \Illuminate\Support\Facades\Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
-    {
-        // Do not resolove instance.
-        return static::$app['process.executor'];
-    }
+    protected static function getFacadeAccessor() { return 'process.executor'; }
 }
