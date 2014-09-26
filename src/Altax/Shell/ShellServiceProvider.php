@@ -14,7 +14,7 @@ class ShellServiceProvider extends ServiceProvider
     {
         $this->app->bindShared('shell.command', function ($app) {
             return new CommandBuilder(
-                $app,
+                $app['process.runtime'],
                 $app['output'],
                 $app['env']);
         });

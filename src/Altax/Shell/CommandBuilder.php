@@ -3,13 +3,13 @@ namespace Altax\Shell;
 
 class CommandBuilder
 {
-    protected $app;
+    protected $runtime;
     protected $output;
     protected $env;
 
-    public function __construct($app, $output, $env)
+    public function __construct($runtime, $output, $env)
     {
-        $this->app = $app;
+        $this->runtime = $runtime;
         $this->output = $output;
         $this->env = $env;
     }
@@ -18,7 +18,7 @@ class CommandBuilder
     {
         return new Command(
             $commandline,
-            $this->app['process.current_process'],
+            $this->runtime->getProcess(),
             $this->output,
             $this->env);
     }

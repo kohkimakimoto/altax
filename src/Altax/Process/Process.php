@@ -7,12 +7,12 @@ class Process
 {
     protected $node;
 
-    protected $main = false;
+    protected $master = false;
 
-    public static function createMainProcess()
+    public static function createMasterProcess()
     {
         $process = new static(null);
-        $process->main = true;
+        $process->master = true;
 
         return $process;
     }
@@ -152,9 +152,9 @@ class Process
         return $name;
     }
 
-    public function isMain()
+    public function isMaster()
     {
-        return $this->main;
+        return $this->master;
     }
 
 }

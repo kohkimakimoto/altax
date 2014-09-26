@@ -3,7 +3,7 @@ namespace Altax\Process;
 
 class Executor
 {
-    protected $app;
+    protected $runtime;
 
     protected $servers;
 
@@ -11,9 +11,9 @@ class Executor
 
     protected $console;
 
-    public function __construct($app, $servers, $output, $console)
+    public function __construct($runtime, $servers, $output, $console)
     {
-        $this->app = $app;
+        $this->runtime = $runtime;
         $this->servers = $servers;
         $this->output = $output;
         $this->console = $console;
@@ -58,8 +58,8 @@ class Executor
             }
         }
 
-        $processManager = new ProcessManager($closure, $nodes, $this->app, $this->output);
-        $processManager->execute();
+        $manager = new ProcessManager($this->runtime, $this->output);
+        $manager->execute($closure, $nodes);
     }
 
     /**

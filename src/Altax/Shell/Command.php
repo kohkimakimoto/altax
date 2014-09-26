@@ -23,7 +23,7 @@ class Command
 
     public function run()
     {
-        if ($this->process->isMain()) {
+        if ($this->process->isMaster()) {
             return $this->runLocally();
         }
 

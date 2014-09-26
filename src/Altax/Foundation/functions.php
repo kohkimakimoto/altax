@@ -80,6 +80,7 @@ function bootAltaxApplication(array $bootstraps = array(), $cli = true)
     $app->registerProviders($env['providers']);
 
     $app['env']->updateFromArray($env);
+    $app['process.runtime']->bootMasterProcess();
 
     AliasLoader::getInstance($env['aliases'])->register();
 

@@ -3,42 +3,32 @@ namespace Altax\Process;
 
 class ProcessManager
 {
-    protected $app;
-
-    protected $nodes;
+    protected $runtime;
 
     protected $output;
 
-    protected $closure;
-
-    protected $isParallel;
-
     protected $childPids = array();
 
-    public function __construct($closure, $nodes, $app, $output)
+    public function __construct($runtime, $output)
     {
-        $this->app = $app;
-        $this->nodes = $nodes;
+        $this->runtime = $runtime;
         $this->output = $output;
-        $this->closure = $closure;
-
-        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
-            $this->isParallel = false;
-        } else {
-            $this->isParallel = true;
-        }
     }
 
-    public function execute()
+    public function execute($closure, $nodes)
     {
-        $nodes = $this->nodes;
+        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
+            $isParallel = false;
+        } else {
+            $isParallel = true;
+        }
 
-        if (!$this->isParallel) {
+        if (!$isParallel) {
             if ($this->output->isDebug()) {
                 $this->output->writeln("Running serial mode.");
             }
             foreach ($nodes as $node) {
-                $this->doExecute($node);
+                $this->doExecute($closure, $node);
             }
 
             return;
@@ -63,7 +53,7 @@ class ProcessManager
                     $this->output->writeln("Forked process for node: ".$node->getName()." (pid:".posix_getpid().")");
                 }
 
-                $this->doExecute($node);
+                $this->doExecute($closure, $node);
                 exit(0);
             }
         }
@@ -93,12 +83,12 @@ class ProcessManager
 
     }
 
-    protected function doExecute($node)
+    protected function doExecute($closure, $node)
     {
         $process = new Process($node);
-        $this->app->instance("process.current_process", $process);
-        call_user_func($this->closure, $process);
-        $this->app->instance("process.current_process", $this->app['process.main_process']);
+        $this->runtime->setProcess($process);
+        call_user_func($closure, $process);
+        $this->runtime->backToMasterProcess();
     }
 
     public function signalHandler($signo)
@@ -122,16 +112,6 @@ class ProcessManager
             $this->output->writeln("<fg=red>Sending sigint to child (pid:</fg=red><comment>$pid</comment><fg=red>)</fg=red>");
             $this->killProcess($pid);
         }
-    }
-
-    public function setIsParallel($isParallel)
-    {
-        $this->isParallel = $isParallel;
-    }
-
-    public function getIsParallel()
-    {
-        return $this->isParallel;
     }
 
     protected function killProcess($pid)
