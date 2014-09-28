@@ -26,8 +26,8 @@ class CommandBuilder
     public function run($commandline, $options = array())
     {
         $command = $this->make($commandline);
-        if (isset($options["cwd"])) {
 
+        if (isset($options["cwd"])) {
             $command->cwd($options["cwd"]);
         }
         if (isset($options["user"])) {
@@ -46,6 +46,7 @@ class CommandBuilder
     public function runLocally($commandline, $options = array())
     {
         $command = $this->make($commandline);
+
         if (isset($options["cwd"])) {
 
             $command->cwd($options["cwd"]);

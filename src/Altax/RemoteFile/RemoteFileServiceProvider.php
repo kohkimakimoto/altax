@@ -13,7 +13,7 @@ class RemoteFileServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bindShared('remote_file', function ($app) {
-            return new RemoteFile(
+            return new RemoteFileBuilder(
                 $app['process.runtime'],
                 $app['output']);
         });

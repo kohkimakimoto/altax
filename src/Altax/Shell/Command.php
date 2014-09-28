@@ -105,10 +105,10 @@ class Command
 
         if ($this->output->isDebug()) {
             $this->output->writeln(
-                "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)");
+                "<info>Run command locally: </info>$commandline (actually: <comment>$realCommand</comment>)");
         } else {
             $this->output->writeln(
-                "<info>Run command: </info>$commandline");
+                "<info>Run command locally: </info>$commandline");
         }
 
         $output = $this->output;

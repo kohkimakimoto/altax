@@ -38,6 +38,7 @@ class ScriptBuilder
         if (isset($options["with"])) {
             $script->with($options["with"]);
         }
+
         return $script->run();
     }
 
@@ -57,6 +58,7 @@ class ScriptBuilder
         if (isset($options["with"])) {
             $script->with($options["with"]);
         }
+
         return $script->runLocally();
     }
 }
