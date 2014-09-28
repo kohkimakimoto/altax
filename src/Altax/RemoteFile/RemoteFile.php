@@ -1,6 +1,8 @@
 <?php
 namespace Altax\RemoteFile;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class RemoteFile
 {
     protected $process;

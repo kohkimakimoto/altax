@@ -8,9 +8,5 @@ class RemoteFile extends \Illuminate\Support\Facades\Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
-    {
-        // Do not resolove instance.
-        return static::$app['remote_file'];
-    }
+    protected static function getFacadeAccessor() { return 'remote_file'; }
 }
