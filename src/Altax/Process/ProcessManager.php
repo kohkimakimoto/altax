@@ -7,39 +7,37 @@ class ProcessManager
 
     protected $output;
 
+    protected $isParallel;
+
     protected $childPids = array();
 
     public function __construct($runtime, $output)
     {
         $this->runtime = $runtime;
         $this->output = $output;
+
+        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
+            $this->isParallel = false;
+            if ($this->output->isDebug()) {
+                $this->output->writeln("Running serial mode.");
+            }
+        } else {
+            $this->isParallel = true;
+
+            declare(ticks = 1);
+            pcntl_signal(SIGTERM, array($this, "signalHandler"));
+            pcntl_signal(SIGINT, array($this, "signalHandler"));
+        }
     }
 
     public function execute($closure, $nodes)
     {
-        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
-            $isParallel = false;
-        } else {
-            $isParallel = true;
-        }
-
-        if (!$isParallel) {
-            if ($this->output->isDebug()) {
-                $this->output->writeln("Running serial mode.");
-            }
-            foreach ($nodes as $node) {
-                $this->doExecute($closure, $node);
-            }
-
-            return;
-        }
-
-        // Fork process
-        declare(ticks = 1);
-        pcntl_signal(SIGTERM, array($this, "signalHandler"));
-        pcntl_signal(SIGINT, array($this, "signalHandler"));
-
         foreach ($nodes as $node) {
+            if (!$this->isParallel) {
+                $this->doExecute($closure, $node);
+                continue;
+            }
+
             $pid = pcntl_fork();
             if ($pid === -1) {
                 // Error
