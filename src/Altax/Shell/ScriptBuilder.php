@@ -3,12 +3,14 @@ namespace Altax\Shell;
 
 class ScriptBuilder
 {
+    protected $commandBuilder;
     protected $runtime;
     protected $output;
     protected $env;
 
-    public function __construct($runtime, $output, $env)
+    public function __construct($commandBuilder, $runtime, $output, $env)
     {
+        $this->commandBuilder = $commandBuilder;
         $this->runtime = $runtime;
         $this->output = $output;
         $this->env = $env;
@@ -16,7 +18,12 @@ class ScriptBuilder
 
     public function make($path)
     {
-        return new Script($path, $this->process, $this->output, $this->env);
+        return new Script(
+            $path,
+            $this->commandBuilder,
+            $this->runtime->getProcess(),
+            $this->output,
+            $this->env);
     }
 
     public function run($path, $options = array())

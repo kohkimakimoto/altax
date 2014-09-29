@@ -9,6 +9,7 @@ use Altax\Facade\RemoteFile;
 class Script
 {
     protected $path;
+    protected $commandBuilder;
     protected $process;
     protected $node;
     protected $output;
@@ -18,9 +19,10 @@ class Script
     protected $working;
     protected $dest;
 
-    public function __construct($path, $process, $output, $env)
+    public function __construct($path, $commandBuilder, $process, $output, $env)
     {
         $this->path = $path;
+        $this->commandBuilder = $commandBuilder;
         $this->process = $process;
         $this->node = $process->getNode();
         $this->output = $output;
@@ -56,7 +58,7 @@ class Script
         // copy script
         $v = $this->output->getVerbosity();
         $this->output->setVerbosity(0);
-        if (Command::run("test -d ".$this->working)->isFailed()) {
+        if ($this->commandBuilder->run("test -d ".$this->working)->isFailed()) {
 
             $this->output->setVerbosity($v);
             if ($this->output->isDebug()) {
@@ -66,7 +68,7 @@ class Script
             }
             $this->output->setVerbosity(0);
 
-            Command::run("mkdir -p ".$this->working);
+            $this->commandBuilder->run("mkdir -p ".$this->working);
         }
 
         RemoteFile::put($this->source, $this->dest);
@@ -122,7 +124,7 @@ class Script
 
         // remove script
         $this->output->setVerbosity(0);
-        Command::run("rm -rf ".$this->working);
+        $this->commandBuilder->run("rm -rf ".$this->working);
         $this->output->setVerbosity($v);
 
         if ($this->output->isDebug()) {

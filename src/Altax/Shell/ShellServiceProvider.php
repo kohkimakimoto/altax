@@ -20,6 +20,7 @@ class ShellServiceProvider extends ServiceProvider
         });
         $this->app->bindShared('shell.script', function ($app) {
             return new ScriptBuilder(
+                $app['shell.command'],
                 $app['process.runtime'],
                 $app['output'],
                 $app['env']);
