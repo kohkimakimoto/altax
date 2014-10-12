@@ -3,13 +3,12 @@ namespace Altax\Shell;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
-use Altax\Facade\Command;
-use Altax\Facade\RemoteFile;
 
 class Script
 {
     protected $path;
     protected $commandBuilder;
+    protected $remoteFileBuilder;
     protected $process;
     protected $node;
     protected $output;
@@ -19,10 +18,11 @@ class Script
     protected $working;
     protected $dest;
 
-    public function __construct($path, $commandBuilder, $process, $output, $env)
+    public function __construct($path, $commandBuilder, $remoteFileBuilder, $process, $output, $env)
     {
         $this->path = $path;
         $this->commandBuilder = $commandBuilder;
+        $this->remoteFileBuilder = $remoteFileBuilder;
         $this->process = $process;
         $this->node = $process->getNode();
         $this->output = $output;
@@ -51,7 +51,7 @@ class Script
 
     public function run()
     {
-        if ($this->process->isMain()) {
+        if ($this->process->isMaster()) {
             return $this->runLocally();
         }
 
@@ -70,57 +70,17 @@ class Script
 
             $this->commandBuilder->run("mkdir -p ".$this->working);
         }
-
-        RemoteFile::put($this->source, $this->dest);
+        $this->remoteFileBuilder->put($this->source, $this->dest);
         $this->output->setVerbosity($v);
+
         if ($this->output->isDebug()) {
             $this->output->writeln(
                 "Put script: ".$this->dest." (from ".$this->source.")"
                 .$this->process->getNodeInfo());
         }
-        $this->output->setVerbosity(0);
 
-        $realCommand = $this->compileExecutedCommand($this->dest);
-
-        $ssh = $this->node->getSSHConnection();
-        if (isset($this->options["timeout"])) {
-            $ssh->setTimeout($this->options["timeout"]);
-        } else {
-            $ssh->setTimeout(null);
-        }
-
-        $outputType = "quiet";
-        if (isset($this->options["output"])) {
-            $outputType = $this->options["output"];
-        }
-
-        $this->output->setVerbosity($v);
-        if ($this->output->isDebug()) {
-            $this->output->writeln(
-                "<info>Run script: </info>".$this->path." (actually: <comment>$realCommand</comment>)"
-                .$this->process->getNodeInfo());
-        } else {
-            $this->output->writeln(
-                "<info>Run script: </info>".$this->path
-                .$this->process->getNodeInfo());
-        }
-
-        $output = $this->output;
-        $resultContent = null;
-
-        $ssh->exec($realCommand, function ($buffer) use ($output, $outputType, &$resultContent) {
-            if ($outputType == "stdout" || $output->isDebug()) {
-                $output->write($buffer);
-            }
-            $resultContent .= $buffer;
-        });
-
-        $returnCode = $ssh->getExitStatus();
-
-        $result = new CommandResult($returnCode, $resultContent);
-        if ($result->isFailed() && $outputType === 'quiet') {
-            $output->writeln($result->getContents());
-        }
+        $commandline = $this->compileExecutedCommand($this->dest);
+        $result = $this->commandBuilder->run($commandline);
 
         // remove script
         $this->output->setVerbosity(0);
@@ -147,44 +107,11 @@ class Script
 
         $fs->copy($this->source, $this->dest, true);
         if ($this->output->isDebug()) {
-            $this->output->writeln("Created script: ".$this->dest);
+            $this->output->writeln("Put script: ".$this->dest);
         }
 
-        $realCommand = $this->compileExecutedCommand($this->dest);
-
-        $symfonyProcess = new SymfonyProcess($realCommand);
-        if (isset($this->options["timeout"])) {
-            $symfonyProcess->setTimeout($this->options["timeout"]);
-        } else {
-            $symfonyProcess->setTimeout(null);
-        }
-
-        $outputType = "quiet";
-        if (isset($this->options["output"])) {
-            $outputType = $this->options["output"];
-        }
-
-        if ($this->output->isDebug()) {
-            $this->output->writeln(
-                "<info>Run script: </info>".$this->path." (actually: <comment>$realCommand</comment>)");
-        } else {
-            $this->output->writeln(
-                "<info>Run script: </info>".$this->path);
-        }
-
-        $output = $this->output;
-        $resultContent = null;
-        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, $outputType, &$resultContent) {
-            if ($outputType == "stdout" || $output->isDebug()) {
-                $output->write($buffer);
-            }
-            $resultContent .= $buffer;
-        });
-
-        $result = new CommandResult($returnCode, $resultContent);
-        if ($result->isFailed() && $outputType === 'quiet') {
-            $output->writeln($result->getContents());
-        }
+        $commandline = $this->compileExecutedCommand($this->dest);
+        $result = $this->commandBuilder->run($commandline);
 
         // remove script
         $fs->remove($this->working);

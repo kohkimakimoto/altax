@@ -37,6 +37,7 @@ $env['aliases'] = [
     'RemoteFile'       => 'Altax\Facade\RemoteFile',
     'Script'           => 'Altax\Facade\Script',
 ];
+
 $env['providers'] = array(
     'Illuminate\Events\EventServiceProvider',
     'Illuminate\Filesystem\FilesystemServiceProvider',

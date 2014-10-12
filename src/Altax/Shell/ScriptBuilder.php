@@ -8,9 +8,10 @@ class ScriptBuilder
     protected $output;
     protected $env;
 
-    public function __construct($commandBuilder, $runtime, $output, $env)
+    public function __construct($commandBuilder, $remoteFileBuilder, $runtime, $output, $env)
     {
         $this->commandBuilder = $commandBuilder;
+        $this->remoteFileBuilder = $remoteFileBuilder;
         $this->runtime = $runtime;
         $this->output = $output;
         $this->env = $env;
@@ -21,6 +22,7 @@ class ScriptBuilder
         return new Script(
             $path,
             $this->commandBuilder,
+            $this->remoteFileBuilder,
             $this->runtime->getProcess(),
             $this->output,
             $this->env);
