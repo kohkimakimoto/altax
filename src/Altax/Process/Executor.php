@@ -19,7 +19,7 @@ class Executor
         $this->console = $console;
     }
 
-    public function exec()
+    public function on()
     {
         $args = func_get_args();
         if (count($args) !== 2) {

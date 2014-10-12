@@ -17,9 +17,7 @@ if ($c1 === $c2) {
 $env['server.port'] = 22;
 $env['server.key'] = getenv("HOME")."/.ssh/id_rsa";
 $env['server.username'] = getenv("USER");
-
 $env['command.shell'] = '/bin/bash -l -c';
-
 $env['script.paths'] = [
     getenv("HOME")."/.altax/scripts",
     getcwd()."/.altax/scripts",
@@ -39,7 +37,6 @@ $env['aliases'] = [
     'RemoteFile'       => 'Altax\Facade\RemoteFile',
     'Script'           => 'Altax\Facade\Script',
 ];
-
 $env['providers'] = array(
     'Illuminate\Events\EventServiceProvider',
     'Illuminate\Filesystem\FilesystemServiceProvider',

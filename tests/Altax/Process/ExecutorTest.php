@@ -27,7 +27,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $server->node("localhost", "test");
 
         $executor = $this->app["process.executor"];
-        $executor->exec(["test"], function(){
+        $executor->on(["test"], function(){
 
         });
 
@@ -45,7 +45,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $server->node("localhost", "test");
 
         $executor = $this->app["process.executor"];
-        $executor->exec("127.0.0.1", function(){
+        $executor->on("127.0.0.1", function(){
 
         });
 
@@ -65,7 +65,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
         $executor = $this->app["process.executor"];
         try {
-            $executor->exec("nodeIsSameNameOfRole", function(){
+            $executor->on("nodeIsSameNameOfRole", function(){
 
             });
             $this->assertEquals(false, true);
