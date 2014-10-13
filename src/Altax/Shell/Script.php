@@ -155,28 +155,9 @@ class Script
         return $this->setOption("user", $value);
     }
 
-    public function timeout($value)
-    {
-        return $this->setOption("timeout", $value);
-    }
-
-    public function output($value)
-    {
-        if ($value !== "stdout" && $value !== "quiet" && $value !== "progress") {
-            throw new \InvalidArgumentException("unsupported output option '$value'");
-        }
-
-        return $this->setOption("output", $value);
-    }
-
     public function interpreter($value)
     {
         return $this->setOption("interpreter", $value);
-    }
-
-    public function with($value)
-    {
-        return $this->setOption("with", $value);
     }
 
     public function setOption($key, $value)

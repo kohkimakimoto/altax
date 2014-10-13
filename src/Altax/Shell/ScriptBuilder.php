@@ -38,15 +38,6 @@ class ScriptBuilder
         if (isset($options["user"])) {
             $script->cwd($options["user"]);
         }
-        if (isset($options["timeout"])) {
-            $script->timeout($options["timeout"]);
-        }
-        if (isset($options["output"])) {
-            $script->output($options["output"]);
-        }
-        if (isset($options["with"])) {
-            $script->with($options["with"]);
-        }
 
         return $script->run();
     }
@@ -60,12 +51,6 @@ class ScriptBuilder
         }
         if (isset($options["user"])) {
             $script->cwd($options["user"]);
-        }
-        if (isset($options["timeout"])) {
-            $script->timeout($options["timeout"]);
-        }
-        if (isset($options["with"])) {
-            $script->with($options["with"]);
         }
 
         return $script->runLocally();
