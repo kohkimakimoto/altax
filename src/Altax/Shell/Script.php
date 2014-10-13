@@ -14,7 +14,6 @@ class Script
     protected $output;
     protected $options = array();
     protected $env;
-    protected $source;
     protected $working;
     protected $dest;
 
@@ -27,25 +26,16 @@ class Script
         $this->node = $process->getNode();
         $this->output = $output;
         $this->env = $env;
-        $this->source = null;
 
-        $paths = $this->env->get("script.paths", []);
-        foreach ($paths as $scriptDir) {
-            $p = $scriptDir."/".$path;
-            if (is_file($p)) {
-                $this->source = $p;
-            }
-        }
-
-        if ($this->source === null) {
-            throw new \InvalidArgumentException("Unknow script path '$path'.");
+        if (!is_file($this->path)) {
+            throw new \InvalidArgumentException("Not found script '$path'.");
         }
 
         $this->working = $this->env->get("script.working")."/".uniqid();
-        $this->dest = $this->working."/".basename($this->source);
+        $this->dest = $this->working."/".basename($this->path);
 
         if ($this->output->isDebug()) {
-            $this->output->writeln("Found script: ".$this->source);
+            $this->output->writeln("Found script: ".$this->path);
         }
     }
 
@@ -70,12 +60,12 @@ class Script
 
             $this->commandBuilder->run("mkdir -p ".$this->working);
         }
-        $this->remoteFileBuilder->put($this->source, $this->dest);
+        $this->remoteFileBuilder->put($this->path, $this->dest);
         $this->output->setVerbosity($v);
 
         if ($this->output->isDebug()) {
             $this->output->writeln(
-                "Put script: ".$this->dest." (from ".$this->source.")"
+                "Put script: ".$this->dest." (from ".$this->path.")"
                 .$this->process->getNodeInfo());
         }
 
@@ -105,7 +95,7 @@ class Script
             }
         }
 
-        $fs->copy($this->source, $this->dest, true);
+        $fs->copy($this->path, $this->dest, true);
         if ($this->output->isDebug()) {
             $this->output->writeln("Put script: ".$this->dest);
         }
