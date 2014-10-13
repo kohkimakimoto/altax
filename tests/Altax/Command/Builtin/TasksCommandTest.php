@@ -47,8 +47,8 @@ class TasksCommandTest extends \PHPUnit_Framework_TestCase
             );
 
         $expected = <<<EOL
-name    description    hidden    
-test                             
+name    description    
+test                   
 
 EOL;
         $this->assertEquals($expected, $commandTester->getDisplay());

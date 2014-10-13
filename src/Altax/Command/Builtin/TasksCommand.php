@@ -47,16 +47,29 @@ class TasksCommand extends SymfonyCommand
                     ->setCellRowContentFormat("%s    ")
                     ;
                 $table->setStyle($style);
+
                 if ('txt-no-header' !== $format) {
-                    $table->setHeaders(array('name', 'description', 'hidden'));
+                    if ($output->isVerbose()) {
+                        $table->setHeaders(array('name', 'description', 'hidden'));
+                    } else {
+                        $table->setHeaders(array('name', 'description'));
+                    }
                 }
+
                 foreach ($tasks as $task) {
                     $command = $task->makeCommand();
-                    $table->addRow(array(
-                        $task->getName(),
-                        $command->getDescription(),
-                        $task->isHidden() ? 'X' : '',
-                    ));
+                    if ($output->isVerbose()) {
+                        $table->addRow(array(
+                            $task->getName(),
+                            $command->getDescription(),
+                            $task->isHidden() ? 'X' : '',
+                        ));
+                    } else {
+                        $table->addRow(array(
+                            $task->getName(),
+                            $command->getDescription(),
+                        ));
+                    }
                 }
 
                 $table->render($output);
