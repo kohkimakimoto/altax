@@ -22,7 +22,7 @@ class Application extends SymfonyApplication
     const HELP_MESSAGES =<<<EOL
 <info>%s</info> version <comment>%s</comment>
 
-Altax is an extensible deployment tool for PHP.
+Altax is a deployment tool for PHP.
 
 Copyright (c) Kohki Makimoto <kohki.makimoto@gmail.com>
 Apache License 2.0
@@ -50,13 +50,6 @@ EOL;
 
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
-        // Add output formatter style used by embedded composer.
-        if (null === $output) {
-            $styles = \Composer\Factory::createAdditionalStyles();
-            $formatter = new OutputFormatter(null, $styles);
-            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
-        }
-
         return parent::run($input, $output);
     }
 

@@ -40,7 +40,7 @@ class Application extends Container
      */
     public function getVersionWithCommit()
     {
-        return static::VERSION." - ".static::COMMIT;
+        return static::VERSION." (build: ".static::COMMIT.")";
     }
 
     public function registerProviders($providers)
