@@ -38,7 +38,9 @@ class ScriptBuilder
         if (isset($options["user"])) {
             $script->cwd($options["user"]);
         }
-
+        if (isset($options["interpreter"])) {
+            $script->cwd($options["interpreter"]);
+        }
         return $script->run();
     }
 
@@ -52,7 +54,9 @@ class ScriptBuilder
         if (isset($options["user"])) {
             $script->cwd($options["user"]);
         }
-
+        if (isset($options["interpreter"])) {
+            $script->cwd($options["interpreter"]);
+        }
         return $script->runLocally();
     }
 }
