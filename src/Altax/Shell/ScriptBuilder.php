@@ -36,10 +36,10 @@ class ScriptBuilder
             $script->cwd($options["cwd"]);
         }
         if (isset($options["user"])) {
-            $script->cwd($options["user"]);
+            $script->user($options["user"]);
         }
         if (isset($options["interpreter"])) {
-            $script->cwd($options["interpreter"]);
+            $script->interpreter($options["interpreter"]);
         }
         return $script->run();
     }
@@ -52,10 +52,10 @@ class ScriptBuilder
             $script->cwd($options["cwd"]);
         }
         if (isset($options["user"])) {
-            $script->cwd($options["user"]);
+            $script->user($options["user"]);
         }
         if (isset($options["interpreter"])) {
-            $script->cwd($options["interpreter"]);
+            $script->interpreter($options["interpreter"]);
         }
         return $script->runLocally();
     }
