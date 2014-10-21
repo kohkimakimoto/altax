@@ -65,7 +65,7 @@ class Command
         $resultContent = null;
 
         $ssh->exec($realCommand, function ($buffer) use ($output, $outputType, &$resultContent) {
-            if ($outputType == "stdout" || $output->isDebug()) {
+            if ($outputType == "stdout" || $output->isVerbose()) {
                 $output->write($buffer);
             }
             $resultContent .= $buffer;
@@ -114,7 +114,7 @@ class Command
         $output = $this->output;
         $resultContent = null;
         $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, $outputType, &$resultContent) {
-            if ($outputType == "stdout" || $output->isDebug()) {
+            if ($outputType == "stdout" || $output->isVerbose()) {
                 $output->write($buffer);
             }
             $resultContent .= $buffer;
