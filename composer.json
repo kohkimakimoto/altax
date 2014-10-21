@@ -1,6 +1,6 @@
 {
   "name": "kohkimakimoto/altax",
-  "description": "Altax is an extensible deployment tool for PHP.",
+  "description": "Altax is a deployment tool for PHP",
   "keywords": ["deploy", "deployment", "ssh", "altax"],
   "homepage": "https://github.com/kohkimakimoto/altax",
   "license": "Apache-2.0",
@@ -12,7 +12,6 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "composer/composer": "1.0.*@dev",
     "symfony/process": "2.5.*",
     "symfony/console": "2.5.*",
     "symfony/filesystem": "2.5.*",
@@ -46,7 +45,7 @@
   },
   "extra": {
       "branch-alias": {
-          "dev-master": "3.1.x-dev"
+          "dev-master": "4.x-dev"
       }
   },
   "bin": ["bin/altax"]

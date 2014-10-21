@@ -5,10 +5,8 @@
 [![Latest Stable Version](https://poser.pugx.org/kohkimakimoto/altax/v/stable.png)](https://packagist.org/packages/kohkimakimoto/altax)
 [![License](https://poser.pugx.org/kohkimakimoto/altax/license.png)](https://packagist.org/packages/kohkimakimoto/altax)
 
-
-
 Altax is a deployment tool for PHP.
-I designed it as a command-line tool for running tasks to remote servers 
+I designed it as a command-line tool for running tasks to remote servers
 like the [Capistrano](https://github.com/capistrano/capistrano), [Fabric](http://fabric.readthedocs.org/) and [Cinamon](https://github.com/kentaro/cinnamon).
 
 The following code is a simple git deploy task definition. You can write any tasks in PHP.
@@ -22,10 +20,10 @@ Server::node("db1.example.com",  "db");
 // Register a task.
 Task::register("deploy", function(){
 
-    $appDir = "/path/to/app";
-
     // Execute parallel processes for each nodes.
-    Process::exec(["web", "db"], function() use ($appDir){
+    Process::on(["web", "db"], function() {
+
+        $appDir = "/path/to/app";
 
         // Run a command remotely and get a return code.
         if (Command::run("test -d $appDir")->isFailed()) {
@@ -55,14 +53,11 @@ Run command: test -d /path/to/app on db1.example.com
 Run command: git clone git@github.com:path/to/app.git /path/to/app on db1.example.com
 ```
 
-You can get more information at [http://kohkimakimoto.github.io/altax/](http://kohkimakimoto.github.io/altax/).
-
 ## Requirement
 
 PHP5.4 or later.
 
 ## Installation
-
 
 ## Author
 
