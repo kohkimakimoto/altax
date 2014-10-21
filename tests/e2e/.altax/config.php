@@ -13,13 +13,3 @@ Task::register("test002", function(){
     Command::run("echo run locally!");
 
 });
-
-Task::register("test003", function(){
-
-    Process::exec(["127.0.0.1"], function($process){
-
-        Command::run("echo run!");
-
-    });
-
-});
