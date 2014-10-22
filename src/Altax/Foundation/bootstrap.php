@@ -14,11 +14,12 @@ if ($c1 === $c2) {
     ];
 }
 
-$env['server.port']     = 22;
-$env['server.key']      = getenv("HOME")."/.ssh/id_rsa";
-$env['server.username'] = getenv("USER");
-$env['command.shell']   = '/bin/bash -l -c';
-$env['script.working']  = sys_get_temp_dir()."/altax";
+$env['server.port']      = 22;
+$env['server.key']       = getenv("HOME")."/.ssh/id_rsa";
+$env['server.username']  = getenv("USER");
+$env['command.shell']    = '/bin/bash -l -c';
+$env['script.working']   = sys_get_temp_dir()."/altax";
+$env['process.parallel'] = true;
 
 $env['aliases'] = [
     'App'              => 'Altax\Facade\App',

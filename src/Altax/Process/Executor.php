@@ -11,12 +11,15 @@ class Executor
 
     protected $console;
 
-    public function __construct($runtime, $servers, $output, $console)
+    protected $env;
+
+    public function __construct($runtime, $servers, $output, $console, $env)
     {
         $this->runtime = $runtime;
         $this->servers = $servers;
         $this->output = $output;
         $this->console = $console;
+        $this->env = $env;
     }
 
     public function on()
@@ -58,7 +61,7 @@ class Executor
             }
         }
 
-        $manager = new ProcessManager($this->runtime, $this->output);
+        $manager = new ProcessManager($this->runtime, $this->output, $this->env);
         $manager->execute($closure, $nodes);
     }
 

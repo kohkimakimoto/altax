@@ -7,16 +7,24 @@ class ProcessManager
 
     protected $output;
 
+    protected $env;
+
     protected $isParallel;
 
     protected $childPids = array();
 
-    public function __construct($runtime, $output)
+    public function __construct($runtime, $output, $env)
     {
         $this->runtime = $runtime;
         $this->output = $output;
+        $this->env = $env;
 
-        if (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
+        if ($this->env->get('process.parallel', true) == false) {
+            $this->isParallel = false;
+            if ($this->output->isDebug()) {
+                $this->output->writeln("Running serial mode.");
+            }
+        } elseif (!function_exists('pcntl_signal') || !function_exists('pcntl_fork') || !function_exists('pcntl_wait') || !function_exists('posix_kill')) {
             $this->isParallel = false;
             if ($this->output->isDebug()) {
                 $this->output->writeln("Running serial mode.");

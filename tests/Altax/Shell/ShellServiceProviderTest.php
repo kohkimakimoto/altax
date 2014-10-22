@@ -2,7 +2,6 @@
 namespace Test\Altax\Shell;
 
 use Altax\Shell\CommandBuilder;
-use Altax\Shell\ScriptBuilder;
 
 class ShellServiceProviderTest extends \PHPUnit_Framework_TestCase
 {

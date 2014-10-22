@@ -21,7 +21,9 @@ class ProcessServiceProvider extends ServiceProvider
                 $app['process.runtime'],
                 $app['servers'],
                 $app['output'],
-                $app['console']);
+                $app['console'],
+                $app['env']
+                );
         });
     }
 }

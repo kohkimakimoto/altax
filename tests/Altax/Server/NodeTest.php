@@ -48,6 +48,7 @@ class Node extends \PHPUnit_Framework_TestCase
         $serverManager = $this->app["servers"];
         $node = $serverManager->makeNode("test_node_name");
 
+        $orgHome = getenv("HOME");
         putenv("HOME=/home/your");
         $node->setKey("~/path/to/private_key");
         $this->assertEquals("~/path/to/private_key", $node->getKey());
@@ -69,5 +70,7 @@ class Node extends \PHPUnit_Framework_TestCase
         $node->setKey("/path/to/private_key~");
         $this->assertEquals("/path/to/private_key~", $node->getKey());
         $this->assertEquals("/path/to/private_key~", $node->getKeyOrDefault());
+
+        putenv("HOME=$orgHome");
     }
 }
