@@ -7,11 +7,11 @@
 
 Altax is a deployment tool for PHP.
 I designed it as a command-line tool for running tasks to remote servers
-like the [Capistrano](https://github.com/capistrano/capistrano), [Fabric](http://fabric.readthedocs.org/) and [Cinamon](https://github.com/kentaro/cinnamon).
-
-The following code is a simple git deploy task definition. You can write any tasks in PHP.
+like the [Capistrano](https://github.com/capistrano/capistrano), [Fabric](http://fabric.readthedocs.org/) and [Cinamon](https://github.com/kentaro/cinnamon). And it has expressive syntax inspired by [laravel](http://laravel.com/) framework. The following code is a simple git deploy task definition. You can write any tasks in PHP.
 
 ```php
+// Default config file is ~.altax/config.php
+
 // Register managed nodes to a role.
 Server::node("web1.example.com", "web");
 Server::node("web2.example.com", "web");
@@ -22,7 +22,7 @@ Task::register("deploy", function(){
 
     // Execute parallel processes for each nodes.
     Process::on(["web", "db"], function() {
-
+        // Your application path.
         $appDir = "/path/to/app";
 
         // Run a command remotely and get a return code.
@@ -34,11 +34,9 @@ Task::register("deploy", function(){
                 "git pull",
                 ));
         }
-
     });
 
 });
-
 ```
 
 You can run it like below
@@ -58,6 +56,8 @@ Run command: git clone git@github.com:path/to/app.git /path/to/app on db1.exampl
 PHP5.4 or later.
 
 ## Installation
+
+**Sorry. Please wait.**
 
 ## Author
 
