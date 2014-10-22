@@ -5,7 +5,6 @@ namespace Altax\Foundation;
 
 /**
  * AliasLoader
- *
  */
 class AliasLoader
 {
@@ -15,6 +14,13 @@ class AliasLoader
      * @var array
      */
     protected $aliases;
+
+    /**
+     * The prefix of aliases.
+     *
+     * @var string
+     */
+    protected $prefix = "";
 
     /**
      * Indicates if a loader has been registered.
@@ -66,6 +72,20 @@ class AliasLoader
      */
     public function load($alias)
     {
+        if ($this->prefix !== null && $this->prefix !== "") {
+            // exists prefix configuration
+            if (strpos($alias, $this->prefix) !== 0) {
+                return;
+            }
+
+            $noprefixAlias = substr($alias, strlen($this->prefix));
+            if (isset($this->aliases[$noprefixAlias])) {
+                return class_alias($this->aliases[$noprefixAlias], $alias);
+            }
+
+            return;
+        }
+
         if (isset($this->aliases[$alias])) {
             return class_alias($this->aliases[$alias], $alias);
         }
@@ -91,8 +111,8 @@ class AliasLoader
     public function register()
     {
         if (! $this->registered) {
-            $this->prependToLoaderStack();
-
+            //$this->prependToLoaderStack();
+            $this->apendToLoaderStack();
             $this->registered = true;
         }
     }
@@ -105,6 +125,11 @@ class AliasLoader
     protected function prependToLoaderStack()
     {
         spl_autoload_register(array($this, 'load'), true, true);
+    }
+
+    protected function apendToLoaderStack()
+    {
+        spl_autoload_register(array($this, 'load'), true, false);
     }
 
     /**
@@ -127,6 +152,28 @@ class AliasLoader
     {
         $this->aliases = $aliases;
     }
+
+    /**
+     * Get the registered prefix.
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Set the registered prefix.
+     *
+     * @param  string $prefix
+     * @return void
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
 
     /**
      * Indicates if the loader has been registered.

@@ -65,6 +65,8 @@ function bootAltaxApplication(array $bootstraps = array(), $cli = true)
         }
     }
 
+    AliasLoader::getInstance()->register();
+
     $app = new Application();
     $app->instance('app', $app);
 
@@ -77,12 +79,10 @@ function bootAltaxApplication(array $bootstraps = array(), $cli = true)
     $app->instance('output', new ConsoleOutput());
     $app->instance('console', new SymfonyApplication());
 
-    $app->registerProviders($env['providers']);
+    $app->registerBuiltinProviders();
 
     $app['env']->updateFromArray($env);
     $app['process.runtime']->bootMasterProcess();
-
-    AliasLoader::getInstance($env['aliases'])->register();
 
     return $app;
 }

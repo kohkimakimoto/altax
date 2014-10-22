@@ -14,11 +14,11 @@ if ($c1 === $c2) {
     ];
 }
 
-$env['server.port'] = 22;
-$env['server.key'] = getenv("HOME")."/.ssh/id_rsa";
+$env['server.port']     = 22;
+$env['server.key']      = getenv("HOME")."/.ssh/id_rsa";
 $env['server.username'] = getenv("USER");
-$env['command.shell'] = '/bin/bash -l -c';
-$env['script.working'] = sys_get_temp_dir()."/altax";
+$env['command.shell']   = '/bin/bash -l -c';
+$env['script.working']  = sys_get_temp_dir()."/altax";
 
 $env['aliases'] = [
     'App'              => 'Altax\Facade\App',
@@ -33,14 +33,6 @@ $env['aliases'] = [
     'RemoteFile'       => 'Altax\Facade\RemoteFile',
     'Script'           => 'Altax\Facade\Script',
 ];
+$env['aliases.prefix']  = "";
 
-$env['providers'] = array(
-    'Illuminate\Events\EventServiceProvider',
-    'Illuminate\Filesystem\FilesystemServiceProvider',
-    'Altax\Server\ServerServiceProvider',
-    'Altax\Env\EnvServiceProvider',
-    'Altax\Task\TaskServiceProvider',
-    'Altax\Process\ProcessServiceProvider',
-    'Altax\Shell\ShellServiceProvider',
-    'Altax\RemoteFile\RemoteFileServiceProvider',
-);
+$env['providers'] = [];
