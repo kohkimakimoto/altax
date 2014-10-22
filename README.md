@@ -19,6 +19,7 @@ Server::node("db1.example.com",  "db");
 
 // Register a task.
 Task::register("deploy", function(){
+
     // Execute parallel processes for each nodes.
     Process::on(["web", "db"], function() {
         // Your application path.
@@ -34,6 +35,7 @@ Task::register("deploy", function(){
                 ));
         }
     });
+
 });
 ```
 
