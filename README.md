@@ -10,7 +10,7 @@ I designed it as a command-line tool for running tasks to remote servers
 like the [Capistrano](https://github.com/capistrano/capistrano), [Fabric](http://fabric.readthedocs.org/) and [Cinamon](https://github.com/kentaro/cinnamon). And it has expressive syntax inspired by [laravel](http://laravel.com/) framework. The following code is a simple git deploy task definition. You can write any tasks in PHP.
 
 ```php
-// Default config file is ~.altax/config.php
+// Default config file is '~.altax/config.php'
 
 // Register managed nodes to a role.
 Server::node("web1.example.com", "web");
@@ -19,7 +19,6 @@ Server::node("db1.example.com",  "db");
 
 // Register a task.
 Task::register("deploy", function(){
-
     // Execute parallel processes for each nodes.
     Process::on(["web", "db"], function() {
         // Your application path.
@@ -35,11 +34,10 @@ Task::register("deploy", function(){
                 ));
         }
     });
-
 });
 ```
 
-You can run it like below
+You can run it like below.
 
 ```
 $ altax deploy
