@@ -1,8 +1,6 @@
 <?php
 namespace Altax\Process;
 
-use Symfony\Component\Filesystem\Filesystem;
-
 class Process
 {
     protected $node;

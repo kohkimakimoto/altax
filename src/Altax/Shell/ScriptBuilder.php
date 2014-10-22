@@ -42,6 +42,7 @@ class ScriptBuilder
         if (isset($options["interpreter"])) {
             $script->interpreter($options["interpreter"]);
         }
+
         return $script->run();
     }
 
@@ -58,6 +59,7 @@ class ScriptBuilder
         if (isset($options["interpreter"])) {
             $script->interpreter($options["interpreter"]);
         }
+
         return $script->runLocally();
     }
 }

@@ -2,7 +2,6 @@
 /*
 namespace Altax\Shell;
 
-use Symfony\Component\Process\Process as SymfonyProcess;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Script

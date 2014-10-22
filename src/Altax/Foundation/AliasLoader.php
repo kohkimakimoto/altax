@@ -174,7 +174,6 @@ class AliasLoader
         $this->prefix = $prefix;
     }
 
-
     /**
      * Indicates if the loader has been registered.
      *
