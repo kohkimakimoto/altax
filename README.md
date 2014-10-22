@@ -29,10 +29,10 @@ Task::register("deploy", function(){
         if (Command::run("test -d $appDir")->isFailed()) {
             Command::run("git clone git@github.com:path/to/app.git $appDir");
         } else {
-            Command::run(array(
+            Command::run([
                 "cd $appDir",
                 "git pull",
-                ));
+                ]);
         }
     });
 
