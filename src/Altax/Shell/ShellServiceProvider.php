@@ -18,6 +18,8 @@ class ShellServiceProvider extends ServiceProvider
                 $app['output'],
                 $app['env']);
         });
+
+        /*
         $this->app->bindShared('shell.script', function ($app) {
             return new ScriptBuilder(
                 $app['shell.command'],
@@ -26,5 +28,6 @@ class ShellServiceProvider extends ServiceProvider
                 $app['output'],
                 $app['env']);
         });
+        */
     }
 }

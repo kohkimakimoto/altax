@@ -1,4 +1,5 @@
 <?php
+/*
 namespace Altax\Shell;
 
 class ScriptBuilder
@@ -60,3 +61,4 @@ class ScriptBuilder
         return $script->runLocally();
     }
 }
+*/

@@ -17,10 +17,4 @@ class ShellServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($obj instanceof CommandBuilder);
     }
 
-    public function testScriptBuilder()
-    {
-        $obj = $this->app["shell.script"];
-        $this->assertTrue($obj instanceof ScriptBuilder);
-    }
-
 }

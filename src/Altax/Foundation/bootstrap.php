@@ -31,7 +31,6 @@ $env['aliases'] = [
     'Process'          => 'Altax\Facade\Process',
     'Command'          => 'Altax\Facade\Command',
     'RemoteFile'       => 'Altax\Facade\RemoteFile',
-    'Script'           => 'Altax\Facade\Script',
 ];
 $env['aliases.prefix']  = "";
 
