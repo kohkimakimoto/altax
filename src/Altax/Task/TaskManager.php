@@ -59,13 +59,25 @@ class TaskManager
         return isset($this->tasks[$name]) ? $this->tasks[$name] : $default;
     }
 
-    public function call($name)
+    public function call($name, $inputArguments = array())
     {
+        $arguments = array();
         if ($this->output->isDebug()) {
             $this->output->writeln("Calling task: ".$name);
         }
 
         $command = $this->console->find($name);
+        $definition = $command->getDefinition();
+        $commandArguments =$definition->getArguments();
+
+        if (is_vector($inputArguments)) {
+            foreach ($commandArguments as $key => $commandArgument) {
+                $arguments[$key] = array_shift($inputArguments);
+            }
+        } else {
+            $arguments = $inputArguments;
+        }
+
         $arguments['command'] = $name;
         $input = new ArrayInput($arguments);
 

@@ -11,6 +11,10 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
  */
 abstract class Command extends SymfonyCommand
 {
+    protected $input;
+
+    protected $output;
+
     protected $task;
 
     protected $ancestry = array();
@@ -38,6 +42,8 @@ abstract class Command extends SymfonyCommand
     public function run(InputInterface $input, OutputInterface $output)
     {
         $this->getContainer()->instance('command', $this);
+        $this->input = $input;
+        $this->output = $output;
 
         return parent::run($input, $output);
     }
