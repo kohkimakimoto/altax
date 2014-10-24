@@ -42,6 +42,9 @@ class TaskManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCall()
     {
+        $application = new Application($this->app);
+        $application->setAutoExit(false);
+
         $taskManager = $this->app["task"];
         $task = $taskManager->register("test", function(){
 
@@ -50,23 +53,29 @@ class TaskManagerTest extends \PHPUnit_Framework_TestCase
         });
         $task2 = $taskManager->register("test2", function(){
 
-            $this->app["output"]->write("called!");
+            $this->app["task"]->call("test3");
+            $this->app["task"]->call("test3", ["v" => "hoge"]);
+            $this->app["task"]->call("test3", ["foo"]);
+
+        });
+        $task3 = $taskManager->register("test3", function($v = "aaa", $v2 = "bbb"){
+
+            $this->app["output"]->write($v);
 
         });
 
-        $application = new Application($this->app);
-        $application->setAutoExit(false);
         $application->add($task->makeCommand());
-        $application->add($$task2->makeCommand());
-        $command = $application->find("test");
+        $application->add($task2->makeCommand());
+        $application->add($task3->makeCommand());
 
+        $command = $application->find("test");
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
                 "command" => $command->getName(),
                 )
             );
-        $this->assertRegExp("/called!/", $this->app['output']->fetch());
+        $this->assertRegExp("/aaahogefoo/", $this->app['output']->fetch());
 
     }
 

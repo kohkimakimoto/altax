@@ -66,9 +66,12 @@ class TaskManager
             $this->output->writeln("Calling task: ".$name);
         }
 
-        $command = $this->console->find($name);
+        $command = $this->console->get($name);
+
         $definition = $command->getDefinition();
-        $commandArguments =$definition->getArguments();
+        $commandArguments = $definition->getArguments();
+        // The fist argument is always 'command' that is the command name.
+        array_shift($commandArguments);
 
         if (is_vector($inputArguments)) {
             foreach ($commandArguments as $key => $commandArgument) {
