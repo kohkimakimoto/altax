@@ -50,6 +50,7 @@ class ClosureTaskCommand extends Command
             $name = $parameter->getName();
             $args[] = $this->input->getArgument($name);
         }
+
         return call_user_func_array($closure, $args);
     }
 
