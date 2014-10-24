@@ -85,7 +85,12 @@ EOL;
         // Additional configuration file by the cli option.
         if (true === $input->hasParameterOption(array('--file', '-f'))) {
             $configs = $env->get("config.paths");
-            $configs[] = $input->getParameterOption(array('--file', '-f'));
+
+            $file = $input->getParameterOption(array('--file', '-f'));
+            if (!file_exists($file)) {
+                throw new \RuntimeException("File not found: $file");
+            }
+            $configs[] = $file;
             $env->set("config.paths", $configs);
         }
 
