@@ -10,20 +10,32 @@ class Input extends \Illuminate\Support\Facades\Facade
      */
     protected static function getFacadeAccessor() { return 'input'; }
 
-    public static function getArguments()
+    public function get($name)
     {
-        if (staitc::hasArgument('args')
-            && $args = staitc::getArgument('args')) {
+    }
+
+    public function argument($name)
+    {
+    }
+
+    public function option($name)
+    {
+    }
+
+    protected static function getDefaultArguments()
+    {
+        if (static::hasArgument('args')
+            && $args = static::getArgument('args')) {
             return $args;
         } else {
             return null;
         }
     }
 
-    public static function getArgument($index = 0, $default = null)
+    protected static function getDefaultArgument($index = 0, $default = null)
     {
         $retVal = null;
-        if ($args = staitc::getArguments()) {
+        if ($args = static::getDefaultArguments()) {
             if (isset($args[$index])) {
                 $retVal = $args[$index];
             } else {
@@ -35,5 +47,6 @@ class Input extends \Illuminate\Support\Facades\Facade
 
         return $retVal;
     }
+
 
 }
