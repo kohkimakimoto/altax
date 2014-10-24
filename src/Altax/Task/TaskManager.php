@@ -70,17 +70,17 @@ class TaskManager
 
         $definition = $command->getDefinition();
         $commandArguments = $definition->getArguments();
-        // The fist argument is always 'command' that is the command name.
-        array_shift($commandArguments);
 
         if (is_vector($inputArguments)) {
             foreach ($commandArguments as $key => $commandArgument) {
+                if ($key === "command") {
+                    continue;
+                }
                 $arguments[$key] = array_shift($inputArguments);
             }
         } else {
             $arguments = $inputArguments;
         }
-
         $arguments['command'] = $name;
         $input = new ArrayInput($arguments);
 
