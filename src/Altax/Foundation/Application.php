@@ -34,6 +34,16 @@ class Application extends Container
         return static::NAME;
     }
 
+    public function getVersion()
+    {
+        return static::VERSION;
+    }
+
+    public function isPhar()
+    {
+        return !(preg_match("/commit/", self::COMMIT) === 1);
+    }
+
     /**
      * Get a version with commit
      * @return string a version with commit
