@@ -47,4 +47,13 @@ class Process
         return $this->master;
     }
 
+    public function node()
+    {
+        return $this->getNode();
+    }
+
+    public function pid()
+    {
+        return $this->getPid();
+    }
 }
