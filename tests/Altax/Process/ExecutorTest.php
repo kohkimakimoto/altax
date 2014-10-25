@@ -1,5 +1,5 @@
 <?php
-namespace Test\Altax\Executor;
+namespace Test\Altax\Process;
 
 use Symfony\Component\Console\Output\BufferedOutput;
 use Altax\Process\Executor;

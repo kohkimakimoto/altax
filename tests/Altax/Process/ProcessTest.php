@@ -1,5 +1,5 @@
 <?php
-namespace Test\Altax\Executor;
+namespace Test\Altax\Process;
 
 use Altax\Process\Process;
 use Altax\Server\Node;

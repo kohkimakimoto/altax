@@ -122,10 +122,12 @@ class AliasLoader
      *
      * @return void
      */
+    /*
     protected function prependToLoaderStack()
     {
         spl_autoload_register(array($this, 'load'), true, true);
     }
+    */
 
     protected function apendToLoaderStack()
     {
