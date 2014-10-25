@@ -31,6 +31,11 @@ class CommandResult
         return $this->contents;
     }
 
+    public function contents()
+    {
+        return $this->getContents();
+    }
+
     public function __toString()
     {
         return $this->contents;
