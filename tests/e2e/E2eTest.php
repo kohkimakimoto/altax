@@ -28,7 +28,7 @@ class E2eTest extends \PHPUnit_Framework_TestCase
         $process->run();
         $this->assertEquals(true, $process->isSuccessful());
 
-        $this->assertRegExp("/run locally!/", $process->getOutput());
+        $this->assertRegExp("/run local command!/", $process->getOutput());
     }
 
 }

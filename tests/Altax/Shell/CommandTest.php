@@ -15,9 +15,12 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $commandBuilder = $this->app["shell.command"];
         $command = $commandBuilder->make("pwd");
-        $command->run();
-
-        $this->assertRegExp("/Run command locally:/", $this->app['output']->fetch());
+        try {
+            $command->run();
+            $this->assertTrue(false);
+        } catch (\Exception $e) {
+            $this->assertTrue(true);
+        }
     }
 
     public function testMakeAndRunOnChildProcess()
@@ -42,20 +45,15 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testRunOnMasterProcess()
     {
         $commandBuilder = $this->app["shell.command"];
-        $commandBuilder->run("pwd");
-
-        $this->assertRegExp("/Run command locally:/", $this->app['output']->fetch());
+        try {
+            $commandBuilder->run("pwd");
+            $this->assertTrue(false);
+        } catch (\Exception $e) {
+            $this->assertTrue(true);
+        }
     }
 
-    public function testRunLocallyOnMasterProcess()
-    {
-        $commandBuilder = $this->app["shell.command"];
-        $commandBuilder->runLocally("pwd");
-
-        $this->assertRegExp("/Run command locally:/", $this->app['output']->fetch());
-    }
-
-    public function testRunOnRemotely()
+    public function testRunOnSubprocess()
     {
         $servers = $this->app['servers'];
         $servers->node("127.0.0.1");

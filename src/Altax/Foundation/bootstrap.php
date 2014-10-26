@@ -31,6 +31,7 @@ $env['aliases'] = [
     'KeyPassphraseMap' => 'Altax\Facade\KeyPassphraseMap',
     'Process'          => 'Altax\Facade\Process',
     'Command'          => 'Altax\Facade\Command',
+    'LocalCommand'     => 'Altax\Facade\LocalCommand',
     'RemoteFile'       => 'Altax\Facade\RemoteFile',
 ];
 $env['aliases.prefix']  = "";

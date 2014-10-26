@@ -3,11 +3,10 @@ namespace Altax\Shell;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
 
-class Command
+class LocalCommand
 {
     protected $commandline;
     protected $process;
-    protected $node;
     protected $output;
     protected $options = array();
     protected $env;
@@ -16,21 +15,13 @@ class Command
     {
         $this->commandline = $commandline;
         $this->process = $process;
-        $this->node = $process->getNode();
         $this->output = $output;
         $this->env = $env;
     }
 
+
     public function run()
     {
-        if ($this->process->isMaster()) {
-            throw new \RuntimeException("Command couldn't be used in master process.");
-        }
-
-        if (!$this->node) {
-            throw new \RuntimeException("Node is not defined.");
-        }
-
         $commandline = $this->commandline;
 
         if (is_array($commandline)) {
@@ -39,11 +30,11 @@ class Command
 
         $realCommand = $this->compileRealCommand($commandline);
 
-        $ssh = $this->node->getSSHConnection();
+        $symfonyProcess = new SymfonyProcess($realCommand);
         if (isset($this->options["timeout"])) {
-            $ssh->setTimeout($this->options["timeout"]);
+            $symfonyProcess->setTimeout($this->options["timeout"]);
         } else {
-            $ssh->setTimeout(null);
+            $symfonyProcess->setTimeout(null);
         }
 
         $outputType = "quiet";
@@ -53,25 +44,20 @@ class Command
 
         if ($this->output->isDebug()) {
             $this->output->writeln(
-                "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)"
-                .$this->process->getNodeInfo());
+                "<info>Run local command: </info>$commandline (actually: <comment>$realCommand</comment>)");
         } else {
             $this->output->writeln(
-                "<info>Run command: </info>$commandline"
-                .$this->process->getNodeInfo());
+                "<info>Run local command: </info>$commandline");
         }
 
         $output = $this->output;
         $resultContent = null;
-
-        $ssh->exec($realCommand, function ($buffer) use ($output, $outputType, &$resultContent) {
+        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, $outputType, &$resultContent) {
             if ($outputType == "stdout" || $output->isVerbose()) {
                 $output->write($buffer);
             }
             $resultContent .= $buffer;
         });
-
-        $returnCode = $ssh->getExitStatus();
 
         $result = new CommandResult($returnCode, $resultContent);
         if ($result->isFailed() && $outputType === 'quiet') {

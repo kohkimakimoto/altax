@@ -10,6 +10,6 @@ Task::register("test001", function(){
 
 Task::register("test002", function(){
 
-    Command::run("echo run locally!");
+    LocalCommand::run("echo run local command!");
 
 });

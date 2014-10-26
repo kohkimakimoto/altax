@@ -19,6 +19,12 @@ class ShellServiceProvider extends ServiceProvider
                 $app['env']);
         });
 
+        $this->app->bindShared('shell.local_command', function ($app) {
+            return new LocalCommandBuilder(
+                $app['process.runtime'],
+                $app['output'],
+                $app['env']);
+        });
         /*
         $this->app->bindShared('shell.script', function ($app) {
             return new ScriptBuilder(

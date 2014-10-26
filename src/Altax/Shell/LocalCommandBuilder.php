@@ -1,7 +1,7 @@
 <?php
 namespace Altax\Shell;
 
-class CommandBuilder
+class LocalCommandBuilder
 {
     protected $runtime;
     protected $output;
@@ -16,7 +16,7 @@ class CommandBuilder
 
     public function make($commandline)
     {
-        return new Command(
+        return new LocalCommand(
             $commandline,
             $this->runtime->getProcess(),
             $this->output,
@@ -42,4 +42,5 @@ class CommandBuilder
 
         return $command->run();
     }
+
 }
