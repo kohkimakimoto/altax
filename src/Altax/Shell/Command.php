@@ -2,6 +2,7 @@
 namespace Altax\Shell;
 
 use Symfony\Component\Process\Process as SymfonyProcess;
+use Altax\Process\NodeProcess;
 
 class Command
 {
@@ -14,6 +15,10 @@ class Command
 
     public function __construct($commandline, $process, $output, $env)
     {
+        if (!($process instanceof NodeProcess)) {
+            throw new \InvalidArgumentException("You must use 'Command' in the NodeProcess");
+        }
+
         $this->commandline = $commandline;
         $this->process = $process;
         $this->node = $process->getNode();

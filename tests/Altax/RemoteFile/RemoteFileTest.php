@@ -3,7 +3,7 @@ namespace Test\Altax\RemoteFile;
 
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class CommandTest extends \PHPUnit_Framework_TestCase
+class RemoteFileTest extends \PHPUnit_Framework_TestCase
 {
     public function setup()
     {
@@ -14,9 +14,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testPutErrorOnTheMasterProcess()
     {
         $remoteFileBuilder = $this->app["remote_file"];
-        $remoteFile = $remoteFileBuilder->make();
         try {
-            $remoteFile->put(__DIR__."/files/text.txt", "/tmp/text.txt");
+            $remoteFile = $remoteFileBuilder->make();
             $this->assertEquals(true, false);
         } catch (\Exception $e) {
             $this->assertTrue(true);

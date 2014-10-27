@@ -3,31 +3,16 @@ namespace Altax\Process;
 
 class Process
 {
-    protected $node;
+    protected $name;
 
-    protected $master = false;
-
-    public static function createMasterProcess()
+    public function __construct($name)
     {
-        $process = new static(null);
-        $process->master = true;
-
-        return $process;
+        $this->name = $name;
     }
 
-    public function __construct($node)
+    public function __toString()
     {
-        $this->node = $node;
-    }
-
-    public function getNodeInfo()
-    {
-        return "<fg=yellow> on </fg=yellow><fg=yellow;options=bold>".$this->getNode()->getName()."</fg=yellow;options=bold>";
-    }
-
-    public function getNode()
-    {
-        return $this->node;
+        return $this->name;
     }
 
     protected function getPid()
@@ -42,18 +27,18 @@ class Process
         return $pid;
     }
 
-    public function isMaster()
-    {
-        return $this->master;
-    }
-
-    public function node()
-    {
-        return $this->getNode();
-    }
-
     public function pid()
     {
         return $this->getPid();
+    }
+
+    public function isMaster()
+    {
+        return false;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

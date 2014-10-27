@@ -14,9 +14,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testMakeAndRunOnMasterProcess()
     {
         $commandBuilder = $this->app["shell.command"];
-        $command = $commandBuilder->make("pwd");
         try {
-            $command->run();
+            $command = $commandBuilder->make("pwd");
             $this->assertTrue(false);
         } catch (\Exception $e) {
             $this->assertTrue(true);

@@ -2,6 +2,7 @@
 namespace Altax\RemoteFile;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Altax\Process\NodeProcess;
 
 class RemoteFile
 {
@@ -11,6 +12,10 @@ class RemoteFile
 
     public function __construct($process, $output)
     {
+        if (!($process instanceof NodeProcess)) {
+            throw new \InvalidArgumentException("You must use 'RemoteFile' in the NodeProcess");
+        }
+
         $this->process = $process;
         $this->node = $process->getNode();
         $this->output = $output;

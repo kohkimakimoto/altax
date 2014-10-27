@@ -17,6 +17,7 @@ class ProcessManagerTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $manager = new ProcessManager(
+            function(){},
             $this->app['process.runtime'],
             $this->app['output'],
             $this->app['env']);
@@ -32,10 +33,7 @@ class ProcessManagerTest extends \PHPUnit_Framework_TestCase
             $this->app["env"]);
 
         $nodes = [$node1, $node2];
-        $manager->execute(function(){
-
-
-        }, $nodes);
+        $manager->executeWithNodes($nodes);
 
 
     }
@@ -45,6 +43,13 @@ class ProcessManagerTest extends \PHPUnit_Framework_TestCase
         $this->app['env']->set('process.parallel', false);
 
         $manager = new ProcessManager(
+            function(){
+
+                $commandBuilder = $this->app["shell.command"];
+                $command = $commandBuilder->make("pwd");
+                $command->run();
+
+            },
             $this->app['process.runtime'],
             $this->app['output'],
             $this->app['env']);
@@ -60,13 +65,7 @@ class ProcessManagerTest extends \PHPUnit_Framework_TestCase
             $this->app["env"]);
 
         $nodes = [$node1, $node2];
-        $manager->execute(function(){
-
-            $commandBuilder = $this->app["shell.command"];
-            $command = $commandBuilder->make("pwd");
-            $command->run();
-
-        }, $nodes);
+        $manager->executeWithNodes($nodes);
 
         $this->assertRegExp("/Run command: pwd/", $this->app['output']->fetch());
     }

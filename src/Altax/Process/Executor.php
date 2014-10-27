@@ -22,22 +22,15 @@ class Executor
         $this->env = $env;
     }
 
-    public function on()
+    public function on($options, $closure)
     {
-        $args = func_get_args();
-        if (count($args) !== 2) {
-            throw new \InvalidArgumentException("Missing argument. Must 2 arguments.");
-        }
-
-        $closure = null;
         $nodes = array();
 
-        // load nodes
-        if (is_string($args[0])) {
-            $args[0] = array($args[0]);
+        if (is_string($options)) {
+            $options = array($options);
         }
-        $nodes = $this->servers->findNodes($args[0]);
-        $closure = $args[1];
+
+        $nodes = $this->servers->findNodes($options);
 
         if ($this->output->isDebug()) {
             $this->output->writeln("Found ".count($nodes)." nodes: "
@@ -61,9 +54,39 @@ class Executor
             }
         }
 
-        $manager = new ProcessManager($this->runtime, $this->output, $this->env);
-        $manager->execute($closure, $nodes);
+        $manager = new ProcessManager($closure, $this->runtime, $this->output, $this->env);
+        $manager->executeWithNodes($nodes);
     }
+
+    public function exec($options, $closure)
+    {
+        $entries = array();
+
+        if (is_string($options)) {
+            $options = array($options);
+        }
+
+        if (is_vector($options)) {
+            $entries = $options;
+        } else {
+            if (isset($options['entries']) && is_array($options['entries'])) {
+                $entries = $options['entries'];
+            }
+        }
+
+        if ($this->output->isDebug()) {
+            $this->output->writeln("Found ".count($entries)." entries: "
+                ."".trim(implode(", ", array_keys($entries))));
+        }
+
+        if (!($closure instanceof \Closure)) {
+            throw new \InvalidArgumentException("You must pass a closure.");
+        }
+
+        $manager = new ProcessManager($closure, $this->runtime, $this->output, $this->env);
+        $manager->executeWithEntries($entries);
+    }
+
 
     /**
      * Ask SSH key passphrase.
