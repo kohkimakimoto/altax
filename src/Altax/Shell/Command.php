@@ -46,11 +46,6 @@ class Command
             $ssh->setTimeout(null);
         }
 
-        $outputType = "quiet";
-        if (isset($this->options["output"])) {
-            $outputType = $this->options["output"];
-        }
-
         if ($this->output->isDebug()) {
             $this->output->writeln(
                 "<info>Run command: </info>$commandline (actually: <comment>$realCommand</comment>)"
@@ -64,8 +59,8 @@ class Command
         $output = $this->output;
         $resultContent = null;
 
-        $ssh->exec($realCommand, function ($buffer) use ($output, $outputType, &$resultContent) {
-            if ($outputType == "stdout" || $output->isVerbose()) {
+        $ssh->exec($realCommand, function ($buffer) use ($output, &$resultContent) {
+            if ($output->isVerbose()) {
                 $output->write($buffer);
             }
             $resultContent .= $buffer;
@@ -74,7 +69,7 @@ class Command
         $returnCode = $ssh->getExitStatus();
 
         $result = new CommandResult($returnCode, $resultContent);
-        if ($result->isFailed() && $outputType === 'quiet') {
+        if ($result->isFailed()) {
             $output->writeln($result->getContents());
         }
 
@@ -115,15 +110,6 @@ class Command
     public function timeout($value)
     {
         return $this->setOption("timeout", $value);
-    }
-
-    public function output($value)
-    {
-        if ($value !== "stdout" && $value !== "quiet" && $value !== "progress") {
-            throw new \InvalidArgumentException("unsupported output option '$value'");
-        }
-
-        return $this->setOption("output", $value);
     }
 
     public function setOption($key, $value)

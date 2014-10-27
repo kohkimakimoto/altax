@@ -36,9 +36,6 @@ class LocalCommandBuilder
         if (isset($options["timeout"])) {
             $command->timeout($options["timeout"]);
         }
-        if (isset($options["output"])) {
-            $command->output($options["output"]);
-        }
 
         return $command->run();
     }

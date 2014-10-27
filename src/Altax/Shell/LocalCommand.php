@@ -37,11 +37,6 @@ class LocalCommand
             $symfonyProcess->setTimeout(null);
         }
 
-        $outputType = "quiet";
-        if (isset($this->options["output"])) {
-            $outputType = $this->options["output"];
-        }
-
         if ($this->output->isDebug()) {
             $this->output->writeln(
                 "<info>Run local command: </info>$commandline (actually: <comment>$realCommand</comment>)");
@@ -52,15 +47,15 @@ class LocalCommand
 
         $output = $this->output;
         $resultContent = null;
-        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, $outputType, &$resultContent) {
-            if ($outputType == "stdout" || $output->isVerbose()) {
+        $returnCode = $symfonyProcess->run(function ($type, $buffer) use ($output, &$resultContent) {
+            if ($output->isVerbose()) {
                 $output->write($buffer);
             }
             $resultContent .= $buffer;
         });
 
         $result = new CommandResult($returnCode, $resultContent);
-        if ($result->isFailed() && $outputType === 'quiet') {
+        if ($result->isFailed()) {
             $output->writeln($result->getContents());
         }
 
@@ -101,15 +96,6 @@ class LocalCommand
     public function timeout($value)
     {
         return $this->setOption("timeout", $value);
-    }
-
-    public function output($value)
-    {
-        if ($value !== "stdout" && $value !== "quiet" && $value !== "progress") {
-            throw new \InvalidArgumentException("unsupported output option '$value'");
-        }
-
-        return $this->setOption("output", $value);
     }
 
     public function setOption($key, $value)
