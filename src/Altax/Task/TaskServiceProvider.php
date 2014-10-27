@@ -19,5 +19,11 @@ class TaskServiceProvider extends ServiceProvider
                 $app['output'],
                 $app['console']);
         });
+
+        $this->app->bindShared('task_runner', function ($app) {
+            return new TaskRunner(
+                $app['output'],
+                $app['console']);
+        });
     }
 }

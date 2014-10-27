@@ -26,6 +26,7 @@ $env['aliases'] = [
     'Server'           => 'Altax\Facade\Server',
     'Env'              => 'Altax\Facade\Env',
     'Task'             => 'Altax\Facade\Task',
+    'TaskRunner'       => 'Altax\Facade\TaskRunner',
     'Input'            => 'Altax\Facade\Input',
     'Output'           => 'Altax\Facade\Output',
     'KeyPassphraseMap' => 'Altax\Facade\KeyPassphraseMap',
