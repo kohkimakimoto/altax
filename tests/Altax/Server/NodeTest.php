@@ -1,7 +1,7 @@
 <?php
 namespace Test\Altax\Server;
 
-class Node extends \PHPUnit_Framework_TestCase
+class NodeTest extends \PHPUnit_Framework_TestCase
 {
     public function setup()
     {
