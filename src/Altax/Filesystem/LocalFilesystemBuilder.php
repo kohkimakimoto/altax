@@ -28,4 +28,8 @@ class LocalFilesystemBuilder
         return $this->make()->exists($path);
     }
 
+    public function remove($path)
+    {
+        return $this->make()->remove($path);
+    }
 }

@@ -33,11 +33,34 @@ class Filesystem
         $command->getOutput()->setVerbosity($verbosity);
 
         if ($ret) {
-            $this->output->writeln("<info>Check file: </info>$path (exists)".$this->process->getNodeInfo());
+            $this->output->writeln("<info>File: </info>$path (exists)".$this->process->getNodeInfo());
         } else {
-            $this->output->writeln("<info>Check file: </info>$path (not exists)".$this->process->getNodeInfo());
+            $this->output->writeln("<info>File: </info>$path (not exists)".$this->process->getNodeInfo());
         }
 
         return $ret;
+    }
+
+    public function remove($paths)
+    {
+        if (!is_array($paths)) {
+            $paths = array($paths);
+        }
+
+        foreach ($paths as $path) {
+            $command = $this->commandBuilder->make("rm -rf $path");
+            $verbosity = $command->getOutput()->getVerbosity();
+
+            // Prevents to display command output.
+            $command->getOutput()->setVerbosity(0);
+            $ret = $command->run()->isSuccessful();
+            $command->getOutput()->setVerbosity($verbosity);
+
+            if ($ret) {
+                $this->output->writeln("<info>File: </info>$path (removed)".$this->process->getNodeInfo());
+            } else {
+                $this->output->writeln("<info>File: </info>$path (coundn't remove)".$this->process->getNodeInfo());
+            }
+        }
     }
 }
