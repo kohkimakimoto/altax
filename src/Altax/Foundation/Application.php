@@ -64,6 +64,7 @@ class Application extends Container
             'Altax\Process\ProcessServiceProvider',
             'Altax\Shell\ShellServiceProvider',
             'Altax\RemoteFile\RemoteFileServiceProvider',
+            'Altax\Filesystem\FilesystemServiceProvider',
         ]);
     }
 

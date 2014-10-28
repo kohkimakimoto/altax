@@ -34,6 +34,8 @@ $env['aliases'] = [
     'Command'          => 'Altax\Facade\Command',
     'LocalCommand'     => 'Altax\Facade\LocalCommand',
     'RemoteFile'       => 'Altax\Facade\RemoteFile',
+    'Filesystem'       => 'Altax\Facade\Filesystem',
+    'LocalFilesystem'       => 'Altax\Facade\LocalFilesystem',
 ];
 $env['aliases.prefix']  = "";
 
