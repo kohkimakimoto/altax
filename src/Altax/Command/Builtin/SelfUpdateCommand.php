@@ -22,6 +22,7 @@ class SelfUpdateCommand extends \Symfony\Component\Console\Command\Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('<error>self-update is not available in this version.</error>');
+
         return 1;
 
         $container = $this->getApplication()->getContainer();

@@ -1,7 +1,6 @@
 <?php
 namespace Altax\Shell;
 
-use Symfony\Component\Process\Process as SymfonyProcess;
 use Altax\Process\NodeProcess;
 
 class Command

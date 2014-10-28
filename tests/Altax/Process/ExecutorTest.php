@@ -17,7 +17,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->app->instance('command', $task->makeCommand());
     }
 
-    public function testExecute1()
+    public function testOn1()
     {
         $output = $this->app['output'];
         $output->setVerbosity(4);
@@ -35,7 +35,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp("/Found 2 nodes:/", $contents);
     }
 
-    public function testExecute2()
+    public function testOn2()
     {
         $output = $this->app['output'];
         $output->setVerbosity(4);
@@ -53,7 +53,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp("/Found 1 nodes:/", $contents);
     }
 
-    public function testExecute3()
+    public function testOn3()
     {
         $output = $this->app['output'];
         $output->setVerbosity(4);
@@ -72,6 +72,66 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
         }
-
     }
+
+    public function testOn4()
+    {
+        $output = $this->app['output'];
+        $output->setVerbosity(4);
+
+        $executor = $this->app["process.executor"];
+        try {
+            $executor->on("", "");
+            $this->assertEquals(false, true);
+        } catch (\InvalidArgumentException $e) {
+            $this->assertEquals(true, true);
+        }
+    }
+
+    public function testExec1()
+    {
+        $output = $this->app['output'];
+        $output->setVerbosity(4);
+
+        $executor = $this->app["process.executor"];
+        $executor->exec(["e1", "e2"], function(){
+
+        });
+
+        $contents = $output->fetch();
+        $this->assertRegExp("/Found 2 entries:/", $contents);
+    }
+
+    public function testExec2()
+    {
+        $output = $this->app['output'];
+        $output->setVerbosity(4);
+
+        $server = $this->app['servers'];
+        $server->node("127.0.0.1", "test");
+        $server->node("localhost", "test");
+
+        $executor = $this->app["process.executor"];
+        $executor->exec("e1", function(){
+
+        });
+
+        $contents = $output->fetch();
+        $this->assertRegExp("/Found 1 entries:/", $contents);
+    }
+
+    public function testExec3()
+    {
+        $output = $this->app['output'];
+        $output->setVerbosity(4);
+
+        $executor = $this->app["process.executor"];
+        try {
+            $executor->exec("", "");
+            $this->assertEquals(false, true);
+        } catch (\InvalidArgumentException $e) {
+            $this->assertEquals(true, true);
+        }
+    }
+
 }

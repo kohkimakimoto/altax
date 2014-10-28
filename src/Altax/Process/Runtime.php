@@ -19,7 +19,7 @@ class Runtime
 
     public function bootMasterProcess()
     {
-        $this->masterProcess = new MasterProcess;
+        $this->masterProcess = new MasterProcess();
         $this->process = $this->masterProcess;
     }
 

@@ -87,7 +87,6 @@ class Executor
         $manager->executeWithEntries($entries);
     }
 
-
     /**
      * Ask SSH key passphrase.
      * @return string passphrase

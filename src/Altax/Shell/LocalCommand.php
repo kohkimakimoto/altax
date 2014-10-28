@@ -19,7 +19,6 @@ class LocalCommand
         $this->env = $env;
     }
 
-
     public function run()
     {
         $commandline = $this->commandline;
