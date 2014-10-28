@@ -69,4 +69,27 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegExp("/Run command: pwd on 127.0.0.1/", $this->app['output']->fetch());
     }
+
+    public function testRunOnSubprocessWithOptions()
+    {
+        $servers = $this->app['servers'];
+        $servers->node("127.0.0.1");
+        $env = $this->app['env'];
+        $env->set('process.parallel', false);
+
+        $executor = $this->app['process.executor'];
+        $executor->on(["127.0.0.1"], function(){
+
+            $commandBuilder = $this->app["shell.command"];
+            $commandBuilder->run("pwd", [
+                "cwd" => __DIR__,
+                "user" => get_current_user(),
+                "timeout" => 100,
+            ]);
+
+        });
+
+        $this->assertRegExp("/Run command: pwd on 127.0.0.1/", $this->app['output']->fetch());
+    }
+
 }

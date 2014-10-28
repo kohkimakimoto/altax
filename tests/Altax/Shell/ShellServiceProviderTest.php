@@ -2,6 +2,7 @@
 namespace Test\Altax\Shell;
 
 use Altax\Shell\CommandBuilder;
+use Altax\Shell\LocalCommandBuilder;
 
 class ShellServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,4 +17,9 @@ class ShellServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($obj instanceof CommandBuilder);
     }
 
+    public function testLocalCommandBuilder()
+    {
+        $obj = $this->app["shell.local_command"];
+        $this->assertTrue($obj instanceof LocalCommandBuilder);
+    }
 }
