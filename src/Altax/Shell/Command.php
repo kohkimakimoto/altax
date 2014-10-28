@@ -122,4 +122,9 @@ class Command
 
         return $this;
     }
+
+    public function getOutput()
+    {
+        return $this->output;
+    }
 }

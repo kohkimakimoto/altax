@@ -13,4 +13,17 @@ class LocalFilesystem
         $this->process = $process;
         $this->output = $output;
     }
+
+    public function exists($path)
+    {
+        $ret = file_exists($path);
+
+       if ($ret) {
+            $this->output->writeln("<info>Check file: </info>$path (exists)");
+        } else {
+            $this->output->writeln("<info>Check file: </info>$path (not exists)");
+        }
+
+        return $ret;
+    }
 }

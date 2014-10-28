@@ -1,6 +1,8 @@
 <?php
 namespace Altax\Filesystem;
 
+use Altax\Process\NodeProcess;
+
 class Filesystem
 {
     protected $commandBuilder;
@@ -18,5 +20,24 @@ class Filesystem
         $this->process = $process;
         $this->node = $process->getNode();
         $this->output = $output;
+    }
+
+    public function exists($path)
+    {
+        $command = $this->commandBuilder->make("test -e $path");
+        $verbosity = $command->getOutput()->getVerbosity();
+
+        // Prevents to display command output.
+        $command->getOutput()->setVerbosity(0);
+        $ret = $command->run()->isSuccessful();
+        $command->getOutput()->setVerbosity($verbosity);
+
+        if ($ret) {
+            $this->output->writeln("<info>Check file: </info>$path (exists)".$this->process->getNodeInfo());
+        } else {
+            $this->output->writeln("<info>Check file: </info>$path (not exists)".$this->process->getNodeInfo());
+        }
+
+        return $ret;
     }
 }

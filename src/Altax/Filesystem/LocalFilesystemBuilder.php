@@ -22,4 +22,10 @@ class LocalFilesystemBuilder
             $this->output
             );
     }
+
+    public function exists($path)
+    {
+        return $this->make()->exists($path);
+    }
+
 }
