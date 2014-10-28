@@ -88,6 +88,25 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testOnParallel()
+    {
+        $this->app['env']->set('process.parallel', false);
+        $output = $this->app['output'];
+        $output->setVerbosity(4);
+
+        $server = $this->app['servers'];
+        $server->node("127.0.0.1", "test");
+        $server->node("localhost", "test");
+
+        $executor = $this->app["process.executor"];
+        $executor->on(["test"], function(){
+
+        });
+
+        $contents = $output->fetch();
+        $this->assertRegExp("/Found 2 nodes:/", $contents);
+    }
+
     public function testExec1()
     {
         $output = $this->app['output'];
@@ -132,6 +151,25 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         } catch (\InvalidArgumentException $e) {
             $this->assertEquals(true, true);
         }
+    }
+
+    public function testExecParallel()
+    {
+        $this->app['env']->set('process.parallel', false);
+        $output = $this->app['output'];
+        $output->setVerbosity(4);
+
+        $server = $this->app['servers'];
+        $server->node("127.0.0.1", "test");
+        $server->node("localhost", "test");
+
+        $executor = $this->app["process.executor"];
+        $executor->exec("e1", function(){
+
+        });
+
+        $contents = $output->fetch();
+        $this->assertRegExp("/Found 1 entries:/", $contents);
     }
 
 }
