@@ -17,7 +17,7 @@ class E2eTest extends \PHPUnit_Framework_TestCase
         $process->run();
         $this->assertEquals(true, $process->isSuccessful());
 
-        $this->assertEquals("This is a test001\n", $process->getOutput());
+        $this->assertRegExp("/This is a test001/", $process->getOutput());
     }
 
     public function testRunTaskTest002()
