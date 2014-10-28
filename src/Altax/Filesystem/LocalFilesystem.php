@@ -1,7 +1,6 @@
 <?php
 namespace Altax\Filesystem;
 
-
 class LocalFilesystem
 {
     protected $commandBuilder;
