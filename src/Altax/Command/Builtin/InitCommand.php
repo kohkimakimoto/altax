@@ -60,13 +60,14 @@ EOL;
             $configurationPath = getenv("HOME")."/.altax/config.php";
         }
 
-        $output->writeln("<info>Creating inital configuration.</info>");
+        $output->writeln("<info>Setup initial configuration.</info>");
         if (!is_file($configurationPath)) {
             $this->generateConfig($configurationPath, $output);
         } else {
             $output->writeln("<error>File '$configurationPath' is already exists. Skiped creation process.</error>");
         }
 
+        /*
         $composerFile = dirname($configurationPath)."/composer.json";
         if (!is_file($composerFile)) {
             $this->generateComposerFile($composerFile, $output);
@@ -80,6 +81,7 @@ EOL;
         } else {
             $output->writeln("<error>File '$gitignoreFile' is already exists. Skipped creation process.</error>");
         }
+        */
 
      }
 
