@@ -110,12 +110,12 @@ EOL;
                 if ($output->isDebug()) {
                     $output->writeln(" (OK)");
                 }
-                $i++;
             } else {
                 if ($output->isDebug()) {
                     $output->writeln(" (Not found)");
                 }
             }
+            $i++;
         }
     }
 
