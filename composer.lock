@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4ce7be0fcf41272b7c78248b65cf3a5",
+    "hash": "31b5a0e3bc71f4b9892b3b386d442510",
     "packages": [
         {
             "name": "illuminate/config",
@@ -226,16 +226,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "0.3.8",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "5085202f1f37769aae59f9711c423f28159c9b29"
+                "reference": "e63fe3fbdfd53431c2483f7714f2615dae685198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/5085202f1f37769aae59f9711c423f28159c9b29",
-                "reference": "5085202f1f37769aae59f9711c423f28159c9b29",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/e63fe3fbdfd53431c2483f7714f2615dae685198",
+                "reference": "e63fe3fbdfd53431c2483f7714f2615dae685198",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-09-13 02:42:45"
+            "time": "2014-10-19 19:32:18"
         },
         {
             "name": "symfony/console",
@@ -1736,6 +1736,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "phpseclib/phpseclib": 20,
         "fabpot/php-cs-fixer": 0,
         "satooshi/php-coveralls": 20
     },
