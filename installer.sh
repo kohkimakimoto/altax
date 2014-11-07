@@ -25,8 +25,20 @@ install_altax() {
   echo "Thanks for installing altax!"
   echo "You will install altax version $version."
   echo "Now downloading."
-  curl -s -o altax.${TMPTIMESTAMP}.phar https://raw.githubusercontent.com/kohkimakimoto/altax/$version/altax.phar
-  chmod 755 altax.${TMPTIMESTAMP}.phar
+  if [ $version -eq "latest" ]; then
+    # latest
+    # TODO: implement
+    curl -s -o altax.${TMPTIMESTAMP}.tar.gz https://github.com/altax/altax/releases/download/4.0.0/altax.tar.gz
+    tar xvzf altax.${TMPTIMESTAMP}.tar.gz
+    chmod 755 altax.${TMPTIMESTAMP}.phar
+
+  else
+    # before v4
+
+    curl -s -o altax.${TMPTIMESTAMP}.phar https://raw.githubusercontent.com/kohkimakimoto/altax/$version/altax.phar
+    chmod 755 altax.${TMPTIMESTAMP}.phar
+
+  fi
 
   install_to="${COMMAND_DIR}/altax.phar"
   if [ $type = "system" ]; then
@@ -44,7 +56,7 @@ install_altax() {
 
 # default
 install_type="local"
-install_version="v3.0.11"
+install_version="latest"
 
 if [ $# -eq 1  ]; then
   if [ $1 = "system" ]; then
@@ -56,9 +68,9 @@ if [ $# -eq 2  ]; then
   if [ $1 = "system" ]; then
     install_type="system"
   fi
-  
+
   install_version=$2
-  
+
   if [ $2 = "v2" ]; then
     # Recent version of v2
     install_version="v2.1.10"

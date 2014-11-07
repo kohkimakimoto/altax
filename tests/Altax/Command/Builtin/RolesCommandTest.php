@@ -2,36 +2,24 @@
 namespace Test\Altax\Command\Builtin;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use Altax\Command\Builtin\RolesCommand;
 use Altax\Console\Application;
-use Altax\Foundation\Container;
-use Altax\Foundation\ModuleFacade;
-use Altax\Module\Task\Resource\DefinedTask;
-use Altax\Module\Server\Facade\Server;
+use Server;
 
 class RolesCommandTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
+    public function setup()
     {
-        $this->container = new Container();
-
-        ModuleFacade::clearResolvedInstances();
-        ModuleFacade::setContainer($this->container);
-
-        $module = new \Altax\Module\Server\ServerModule($this->container);
-
-        $this->container->addModule(Server::getModuleName(), $module);
-
+        $this->app = bootAltaxApplication();
     }
 
     public function testNotfound()
     {
-        $application = new Application($this->container);
+        $application = new Application($this->app);
         $application->setAutoExit(false);
         $application->add(new RolesCommand());
         $command = $application->find("roles");
-        
+
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
@@ -44,7 +32,7 @@ class RolesCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDefault()
     {
-        $application = new Application($this->container);
+        $application = new Application($this->app);
         $application->setAutoExit(false);
         $application->add(new RolesCommand());
         $command = $application->find("roles");
@@ -52,7 +40,7 @@ class RolesCommandTest extends \PHPUnit_Framework_TestCase
         Server::node("web1.example.com", "web");
         Server::node("web2.example.com", "web");
         Server::node("db1.example.com", "db");
-        
+
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array(
@@ -61,12 +49,9 @@ class RolesCommandTest extends \PHPUnit_Framework_TestCase
             );
 
         $expected = <<<EOL
-+------+------------------------------------+
-| name | nodes                              |
-+------+------------------------------------+
-| web  | web1.example.com, web2.example.com |
-| db   | db1.example.com                    |
-+------+------------------------------------+
+name    nodes                                
+web     web1.example.com,web2.example.com    
+db      db1.example.com                      
 
 EOL;
         $this->assertEquals($expected, $commandTester->getDisplay());

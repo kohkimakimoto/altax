@@ -1,49 +1,63 @@
 <?php
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Server;
 
 /**
  * Nodes Command
  */
-class NodesCommand extends \Symfony\Component\Console\Command\Command
+class NodesCommand extends SymfonyCommand
 {
     protected function configure()
     {
         $this
             ->setName('nodes')
-            ->setDefinition(new InputDefinition(array(
-                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'To output list in other formats', 'txt')
-            )))
             ->setDescription('Displays nodes')
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'To output list in other formats (txt|txt-no-header|json|json-pretty)',
+                'txt'
+            )
             ->addOption(
                 'detail',
                 'd',
                 InputOption::VALUE_NONE,
                 'Shows detail infomation'
-            );
+            )
+            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getApplication()->getContainer();
-        $nodes = $container->get('nodes');
+        $nodes = Server::getNodes();
 
         $format = $input->getOption('format');
-        if ('txt' === $format) {
+        if ('txt' === $format || 'txt-no-header' === $format) {
+            $table = new Table($output);
+            $style = new TableStyle();
+            $style->setHorizontalBorderChar('')
+                ->setVerticalBorderChar('')
+                ->setCrossingChar('')
+                ->setCellRowContentFormat("%s    ")
+                ;
+            $table->setStyle($style);
+
             if ($nodes) {
                 $isDetail = $input->getOption('detail');
-                $table = $this->getHelperSet()->get('table');
-
-                if ($isDetail) {
-                    $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
-                } else {
-                    $table->setHeaders(array('name', 'roles'));
+                if ('txt-no-header' !== $format) {
+                    if ($isDetail) {
+                        $table->setHeaders(array('name', 'host', 'port', 'username', 'key', 'roles'));
+                    } else {
+                        $table->setHeaders(array('name', 'roles'));
+                    }
                 }
 
                 foreach ($nodes as $node) {
@@ -54,41 +68,53 @@ class NodesCommand extends \Symfony\Component\Console\Command\Command
                             $node->getPort(),
                             $node->getUsername(),
                             $node->getKey(),
-                            trim(implode(', ', $node->getReferenceRoles())),
+                            trim(implode(',', $node->roles())),
                         ));
                     } else {
                         $table->addRow(array(
                             $node->getName(),
-                            trim(implode(', ', $node->getReferenceRoles())),
+                            trim(implode(',', $node->roles())),
                         ));
                     }
                 }
-
                 $table->render($output);
             } else {
                 $output->writeln('There are not any nodes.');
             }
-        } else if ('json' === $format) {
+        } elseif ('json' === $format || 'json-pretty' === $format) {
             $data = array();
             if ($nodes) {
                 $isDetail = $input->getOption('detail');
                 foreach ($nodes as $node) {
+                    $roleNames = array();
+                    foreach ($node->roles() as $roleName => $role) {
+                        $roleNames[] = $roleName;
+                    }
+
                     if ($isDetail) {
                         $data[$node->getName()] = array(
                             'host' => $node->getHost(),
                             'port' => $node->getPort(),
                             'username' => $node->getUsername(),
                             'key' => $node->getKey(),
-                            'roles' => $node->getReferenceRoles()
+                            'roles' => $roleNames
                         );
                     } else {
                         $data[$node->getName()] = array(
-                            'roles' => $node->getReferenceRoles()
+                            'roles' => $roleNames
                         );
                     }
                 }
             }
-            $output->writeln(json_encode($data));
+
+            $json = null;
+            if ('json-pretty' === $format) {
+                $json = json_encode($data, JSON_PRETTY_PRINT);
+            } else {
+                $json = json_encode($data);
+            }
+
+            $output->writeln($json);
         } else {
             throw new \InvalidArgumentException(sprintf('Unsupported format "%s".', $format));
         }

@@ -1,46 +1,26 @@
 <?php
 namespace Altax\Command\Builtin;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Init Command
  */
-class InitCommand extends \Symfony\Component\Console\Command\Command
+class InitCommand extends SymfonyCommand
 {
     const TEMPLATE = <<<EOL
 <?php
-// Autoloading for plugin command classes.
-if (is_file(__DIR__ . '/vendor/autoload.php')) require_once __DIR__ . '/vendor/autoload.php';
 
-// ***************************************************************
-// Server definition.
-// ***************************************************************
-//
-// Examples:
-//
-//   Server::node("web1.example.com", array("web", "production"));
-//   Server::node("web2.example.com", array("web", "production"));
-//   Server::node("db1.example.com",  array("db", "production"));
-//   Server::node("dev1.example.com", "development");
-//
+Task::register('hello', function (\$name = "world") {
 
-// ***************************************************************
-// Task definition.
-// ***************************************************************
-//
-// Examples:
-//
-//   Task::register('hello', function(\$task){
-//
-//       \$task->writeln("Hello world!");
-//
-//   });
-//
+    Output::writeln("Hello \$name!");
+
+})
+->description("Say hello");
 
 EOL;
 
@@ -76,16 +56,18 @@ EOL;
     {
         $configurationPath = getcwd()."/.altax/config.php";
 
-        if($input->getOption('global')) {
+        if ($input->getOption('global')) {
             $configurationPath = getenv("HOME")."/.altax/config.php";
         }
 
+        $output->writeln("<info>Setup initial configuration.</info>");
         if (!is_file($configurationPath)) {
             $this->generateConfig($configurationPath, $output);
         } else {
             $output->writeln("<error>File '$configurationPath' is already exists. Skiped creation process.</error>");
         }
 
+        /*
         $composerFile = dirname($configurationPath)."/composer.json";
         if (!is_file($composerFile)) {
             $this->generateComposerFile($composerFile, $output);
@@ -99,6 +81,7 @@ EOL;
         } else {
             $output->writeln("<error>File '$gitignoreFile' is already exists. Skipped creation process.</error>");
         }
+        */
 
      }
 

@@ -1,0 +1,29 @@
+<?php
+namespace Altax\Task;
+
+use Illuminate\Support\ServiceProvider;
+
+class TaskServiceProvider extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bindShared('task', function ($app) {
+            return new TaskManager(
+                $app['servers'],
+                $app['input'],
+                $app['output'],
+                $app['console']);
+        });
+
+        $this->app->bindShared('task_runner', function ($app) {
+            return new TaskRunner(
+                $app['output'],
+                $app['console']);
+        });
+    }
+}

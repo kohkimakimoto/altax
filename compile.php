@@ -2,8 +2,8 @@
 <?php
 
 // Embed commit hash to altax source.
-$containerSourcePath = __DIR__."/src/Altax/Foundation/Container.php";
-$containerSourceBackupPath = __DIR__."/Container.bak.php";
+$containerSourcePath = __DIR__."/src/Altax/Foundation/Application.php";
+$containerSourceBackupPath = __DIR__."/Application.bak.php";
 copy($containerSourcePath, $containerSourceBackupPath);
 $contents = file_get_contents($containerSourcePath);
 $hash = exec("git log --pretty=format:'%H' -n 1");
@@ -18,10 +18,14 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Finder\Finder;
 
-$pharFile = __DIR__."/altax.phar";
+$pharFile = __DIR__."/build/altax.phar";
 
 if (file_exists($pharFile)) {
     unlink($pharFile);
+}
+
+if (!is_dir(dirname($pharFile))) {
+    mkdir(dirname($pharFile));
 }
 
 echo "Starting compiling $pharFile\n";
@@ -64,4 +68,3 @@ echo "Complete!\n";
 // Revert to altax source.
 copy($containerSourceBackupPath, $containerSourcePath);
 unlink($containerSourceBackupPath);
-

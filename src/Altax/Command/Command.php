@@ -1,19 +1,22 @@
 <?php
 namespace Altax\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Altax\Module\Task\Resource\RuntimeTask;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 /**
  * Altax base command class for defining task.
  */
-abstract class Command extends \Symfony\Component\Console\Command\Command
+abstract class Command extends SymfonyCommand
 {
-    protected $definedTask;
+    protected $input;
+
+    protected $output;
+
+    protected $task;
+
     protected $ancestry = array();
 
     protected function getContainer()
@@ -21,75 +24,81 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
         return $this->getApplication()->getContainer();
     }
 
-    public function __construct($definedTask)
+    public function __construct($task)
     {
-        $this->definedTask = $definedTask;
-        $this->setName($this->definedTask->getName());
+        $this->task = $task;
+        $this->setName($this->task->getName());
 
         parent::__construct();
 
         // Override the command name.
-        $this->setName($this->definedTask->getName());
+        $this->setName($this->task->getName());
         // Override the command description.
-        if ($this->definedTask->hasDescription()) {
-            $this->setDescription($this->definedTask->getDescription());
+        if ($this->task->hasDescription()) {
+            $this->setDescription($this->task->getDescription());
         }
+    }
+
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->getContainer()->instance('command', $this);
+        $this->input = $input;
+        $this->output = $output;
+
+        return parent::run($input, $output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $runtimeTask = new RuntimeTask($this, $this->definedTask, $input, $output);
-
-        if ($output->isVerbose()) {
-            $output->writeln("<info>Starting </info>".$this->definedTask->getName());
+        if ($output->isDebug()) {
+            $output->writeln("Starting task: ".$this->task->getName());
         }
 
-        $this->ancestry[] = $this->definedTask->getName();
+        $this->ancestry[] = $this->task->getName();
 
         if ($output->isDebug()) {
-            $output->writeln("<info>Current ancestry is </info>".implode(" > ", $this->ancestry));
+            $output->writeln("Current ancestry task: ".implode(" > ", $this->ancestry));
         }
 
         $this->runBeforeTask($output);
 
-        if ($output->isVerbose()) {
-            $output->writeln("<info>Running </info>".$this->definedTask->getName());
+        if ($output->isDebug()) {
+            $output->writeln("Running task: ".$this->task->getName());
         }
 
-        $retVal = $this->fire($runtimeTask);
+        $retVal = $this->fire();
 
         $this->runAfterTask($output);
 
-
-        if ($output->isVerbose()) {
-            $output->writeln("<info>Finished </info>".$this->definedTask->getName());
+        if ($output->isDebug()) {
+            $output->writeln("Finished task: ".$this->task->getName());
         }
 
         return $retVal;
     }
 
-    protected function fire($task)
+    protected function fire()
     {
         throw new \RuntimeException("You need to override 'fire' method.");
     }
 
-    public function getDefinedTask()
+    public function getTask()
     {
-        return $this->definedTask;
+        return $this->task;
     }
 
     public function getTaskConfig()
     {
-        return $this->definedTask->getConfig();
+        return $this->task->getConfig();
     }
 
     protected function runBeforeTask($output)
     {
-        $tasks = $this->definedTask->getBeforeTasks();
+        $tasks = $this->task->getBeforeTasks();
         foreach ($tasks as $task) {
 
-            if ($output->isVerbose()) {
-                $output->writeln("<info>Found a before task need to run: </info>".$task->getName());
+            if ($output->isDebug()) {
+                $output->writeln("Found a before task need to run: ".$task->getName());
             }
 
             if (in_array($task->getName(), $this->ancestry)) {
@@ -114,11 +123,11 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
 
     protected function runAfterTask($output)
     {
-        $tasks = $this->definedTask->getAfterTasks();
+        $tasks = $this->task->getAfterTasks();
         foreach ($tasks as $task) {
 
-            if ($output->isVerbose()) {
-                $output->writeln("<info>Found a after task need to run: </info>".$task->getName());
+            if ($output->isDebug()) {
+                $output->writeln("Found a after task need to run: ".$task->getName());
             }
 
             if (in_array($task->getName(), $this->ancestry)) {
