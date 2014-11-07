@@ -34,8 +34,6 @@ class ProcessManagerTest extends \PHPUnit_Framework_TestCase
 
         $nodes = [$node1, $node2];
         $manager->executeWithNodes($nodes);
-
-
     }
 
     public function testExecuteSerial()
