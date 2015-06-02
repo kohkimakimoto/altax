@@ -40,24 +40,24 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $this->task = new DefinedTask();
         $this->task->setName("test_process_run");
         $this->input = new ArgvInput();
-        $this->output = new BufferedOutput();
-        $this->runtimeTask = new RuntimeTask(null, $this->task, $this->input, $this->output);
+        $this->bufOutput = new BufferedOutput();
+        $this->runtimeTask = new RuntimeTask(null, $this->task, $this->input, $this->bufOutput);
     }
 
     public function testExecute1()
     {
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, function(){}, array());
         $executor->execute();
 
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 0 nodes/", $output);
     }
 
     public function testExecute2()
     {
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -68,13 +68,13 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             array("127.0,0,1"));
         $executor->execute();
 
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 1 nodes/", $output);
     }
 
     public function testExecute3()
     {
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -85,13 +85,13 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             array("127.0,0,1", "localhost"));
         $executor->execute();
 
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 2 nodes/", $output);
     }
 
     public function testExecute4()
     {
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         try {
             $executor = new Executor($this->runtimeTask, 
@@ -107,7 +107,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute5()
     {
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -118,14 +118,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             array("test"));
         $executor->execute();
 
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 2 nodes/", $output);
     }
 
     public function testExecute6()
     {
         // role array
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -137,10 +137,10 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $executor->execute();
 
         // role string
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 2 nodes/", $output);
 
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -151,14 +151,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             array("roles" => "test"));
         $executor->execute();
 
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 2 nodes/", $output);
     }
 
     public function testExecute7()
     {
         // nodes array
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -170,10 +170,10 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $executor->execute();
 
         // nodes string
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 1 nodes/", $output);
 
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executor = new Executor($this->runtimeTask, 
             function($process){
@@ -184,14 +184,14 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
             array("nodes" => "127.0.0.1"));
         $executor->execute();
 
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Found 1 nodes/", $output);
     }
 
     public function testExecuteInSerial()
     {
         // nodes array
-        $this->output->setVerbosity(3);
+        $this->bufOutput->setVerbosity(3);
 
         $executedNodes = array();
 
@@ -205,7 +205,7 @@ class ExecutorTest extends \PHPUnit_Framework_TestCase
         $executor->execute();
 
         // nodes string
-        $output = $this->output->fetch();
+        $output = $this->bufOutput->fetch();
         $this->assertRegExp("/Running serial mode/", $output);
 
         $this->assertCount(2, $executedNodes);

@@ -72,12 +72,17 @@ class Process
     public function runLocally($commandline, $options = array())
     {
         if (is_array($commandline)) {
-            $commandline = implode(" && ", $commandline);
+            $os = php_uname('s');
+            if(preg_match('/Windows/i', $os)){
+                $commandline = implode(" & ", $commandline);
+            }else {
+                $commandline = implode(" && ", $commandline);
+            }
         }
 
         $this->runtimeTask->getOutput()->writeln($this->getLocalInfoPrefix()."<info>Run: </info>$commandline");
 
-        $realCommand = $this->compileRealCommand($commandline, $options);
+        $realCommand = $this->compileRealCommand($commandline, $options, TRUE);
 
         if ($this->runtimeTask->getOutput()->isVeryVerbose()) {
             $this->runtimeTask->getOutput()->writeln($this->getLocalInfoPrefix()."<info>Real command: </info>$realCommand");
@@ -99,23 +104,39 @@ class Process
         return new ProcessResult($returnCode, $resultContent);
     }
 
-    protected function compileRealCommand($commandline, $options)
+    protected function compileRealCommand($commandline, $options, $isLocalExecute=FALSE)
     {
 
         $realCommand = "";
-        
-        if (isset($options["user"])) {
-            $realCommand .= 'sudo -u'.$options["user"].' TERM=dumb ';
-        }
-        
-        $realCommand .= '/bin/bash -l -c "';
 
-        if (isset($options["cwd"])) {
-            $realCommand .= 'cd '.$options["cwd"].' && ';
-        }
+        $os = php_uname('s');
+        if($isLocalExecute && preg_match('/Windows/i', $os)){
+            if (isset($options["user"])) {
+                $realCommand .= 'runas /user:' . $options["user"] . ' ';
+            }
 
-        $realCommand .= str_replace('"', '\"', $commandline);
-        $realCommand .= '"';
+            $realCommand .= 'cmd.exe /C "';
+
+            if (isset($options["cwd"])) {
+                $realCommand .= 'cd ' . $options["cwd"] . ' & ';
+            }
+
+            $realCommand .= str_replace('"', '\"', $commandline);
+            $realCommand .= '"';
+        }else {
+            if (isset($options["user"])) {
+                $realCommand .= 'sudo -u' . $options["user"] . ' TERM=dumb ';
+            }
+
+            $realCommand .= '/bin/bash -l -c "';
+
+            if (isset($options["cwd"])) {
+                $realCommand .= 'cd ' . $options["cwd"] . ' && ';
+            }
+
+            $realCommand .= str_replace('"', '\"', $commandline);
+            $realCommand .= '"';
+        }
 
         return $realCommand;
     }

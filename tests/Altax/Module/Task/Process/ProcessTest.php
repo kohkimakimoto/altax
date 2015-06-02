@@ -36,6 +36,9 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         $module = new \Altax\Module\Env\EnvModule($this->container);
         $this->container->addModule(Env::getModuleName(), $module);
+
+        // Env::set('server.port', 2222);
+        // Env::set("server.username", 'vagrant');
     }
 
     public function testRun()
@@ -57,13 +60,22 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     {
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
+        $homedir = Env::get("homedir");
         $node = new Node();
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
-        $process->runLocally("echo helloworld", array("cwd" => "~"));
+        $process->runLocally("echo helloworld", array("cwd" => $homedir));
         $output = $process->getRuntimeTask()->getOutput()->fetch();
         $this->assertRegExp("/helloworld/", $output);
-        $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd ~ && echo helloworld"/', $output);
+
+        $os = php_uname('s');
+        if(preg_match('/Windows/i', $os)){
+            $homedir = str_replace("\\", "\\\\", $homedir);
+            $regexp = '/Real command: cmd.exe \/C "cd ' . $homedir . ' & echo helloworld"/';
+        }else {
+            $regexp = '/Real command: \/bin\/bash -l -c "cd ' . $homedir . ' && echo helloworld"/';
+        }
+        $this->assertRegExp($regexp, $output);
     }
 
     public function testRunLocally2()
@@ -73,32 +85,50 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $node = new Node();
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
-        $process->runLocally(array(
-            "cd /var/tmp",
-            "pwd",
-        ));
-        $output = $process->getRuntimeTask()->getOutput()->fetch();
-        $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd \/var\/tmp && pwd"/', $output);
+
+        $os = php_uname('s');
+        if(preg_match('/Windows/i', $os)) {
+            $process->runLocally(array(
+                "cd C:/Windows/Temp",
+                "cd",
+            ));
+            $output = $process->getRuntimeTask()->getOutput()->fetch();
+            $this->assertRegExp('/Real command: cmd.exe \/C "cd C:\/Windows\/Temp & cd"/', $output);
+        }else{
+            $process->runLocally(array(
+                "cd /var/tmp",
+                "pwd",
+            ));
+            $output = $process->getRuntimeTask()->getOutput()->fetch();
+            $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd \/var\/tmp && pwd"/', $output);
+        }
     }
 
     public function testGet()
     {
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        // environment-dependent
+        $srcPath = __DIR__ . "/ProcessTest/gettest.txt";
+
+        $destPath = realpath(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest") . DIRECTORY_SEPARATOR . "gettest.txt";
+        @unlink($destPath);
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
-        $process->get(__DIR__."/ProcessTest/gettest.txt", __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        $process->get($srcPath, $destPath);
         $output = $process->getRuntimeTask()->getOutput()->fetch();
 
-        $this->assertEquals(true, is_file(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt"));
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        $this->assertEquals(true, is_file($destPath));
+        @unlink($destPath);
     }
 
     public function testGet2()
     {
+        $srcPath = "/NotExistsFile/gettest.txt";
+        $destPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt";
+
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
@@ -106,7 +136,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $process = new Process($this->runtimeTask, $node);
 
         try {
-            $process->get("/NotExistsFile/gettest.txt", __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+            $process->get($srcPath, $destPath);
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
@@ -116,23 +146,29 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testGetString()
     {
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        // environment-dependent
+        $srcPath = __DIR__."/ProcessTest/gettest.txt";
+
+        $destPath = realpath(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest") . DIRECTORY_SEPARATOR . "gettest.txt";
+
+        @unlink($destPath);
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
-        $retString =$process->getString(__DIR__."/ProcessTest/gettest.txt");
+        $retString =$process->getString($srcPath);
         $output = $process->getRuntimeTask()->getOutput()->fetch();
+        $this->assertRegExp("/gettest contents[\r\n]*/", $retString);
 
-        $this->assertEquals("gettest contents", $retString);
-
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        @unlink($destPath);
     }
 
     public function testGetString2()
     {
+        $srcPath = "/NotExistsFile/gettest.txt";
+
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
@@ -140,7 +176,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $process = new Process($this->runtimeTask, $node);
 
         try {
-            $process->getString("/NotExistsFile/gettest.txt");
+            $process->getString($srcPath);
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
@@ -149,23 +185,30 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testPut()
     {
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        $srcPath = realpath(__DIR__."/ProcessTest/") . DIRECTORY_SEPARATOR . "puttest.txt";
+
+        // environment-dependent
+        $destPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt";
+        $destLocalPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt";
+
+        @unlink($destLocalPath);
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
-        $process->put(__DIR__."/ProcessTest/puttest.txt", __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+        $process->put($srcPath, $destPath);
         $output = $process->getRuntimeTask()->getOutput()->fetch();
 
-        $this->assertEquals(true, is_file(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt"));
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+        $this->assertEquals(true, is_file($destLocalPath));
+        @unlink($destLocalPath);
     }
 
     public function testPut2()
     {
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        $srcPath = "/NotExistsFile/gettest.txt";
+        $destPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt";
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
@@ -173,7 +216,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
         try {
-            $process->put("/NotExistsFile/gettest.txt", __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+            $process->put($srcPath, $destPath);
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);
@@ -182,24 +225,28 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testPutString()
     {
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        // environment-dependent
+        $destPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt";
+        $destLocalPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt";
+
+        @unlink($destLocalPath);
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
-        $process->putString(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt", "putstring contents");
+        $process->putString($destPath, "putstring contents");
         $output = $process->getRuntimeTask()->getOutput()->fetch();
 
-        $this->assertEquals("putstring contents", file_get_contents(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt"));
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt");
+        $this->assertEquals("putstring contents", file_get_contents($destLocalPath));
+        @unlink($destLocalPath);
     }
 
 
     public function testPutString2()
     {
-        @unlink(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt");
+        $srcPath = "/NotExistsFile/gettest.txt";
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
@@ -207,7 +254,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $node->setName("127.0.0.1");
         $process = new Process($this->runtimeTask, $node);
         try {
-            $process->putString("/NotExistsFile/gettest.txt", "putstring contents");
+            $process->putString($srcPath, "putstring contents");
             $this->assertEquals(false, true);
         } catch (\RuntimeException $e) {
             $this->assertEquals(true, true);

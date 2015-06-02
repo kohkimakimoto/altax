@@ -18,10 +18,13 @@ class EnvModule extends Module
         $homedir = getenv("HOME") ? getenv("HOME") : getenv("USERPROFILE");
         $this->set("homedir", $homedir);
 
+        $username = getenv("USER") ? getenv("USER") : getenv("USERNAME");
+        $this->set("username", $username);
+
         // Default values.
         $this->set("server.port", 22);
         $this->set("server.key", $this->get("homedir")."/.ssh/id_rsa");
-        $this->set("server.username", getenv("USER"));
+        $this->set("server.username", $this->get("username"));
     }
 
     public function set($key, $value)
