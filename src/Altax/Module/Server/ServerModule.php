@@ -5,6 +5,7 @@ use Altax\Foundation\Module;
 use Altax\Module\Server\Resource\Node;
 use Altax\Util\Arr;
 use Altax\Util\SSHConfig;
+use Altax\Module\Env\Facade\Env;
 
 /**
  * Server module 
@@ -88,7 +89,7 @@ class ServerModule extends Module
         $nodesOptions = SSHConfig::parseToNodeOptionsFromFiles(array(
             "/etc/ssh_config",
             "/etc/ssh/ssh_config",
-            getenv("HOME")."/.ssh/config",
+            Env::get("homedir")."/.ssh/config",
         ));
 
         foreach ($nodesOptions as $key => $option) {

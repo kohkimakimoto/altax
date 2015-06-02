@@ -77,7 +77,7 @@ EOL;
         $configurationPath = getcwd()."/.altax/config.php";
 
         if($input->getOption('global')) {
-            $configurationPath = getenv("HOME")."/.altax/config.php";
+            $configurationPath = Env::get("homedir")."/.altax/config.php";
         }
 
         if (!is_file($configurationPath)) {

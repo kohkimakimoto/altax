@@ -24,8 +24,8 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->task = new DefinedTask();
         $this->task->setName("test_process_run");
         $this->input = new ArgvInput();
-        $this->output = new BufferedOutput();
-        $this->runtimeTask = new RuntimeTask(null, $this->task, $this->input, $this->output);
+        $this->bufOutput = new BufferedOutput();
+        $this->runtimeTask = new RuntimeTask(null, $this->task, $this->input, $this->bufOutput);
 
         ModuleFacade::clearResolvedInstances();
         ModuleFacade::setContainer($this->container);

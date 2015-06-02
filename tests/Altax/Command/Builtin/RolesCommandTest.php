@@ -39,7 +39,7 @@ class RolesCommandTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->assertEquals("There are not any roles.\n", $commandTester->getDisplay());
+        $this->assertEquals("There are not any roles.\n", $commandTester->getDisplay(true));
     }
 
     public function testDefault()
@@ -69,6 +69,6 @@ class RolesCommandTest extends \PHPUnit_Framework_TestCase
 +------+------------------------------------+
 
 EOL;
-        $this->assertEquals($expected, $commandTester->getDisplay());
+        $this->assertEquals($expected, $commandTester->getDisplay(true));
     }
 }

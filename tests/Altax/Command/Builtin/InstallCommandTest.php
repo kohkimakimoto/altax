@@ -42,7 +42,7 @@ Installing dependencies (including require-dev)
 Nothing to install or update
 
 EOL;
-        $this->assertSame($expected, $commandTester->getDisplay());
+        $this->assertSame($expected, $commandTester->getDisplay(true));
         chdir($orgDir);
         @unlink($testTmpConfigDir."/composer.json");
    }

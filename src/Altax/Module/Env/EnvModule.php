@@ -15,9 +15,12 @@ class EnvModule extends Module
     {
         parent::__construct($container);
 
+        $homedir = getenv("HOME") ? getenv("HOME") : getenv("USERPROFILE");
+        $this->set("homedir", $homedir);
+
         // Default values.
         $this->set("server.port", 22);
-        $this->set("server.key", getenv("HOME")."/.ssh/id_rsa");
+        $this->set("server.key", $this->get("homedir")."/.ssh/id_rsa");
         $this->set("server.username", getenv("USER"));
     }
 

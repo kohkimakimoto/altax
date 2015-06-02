@@ -62,7 +62,7 @@ class RequireCommand extends \Composer\Command\RequireCommand
     private function getNewWorkingDir(InputInterface $input)
     {
         if($input->getOption('global')) {
-            return  getenv("HOME")."/.altax";
+            return  Env::get("homedir")."/.altax";
         }
 
         $workingDir = $input->getParameterOption(array('--working-dir', '-d'));

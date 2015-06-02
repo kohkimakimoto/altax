@@ -4,11 +4,11 @@ require_once __DIR__."/Test01Command.php";
 
 Server::nodesFromSSHConfigHosts();
 Server::node("127.0.0.1");
-Server::node("localhost", array("host" => "127.0.0.1", "username" => getenv("USER"), "port" => 22, "key" => getenv("HOME")."/.ssh/id_rsa"));
+Server::node("localhost", array("host" => "127.0.0.1", "username" => getenv("USER"), "port" => 22, "key" => Env::get("homedir")."/.ssh/id_rsa"));
 Server::role("test", array("127.0.0.1", "localhost"));
 
 Env::set("server.port", 22);
-Env::set("server.key", getenv("HOME")."/.ssh/id_rsa");
+Env::set("server.key", Env::get("homedir")."/.ssh/id_rsa");
 Env::set("server.username", getenv("USER"));
 
 // Basic test task

@@ -39,7 +39,7 @@ class NodesCommandTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->assertEquals("There are not any nodes.\n", $commandTester->getDisplay());
+        $this->assertEquals("There are not any nodes.\n", $commandTester->getDisplay(true));
     }
 
     public function testDefault()
@@ -70,7 +70,7 @@ class NodesCommandTest extends \PHPUnit_Framework_TestCase
 +------------------+-------+
 
 EOL;
-        $this->assertEquals($expected, $commandTester->getDisplay());
+        $this->assertEquals($expected, $commandTester->getDisplay(true));
     }
 
     public function testDetailOutput()
@@ -102,6 +102,6 @@ EOL;
 +------------------+------+------+----------+-----+-------+
 
 EOL;
-        $this->assertEquals($expected, $commandTester->getDisplay());
+        $this->assertEquals($expected, $commandTester->getDisplay(true));
     }
 }

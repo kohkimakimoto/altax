@@ -95,7 +95,7 @@ class Node
         if (strpos($key, "~") !== false) {
             // replace ~ to home directory
             $key = preg_replace_callback('/^~(?:\/|$)/', function ($m) {
-                return str_replace('~', getenv("HOME"), $m[0]);
+                return str_replace('~', Env::get("homedir"), $m[0]);
             }, $key);
 
         }
