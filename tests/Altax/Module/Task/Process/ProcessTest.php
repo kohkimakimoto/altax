@@ -70,10 +70,9 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
         $os = php_uname('s');
         if(preg_match('/Windows/i', $os)){
-            $homedir = str_replace("\\", "\\\\", $homedir);
-            $regexp = '/Real command: cmd.exe \/C "cd ' . $homedir . ' & echo helloworld"/';
+            $regexp = '/Real command: cmd.exe \/C "cd ' . preg_quote($homedir, '/') . ' & echo helloworld"/';
         }else {
-            $regexp = '/Real command: \/bin\/bash -l -c "cd ' . $homedir . ' && echo helloworld"/';
+            $regexp = '/Real command: \/bin\/bash -l -c "cd ' . preg_quote($homedir, '/') . ' && echo helloworld"/';
         }
         $this->assertRegExp($regexp, $output);
     }
@@ -109,7 +108,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         // environment-dependent
         $srcPath = __DIR__ . "/ProcessTest/gettest.txt";
 
-        $destPath = realpath(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest") . DIRECTORY_SEPARATOR . "gettest.txt";
+        $destPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/gettest.txt";
         @unlink($destPath);
 
         $this->runtimeTask->getOutput()->setVerbosity(3);
@@ -149,10 +148,6 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         // environment-dependent
         $srcPath = __DIR__."/ProcessTest/gettest.txt";
 
-        $destPath = realpath(__DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest") . DIRECTORY_SEPARATOR . "gettest.txt";
-
-        @unlink($destPath);
-
         $this->runtimeTask->getOutput()->setVerbosity(3);
 
         $node = new Node();
@@ -161,8 +156,6 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $retString =$process->getString($srcPath);
         $output = $process->getRuntimeTask()->getOutput()->fetch();
         $this->assertRegExp("/gettest contents[\r\n]*/", $retString);
-
-        @unlink($destPath);
     }
 
     public function testGetString2()
@@ -185,7 +178,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testPut()
     {
-        $srcPath = realpath(__DIR__."/ProcessTest/") . DIRECTORY_SEPARATOR . "puttest.txt";
+        $srcPath = __DIR__."/ProcessTest/puttest.txt";
 
         // environment-dependent
         $destPath = __DIR__."/../../../../tmp/Altax/Module/Task/Process/ProcessTest/puttest.txt";
