@@ -80,7 +80,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
     {
         $node = new Node();
 
-        putenv("HOME=/home/your");
+        Env::set("homedir", "/home/your");
         $node->setKey("~/path/to/private_key");
         $this->assertEquals("~/path/to/private_key", $node->getKey());
         $this->assertEquals("/home/your/path/to/private_key", $node->getKeyOrDefault());
@@ -93,7 +93,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("~", $node->getKey());
         $this->assertEquals("/home/your", $node->getKeyOrDefault());
 
-        putenv("HOME=/home/your\\0");
+        Env::set("homedir", "/home/your\\0");
         $node->setKey("~/path/to/private_key");
         $this->assertEquals("~/path/to/private_key", $node->getKey());
         $this->assertEquals("/home/your\\0/path/to/private_key", $node->getKeyOrDefault());

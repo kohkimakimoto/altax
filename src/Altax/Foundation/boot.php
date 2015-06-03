@@ -7,9 +7,11 @@
  */
 $container = new \Altax\Foundation\Container();
 
+$homedir = getenv("HOME") ? getenv("HOME") : getenv("USERPROFILE");
+
 // Determine Loaded configuration files.
 $container->setConfigFiles(array(
-    "home" => getenv("HOME")."/.altax/config.php",
+    "home" => $homedir."/.altax/config.php",
     "current", getcwd()."/.altax/config.php",
     ));
 
