@@ -3,7 +3,7 @@ namespace Altax\Foundation;
 
 /**
  * Altax application container
- * 
+ *
  * It's not a DI Container.
  * This class contains core objects used globally.
  */
@@ -17,7 +17,7 @@ class Container implements \ArrayAccess, \Iterator, \Countable
     /**
      * Version of the application.
      */
-    const VERSION = "3.0.11";
+    const VERSION = "3.0.12";
 
     /**
      * git commit hash.
