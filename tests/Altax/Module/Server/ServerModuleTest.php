@@ -58,4 +58,23 @@ class ServerModuleTest extends \PHPUnit_Framework_TestCase
         $module = new ServerModule($this->container);
         $module->nodesFromSSHConfigHosts();
     }
+    
+    public function testNodesFromSSHConfigHosts2()
+    {
+        $module = new ServerModule($this->container);
+        $module->nodesFromSSHConfigHosts(__DIR__."/../../Util/SSHConfigTest/ssh_config");
+        $this->assertSame("test-server1", $module->getNode("test-server1")->getName());
+    }
+    
+    public function testNodesFromSSHConfigHosts3()
+    {
+        $module = new ServerModule($this->container);
+        $module->nodesFromSSHConfigHosts(array(
+            __DIR__."/../../Util/SSHConfigTest/ssh_config",
+            __DIR__."/../../Util/SSHConfigTest/ssh_config2",
+        ));
+        
+        $this->assertSame("test-server2", $module->getNode("test-server2")->getName());
+        $this->assertSame("test-server3", $module->getNode("test-server3")->getName());
+    }
 }
