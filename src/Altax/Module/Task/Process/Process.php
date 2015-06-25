@@ -128,7 +128,7 @@ class Process
                 $realCommand .= 'sudo -u' . $options["user"] . ' TERM=dumb ';
             }
 
-            $realCommand .= '/bin/bash -l -c "';
+            $realCommand .= 'bash -l -c "';
 
             if (isset($options["cwd"])) {
                 $realCommand .= 'cd ' . $options["cwd"] . ' && ';
