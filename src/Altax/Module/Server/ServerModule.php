@@ -84,13 +84,24 @@ class ServerModule extends Module
         }
     }
 
-    public function nodesFromSSHConfigHosts()
+    public function nodesFromSSHConfigHosts($paths = array())
     {
-        $nodesOptions = SSHConfig::parseToNodeOptionsFromFiles(array(
-            "/etc/ssh_config",
-            "/etc/ssh/ssh_config",
-            Env::get("homedir")."/.ssh/config",
-        ));
+        $configPaths = array();
+        if(is_string($paths)){
+            $configPaths[] = $paths;
+        }else{
+            $configPaths = $paths;
+        }
+
+        if(sizeof($configPaths) < 1){
+            $configPaths = array(
+                "/etc/ssh_config",
+                "/etc/ssh/ssh_config",
+                Env::get("homedir")."/.ssh/config",
+            );
+        }
+
+        $nodesOptions = SSHConfig::parseToNodeOptionsFromFiles($configPaths);
 
         foreach ($nodesOptions as $key => $option) {
             $this->node($key, $option);
