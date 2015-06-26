@@ -51,7 +51,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $process->run("echo helloworld", array("cwd" => "~"));
         $output = $process->getRuntimeTask()->getOutput()->fetch();
         $this->assertRegExp("/helloworld/", $output);
-        $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd ~ && echo helloworld"/', $output);
+        $this->assertRegExp('/Real command: bash -l -c "cd ~ && echo helloworld"/', $output);
 
         //echo $output;
     }
@@ -72,7 +72,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         if(preg_match('/Windows/i', $os)){
             $regexp = '/Real command: cmd.exe \/C "cd ' . preg_quote($homedir, '/') . ' & echo helloworld"/';
         }else {
-            $regexp = '/Real command: \/bin\/bash -l -c "cd ' . preg_quote($homedir, '/') . ' && echo helloworld"/';
+            $regexp = '/Real command: bash -l -c "cd ' . preg_quote($homedir, '/') . ' && echo helloworld"/';
         }
         $this->assertRegExp($regexp, $output);
     }
@@ -99,7 +99,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
                 "pwd",
             ));
             $output = $process->getRuntimeTask()->getOutput()->fetch();
-            $this->assertRegExp('/Real command: \/bin\/bash -l -c "cd \/var\/tmp && pwd"/', $output);
+            $this->assertRegExp('/Real command: bash -l -c "cd \/var\/tmp && pwd"/', $output);
         }
     }
 
