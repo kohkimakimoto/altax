@@ -125,7 +125,7 @@ class Process
             $realCommand .= '"';
         }else {
             if (isset($options["user"])) {
-                $realCommand .= 'sudo -u' . $options["user"] . ' TERM=dumb ';
+                $realCommand .= 'sudo -H -u' . $options["user"] . ' TERM=dumb ';
             }
 
             $realCommand .= 'bash -l -c "';
