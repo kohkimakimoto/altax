@@ -293,7 +293,7 @@ class Executor
             '<info>Enter passphrase for SSH key [<comment>'.$validatingKey.'</comment>]: </info>',
             function($answer) use ($validatingKey) {
 
-                $key = new \Crypt_RSA();
+                $key = new \phpseclib\Crypt\RSA();
                 $key->setPassword($answer);
 
                 $keyFile = file_get_contents($validatingKey);

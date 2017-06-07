@@ -18,7 +18,7 @@
     "symfony/yaml": "2.5.*",
     "symfony/finder": "2.5.*",
     "symfony/process": "2.5.*",
-    "phpseclib/phpseclib": "0.3.*"
+    "phpseclib/phpseclib": "2.0.6"
   },
   "scripts": {
     "post-install-cmd": [

@@ -146,12 +146,12 @@ class Process
         $output = $this->runtimeTask->getOutput();
         $input = $this->runtimeTask->getInput();
 
-        $ssh = new \Net_SSH2(
+        $ssh = new \phpseclib\Net\SSH2(
             $this->node->getHostOrDefault(),
             $this->node->getPortOrDefault());
 
         // set up key
-        $key = new \Crypt_RSA();
+        $key = new \phpseclib\Crypt\RSA();
 
         if ($this->node->useAgent()) {
             // use ssh-agent
@@ -269,7 +269,7 @@ class Process
         $sftp = new \Net_SFTP(
             $this->node->getHostOrDefault(), 
             $this->node->getPortOrDefault());
-        $key = new \Crypt_RSA();
+        $key = new \phpseclib\Crypt\RSA();
         $key->loadKey($this->node->getKeyContents());
         if (!$sftp->login($this->node->getUsernameOrDefault(), $key)) {
             throw new \RuntimeException('Unable to login '.$this->node->getName());
