@@ -38,7 +38,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
 
         $expected = <<<EOL
 Loading composer repositories with package information
-Installing dependencies (including require-dev)
+Updating dependencies (including require-dev)
 Nothing to install or update
 
 EOL;

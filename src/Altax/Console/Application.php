@@ -13,6 +13,7 @@ use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Helper\DialogHelper;
 
 use Altax\Foundation\ModuleFacade;
 use Altax\Util\Str;
@@ -219,7 +220,7 @@ EOL;
     {
         $helperSet = parent::getDefaultHelperSet();
 
-        $helperSet->set(new \Composer\Command\Helper\DialogHelper());
+        $helperSet->set(new DialogHelper());
         return $helperSet;
     }
 }
