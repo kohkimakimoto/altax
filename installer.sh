@@ -66,7 +66,7 @@ if [ $# -eq 2  ]; then
 
   if [ $2 = "v3" ]; then
     # Recent version of v3
-    install_version="v3.0.15"
+    install_version="v3.0.16"
   fi
 
 fi
