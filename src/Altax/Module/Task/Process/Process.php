@@ -239,7 +239,7 @@ class Process
            throw new \RuntimeException("Couldn't put: $local -> $remote");
         }
 
-        $ret = $sftp->put($remote, $local, NET_SFTP_LOCAL_FILE);
+        $ret = $sftp->put($remote, $local, \NET\SFTP::SOURCE_LOCAL_FILE);
         if ($ret === false) {
             throw new \RuntimeException("Couldn't put: $local -> $remote");
         }
@@ -266,7 +266,7 @@ class Process
 
     protected function getSFTP()
     {
-        $sftp = new \Net_SFTP(
+        $sftp = new \Net\SFTP(
             $this->node->getHostOrDefault(), 
             $this->node->getPortOrDefault());
         $key = new \phpseclib\Crypt\RSA();
