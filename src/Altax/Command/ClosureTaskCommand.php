@@ -33,6 +33,9 @@ class ClosureTaskCommand extends \Altax\Command\Command
 
     protected function fire($task)
     {
-        return call_user_func($this->definedTask->getClosure(), $task);
+        //simulate the documented function signature
+        //TODO: version this API to allow for other parameter schemes
+        $args = [$task, $task->getInput()->getArgument('args')];
+        return call_user_func_array($this->definedTask->getClosure(), $args);
     }
 }
